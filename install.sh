@@ -26,6 +26,7 @@ source script/prerequisites.sh
 source script/checksystem.sh
 source script/openssl.sh
 source script/openssh.sh
+source script/fail2ban.sh
 
 #if [[ ${INSTALLATION} = "1" ]]; then
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
@@ -36,6 +37,8 @@ source script/openssh.sh
 	install_openssl
 	echo "5" | dialog --gauge "Installing OpenSSH system..." 10 70 0
 	install_openssh
+	echo "10" | dialog --gauge "Installing OpenSSH system..." 10 70 0
+	install_fail2ban
 #fi
 
 #if [[ ${UPDATE_INSTALLATION} = "1" ]]; then

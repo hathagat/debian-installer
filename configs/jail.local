@@ -1,0 +1,15 @@
+[DEFAULT]
+maxretry  = 3
+bantime  = 60m
+findtime  = 60m
+ignorself = true
+ignoreip = 127.0.0.1/8 ::1
+
+[dovecot]
+enabled = true
+
+[postfix]
+enabled = true
+
+[sshd]
+enabled = true
