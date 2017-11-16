@@ -20,35 +20,47 @@
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
 
-install_openssl() {
+install_apache() {
 
 mkdir -p ~/sources/
 
-apt-get install -y libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev >>"${main_log}" 2>>"${err_log}"
-
+#installing apr
 cd ~/sources
-wget -c4 --no-check-certificate https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget -c4 --no-check-certificate http://ftp-stud.hs-esslingen.de/pub/Mirrors/ftp.apache.org/dist//apr/apr-${APR_VERSION}.tar.gz --tries=3
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: openssl-${OPENSSL_VERSION}.tar.gz download failed."
+      echo "Error: apr-${APR_VERSION}.tar.gz download failed."
       exit
     fi
 
-tar -xzf openssl-${OPENSSL_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
+tar -xzf apr-${APR_VERSION}.tar.gz
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: openssl-${OPENSSL_VERSION}.tar.gz is corrupted."
+      echo "Error: httpd-${APR_VERSION}.tar.gz is corrupted."
       exit
     fi
-rm openssl-${OPENSSL_VERSION}.tar.gz	
+rm apr-${APR_VERSION}.tar.gz	
 	
-cd openssl-${OPENSSL_VERSION}
+cd apr-${APR_VERSION}
+./configure --prefix=/usr/local/apr/
+make -j $(nproc) >>"$make_log" 2>>"$make_err_log"
+make install
 
-./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic >>"${make_log}" 2>>"${make_err_log}"
-		 
-make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}"
-make install >>"${make_log}" 2>>"${make_err_log}"
+#installing apache
+cd ~/sources
+wget -c4 --no-check-certificate http://mirror.dkd.de/apache//httpd/httpd-${APACHE_VERSION}.tar.gz --tries=3
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: httpd-${APACHE_VERSION}.tar.gz download failed."
+      exit
+    fi
 
-cd ~/sources/
-rm -R openssl-${OPENSSL_VERSION}
-}
+tar -xzf openssl-${APACHE_VERSION}.tar.gz
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: httpd-${APACHE_VERSION}.tar.gz is corrupted."
+      exit
+    fi
+rm httpd-${APACHE_VERSION}.tar.gz	
+	
+cd httpd-${APACHE_VERSION}

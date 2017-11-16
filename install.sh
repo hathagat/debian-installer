@@ -20,10 +20,11 @@
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
 
-source ~/configs/versions.cfg
+source configs/versions.cfg
 source script/logs.sh
 source script/prerequisites.sh
 source script/checksystem.sh
+source script/system.sh
 source script/openssl.sh
 source script/openssh.sh
 source script/fail2ban.sh
@@ -33,11 +34,13 @@ source script/fail2ban.sh
 	set_logs
 	prerequisites
 	check_system
-	echo "0" | dialog --gauge "Installing OpenSSL system..." 10 70 0
+	echo "0" | dialog --gauge "Installing System..." 10 70 0
+	install_system
+	echo "2" | dialog --gauge "Installing OpenSSL..." 10 70 0
 	install_openssl
-	echo "5" | dialog --gauge "Installing OpenSSH system..." 10 70 0
+	echo "5" | dialog --gauge "Installing OpenSSH..." 10 70 0
 	install_openssh
-	echo "10" | dialog --gauge "Installing OpenSSH system..." 10 70 0
+	echo "10" | dialog --gauge "Installing fail2ban..." 10 70 0
 	install_fail2ban
 #fi
 
