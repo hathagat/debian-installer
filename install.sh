@@ -19,15 +19,14 @@
 #################################
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
+set -x
+
 
 source configs/versions.cfg
 source script/logs.sh
 source script/prerequisites.sh
 source script/checksystem.sh
-source script/system.sh
-source script/openssl.sh
-source script/openssh.sh
-source script/fail2ban.sh
+
 
 #if [[ ${INSTALLATION} = "1" ]]; then
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
@@ -35,13 +34,16 @@ source script/fail2ban.sh
 	prerequisites
 	check_system
 	echo "0" | dialog --gauge "Installing System..." 10 70 0
-	install_system
+	source script/system.sh; install_system
+	
 	echo "2" | dialog --gauge "Installing OpenSSL..." 10 70 0
-	install_openssl
+	source script/openssl.sh; install_openssl
+	
 	echo "5" | dialog --gauge "Installing OpenSSH..." 10 70 0
-	install_openssh
+	source script/openssh.sh; install_openssh
+	
 	echo "10" | dialog --gauge "Installing fail2ban..." 10 70 0
-	install_fail2ban
+	source script/fail2ban.sh; install_fail2ban
 #fi
 
 #if [[ ${UPDATE_INSTALLATION} = "1" ]]; then

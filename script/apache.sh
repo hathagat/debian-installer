@@ -42,7 +42,29 @@ tar -xzf apr-${APR_VERSION}.tar.gz
 rm apr-${APR_VERSION}.tar.gz	
 	
 cd apr-${APR_VERSION}
+sed -i 's/\$RM "\$cfgfile"/\$RM  -f  “\$cfgfile”/' configure
 ./configure --prefix=/usr/local/apr/
+make -j $(nproc) >>"$make_log" 2>>"$make_err_log"
+make install
+
+#apr-util
+cd ~/sources
+wget http://ftp.halifax.rwth-aachen.de/apache//apr/apr-util-${APR_UTIL_VERSION}.tar.bz2
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: apr-util-${APR_VERSION}.tar.gz download failed."
+      exit
+    fi
+	
+tar -xvjf apr-util-${APR_UTIL_VERSION}.tar.bz2
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: httpd-${APR_VERSION}.tar.gz is corrupted."
+      exit
+    fi
+
+cd apr-util-${APR_UTIL_VERSION}
+./configure --prefix=/usr/local/apr/ --with-apr=/usr/local/apr/
 make -j $(nproc) >>"$make_log" 2>>"$make_err_log"
 make install
 
@@ -55,7 +77,7 @@ wget -c4 --no-check-certificate http://mirror.dkd.de/apache//httpd/httpd-${APACH
       exit
     fi
 
-tar -xzf openssl-${APACHE_VERSION}.tar.gz
+tar -xzf httpd-${APACHE_VERSION}.tar.gz
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: httpd-${APACHE_VERSION}.tar.gz is corrupted."

@@ -19,6 +19,8 @@
 #################################
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
+set -x
+
 
 clear
 echo "Perfect Root Server"
@@ -39,7 +41,9 @@ MENU="Choose one of the following options:"
 
 		OPTIONS=(1 "Install Perfect Root Server ${PRS_VERSION}"
 				 2 "Update Perfect Root Server"
-				 3 "Exit")
+				 3 "Change Openssh Port"
+				 4 "Change Openssh password"
+				 5 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -62,6 +66,12 @@ MENU="Choose one of the following options:"
 					bash install.sh
 					;;	
 				3)
+					source script/openssh.sh; change_openssh_port
+					;;
+				4)
+					source script/openssh.sh; create_openssh_key
+					;;	
+				5)
 					echo "Exit"
 					exit 1
 					;;
