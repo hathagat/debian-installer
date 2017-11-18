@@ -43,7 +43,7 @@ service sshd restart
 }
 
 #update_openssh() {
-#updating ssh
+#update
 #}
 
 change_openssh_port() {
@@ -90,6 +90,11 @@ dialog --backtitle "Welcome to the Perfect Rootserver installation!" --infobox "
 create_openssh_key() {
 
 #create ssh key
+BACKTITLE="Perfect Root Server Installation"
+TITLE="Perfect Root Server Installation"
+HEIGHT=30
+WIDTH=60
+
 NEW_SSH_PW=$(dialog --clear \
 					--backtitle "$BACKTITLE" \
 					--inputbox "Enter your new SSH password:" \

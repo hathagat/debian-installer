@@ -19,11 +19,9 @@
 #################################
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
-set -x
-
 
 clear
-echo "Perfect Root Server"
+echo "NeXt Server"
 echo "Preparing menu..."
 apt-get -qq update
 
@@ -34,16 +32,17 @@ source ~/configs/versions.cfg
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=5
-BACKTITLE="Perfect Root Server"
-TITLE="Perfect Root Server"
+CHOICE_HEIGHT=6
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-		OPTIONS=(1 "Install Perfect Root Server ${PRS_VERSION}"
-				 2 "Update Perfect Root Server"
-				 3 "Change Openssh Port"
-				 4 "Change Openssh password"
-				 5 "Exit")
+		OPTIONS=(1 "Install NeXt Server ${PRS_VERSION}"
+				 2 "Update Openssl"
+				 3 "Update Openssh"
+				 4 "Change Openssh Port"
+				 5 "Create new Openssh key"
+				 6 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -62,12 +61,14 @@ MENU="Choose one of the following options:"
 					bash install.sh
 					;;
 				2)
-					UPDATE_INSTALLATION="1"
-					bash install.sh
+					source script/openssl.sh; update_openssl
 					;;	
 				3)
-					source script/openssh.sh; change_openssh_port
+					source script/openssh.sh; update_openssh
 					;;
+				4)
+					source script/openssh.sh; change_openssh_port
+					;;	
 				4)
 					source script/openssh.sh; create_openssh_key
 					;;	

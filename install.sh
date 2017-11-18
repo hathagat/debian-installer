@@ -19,20 +19,15 @@
 #################################
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
-set -x
-
 
 source configs/versions.cfg
-source script/logs.sh
-source script/prerequisites.sh
-source script/checksystem.sh
-
 
 #if [[ ${INSTALLATION} = "1" ]]; then
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
-	set_logs
-	prerequisites
-	check_system
+	source script/logs.sh; set_logs
+	source script/prerequisites.sh; prerequisites
+	source script/checksystem.sh; check_system
+	
 	echo "0" | dialog --gauge "Installing System..." 10 70 0
 	source script/system.sh; install_system
 	
