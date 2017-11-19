@@ -84,4 +84,5 @@ cp ~/configs/jail.local /etc/fail2ban/jail.local
 cp files/debian-initd /etc/init.d/fail2ban >>"${main_log}" 2>>"${err_log}"
 update-rc.d fail2ban defaults >>"${main_log}" 2>>"${err_log}"
 service fail2ban start >>"${main_log}" 2>>"${err_log}"
+
 }

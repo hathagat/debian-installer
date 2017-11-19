@@ -40,6 +40,7 @@ truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog
 
 service sshd restart
+
 }
 
 #update_openssh() {

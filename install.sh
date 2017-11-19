@@ -20,25 +20,36 @@
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
 
-source configs/versions.cfg
+
+
+
+#wgets anpassen!!!!!!!
+
+source /root/configs/versions.cfg
 
 #if [[ ${INSTALLATION} = "1" ]]; then
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
-	source script/logs.sh; set_logs
-	source script/prerequisites.sh; prerequisites
-	source script/checksystem.sh; check_system
+	source /root/script/logs.sh; set_logs
+	source /root/script/prerequisites.sh; prerequisites
+	source /root/script/checksystem.sh; check_system
 	
 	echo "0" | dialog --gauge "Installing System..." 10 70 0
-	source script/system.sh; install_system
+	source /root/script/system.sh; install_system
 	
 	echo "2" | dialog --gauge "Installing OpenSSL..." 10 70 0
-	source script/openssl.sh; install_openssl
+	source /root/script/openssl.sh; install_openssl
 	
 	echo "5" | dialog --gauge "Installing OpenSSH..." 10 70 0
-	source script/openssh.sh; install_openssh
+	source /root/script/openssh.sh; install_openssh
 	
 	echo "10" | dialog --gauge "Installing fail2ban..." 10 70 0
-	source script/fail2ban.sh; install_fail2ban
+	source /root/script/fail2ban.sh; install_fail2ban
+	
+	echo "12" | dialog --gauge "Installing Nginx Addons..." 10 70 0
+	source /root/script/nginx_addons.sh; install_nginx_addons
+	
+	echo "15" | dialog --gauge "Installing Nginx..." 10 70 0
+	source /root/script/nginx.sh; install_nginx
 #fi
 
 #if [[ ${UPDATE_INSTALLATION} = "1" ]]; then

@@ -49,9 +49,6 @@ cd openssl-${OPENSSL_VERSION}
 make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}"
 make install >>"${make_log}" 2>>"${make_err_log}"
 
-cd ~/sources/
-rm -R openssl-${OPENSSL_VERSION}
-cd ~/
 }
 
 update_openssl() {
@@ -87,10 +84,6 @@ if [[ ${LOCAL_OPENSSL_VERSION} != ${OPENSSL_VERSION} ]]; then
 			 
 	make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}"
 	make install >>"${make_log}" 2>>"${make_err_log}"
-
-	cd ~/sources/
-	rm -R openssl-${OPENSSL_VERSION}
-	cd ~/
 	
 else
 
