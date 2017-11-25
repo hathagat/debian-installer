@@ -47,6 +47,9 @@ source /root/configs/versions.cfg
 	echo "15" | dialog --gauge "Installing Nginx..." 10 70 0
 	source /root/script/nginx.sh; install_nginx
 	
+	echo "15" | dialog --gauge "Installing LE..." 10 70 0
+	source /root/script/lets_encrypt.sh; install_lets_encrypt
+	
 	echo "25" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
 	source /root/script/nginx_vhost.sh; install_nginx_vhost
 	

@@ -22,19 +22,40 @@
 
 install_nginx_addons() {
 
-apt-get -y --assume-yes install autoconf automake libtool >>"${main_log}" 2>>"${err_log}"
-
-
-apt-get -y --assume-yes install git unzip >>"${main_log}" 2>>"${err_log}"
+apt-get -y --assume-yes install autoconf automake libtool git unzip >>"${main_log}" 2>>"${err_log}"
 
 cd ~/sources
-wget --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}-stable >>"${main_log}" 2>>"${err_log}"
+wget -c4 --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}-stable --tries=3 >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: v${NPS_VERSION}-stable download failed."
+      exit
+    fi
+
 unzip v${NPS_VERSION}-stable >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: v${NPS_VERSION}-stable is corrupted."
+      exit
+    fi
+#rm v${NPS_VERSION}-stable.zip	
 
 cd ngx_pagespeed-${NPS_VERSION}-stable/ >>"${main_log}" 2>>"${err_log}"
 
-wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz >>"${main_log}" 2>>"${err_log}"
+wget -c4 --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: ${PSOL_VERSION}-x64.tar.gz download failed."
+      exit
+    fi
+	
 tar -xzf ${PSOL_VERSION}-x64.tar.gz >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: ${PSOL_VERSION}-x64.tar.gz is corrupted."
+      exit
+    fi
+rm ${PSOL_VERSION}-x64.tar.gz	
 
 cd ~/sources
 git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}"
@@ -43,7 +64,7 @@ autoreconf -v -i >>"${main_log}" 2>>"${err_log}"
 ./autogen.sh >>"${main_log}" 2>>"${err_log}"
 ./configure >>"${main_log}" 2>>"${err_log}"
 mkdir brotli/c/tools/.deps && touch brotli/c/tools/.deps/brotli-brotli.Po
-make >>"${main_log}" 2>>"${err_log}"
+make -j $(nproc) >>"${main_log}" 2>>"${err_log}"
 make install >>"${main_log}" 2>>"${err_log}"
 ldconfig
 
@@ -51,4 +72,5 @@ cd ~/sources
 git clone https://github.com/google/ngx_brotli >>"${main_log}" 2>>"${err_log}"
 cd ngx_brotli
 git submodule update --init >>"${main_log}" 2>>"${err_log}"
+
 }
