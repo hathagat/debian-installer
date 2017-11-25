@@ -21,10 +21,6 @@
 #################################
 
 
-
-
-#wgets anpassen!!!!!!!
-
 source /root/configs/versions.cfg
 
 #if [[ ${INSTALLATION} = "1" ]]; then
@@ -50,6 +46,12 @@ source /root/configs/versions.cfg
 	
 	echo "15" | dialog --gauge "Installing Nginx..." 10 70 0
 	source /root/script/nginx.sh; install_nginx
+	
+	echo "25" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
+	source /root/script/nginx-vhost.sh; install_nginx_vhost
+	
+	echo "25" | dialog --gauge "Installing Firewall..." 10 70 0
+	source /root/script/firewall.sh; install_firewall
 #fi
 
 #if [[ ${UPDATE_INSTALLATION} = "1" ]]; then

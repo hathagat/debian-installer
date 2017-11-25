@@ -23,9 +23,7 @@
 install_openssh() {
 
 #installing ssh
-apt-get -y --assume-yes install libpam-dev >>"${main_log}" 2>>"${err_log}"
-
-apt-get -y --assume-yes install openssh-server openssh-client >>"${main_log}" 2>>"${err_log}"
+apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}"
 
 cp ~/configs/sshd_config /etc/ssh/sshd_config
 cp ~/includes/issue /etc/issue

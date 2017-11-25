@@ -64,7 +64,7 @@ check_system() {
 #		echo > /dev/null
 #	else
 #		if [ $(dpkg-query -l | grep facter | wc -l) -ne 1 ]; then
-#			apt-get -y --assume-yes install facter >>"$main_log" 2>>"$err_log"
+#			apt-get -y --assume-yes install facter >>"${main_log}" 2>>"${err_log}"
 #		fi
 #
 #		if	[ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then

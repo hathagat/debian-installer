@@ -26,7 +26,7 @@ set -x
 apt-get -y --assume-yes install libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}"
 
 cd ~/sources
-wget --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
+wget -c4 --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: nginx-${NGINX_VERSION}.tar.gz download failed."
@@ -102,28 +102,28 @@ dpkg -i nginx_${NGINX_VERSION}-1_amd64.deb >>"${main_log}" 2>>"${err_log}"
 mv nginx_${NGINX_VERSION}-1_amd64.deb ../ >>"${main_log}" 2>>"${err_log}"
 
 
-mkdir -p /var/lib/nginx/body && cd $_ >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir -p /var/lib/nginx/body && cd $_! Aborting"
-mkdir ../proxy >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../proxy! Aborting"
-mkdir ../fastcgi >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../fastcgi! Aborting"
-mkdir ../uwsgi >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../uwsgi! Aborting"
-mkdir ../cgi >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../cgi! Aborting"
-mkdir ../nps_cache >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../nps_cache! Aborting"
-mkdir -p /var/log/nginx >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir /var/log/nginx! Aborting"
-mkdir -p /etc/nginx/sites-available && cd $_ >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir /etc/nginx/sites-available && cd $_! Aborting"
-mkdir ../sites-enabled >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../sites-enabled! Aborting"
-mkdir ../sites-custom >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../sites-custom! Aborting"
-mkdir ../htpasswd >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../htpasswd! Aborting"
-touch ../htpasswd/.htpasswd >>"$main_log" 2>>"$err_log" || error_exit "Failed to touch ../htpasswd/.htpasswd! Aborting"
-mkdir ../logs >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../logs! Aborting"
-mkdir ../ssl >>"$main_log" 2>>"$err_log" || error_exit "Failed to mkdir ../ssl! Aborting"
-chown -R www-data:www-data /var/lib/nginx >>"$main_log" 2>>"$err_log" || error_exit "Failed to chown -R www-data:www-data /var/lib/nginx! Aborting"
-chown www-data:www-data /etc/nginx/logs >>"$main_log" 2>>"$err_log" || error_exit "Failed to chown www-data:www-data /etc/nginx/logs! Aborting"
+mkdir -p /var/lib/nginx/body && cd $_ >>"${main_log}" 2>>"${err_log}"
+mkdir ../proxy >>"${main_log}" 2>>"${err_log}"
+mkdir ../fastcgi >>"${main_log}" 2>>"${err_log}"
+mkdir ../uwsgi >>"${main_log}" 2>>"${err_log}"
+mkdir ../cgi >>"${main_log}" 2>>"${err_log}"
+mkdir ../nps_cache >>"${main_log}" 2>>"${err_log}"
+mkdir -p /var/log/nginx >>"${main_log}" 2>>"${err_log}"
+mkdir -p /etc/nginx/sites-available && cd $_ >>"${main_log}" 2>>"${err_log}"
+mkdir ../sites-enabled >>"${main_log}" 2>>"${err_log}"
+mkdir ../sites-custom >>"${main_log}" 2>>"${err_log}"
+mkdir ../htpasswd >>"${main_log}" 2>>"${err_log}"
+touch ../htpasswd/.htpasswd >>"${main_log}" 2>>"${err_log}"
+mkdir ../logs >>"${main_log}" 2>>"${err_log}"
+mkdir ../ssl >>"${main_log}" 2>>"${err_log}"
+chown -R www-data:www-data /var/lib/nginx >>"${main_log}" 2>>"${err_log}"
+chown www-data:www-data /etc/nginx/logs >>"${main_log}" 2>>"${err_log}"
 
 mkdir -p /etc/nginx
 mkdir -p /var/cache/nginx
 
 # Install the Nginx service script
-wget -O /etc/init.d/nginx --no-check-certificate https://raw.githubusercontent.com/Fleshgrinder/nginx-sysvinit-script/master/init >>"${main_log}" 2>>"${err_log}"
+wget -O /etc/init.d/nginx -c4 --no-check-certificate https://raw.githubusercontent.com/Fleshgrinder/nginx-sysvinit-script/master/init --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: nginx-sysvinit-script download failed."

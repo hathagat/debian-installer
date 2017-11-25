@@ -1,10 +1,5 @@
 #!/bin/bash
-# The perfect rootserver - Your Webserverinstallation Script!
-# by shoujii | BoBBer446 > 2017
-#####
-# https://github.com/shoujii/perfectrootserver
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-# Special thanks to Zypr!
 #
 	# This program is free software; you can redistribute it and/or modify
     # it under the terms of the GNU General Public License as published by
@@ -25,7 +20,7 @@
 ##  DO NOT MODIFY, JUST DON'T! ##
 #################################
 
-nginx_vhost() {
+install_nginx_vhost() {
 
 rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf
 cat > /etc/nginx/sites-available/${MYDOMAIN}.conf <<END
@@ -203,34 +198,12 @@ server {
 }
 END
 
-if [[ ${ALLOWHTTPCONNECTIONS} == '1' ]]; then
-
-# Delete first N lines we dont need
-sed -i "1,15d" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 376! Aborting"
-
-	# Add new lines
-	sed -i "1s/^/	server \{																\n/" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 79! Aborting"
-	sed -i "2s/^/		listen			80 default_server;									\n/" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 380! Aborting"
-	sed -i "3s/^/		listen			443 ssl http2 default deferred;						\n/" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 381! Aborting"
-	sed -i "4s/^/		server_name		$IPADR $MYDOMAIN www.$MYDOMAIN mail.$MYDOMAIN;		\n/" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 382! Aborting"
-	sed -i "5s/^/		root			\/etc\/nginx\/html\/$MYDOMAIN;						\n/" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 383! Aborting"
-	sed -i "6s/^/		index			index.php index.html index.htm;						\n/" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 384! Aborting"
-fi	
-
-#fix me
-#secure ciphers not fitting to ecc!!
-#lines not fitting! + not fitting if there are more or less lines (allowhttp and hybrid cert)
-if [[ ${HIGH_SECURITY} == '1' ]]; then
-	sed -i "33d" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 382! Aborting"
-	#sed -i "33i ssl_ciphers AES256+EECDH:AES256+EDH:!aNULL;" /etc/nginx/sites-available/${MYDOMAIN}.conf >>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 384! Aborting"
-fi
-
 if [[ ${USE_PHP7_1} == '1' ]]; then
-	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf>>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 397! Aborting"
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
 fi
 
 if [[ ${USE_PHP7_2} == '1' ]]; then
-	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf>>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 401! Aborting"
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
 fi
 
 ln -s /etc/nginx/sites-available/${MYDOMAIN}.conf /etc/nginx/sites-enabled/${MYDOMAIN}.conf
