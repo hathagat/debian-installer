@@ -27,7 +27,7 @@
 
 install_nginx() {
 
-apt-get -y --assume-yes install libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev >>"${main_log}" 2>>"${err_log}"
+apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev checkinstall libgeoip-dev zlib1g-dev >>"${main_log}" 2>>"${err_log}"
 
 cd ~/sources
 wget --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
