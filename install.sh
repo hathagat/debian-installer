@@ -48,7 +48,7 @@ source /root/configs/versions.cfg
 	source /root/script/nginx.sh; install_nginx
 	
 	echo "25" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
-	source /root/script/nginx-vhost.sh; install_nginx_vhost
+	source /root/script/nginx_vhost.sh; install_nginx_vhost
 	
 	echo "25" | dialog --gauge "Installing Firewall..." 10 70 0
 	source /root/script/firewall.sh; install_firewall
