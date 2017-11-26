@@ -22,6 +22,8 @@
 
 install_lets_encrypt() {
 
+set -x
+
 echo "50" | dialog --gauge "Creating SSL CERT - This can take a long time! ..." 10 70 0
 # SSL certificate
 service nginx stop
