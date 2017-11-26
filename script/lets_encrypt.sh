@@ -40,46 +40,29 @@ sleep 1
 . ~/.profile >>"${main_log}" 2>>"${err_log}"
 cd /root/.acme.sh/
 
-if [[ ${USE_MAILSERVER} == '1' ]] && [[ ${USE_ECC} == '1' ]]; then
-	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-else
-	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-fi	
+#if [[ ${USE_MAILSERVER} == '1' ]]; then
+#	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
+#else
+#	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
+#fi	
 
-if [[ ${USE_MAILSERVER} == '1' ]] && [[ ${USE_RSA} == '1' ]]; then
-	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --keylength ${RSA_KEY_SIZE} >>"${main_log}" 2>>"${err_log}"
-else
-	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ${RSA_KEY_SIZE} >>"${main_log}" 2>>"${err_log}"
-fi	
+openssl ecparam -genkey -name secp384r1 -out /etc/nginx/ssl/${MYDOMAIN}.key.pem >>"$main_log" 2>>"$err_log"
+openssl req -new -sha256 -key /etc/nginx/ssl/${MYDOMAIN}.key.pem -out /etc/nginx/ssl/csr.pem -subj "/C=DE/ST=Private/L=Private/O=Private/OU=Private/CN=*.${MYDOMAIN}" >>"$main_log" 2>>"$err_log"
+openssl req -x509 -days 365 -key /etc/nginx/ssl/${MYDOMAIN}.key.pem -in /etc/nginx/ssl/csr.pem -out /etc/nginx/ssl/${MYDOMAIN}.pem >>"$main_log" 2>>"$err_log"
+HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}.pem | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64)
+HPKP2=$(openssl rand -base64 32)
 
-if [[ ${USE_ECC} == '1' ]]; then
-	ln -s /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
-	ln -s /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-ecc.key >>"${main_log}" 2>>"${err_log}"
-	SSL_CERT_ECC="ssl_certificate 	ssl/${MYDOMAIN}-ecc.cer;"
-	SSL_KEY_ECC="ssl_certificate_key 	ssl/${MYDOMAIN}-ecc.key;"
-fi
 
-if [[ ${USE_RSA} == '1' ]]; then
-	ln -s /root/.acme.sh/${MYDOMAIN}/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}.cer >>"${main_log}" 2>>"${err_log}"
-	ln -s /root/.acme.sh/${MYDOMAIN}/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}.key >>"${main_log}" 2>>"${err_log}"
-	SSL_CERT_RSA="ssl_certificate 	ssl/${MYDOMAIN}.cer;"
-	SSL_KEY_RSA="ssl_certificate_key 	ssl/${MYDOMAIN}.key;"
-fi
+#ln -s /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
+#ln -s /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-ecc.key >>"${main_log}" 2>>"${err_log}"
 
 #Your cert is in  /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.cer
 #Your cert key is in  /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key
 #The intermediate CA cert is in  /root/.acme.sh/${MYDOMAIN}_ecc/ca.cer
 #And the full chain certs is there:  /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer		
 
-if [[ ${USE_ECC} == '1' ]]; then
-	HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}-ecc.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
-	HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"
-fi
+#HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}-ecc.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
+#HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"
 
-if [[ ${USE_RSA} == '1' ]]; then
-	HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
-	HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"
-fi
-
-openssl dhparam -out /etc/nginx/ssl/dh.pem ${RSA_KEY_SIZE} >>"${main_log}" 2>>"${err_log}"
+openssl dhparam -out /etc/nginx/ssl/dh.pem 4096 >>"${main_log}" 2>>"${err_log}"
 }

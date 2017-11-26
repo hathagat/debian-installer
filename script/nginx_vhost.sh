@@ -41,10 +41,10 @@ server {
 			index 				index.php index.html index.htm;
 			charset 			utf-8;
 			error_page 404 		/index.php;
-			${SSL_CERT_ECC}
-			${SSL_KEY_ECC}
-			${SSL_CERT_RSA}
-			${SSL_KEY_RSA}
+			ssl_certificate 	ssl/${MYDOMAIN}.pem;
+			ssl_certificate_key ssl/${MYDOMAIN}.key.pem;
+			#ssl_certificate 	ssl/${MYDOMAIN}-ecc.cer;
+			#ssl_certificate_key ssl/${MYDOMAIN}-ecc.key;
 			#ssl_trusted_certificate ssl/${MYDOMAIN}.cer;
 			ssl_dhparam	     	ssl/dh.pem;
 			#ssl_ecdh_curve 		X25519:secp384r1;
