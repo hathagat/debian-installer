@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_nginx_vhost() {
 
 rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf

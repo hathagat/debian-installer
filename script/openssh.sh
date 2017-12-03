@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_openssh() {
 
 #installing ssh
@@ -100,8 +96,8 @@ NEW_SSH_PW=$(dialog --clear \
 					$HEIGHT $WIDTH \
 					3>&1 1>&2 2>&3 3>&- \
 					)
-					
-SSH_PASS="$NEW_SSH_PW"					
+
+SSH_PASS="$NEW_SSH_PW"
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N ${SSH_PASS} >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh

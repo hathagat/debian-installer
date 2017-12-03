@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_nginx_addons() {
 
 apt-get -y --assume-yes install autoconf automake libtool git unzip >>"${main_log}" 2>>"${err_log}"
@@ -38,7 +34,7 @@ unzip v${NPS_VERSION}-stable >>"${main_log}" 2>>"${err_log}"
       echo "Error: v${NPS_VERSION}-stable is corrupted."
       exit
     fi
-#rm v${NPS_VERSION}-stable.zip	
+#rm v${NPS_VERSION}-stable.zip
 
 cd ngx_pagespeed-${NPS_VERSION}-stable/ >>"${main_log}" 2>>"${err_log}"
 
@@ -48,14 +44,14 @@ wget -c4 --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_
       echo "Error: ${PSOL_VERSION}-x64.tar.gz download failed."
       exit
     fi
-	
+
 tar -xzf ${PSOL_VERSION}-x64.tar.gz >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: ${PSOL_VERSION}-x64.tar.gz is corrupted."
       exit
     fi
-rm ${PSOL_VERSION}-x64.tar.gz	
+rm ${PSOL_VERSION}-x64.tar.gz
 
 cd ~/sources
 git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}"

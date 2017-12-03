@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 check_dns() {
 
 server_ip=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
@@ -29,15 +25,15 @@ dialog --title "DNS Settings" --textbox ~/dns_settings.txt 50 200
 if [[ $FQDNIP != $IPADR ]]; then
 	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
 	exit 1
-fi		
-		
+fi
+
 if [[ $CHECKRDNS != mail.${MYDOMAIN}. ]]; then
 	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to $(mail.${MYDOMAIN})"
 	exit 1
-fi		
+fi
 
 if [[ $MAILIP != $IPADR ]]; then
 	echo "mail.${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
 	exit 1
-fi			
+fi
 }

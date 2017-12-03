@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 clear
 echo "NeXt Server"
 echo "Preparing menu..."
@@ -62,16 +58,16 @@ MENU="Choose one of the following options:"
 					;;
 				2)
 					source script/openssl.sh; update_openssl
-					;;	
+					;;
 				3)
 					source script/openssh.sh; update_openssh
 					;;
 				4)
 					source script/openssh.sh; change_openssh_port
-					;;	
+					;;
 				4)
 					source script/openssh.sh; create_openssh_key
-					;;	
+					;;
 				5)
 					echo "Exit"
 					exit 1

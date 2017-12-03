@@ -16,11 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
-
 source /root/configs/versions.cfg
 
 #if [[ ${INSTALLATION} = "1" ]]; then
@@ -28,31 +23,31 @@ source /root/configs/versions.cfg
 	source /root/script/logs.sh; set_logs
 	source /root/script/prerequisites.sh; prerequisites
 	source /root/script/checksystem.sh; check_system
-	
+
 	echo "0" | dialog --gauge "Installing System..." 10 70 0
 	source /root/script/system.sh; install_system
-	
+
 	echo "2" | dialog --gauge "Installing OpenSSL..." 10 70 0
 	source /root/script/openssl.sh; install_openssl
-	
+
 	echo "5" | dialog --gauge "Installing OpenSSH..." 10 70 0
 	source /root/script/openssh.sh; install_openssh
-	
+
 	echo "10" | dialog --gauge "Installing fail2ban..." 10 70 0
 	source /root/script/fail2ban.sh; install_fail2ban
-	
+
 	echo "12" | dialog --gauge "Installing Nginx Addons..." 10 70 0
 	source /root/script/nginx_addons.sh; install_nginx_addons
-	
+
 	echo "15" | dialog --gauge "Installing Nginx..." 10 70 0
 	source /root/script/nginx.sh; install_nginx
-	
+
 	echo "15" | dialog --gauge "Installing LE..." 10 70 0
 	source /root/script/lets_encrypt.sh; install_lets_encrypt
-	
+
 	echo "25" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
 	source /root/script/nginx_vhost.sh; install_nginx_vhost
-	
+
 	echo "25" | dialog --gauge "Installing Firewall..." 10 70 0
 	source /root/script/firewall.sh; install_firewall
 #fi

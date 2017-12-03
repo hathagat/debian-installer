@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_fail2ban() {
 
 apt-get -y --assume-yes install python >>"${main_log}" 2>>"${err_log}"
@@ -44,7 +40,7 @@ rm ${FAIL2BAN_VERSION}
 
 cd fail2ban-${FAIL2BAN_VERSION}
 python setup.py -q install >>"${main_log}" 2>>"${err_log}"
-	
+
 cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local >>"${main_log}" 2>>"${err_log}"
 
 cp ~/configs/jail.local /etc/fail2ban/jail.local
@@ -76,7 +72,7 @@ rm ${FAIL2BAN_VERSION}
 
 cd fail2ban-${FAIL2BAN_VERSION}
 python setup.py -q install >>"${main_log}" 2>>"${err_log}"
-	
+
 cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local >>"${main_log}" 2>>"${err_log}"
 
 cp ~/configs/jail.local /etc/fail2ban/jail.local

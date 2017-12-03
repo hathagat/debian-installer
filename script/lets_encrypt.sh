@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_lets_encrypt() {
 
 set -x
@@ -44,7 +40,7 @@ cd /root/.acme.sh/
 #	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
 #else
 #	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-#fi	
+#fi
 
 openssl ecparam -genkey -name secp384r1 -out /etc/nginx/ssl/${MYDOMAIN}.key.pem >>"$main_log" 2>>"$err_log"
 openssl req -new -sha256 -key /etc/nginx/ssl/${MYDOMAIN}.key.pem -out /etc/nginx/ssl/csr.pem -subj "/C=DE/ST=Private/L=Private/O=Private/OU=Private/CN=*.${MYDOMAIN}" >>"$main_log" 2>>"$err_log"
@@ -59,7 +55,7 @@ HPKP2=$(openssl rand -base64 32)
 #Your cert is in  /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.cer
 #Your cert key is in  /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key
 #The intermediate CA cert is in  /root/.acme.sh/${MYDOMAIN}_ecc/ca.cer
-#And the full chain certs is there:  /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer		
+#And the full chain certs is there:  /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer
 
 #HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}-ecc.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
 #HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"

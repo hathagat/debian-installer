@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_nginx() {
 
 apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}"
@@ -31,7 +27,7 @@ wget -c4 --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}
       echo "Error: nginx-${NGINX_VERSION}.tar.gz download failed."
       exit
     fi
-	
+
 tar -xzf nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
@@ -104,6 +100,7 @@ mkdir -p /etc/nginx
 mkdir -p /etc/nginx/sites
 mkdir -p /etc/nginx/ssl
 mkdir -p /var/cache/nginx
+mkdir -p /var/log/nginx/
 
 chown -R www-data:www-data /var/lib/nginx >>"${main_log}" 2>>"${err_log}"
 chown www-data:www-data /etc/nginx/logs >>"${main_log}" 2>>"${err_log}"
@@ -115,7 +112,7 @@ wget -O /etc/init.d/nginx -c4 --no-check-certificate https://raw.githubuserconte
       echo "Error: nginx-sysvinit-script download failed."
       exit
     fi
-	
+
 chmod 0755 /etc/init.d/nginx >>"${main_log}" 2>>"${err_log}"
 chown root:root /etc/init.d/nginx >>"${main_log}" 2>>"${err_log}"
 update-rc.d nginx defaults >>"${main_log}" 2>>"${err_log}"

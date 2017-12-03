@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_openssl() {
 
 mkdir -p ~/sources/
@@ -40,12 +36,12 @@ tar -xzf openssl-${OPENSSL_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
       echo "Error: openssl-${OPENSSL_VERSION}.tar.gz is corrupted."
       exit
     fi
-rm openssl-${OPENSSL_VERSION}.tar.gz	
-	
+rm openssl-${OPENSSL_VERSION}.tar.gz
+
 cd openssl-${OPENSSL_VERSION}
 
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic >>"${make_log}" 2>>"${make_err_log}"
-		 
+
 make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}"
 make install >>"${make_log}" 2>>"${make_err_log}"
 
@@ -76,19 +72,19 @@ if [[ ${LOCAL_OPENSSL_VERSION} != ${OPENSSL_VERSION} ]]; then
 		  echo "Error: openssl-${OPENSSL_VERSION}.tar.gz is corrupted."
 		  exit
 		fi
-	rm openssl-${OPENSSL_VERSION}.tar.gz	
-		
+	rm openssl-${OPENSSL_VERSION}.tar.gz
+
 	cd openssl-${OPENSSL_VERSION}
 
 	./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic >>"${make_log}" 2>>"${make_err_log}"
-			 
+
 	make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}"
 	make install >>"${make_log}" 2>>"${make_err_log}"
-	
+
 else
 
 	HEIGHT=10
 	WIDTH=70
 	dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "No Openssl Update needed! Local Openssl Version: ${LOCAL_OPENSSL_VERSION}. Version to be installed: ${OPENSSL_VERSION}" $HEIGHT $WIDTH
-fi	
+fi
 }

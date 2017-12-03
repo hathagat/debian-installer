@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_system() {
 
 cat > /etc/hosts <<END
@@ -32,7 +28,7 @@ END
 echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
 hostnamectl set-hostname mail.${MYDOMAIN}
 echo "${MYDOMAIN}" > /etc/mailname
-	
+
 timedatectl set-timezone ${TIMEZONE}
 
 #we use the Google DNS to prevent resolving errors later (the OVH DNS for exmaple has sometimes problems, with resolving gnu.org and so on).
@@ -41,18 +37,18 @@ echo 'options timeout:1' >> /etc/resolv.conf
 echo 'nameserver 9.9.9.9' >> /etc/resolv.conf
 
 #disabled ipv6
-echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf 
-sysctl -p 
+echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+sysctl -p
 
 rm /etc/apt/sources.list
 
 cat > /etc/apt/sources.list <<END
 #Debian
-deb http://ftp.de.debian.org/debian/ stretch main contrib non-free 
-deb-src http://ftp.de.debian.org/debian/ stretch main contrib non-free 
+deb http://ftp.de.debian.org/debian/ stretch main contrib non-free
+deb-src http://ftp.de.debian.org/debian/ stretch main contrib non-free
 
 deb http://security.debian.org/debian-security stretch/updates main
-deb-src http://security.debian.org/debian-security stretch/updates main 
+deb-src http://security.debian.org/debian-security stretch/updates main
 END
 
 apt-get update -y >>"${main_log}" 2>>"${err_log}"

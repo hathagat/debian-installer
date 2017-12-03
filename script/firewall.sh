@@ -16,10 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-#################################
-##  DO NOT MODIFY, JUST DON'T! ##
-#################################
-
 install_firewall() {
 # ipset
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
@@ -138,7 +134,7 @@ chmod +x /etc/cron.daily/blocked-hosts
 if [[ ${USE_PHP7} == '1' ]]; then
 	systemctl -q restart {nginx,php7.0-fpm}
 fi
-	
+
 if [[ ${USE_PHP7_1} == '1' ]]; then
 	systemctl -q restart {nginx,php7.1-fpm}
 fi
