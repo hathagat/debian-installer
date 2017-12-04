@@ -21,7 +21,7 @@ install_nginx() {
 apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}"
 
 cd ~/sources
-wget -c4 --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: nginx-${NGINX_VERSION}.tar.gz download failed."
@@ -86,7 +86,7 @@ NGINX_MODULES="--without-http_browser_module \
 
 #--with-openssl-opt=enable-tls1_3
 
-./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt='-O2 -g -pipe -Wall -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic' >>"${main_log}" 2>>"${err_log}"
+./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt='-O2 -g -pipe -Wall -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong -m64 -mtune=generic' >>"${main_log}" 2>>"${err_log}"
 
 echo "40" | dialog --gauge "Compiling Nginx..." 10 70 0
 make -j $(nproc) >>"${main_log}" 2>>"${err_log}"

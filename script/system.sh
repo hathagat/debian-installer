@@ -31,7 +31,7 @@ echo "${MYDOMAIN}" > /etc/mailname
 
 timedatectl set-timezone ${TIMEZONE}
 
-#we use the Google DNS to prevent resolving errors later (the OVH DNS for exmaple has sometimes problems, with resolving gnu.org and so on).
+#we use another DNS to prevent resolving errors later (the OVH DNS for exmaple has sometimes problems, with resolving gnu.org and so on).
 echo 'options rotate' >> /etc/resolv.conf
 echo 'options timeout:1' >> /etc/resolv.conf
 echo 'nameserver 9.9.9.9' >> /etc/resolv.conf

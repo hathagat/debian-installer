@@ -23,7 +23,7 @@ apt-get -y --assume-yes install python >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 cd ~/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
-wget -c4 --no-check-certificate https://codeload.github.com/fail2ban/fail2ban/tar.gz/${FAIL2BAN_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget --no-check-certificate https://codeload.github.com/fail2ban/fail2ban/tar.gz/${FAIL2BAN_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: fail2ban-${FAIL2BAN_VERSION}.tar.gz download failed."
@@ -55,7 +55,7 @@ update_fail2ban() {
 mkdir -p ~/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 cd ~/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
-wget -c4 --no-check-certificate https://codeload.github.com/fail2ban/fail2ban/tar.gz/${FAIL2BAN_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget --no-check-certificate https://codeload.github.com/fail2ban/fail2ban/tar.gz/${FAIL2BAN_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: fail2ban-${FAIL2BAN_VERSION}.tar.gz download failed."

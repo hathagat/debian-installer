@@ -21,7 +21,7 @@ install_nginx_addons() {
 apt-get -y --assume-yes install autoconf automake libtool git unzip >>"${main_log}" 2>>"${err_log}"
 
 cd ~/sources
-wget -c4 --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}-stable --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}-stable --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: v${NPS_VERSION}-stable download failed."
@@ -38,7 +38,7 @@ unzip v${NPS_VERSION}-stable >>"${main_log}" 2>>"${err_log}"
 
 cd ngx_pagespeed-${NPS_VERSION}-stable/ >>"${main_log}" 2>>"${err_log}"
 
-wget -c4 --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: ${PSOL_VERSION}-x64.tar.gz download failed."

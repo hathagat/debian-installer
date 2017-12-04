@@ -30,6 +30,9 @@ cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
 mv ~/ssh.key ~/ssh_privatekey.txt
 
+#groupadd ssh-user
+#usermod -a -G ssh-user
+
 truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog
 
