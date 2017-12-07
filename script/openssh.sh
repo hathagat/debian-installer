@@ -52,10 +52,15 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
 				echo
 				echo
-				echo "Password for your ssh key = ${SSH_PASS}"
+				echo "You can find your SSH key at /root/ssh_privatekey.txt"
 				echo
 				echo
+				echo "Password for your ssh key = $SSH_PASS"
+				echo
+				echo
+				echo "Your SSH Key"
 				cat ~/ssh_privatekey.txt
+				echo "You can also find your SSH key at /root/ssh_privatekey.txt"
 				exit 1
 				;;
 			2)
@@ -92,7 +97,22 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH Port to $NEW_SSH_PORT" $HEIGHT $WIDTH
 				;;
 			4)
+				dialog --backtitle "NeXt Server Installation" --infobox "Creating new Openssh key" $HEIGHT $WIDTH
+				source /root/script/logs.sh; set_logs
 				create_new_openssh_key
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished creating new ssh key" $HEIGHT $WIDTH
+				echo
+				echo
+				echo "You can find your New SSH key at /root/ssh_privatekey.txt"
+				echo
+				echo
+				echo "Password for your  new ssh key = $SSH_PASS"
+				echo
+				echo
+				echo "Your new SSH Key"
+				cat ~/ssh_privatekey.txt
+				echo "You can also find your new SSH key at /root/ssh_privatekey.txt"
+				exit 1
 				;;
 			5)
 				bash /root/start.sh;
@@ -114,7 +134,7 @@ cp ~/includes/issue /etc/issue
 SSH_PASS=$(password)
 echo  "Openssh password: $SSH_PASS" >> /root/login_information
 
-ssh-keygen -f ~/ssh.key -t ed25519 -N SSH_PASS >>"${main_log}" 2>>"${err_log}"
+ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
@@ -139,6 +159,7 @@ LOCAL_OPENSSH_VERSION=$(echo $LOCAL_OPENSSH_VERSION_STRING | cut -c9-13)
 if [[ ${LOCAL_OPENSSH_VERSION} != ${OPENSSH_VERSION} ]]; then
 	#Im moment Platzhalter, bis wir Openssh selbst kompilieren
 	apt-get update
+	apt-get -y --assume-yes install openssh-server openssh-client libpam-dev
 else
 	HEIGHT=10
 	WIDTH=70
@@ -157,11 +178,6 @@ service sshd restart
 
 create_new_openssh_key() {
 
-##############
-#delete or backup old key, when new is created - or prompt that the old key will be deleted?
-#############
-
-#create ssh key
 BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"
 HEIGHT=30
@@ -176,7 +192,12 @@ NEW_SSH_PW=$(dialog --clear \
 
 SSH_PASS="$NEW_SSH_PW"
 
-ssh-keygen -f ~/ssh.key -t ed25519 -N ${SSH_PASS} >>"${main_log}" 2>>"${err_log}"
+rm -rf ~/.ssh/*
+
+SSH_PASS=$(password)
+echo  "New Openssh password: $SSH_PASS" >> /root/login_information
+
+ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
@@ -184,8 +205,4 @@ mv ~/ssh.key ~/ssh_privatekey.txt
 
 service sshd restart
 
-HEIGHT=10
-WIDTH=70
-dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH password to ${SSH_PASS}" $HEIGHT $WIDTH
-#maybe write to credentials?
 }

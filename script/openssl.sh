@@ -107,6 +107,8 @@ LOCAL_OPENSSL_VERSION=$(echo $LOCAL_OPENSSL_VERSION_STRING | cut -c9-14)
 
 if [[ ${LOCAL_OPENSSL_VERSION} != ${OPENSSL_VERSION} ]]; then
 
+	apt-get install -y libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev >>"${main_log}" 2>>"${err_log}"
+
 	mkdir -p ~/sources/
 
 	cd ~/sources
