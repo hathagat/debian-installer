@@ -23,7 +23,7 @@ echo "Preparing menu..."
 #-------------dialog
 apt-get -qq install dialog >/dev/null 2>&1
 
-$SCRIPT_PATH=/root/NeXt-Server
+SCRIPT_PATH="/root/NeXt-Server"
 
 source ~/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh

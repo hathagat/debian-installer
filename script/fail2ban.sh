@@ -104,7 +104,7 @@ python setup.py -q install >>"${main_log}" 2>>"${err_log}"
 
 cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local >>"${main_log}" 2>>"${err_log}"
 
-cp ~/configs/jail.local /etc/fail2ban/jail.local
+cp ${SCRIPT_PATH}/configs/jail.local /etc/fail2ban/jail.local
 
 cp files/debian-initd /etc/init.d/fail2ban >>"${main_log}" 2>>"${err_log}"
 update-rc.d fail2ban defaults >>"${main_log}" 2>>"${err_log}"
@@ -136,7 +136,7 @@ python setup.py -q install >>"${main_log}" 2>>"${err_log}"
 
 cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local >>"${main_log}" 2>>"${err_log}"
 
-cp ~/configs/jail.local /etc/fail2ban/jail.local
+cp ${SCRIPT_PATH}/configs/jail.local /etc/fail2ban/jail.local
 
 cp files/debian-initd /etc/init.d/fail2ban >>"${main_log}" 2>>"${err_log}"
 update-rc.d fail2ban defaults >>"${main_log}" 2>>"${err_log}"
