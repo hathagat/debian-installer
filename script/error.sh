@@ -94,11 +94,11 @@ echo "$1" 1>&2
 				echo -e "##-----------------------------------------------##" >> /root/logs/error.log
 
 				#PGP issue
-				echo "Here are the error Logs from failed installation ( $USED_OS ) of perfect rootserver script. Error: $1" | mutt -a "/root/logs/main.log" "/root/logs/error.log" "/root/logs/make.log" "/root/logs/make_error.log" "/root/configs/userconfig.cfg" "/root/logs/addons_error.log" -s "FAILED INSTALLATION OF PERFECT ROOTSERVER" -- error@perfectrootserver.de >/dev/null 2>&1
+				echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server script. Error: $1" | mutt -a "/root/logs/main.log" "/root/logs/error.log" "/root/logs/make.log" "/root/logs/make_error.log" "/root/configs/userconfig.cfg" "/root/logs/addons_error.log" -s "FAILED INSTALLATION OF PERFECT ROOTSERVER" -- error@perfectrootserver.de >/dev/null 2>&1
 
 				HEIGHT=15
 				WIDTH=70
-				dialog --backtitle "Perfect Root Server Installation" --msgbox "Thank you for the Bug Report! Error: $1" $HEIGHT $WIDTH
+				dialog --backtitle "NeXt Server Installation" --msgbox "Thank you for the Bug Report! Error: $1" $HEIGHT $WIDTH
 				clear
 				exit 1
 				;;

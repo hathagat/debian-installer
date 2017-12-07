@@ -33,12 +33,9 @@ BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-		OPTIONS=(1 "Install NeXt Server ${PRS_VERSION}"
-				 2 "Update Openssl"
-				 3 "Update Openssh"
-				 4 "Change Openssh Port"
-				 5 "Create new Openssh key"
-				 6 "Exit")
+		OPTIONS=(1 "Install NeXt Server ${NEXT_VERSION}"
+				 		 2 "Openssh Options"
+			     	 3 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -57,18 +54,9 @@ MENU="Choose one of the following options:"
 					bash install.sh
 					;;
 				2)
-					source script/openssl.sh; update_openssl
+					source script/openssh.sh; menu_options_openssh
 					;;
 				3)
-					source script/openssh.sh; update_openssh
-					;;
-				4)
-					source script/openssh.sh; change_openssh_port
-					;;
-				4)
-					source script/openssh.sh; create_openssh_key
-					;;
-				5)
 					echo "Exit"
 					exit 1
 					;;

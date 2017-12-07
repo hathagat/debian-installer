@@ -16,6 +16,56 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
+menu_options_openssh() {
+
+HEIGHT=30
+WIDTH=60
+CHOICE_HEIGHT=6
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
+MENU="Choose one of the following options:"
+
+		OPTIONS=(1 "Install Openssh (dependencies missing)"
+				 2 "Update Openssh"
+				 3 "Change Openssh Port"
+				 4 "Create new Openssh Key"
+				 5 "Back"
+				 6 "Exit")
+
+		CHOICE=$(dialog --clear \
+						--nocancel \
+						--no-cancel \
+						--backtitle "$BACKTITLE" \
+						--title "$TITLE" \
+						--menu "$MENU" \
+						$HEIGHT $WIDTH $CHOICE_HEIGHT \
+						"${OPTIONS[@]}" \
+						2>&1 >/dev/tty)
+
+		clear
+		case $CHOICE in
+				1)
+					install_openssh()
+					;;
+				2)
+					update_openssh()
+					;;
+				3)
+					change_openssh_port()
+					;;
+				4)
+					create_new_openssh_key()
+					;;
+				5)
+					bash /root/start.sh;
+					;;
+				6)
+					echo "Exit"
+					exit 1
+					;;
+		esac
+}
+
 install_openssh() {
 
 #installing ssh
@@ -47,8 +97,8 @@ service sshd restart
 change_openssh_port() {
 
 #change ssh port
-BACKTITLE="Perfect Root Server Installation"
-TITLE="Perfect Root Server Installation"
+BACKTITLE="NeXt Server Installation"
+TITLE="NeXt Server Installation"
 HEIGHT=30
 WIDTH=60
 
@@ -62,7 +112,7 @@ while true
 				)
 		if [[ ${NEW_SSH_PORT} =~ ^-?[0-9]+$ ]]; then
 			if [[ -v BLOCKED_PORTS[$NEW_SSH_PORT] ]]; then
-				dialog --title "Perfectrootserver Confighelper" --msgbox "$NEW_SSH_PORT is known. Choose an other Port!" $HEIGHT $WIDTH
+				dialog --title "NeXt Server Confighelper" --msgbox "$NEW_SSH_PORT is known. Choose an other Port!" $HEIGHT $WIDTH
 				dialog --clear
 			else
 				SSH_PORT="$NEW_SSH_PORT"
@@ -70,7 +120,7 @@ while true
 				break
 			fi
 		else
-		dialog --title "Perfectrootserver Confighelper" --msgbox "The Port should only contain numbers!" $HEIGHT $WIDTH
+		dialog --title "NeXt Server Confighelper" --msgbox "The Port should only contain numbers!" $HEIGHT $WIDTH
 		dialog --clear
 		fi
 	done
@@ -81,15 +131,21 @@ service sshd restart
 
 HEIGHT=10
 WIDTH=70
-dialog --backtitle "Welcome to the Perfect Rootserver installation!" --infobox "Changed SSH Port to ${SSH_PORT}" $HEIGHT $WIDTH
+dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "Changed SSH Port to ${SSH_PORT}" $HEIGHT $WIDTH
 #maybe write to credentials?
 }
 
-create_openssh_key() {
+create_new_openssh_key() {
+
+
+##############
+#delete or backup old key, when new is created - or prompt that the old key will be deleted?
+#############
+
 
 #create ssh key
-BACKTITLE="Perfect Root Server Installation"
-TITLE="Perfect Root Server Installation"
+BACKTITLE="NeXt Server Installation"
+TITLE="NeXt Server Installation"
 HEIGHT=30
 WIDTH=60
 
@@ -112,6 +168,6 @@ service sshd restart
 
 HEIGHT=10
 WIDTH=70
-dialog --backtitle "Welcome to the Perfect Rootserver installation!" --infobox "Changed SSH password to ${SSH_PASS}" $HEIGHT $WIDTH
+dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "Changed SSH password to ${SSH_PASS}" $HEIGHT $WIDTH
 #maybe write to credentials?
 }
