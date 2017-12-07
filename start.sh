@@ -29,6 +29,7 @@ source /root/script/functions.sh
 
 HEIGHT=30
 WIDTH=60
+CHOICE_HEIGHT=10
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
