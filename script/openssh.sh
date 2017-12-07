@@ -141,7 +141,7 @@ ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
-mv ~/ssh.key ~/ssh_privatekey.txt
+mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
 
 groupadd ssh-user
 usermod -a -G ssh-user root
@@ -182,6 +182,7 @@ service sshd restart
 
 create_new_openssh_key() {
 
+#delete old key ####
 rm -rf ~/.ssh/*
 
 SSH_PASS=$(password)
@@ -192,7 +193,7 @@ ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
-mv ~/ssh.key ~/ssh_privatekey.txt
+mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
 
 service sshd restart
 }
