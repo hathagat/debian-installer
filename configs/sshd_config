@@ -122,3 +122,4 @@ Subsystem	sftp	sftp /usr/lib/openssh/sftp-server
 #	ForceCommand cvs server
 
 AllowGroups ssh-user
+AcceptEnv LANG LC_* TZ

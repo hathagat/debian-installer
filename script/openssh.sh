@@ -25,7 +25,7 @@ BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-		OPTIONS=(1 "Install Openssh dependencies missing"
+		OPTIONS=(1 "Install Openssh"
 				 2 "Update Openssh"
 				 3 "Change Openssh Port"
 				 4 "Create new Openssh Key"
@@ -45,11 +45,15 @@ MENU="Choose one of the following options:"
 		clear
 		case $CHOICE in
 				1)
+					dialog --backtitle "NeXt Server Installation" --msgbox "Installing Openssh" $HEIGHT $WIDTH
 					source /root/script/logs.sh; set_logs
 					install_openssh
 					#ssh pw vorher eingeben lassen?
-					#danach show key
-					#connecten nicht möglich
+					echo "Password for your ssh key = ${SSH_PASS}"
+					echo
+					echo
+					cat ~/ssh_privatekey.txt
+					exit 1
 					;;
 				2)
 					update_openssh
@@ -84,8 +88,8 @@ cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
 mv ~/ssh.key ~/ssh_privatekey.txt
 
-#groupadd ssh-user
-#usermod -a -G ssh-user
+groupadd ssh-user
+usermod -a -G ssh-user root
 
 truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog
@@ -94,9 +98,10 @@ service sshd restart
 
 }
 
-#update_openssh() {
-#update
-#}
+update_openssh() {
+#im moment platzhalter, bis wir openssh selbst kompilieren
+apt-get update
+}
 
 change_openssh_port() {
 
