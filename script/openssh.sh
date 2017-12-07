@@ -25,7 +25,7 @@ BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-		OPTIONS=(1 "Install Openssh (dependencies missing)"
+		OPTIONS=(1 "Install Openssh dependencies missing"
 				 2 "Update Openssh"
 				 3 "Change Openssh Port"
 				 4 "Create new Openssh Key"
@@ -45,16 +45,20 @@ MENU="Choose one of the following options:"
 		clear
 		case $CHOICE in
 				1)
-					install_openssh()
+					source /root/script/logs.sh; set_logs
+					install_openssh
+					#ssh pw vorher eingeben lassen?
+					#danach show key
+					#connecten nicht möglich
 					;;
 				2)
-					update_openssh()
+					update_openssh
 					;;
 				3)
-					change_openssh_port()
+					change_openssh_port
 					;;
 				4)
-					create_new_openssh_key()
+					create_new_openssh_key
 					;;
 				5)
 					bash /root/start.sh;
