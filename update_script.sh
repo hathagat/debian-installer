@@ -30,6 +30,7 @@ cp ${SCRIPT_PATH}/ssh_privatekey.txt /root/backup_next_server/
 
 #reset branch
 cd ${SCRIPT_PATH}
+git fetch
 git reset --hard origin/master
 
 #restore backup
