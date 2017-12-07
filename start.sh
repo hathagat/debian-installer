@@ -25,6 +25,7 @@ apt-get -qq update
 apt-get -qq install dialog >/dev/null 2>&1
 
 source ~/configs/versions.cfg
+source /root/script/functions.sh
 
 HEIGHT=30
 WIDTH=60

@@ -45,6 +45,7 @@ MENU="Choose one of the following options:"
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssl" $HEIGHT $WIDTH
 				source /root/script/logs.sh; set_logs
+				source /root/script/prerequisites.sh; prerequisites
 				install_openssl
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
 				exit 1
@@ -52,6 +53,7 @@ MENU="Choose one of the following options:"
 			2)
 			    dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssl" $HEIGHT $WIDTH
 				source /root/script/logs.sh; set_logs
+				source /root/script/prerequisites.sh; prerequisites
 				update_openssl
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssl" $HEIGHT $WIDTH
 				;;
@@ -134,6 +136,7 @@ else
 
 	HEIGHT=10
 	WIDTH=70
-	dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "No Openssl Update needed! Local Openssl Version: ${LOCAL_OPENSSL_VERSION}. Version to be installed: ${OPENSSL_VERSION}" $HEIGHT $WIDTH
+	dialog --backtitle "NeXt Server installation!" --infobox "No Openssl Update needed! Local Openssl Version: ${LOCAL_OPENSSL_VERSION}. Version to be installed: ${OPENSSL_VERSION}" $HEIGHT $WIDTH
+	exit 1
 fi
 }

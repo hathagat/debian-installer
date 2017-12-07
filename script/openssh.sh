@@ -47,8 +47,8 @@ MENU="Choose one of the following options:"
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssh" $HEIGHT $WIDTH
 				source /root/script/logs.sh; set_logs
+				source /root/script/prerequisites.sh; prerequisites
 				install_openssh
-				#ssh pw vorher eingeben lassen?
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
 				echo
 				echo
@@ -61,6 +61,7 @@ MENU="Choose one of the following options:"
 			2)
 				dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssh" $HEIGHT $WIDTH
 				source /root/script/logs.sh; set_logs
+				source /root/script/prerequisites.sh; prerequisites
 				update_openssh
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssh" $HEIGHT $WIDTH
 				;;
@@ -73,7 +74,7 @@ MENU="Choose one of the following options:"
 							$HEIGHT $WIDTH \
 							3>&1 1>&2 2>&3 3>&- \
 							)
-					if [[ ${INPUT_NEW_SSH_PORT} =~ ^-?[0-9]+$ ]]; then
+					if [[ $INPUT_NEW_SSH_PORT =~ ^-?[0-9]+$ ]]; then
 						if [[ -v BLOCKED_PORTS[$INPUT_NEW_SSH_PORT] ]]; then
 							dialog --title "NeXt Server Confighelper" --msgbox "$INPUT_NEW_SSH_PORT is known. Choose an other Port!" $HEIGHT $WIDTH
 							dialog --clear
@@ -88,8 +89,7 @@ MENU="Choose one of the following options:"
 					fi
 				done
 				change_openssh_port
-				dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "Changed SSH Port to ${NEW_SSH_PORT}" $HEIGHT $WIDTH
-				#maybe write to credentials (if existing)?
+				dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH Port to $NEW_SSH_PORT" $HEIGHT $WIDTH
 				;;
 			4)
 				create_new_openssh_key
@@ -106,13 +106,15 @@ MENU="Choose one of the following options:"
 
 install_openssh() {
 
-#installing ssh
 apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}"
 
 cp ~/configs/sshd_config /etc/ssh/sshd_config
 cp ~/includes/issue /etc/issue
 
-ssh-keygen -f ~/ssh.key -t ed25519 -N ${SSH_PASS} >>"${main_log}" 2>>"${err_log}"
+SSH_PASS=$(password)
+echo  "Openssh password: $SSH_PASS" >> /root/login_information
+
+ssh-keygen -f ~/ssh.key -t ed25519 -N SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
@@ -132,7 +134,7 @@ update_openssh() {
 source configs/versions.cfg
 
 LOCAL_OPENSSH_VERSION_STRING=$(ssh -V 2>&1)
-LOCAL_OPENSSH_VERSION=$(echo $LOCAL_OPENSSH_VERSION_STRING | cut -c9-14)
+LOCAL_OPENSSH_VERSION=$(echo $LOCAL_OPENSSH_VERSION_STRING | cut -c9-13)
 
 if [[ ${LOCAL_OPENSSH_VERSION} != ${OPENSSH_VERSION} ]]; then
 	#Im moment Platzhalter, bis wir Openssh selbst kompilieren
@@ -140,13 +142,15 @@ if [[ ${LOCAL_OPENSSH_VERSION} != ${OPENSSH_VERSION} ]]; then
 else
 	HEIGHT=10
 	WIDTH=70
-	dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "No Openssh Update needed! Local OpenssH Version: ${LOCAL_OPENSSH_VERSION}. Version to be installed: ${OPENSSH_VERSION}" $HEIGHT $WIDTH
+	dialog --backtitle "NeXt Server installation!" --infobox "No Openssh Update needed! Local Openssh Version: ${LOCAL_OPENSSH_VERSION}. Version to be installed: ${OPENSSH_VERSION}" $HEIGHT $WIDTH
+	exit 1
 fi
 }
 
 change_openssh_port() {
 
-sed -i "s/^Port .*/Port ${NEW_SSH_PORT}/g" /etc/ssh/sshd_config
+sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
+echo  "New Openssh Port: $NEW_SSH_PORT" >> /root/login_information
 
 service sshd restart
 }
@@ -182,6 +186,6 @@ service sshd restart
 
 HEIGHT=10
 WIDTH=70
-dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "Changed SSH password to ${SSH_PASS}" $HEIGHT $WIDTH
+dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH password to ${SSH_PASS}" $HEIGHT $WIDTH
 #maybe write to credentials?
 }
