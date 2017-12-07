@@ -21,6 +21,7 @@ source /root/configs/versions.cfg
 #if [[ ${INSTALLATION} = "1" ]]; then
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
 	source /root/script/logs.sh; set_logs
+	source /root/script/functions.sh
 	source /root/script/prerequisites.sh; prerequisites
 	source /root/script/checksystem.sh; check_system
 
