@@ -16,6 +16,55 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
+menu_options_openssl() {
+
+HEIGHT=30
+WIDTH=60
+CHOICE_HEIGHT=4
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
+MENU="Choose one of the following options:"
+
+	OPTIONS=(1 "Install Openssl"
+			 2 "Update Openssl"
+			 3 "Back"
+			 4 "Exit")
+
+	CHOICE=$(dialog --clear \
+					--nocancel \
+					--no-cancel \
+					--backtitle "$BACKTITLE" \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+	clear
+	case $CHOICE in
+			1)
+				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssl" $HEIGHT $WIDTH
+				source /root/script/logs.sh; set_logs
+				install_openssl
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
+				exit 1
+				;;
+			2)
+			    dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssl" $HEIGHT $WIDTH
+				source /root/script/logs.sh; set_logs
+				update_openssl
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssl" $HEIGHT $WIDTH
+				;;
+			3)
+				bash /root/start.sh;
+				;;
+			4)
+				echo "Exit"
+				exit 1
+				;;
+	esac
+}
+
 install_openssl() {
 
 mkdir -p ~/sources/

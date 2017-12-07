@@ -25,53 +25,83 @@ BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-		OPTIONS=(1 "Install Openssh"
-				 2 "Update Openssh"
-				 3 "Change Openssh Port"
-				 4 "Create new Openssh Key"
-				 5 "Back"
-				 6 "Exit")
+	OPTIONS=(1 "Install Openssh"
+			 2 "Update Openssh"
+			 3 "Change Openssh Port"
+			 4 "Create new Openssh Key"
+			 5 "Back"
+			 6 "Exit")
 
-		CHOICE=$(dialog --clear \
-						--nocancel \
-						--no-cancel \
-						--backtitle "$BACKTITLE" \
-						--title "$TITLE" \
-						--menu "$MENU" \
-						$HEIGHT $WIDTH $CHOICE_HEIGHT \
-						"${OPTIONS[@]}" \
-						2>&1 >/dev/tty)
+	CHOICE=$(dialog --clear \
+					--nocancel \
+					--no-cancel \
+					--backtitle "$BACKTITLE" \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
 
-		clear
-		case $CHOICE in
-				1)
-					dialog --backtitle "NeXt Server Installation" --msgbox "Installing Openssh" $HEIGHT $WIDTH
-					source /root/script/logs.sh; set_logs
-					install_openssh
-					#ssh pw vorher eingeben lassen?
-					echo "Password for your ssh key = ${SSH_PASS}"
-					echo
-					echo
-					cat ~/ssh_privatekey.txt
-					exit 1
-					;;
-				2)
-					update_openssh
-					;;
-				3)
-					change_openssh_port
-					;;
-				4)
-					create_new_openssh_key
-					;;
-				5)
-					bash /root/start.sh;
-					;;
-				6)
-					echo "Exit"
-					exit 1
-					;;
-		esac
+	clear
+	case $CHOICE in
+			1)
+				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssh" $HEIGHT $WIDTH
+				source /root/script/logs.sh; set_logs
+				install_openssh
+				#ssh pw vorher eingeben lassen?
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
+				echo
+				echo
+				echo "Password for your ssh key = ${SSH_PASS}"
+				echo
+				echo
+				cat ~/ssh_privatekey.txt
+				exit 1
+				;;
+			2)
+				dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssh" $HEIGHT $WIDTH
+				source /root/script/logs.sh; set_logs
+				update_openssh
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssh" $HEIGHT $WIDTH
+				;;
+			3)
+			while true
+				do
+					INPUT_NEW_SSH_PORT=$(dialog --clear \
+							--backtitle "$BACKTITLE" \
+							--inputbox "Enter your SSH Port (only max. 3 numbers!):" \
+							$HEIGHT $WIDTH \
+							3>&1 1>&2 2>&3 3>&- \
+							)
+					if [[ ${INPUT_NEW_SSH_PORT} =~ ^-?[0-9]+$ ]]; then
+						if [[ -v BLOCKED_PORTS[$INPUT_NEW_SSH_PORT] ]]; then
+							dialog --title "NeXt Server Confighelper" --msgbox "$INPUT_NEW_SSH_PORT is known. Choose an other Port!" $HEIGHT $WIDTH
+							dialog --clear
+						else
+							NEW_SSH_PORT="$INPUT_NEW_SSH_PORT"
+							echo " you port is $NEW_SSH_PORT"
+							break
+						fi
+					else
+					dialog --title "NeXt Server Confighelper" --msgbox "The Port should only contain numbers!" $HEIGHT $WIDTH
+					dialog --clear
+					fi
+				done
+				change_openssh_port
+				dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "Changed SSH Port to ${NEW_SSH_PORT}" $HEIGHT $WIDTH
+				#maybe write to credentials (if existing)?
+				;;
+			4)
+				create_new_openssh_key
+				;;
+			5)
+				bash /root/start.sh;
+				;;
+			6)
+				echo "Exit"
+				exit 1
+				;;
+	esac
 }
 
 install_openssh() {
@@ -95,62 +125,37 @@ truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog
 
 service sshd restart
-
 }
 
 update_openssh() {
-#im moment platzhalter, bis wir openssh selbst kompilieren
-apt-get update
+
+source configs/versions.cfg
+
+LOCAL_OPENSSH_VERSION_STRING=$(ssh -V 2>&1)
+LOCAL_OPENSSH_VERSION=$(echo $LOCAL_OPENSSH_VERSION_STRING | cut -c9-14)
+
+if [[ ${LOCAL_OPENSSH_VERSION} != ${OPENSSH_VERSION} ]]; then
+	#Im moment Platzhalter, bis wir Openssh selbst kompilieren
+	apt-get update
+else
+	HEIGHT=10
+	WIDTH=70
+	dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "No Openssh Update needed! Local OpenssH Version: ${LOCAL_OPENSSH_VERSION}. Version to be installed: ${OPENSSH_VERSION}" $HEIGHT $WIDTH
+fi
 }
 
 change_openssh_port() {
 
-#change ssh port
-BACKTITLE="NeXt Server Installation"
-TITLE="NeXt Server Installation"
-HEIGHT=30
-WIDTH=60
-
-while true
-	do
-		NEW_SSH_PORT=$(dialog --clear \
-				--backtitle "$BACKTITLE" \
-				--inputbox "Enter your SSH Port (only max. 3 numbers!):" \
-				$HEIGHT $WIDTH \
-				3>&1 1>&2 2>&3 3>&- \
-				)
-		if [[ ${NEW_SSH_PORT} =~ ^-?[0-9]+$ ]]; then
-			if [[ -v BLOCKED_PORTS[$NEW_SSH_PORT] ]]; then
-				dialog --title "NeXt Server Confighelper" --msgbox "$NEW_SSH_PORT is known. Choose an other Port!" $HEIGHT $WIDTH
-				dialog --clear
-			else
-				SSH_PORT="$NEW_SSH_PORT"
-				echo " you port is $SSH_PORT"
-				break
-			fi
-		else
-		dialog --title "NeXt Server Confighelper" --msgbox "The Port should only contain numbers!" $HEIGHT $WIDTH
-		dialog --clear
-		fi
-	done
-
-sed -i "s/^Port .*/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
+sed -i "s/^Port .*/Port ${NEW_SSH_PORT}/g" /etc/ssh/sshd_config
 
 service sshd restart
-
-HEIGHT=10
-WIDTH=70
-dialog --backtitle "Welcome to the NeXt Server installation!" --infobox "Changed SSH Port to ${SSH_PORT}" $HEIGHT $WIDTH
-#maybe write to credentials?
 }
 
 create_new_openssh_key() {
 
-
 ##############
 #delete or backup old key, when new is created - or prompt that the old key will be deleted?
 #############
-
 
 #create ssh key
 BACKTITLE="NeXt Server Installation"

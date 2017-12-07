@@ -35,7 +35,8 @@ MENU="Choose one of the following options:"
 
 		OPTIONS=(1 "Install NeXt Server ${NEXT_VERSION}"
 				 		 2 "Openssh Options"
-			     	 3 "Exit")
+						 3 "Openssl Options"
+			     	 4 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -57,6 +58,9 @@ MENU="Choose one of the following options:"
 					source script/openssh.sh; menu_options_openssh
 					;;
 				3)
+					source script/openssl.sh; menu_options_openssl
+					;;
+				4)
 					echo "Exit"
 					exit 1
 					;;
