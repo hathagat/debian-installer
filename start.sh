@@ -29,7 +29,7 @@ source /root/script/functions.sh
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=6
+CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -37,7 +37,10 @@ MENU="Choose one of the following options:"
 		OPTIONS=(1 "Install NeXt Server ${NEXT_VERSION}"
 				 		 2 "Openssh Options"
 						 3 "Openssl Options"
-			     	 4 "Exit")
+						 4 "Fail2ban Options"
+						 5 "Nginx vHost Options"
+						 6 "Lets Encrypt Options"
+			     	 7 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -62,6 +65,15 @@ MENU="Choose one of the following options:"
 					source script/openssl.sh; menu_options_openssl
 					;;
 				4)
+					source script/fail2ban.sh; menu_options_fail2ban
+					;;
+				5)
+					source script/nginx_vhost.sh; menu_options_nginx_vhost
+					;;
+				6)
+					source script/lets_encrypt.sh; menu_options_lets_encrypt
+					;;
+				7)
 					echo "Exit"
 					exit 1
 					;;

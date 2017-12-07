@@ -16,9 +16,57 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-install_lets_encrypt() {
+menu_options_lets_encrypt() {
 
-set -x
+HEIGHT=30
+WIDTH=60
+CHOICE_HEIGHT=4
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
+MENU="Choose one of the following options:"
+
+	OPTIONS=(1 "Update Lets Encrypt"
+				 	 2 "Renew Certificates"
+			 	   3 "Back"
+			  	 4 "Exit")
+
+	CHOICE=$(dialog --clear \
+					--nocancel \
+					--no-cancel \
+					--backtitle "$BACKTITLE" \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+	clear
+	case $CHOICE in
+			1)
+        dialog --backtitle "NeXt Server Installation" --infobox "Updating Lets Encrypt" $HEIGHT $WIDTH
+        source /root/script/logs.sh; set_logs
+        source /root/script/prerequisites.sh; prerequisites
+        update_lets_encrypt
+        dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Lets Encrypt" $HEIGHT $WIDTH
+				;;
+			2)
+        dialog --backtitle "NeXt Server Installation" --infobox "Renew Lets Encrypt Certs" $HEIGHT $WIDTH
+        source /root/script/logs.sh; set_logs
+        source /root/script/prerequisites.sh; prerequisites
+        renew_lets_encrypt_certs
+        dialog --backtitle "NeXt Server Installation" --msgbox "Finished renewing Lets Encrypt Certs" $HEIGHT $WIDTH
+				;;
+			3)
+				bash /root/start.sh;
+				;;
+			4)
+				echo "Exit"
+				exit 1
+				;;
+	esac
+}
+
+install_lets_encrypt() {
 
 echo "50" | dialog --gauge "Creating SSL CERT - This can take a long time! ..." 10 70 0
 # SSL certificate
@@ -62,4 +110,24 @@ HPKP2=$(openssl rand -base64 32)
 
 openssl dhparam -out /etc/nginx/ssl/dh.pem 1024 >>"${main_log}" 2>>"${err_log}"
 ##### change for release to 4096 ##############
+}
+
+update_lets_encrypt() {
+
+  #maybe add acme.sh --upgrade --auto-upgrade?
+  cd /root/.acme.sh/
+  acme.sh --upgrade
+}
+
+renew_lets_encrypt_certs() {
+  
+source /root/configs/versions.cfg
+
+cd /root/.acme.sh/
+
+if [[ ${USE_MAILSERVER} == '1' ]]; then
+	bash acme.sh --renew -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --force --ecc >>"${main_log}" 2>>"${err_log}"
+else
+  bash acme.sh --renew -d ${MYDOMAIN} -d www.${MYDOMAIN} --force --ecc >>"${main_log}" 2>>"${err_log}"
+fi
 }
