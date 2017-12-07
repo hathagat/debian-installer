@@ -129,6 +129,11 @@ apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${ma
 cp ~/configs/sshd_config /etc/ssh/sshd_config
 cp ~/includes/issue /etc/issue
 
+RANDOM_SSH_PORT="$(($RANDOM % 1023))"
+SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
+sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
+echo  "Openssh Port: $SSH_PORT" >> /root/login_information
+
 SSH_PASS=$(password)
 echo  "Openssh password: $SSH_PASS" >> /root/login_information
 
