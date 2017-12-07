@@ -5,17 +5,7 @@ Please download only versions tagged with latest release!
 
 [Get the latest release](https://github.com/shoujii/next/releases/latest "Latest Release"):
 ```
-wget -O ~/next.tar.gz https://github.com/shoujii/next/archive/0.1.tar.gz --no-check-certificate
-```
-
-Extract:
-```
-tar -xzf ~/next.tar.gz -C ~/ --strip-components=1
-```
-
-Start the installation script:
-```
-bash ~/start.sh
+apt-get update; apt-get install git -y; git clone https://github.com/shoujii/NeXt-Server; cd NeXt-Server; bash ~/NeXt-Server/start.sh
 ```
 
 Follow the instructions! 
