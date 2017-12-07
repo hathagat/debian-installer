@@ -60,7 +60,6 @@ MENU="Choose one of the following options:"
 				echo
 				echo "Your SSH Key"
 				cat ~/ssh_privatekey.txt
-				echo "You can also find your SSH key at /root/ssh_privatekey.txt"
 				exit 1
 				;;
 			2)
@@ -111,7 +110,6 @@ MENU="Choose one of the following options:"
 				echo
 				echo "Your new SSH Key"
 				cat ~/ssh_privatekey.txt
-				echo "You can also find your new SSH key at /root/ssh_privatekey.txt"
 				exit 1
 				;;
 			5)
@@ -171,31 +169,19 @@ fi
 change_openssh_port() {
 
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
-echo  "New Openssh Port: $NEW_SSH_PORT" >> /root/login_information
+echo  "New Openssh Port: " >> /root/login_information
+echo  "$NEW_SSH_PORT" >> /root/login_information
 
 service sshd restart
 }
 
 create_new_openssh_key() {
 
-BACKTITLE="NeXt Server Installation"
-TITLE="NeXt Server Installation"
-HEIGHT=30
-WIDTH=60
-
-NEW_SSH_PW=$(dialog --clear \
-					--backtitle "$BACKTITLE" \
-					--inputbox "Enter your new SSH password:" \
-					$HEIGHT $WIDTH \
-					3>&1 1>&2 2>&3 3>&- \
-					)
-
-SSH_PASS="$NEW_SSH_PW"
-
 rm -rf ~/.ssh/*
 
 SSH_PASS=$(password)
-echo  "New Openssh password: $SSH_PASS" >> /root/login_information
+echo  "New Openssh password: " >> /root/login_information
+echo  "$SSH_PASS" >> /root/login_information
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -204,5 +190,4 @@ chmod 600 ~/.ssh/authorized_keys2
 mv ~/ssh.key ~/ssh_privatekey.txt
 
 service sshd restart
-
 }

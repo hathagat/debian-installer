@@ -47,7 +47,7 @@ MENU="Choose one of the following options:"
 				source /root/script/logs.sh; set_logs
 				source /root/script/prerequisites.sh; prerequisites
 				install_openssl
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssl" $HEIGHT $WIDTH
 				exit 1
 				;;
 			2)
