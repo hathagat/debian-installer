@@ -29,18 +29,20 @@ source /root/script/functions.sh
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
 		OPTIONS=(1 "Install NeXt Server ${NEXT_VERSION}"
-				 		 2 "Openssh Options"
-						 3 "Openssl Options"
-						 4 "Fail2ban Options"
-						 5 "Nginx vHost Options"
-						 6 "Lets Encrypt Options"
-			     	 7 "Exit")
+						 2 "Update all services"
+				 		 3 "Openssh Options"
+						 4 "Openssl Options"
+						 5 "Fail2ban Options"
+						 6 "Nginx vHost Options"
+						 7 "Lets Encrypt Options"
+						 8 "Firewall Settings"
+						 9 "Update NeXt Server Script"
+			     	 10 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -59,21 +61,39 @@ MENU="Choose one of the following options:"
 					bash install.sh
 					;;
 				2)
-					source script/openssh.sh; menu_options_openssh
+					#check if installed, otherwise skip single services
+					dialog --backtitle "NeXt Server Installation" --infobox "Updating all services" $HEIGHT $WIDTH
+					source /root/script/logs.sh; set_logs
+					source /root/script/prerequisites.sh; prerequisites
+
+					source script/openssh.sh; update_openssh
+					source script/openssl.sh; update_openssl
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
 					;;
 				3)
-					source script/openssl.sh; menu_options_openssl
+					source script/openssh.sh; menu_options_openssh
 					;;
 				4)
-					source script/fail2ban.sh; menu_options_fail2ban
+					source script/openssl.sh; menu_options_openssl
 					;;
 				5)
-					source script/nginx_vhost.sh; menu_options_nginx_vhost
+					source script/fail2ban.sh; menu_options_fail2ban
 					;;
 				6)
-					source script/lets_encrypt.sh; menu_options_lets_encrypt
+					source script/nginx_vhost.sh; menu_options_nginx_vhost
 					;;
 				7)
+					source script/lets_encrypt.sh; menu_options_lets_encrypt
+					;;
+				8)
+					#firewall settings
+					#source script/lets_encrypt.sh; menu_options_lets_encrypt
+					apt-get update
+					;;
+				9)
+					source /root/update_script.sh; update_script
+					;;
+				10)
 					echo "Exit"
 					exit 1
 					;;
