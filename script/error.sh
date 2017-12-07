@@ -44,57 +44,57 @@ echo "$1" 1>&2
 				#Get OS
 				USED_OS=$(lsb_release -is)
 
-				sed -i "s/${MYDOMAIN}/domain.tld/g" /root/logs/main.log
-				sed -i "s/${LOGIN_DATA_MAIL_PW}/LOGIN_DATA_MAIL_PW/g" /root/logs/main.log
-				sed -i "s/${SSH_PASS}/SSH_PASS/g" /root/logs/main.log
-				sed -i "s/${POSTFIX_ADMIN_PASS}/POSTFIX_ADMIN_PASS/g" /root/logs/main.log
-				sed -i "s/${VIMB_MYSQL_PASS}/VIMB_MYSQL_PASS/g" /root/logs/main.log
-				sed -i "s/${ROUNDCUBE_MYSQL_PASS}/ROUNDCUBE_MYSQL_PASS/g" /root/logs/main.log
-				sed -i "s/${PMA_HTTPAUTH_PASS}/PMA_HTTPAUTH_PASS/g" /root/logs/main.log
-				sed -i "s/${PMA_BFSECURE_PASS}/PMA_BFSECURE_PASS/g" /root/logs/main.log
-				sed -i "s/${MYSQL_ROOT_PASS}/MYSQL_ROOT_PASS/g" /root/logs/main.log
-				sed -i "s/${MYSQL_PMADB_PASS}/MYSQL_PMADB_PASS/g" /root/logs/main.log
+				sed -i "s/${MYDOMAIN}/domain.tld/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${LOGIN_DATA_MAIL_PW}/LOGIN_DATA_MAIL_PW/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${SSH_PASS}/SSH_PASS/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${POSTFIX_ADMIN_PASS}/POSTFIX_ADMIN_PASS/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${VIMB_MYSQL_PASS}/VIMB_MYSQL_PASS/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${ROUNDCUBE_MYSQL_PASS}/ROUNDCUBE_MYSQL_PASS/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${PMA_HTTPAUTH_PASS}/PMA_HTTPAUTH_PASS/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${PMA_BFSECURE_PASS}/PMA_BFSECURE_PASS/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${MYSQL_ROOT_PASS}/MYSQL_ROOT_PASS/g" ${SCRIPT_PATH}/logs/main.log
+				sed -i "s/${MYSQL_PMADB_PASS}/MYSQL_PMADB_PASS/g" ${SCRIPT_PATH}/logs/main.log
 
-				sed -i "s/${MYDOMAIN}/domain.tld/g" /root/logs/error.log
-				sed -i "s/${LOGIN_DATA_MAIL_PW}/LOGIN_DATA_MAIL_PW/g" /root/logs/error.log
-				sed -i "s/${SSH_PASS}/SSH_PASS/g" /root/logs/error.log
-				sed -i "s/${POSTFIX_ADMIN_PASS}/POSTFIX_ADMIN_PASS/g" /root/logs/error.log
-				sed -i "s/${VIMB_MYSQL_PASS}/VIMB_MYSQL_PASS/g" /root/logs/error.log
-				sed -i "s/${ROUNDCUBE_MYSQL_PASS}/ROUNDCUBE_MYSQL_PASS/g" /root/logs/error.log
-				sed -i "s/${PMA_HTTPAUTH_PASS}/PMA_HTTPAUTH_PASS/g" /root/logs/error.log
-				sed -i "s/${PMA_BFSECURE_PASS}/PMA_BFSECURE_PASS/g" /root/logs/error.log
-				sed -i "s/${MYSQL_ROOT_PASS}/MYSQL_ROOT_PASS/g" /root/logs/error.log
-				sed -i "s/${MYSQL_PMADB_PASS}/MYSQL_PMADB_PASS/g" /root/logs/error.log
+				sed -i "s/${MYDOMAIN}/domain.tld/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${LOGIN_DATA_MAIL_PW}/LOGIN_DATA_MAIL_PW/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${SSH_PASS}/SSH_PASS/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${POSTFIX_ADMIN_PASS}/POSTFIX_ADMIN_PASS/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${VIMB_MYSQL_PASS}/VIMB_MYSQL_PASS/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${ROUNDCUBE_MYSQL_PASS}/ROUNDCUBE_MYSQL_PASS/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${PMA_HTTPAUTH_PASS}/PMA_HTTPAUTH_PASS/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${PMA_BFSECURE_PASS}/PMA_BFSECURE_PASS/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${MYSQL_ROOT_PASS}/MYSQL_ROOT_PASS/g" ${SCRIPT_PATH}/logs/error.log
+				sed -i "s/${MYSQL_PMADB_PASS}/MYSQL_PMADB_PASS/g" ${SCRIPT_PATH}/logs/error.log
 
-				sed -i '/MYDOMAIN=/d' /root/configs/userconfig.cfg
-				sed -i '/SSLMAIL=/d' /root/configs/userconfig.cfg
-				sed -i '/LOGIN_DATA_MAIL_PW=/d' /root/configs/userconfig.cfg
-				sed -i '/SSH_PASS=/d' /root/configs/userconfig.cfg
-				sed -i '/POSTFIX_ADMIN_PASS=/d' /root/configs/userconfig.cfg
-				sed -i '/VIMB_MYSQL_PASS=/d' /root/configs/userconfig.cfg
-				sed -i '/ROUNDCUBE_MYSQL_PASS=/d' /root/configs/userconfig.cfg
-				sed -i '/PMA_HTTPAUTH_PASS=/d' /root/configs/userconfig.cfg
-				sed -i '/PMA_BFSECURE_PASS=/d' /root/configs/userconfig.cfg
-				sed -i '/MYSQL_ROOT_PASS=/d' /root/configs/userconfig.cfg
-				sed -i '/MYSQL_PMADB_PASS=/d' /root/configs/userconfig.cfg
+				sed -i '/MYDOMAIN=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/SSLMAIL=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/LOGIN_DATA_MAIL_PW=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/SSH_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/POSTFIX_ADMIN_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/VIMB_MYSQL_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/ROUNDCUBE_MYSQL_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/PMA_HTTPAUTH_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/PMA_BFSECURE_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/MYSQL_ROOT_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i '/MYSQL_PMADB_PASS=/d' ${SCRIPT_PATH}/configs/userconfig.cfg
 
-				echo -e "##-----------------------------------------------##" >> /root/configs/userconfig.cfg
-				echo -e "##----------From Error reporting System----------##" >> /root/configs/userconfig.cfg
-				echo -e "##----------The file has been anonymized!--------##" >> /root/configs/userconfig.cfg
-				echo -e "##-----------------------------------------------##" >> /root/configs/userconfig.cfg
+				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/configs/userconfig.cfg
+				echo -e "##----------From Error reporting System----------##" >> ${SCRIPT_PATH}/configs/userconfig.cfg
+				echo -e "##----------The file has been anonymized!--------##" >> ${SCRIPT_PATH}/configs/userconfig.cfg
+				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/configs/userconfig.cfg
 
-				echo -e "##-----------------------------------------------##" >> /root/logs/main.log
-				echo -e "##----------From Error reporting System----------##" >> /root/logs/main.log
-				echo -e "##----------The file has been anonymized!--------##" >> /root/logs/main.log
-				echo -e "##-----------------------------------------------##" >> /root/logs/main.log
+				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/logs/main.log
+				echo -e "##----------From Error reporting System----------##" >> ${SCRIPT_PATH}/logs/main.log
+				echo -e "##----------The file has been anonymized!--------##" >> ${SCRIPT_PATH}/logs/main.log
+				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/logs/main.log
 
-				echo -e "##-----------------------------------------------##" >> /root/logs/error.log
-				echo -e "##----------From Error reporting System----------##" >> /root/logs/error.log
-				echo -e "##----------The file has been anonymized!--------##" >> /root/logs/error.log
-				echo -e "##-----------------------------------------------##" >> /root/logs/error.log
+				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/logs/error.log
+				echo -e "##----------From Error reporting System----------##" >> ${SCRIPT_PATH}/logs/error.log
+				echo -e "##----------The file has been anonymized!--------##" >> ${SCRIPT_PATH}/logs/error.log
+				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/logs/error.log
 
 				#PGP issue
-				echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server script. Error: $1" | mutt -a "/root/logs/main.log" "/root/logs/error.log" "/root/logs/make.log" "/root/logs/make_error.log" "/root/configs/userconfig.cfg" "/root/logs/addons_error.log" -s "FAILED INSTALLATION OF PERFECT ROOTSERVER" -- error@perfectrootserver.de >/dev/null 2>&1
+				echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server script. Error: $1" | mutt -a "${SCRIPT_PATH}/logs/main.log" "${SCRIPT_PATH}/logs/error.log" "${SCRIPT_PATH}/logs/make.log" "${SCRIPT_PATH}/logs/make_error.log" "${SCRIPT_PATH}/configs/userconfig.cfg" "${SCRIPT_PATH}/logs/addons_error.log" -s "FAILED INSTALLATION OF PERFECT ROOTSERVER" -- error@perfectrootserver.de >/dev/null 2>&1
 
 				HEIGHT=15
 				WIDTH=70

@@ -49,7 +49,7 @@ MENU="Choose one of the following options:"
 				echo "Placeholder"
 				;;
 			3)
-				bash /root/start.sh;
+				bash ${SCRIPT_PATH}/start.sh;
 				;;
 			4)
 				echo "Exit"

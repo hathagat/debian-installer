@@ -190,7 +190,7 @@ mkdir -p /etc/nginx/html/${MYDOMAIN}
 
 systemctl -q restart nginx.service
 
-cp /root/prs-logo.jpg /etc/nginx/html/${MYDOMAIN}/
+cp ${SCRIPT_PATH}/prs-logo.jpg /etc/nginx/html/${MYDOMAIN}/
 
 cat > /etc/nginx/html/${MYDOMAIN}/index.html <<END
 <!DOCTYPE html>

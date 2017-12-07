@@ -18,8 +18,8 @@
 
 set_logs() {
 
-main_log="/root/logs/main.log"
-err_log="/root/logs/error.log"
-make_log="/root/logs/make.log"
-make_err_log="/root/logs/make_error.log"
+main_log="${SCRIPT_PATH}/logs/main.log"
+err_log="${SCRIPT_PATH}/logs/error.log"
+make_log="${SCRIPT_PATH}/logs/make.log"
+make_err_log="${SCRIPT_PATH}/logs/make_error.log"
 }

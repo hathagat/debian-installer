@@ -17,6 +17,22 @@
 #-------------------------------------------------------------------------------------------------------------
 
 update_script() {
-#Placeholder
-apt-get update
+
+mkdir -p /root/backup_next_server
+
+#backup first
+
+### add more important stuff to backup ###
+mkdir -p /root/backup_next_server/logs
+cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
+cp ${SCRIPT_PATH}/NeXt-Server/login_information /root/backup_next_server/
+cp ${SCRIPT_PATH}/ssh_privatekey.txt /root/backup_next_server/
+
+#reset branch
+cd ${SCRIPT_PATH}
+git reset --hard origin/master
+
+#restore backup
+
+
 }

@@ -44,20 +44,20 @@ MENU="Choose one of the following options:"
 	case $CHOICE in
 			1)
         dialog --backtitle "NeXt Server Installation" --infobox "Updating Lets Encrypt" $HEIGHT $WIDTH
-        source /root/script/logs.sh; set_logs
-        source /root/script/prerequisites.sh; prerequisites
+        source ${SCRIPT_PATH}/script/logs.sh; set_logs
+        source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
         update_lets_encrypt
         dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Lets Encrypt" $HEIGHT $WIDTH
 				;;
 			2)
         dialog --backtitle "NeXt Server Installation" --infobox "Renew Lets Encrypt Certs" $HEIGHT $WIDTH
-        source /root/script/logs.sh; set_logs
-        source /root/script/prerequisites.sh; prerequisites
+        source ${SCRIPT_PATH}/script/logs.sh; set_logs
+        source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
         renew_lets_encrypt_certs
         dialog --backtitle "NeXt Server Installation" --msgbox "Finished renewing Lets Encrypt Certs" $HEIGHT $WIDTH
 				;;
 			3)
-				bash /root/start.sh;
+				bash ${SCRIPT_PATH}/start.sh;
 				;;
 			4)
 				echo "Exit"
@@ -82,7 +82,7 @@ sleep 1
 
 . ~/.bashrc >>"${main_log}" 2>>"${err_log}"
 . ~/.profile >>"${main_log}" 2>>"${err_log}"
-cd /root/.acme.sh/
+cd ${SCRIPT_PATH}/.acme.sh/
 
 #if [[ ${USE_MAILSERVER} == '1' ]]; then
 #	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
@@ -97,13 +97,13 @@ HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}.pem | openssl pkey -pu
 HPKP2=$(openssl rand -base64 32)
 
 
-#ln -s /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
-#ln -s /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-ecc.key >>"${main_log}" 2>>"${err_log}"
+#ln -s ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
+#ln -s ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-ecc.key >>"${main_log}" 2>>"${err_log}"
 
-#Your cert is in  /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.cer
-#Your cert key is in  /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key
-#The intermediate CA cert is in  /root/.acme.sh/${MYDOMAIN}_ecc/ca.cer
-#And the full chain certs is there:  /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer
+#Your cert is in  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.cer
+#Your cert key is in  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key
+#The intermediate CA cert is in  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/ca.cer
+#And the full chain certs is there:  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer
 
 #HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}-ecc.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
 #HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"
@@ -115,15 +115,15 @@ openssl dhparam -out /etc/nginx/ssl/dh.pem 1024 >>"${main_log}" 2>>"${err_log}"
 update_lets_encrypt() {
 
   #maybe add acme.sh --upgrade --auto-upgrade?
-  cd /root/.acme.sh/
+  cd ${SCRIPT_PATH}/.acme.sh/
   acme.sh --upgrade
 }
 
 renew_lets_encrypt_certs() {
   
-source /root/configs/versions.cfg
+source ${SCRIPT_PATH}/configs/versions.cfg
 
-cd /root/.acme.sh/
+cd ${SCRIPT_PATH}/.acme.sh/
 
 if [[ ${USE_MAILSERVER} == '1' ]]; then
 	bash acme.sh --renew -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --force --ecc >>"${main_log}" 2>>"${err_log}"

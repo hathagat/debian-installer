@@ -45,30 +45,30 @@ MENU="Choose one of the following options:"
 	case $CHOICE in
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing fail2ban" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
-				source /root/script/prerequisites.sh; prerequisites
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				install_fail2ban
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing fail2ban" $HEIGHT $WIDTH
 				exit 1
 				;;
 			2)
 			  dialog --backtitle "NeXt Server Installation" --infobox "Updating fail2ban" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
-				source /root/script/prerequisites.sh; prerequisites
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				update_fail2ban
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating fail2ban" $HEIGHT $WIDTH
 				;;
 			3)
 			  dialog --backtitle "NeXt Server Installation" --infobox "Activating fail2ban jails" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
-				source /root/script/prerequisites.sh; prerequisites
-				
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+
 				#placeholder! functions will be added later
 				activate_fail2ban_jails
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished activating fail2ban jails" $HEIGHT $WIDTH
 				;;
 			4)
-				bash /root/start.sh;
+				bash ${SCRIPT_PATH}/start.sh;
 				;;
 			5)
 				echo "Exit"

@@ -46,13 +46,13 @@ MENU="Choose one of the following options:"
 	case $CHOICE in
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssh" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
-				source /root/script/prerequisites.sh; prerequisites
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				install_openssh
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
 				echo
 				echo
-				echo "You can find your SSH key at /root/ssh_privatekey.txt"
+				echo "You can find your SSH key at ${SCRIPT_PATH}/ssh_privatekey.txt"
 				echo
 				echo
 				echo "Password for your ssh key = $SSH_PASS"
@@ -64,8 +64,8 @@ MENU="Choose one of the following options:"
 				;;
 			2)
 				dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssh" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
-				source /root/script/prerequisites.sh; prerequisites
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				update_openssh
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssh" $HEIGHT $WIDTH
 				;;
@@ -97,12 +97,12 @@ MENU="Choose one of the following options:"
 				;;
 			4)
 				dialog --backtitle "NeXt Server Installation" --infobox "Creating new Openssh key" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
 				create_new_openssh_key
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished creating new ssh key" $HEIGHT $WIDTH
 				echo
 				echo
-				echo "You can find your New SSH key at /root/ssh_privatekey.txt"
+				echo "You can find your New SSH key at ${SCRIPT_PATH}/ssh_privatekey.txt"
 				echo
 				echo
 				echo "Password for your  new ssh key = $SSH_PASS"
@@ -113,7 +113,7 @@ MENU="Choose one of the following options:"
 				exit 1
 				;;
 			5)
-				bash /root/start.sh;
+				bash ${SCRIPT_PATH}/start.sh;
 				;;
 			6)
 				echo "Exit"
@@ -132,10 +132,10 @@ cp ~/includes/issue /etc/issue
 RANDOM_SSH_PORT="$(($RANDOM % 1023))"
 SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
-echo  "Openssh Port: $SSH_PORT" >> /root/login_information
+echo  "Openssh Port: $SSH_PORT" >> ${SCRIPT_PATH}/login_information
 
 SSH_PASS=$(password)
-echo  "Openssh password: $SSH_PASS" >> /root/login_information
+echo  "Openssh password: $SSH_PASS" >> ${SCRIPT_PATH}/login_information
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -174,8 +174,8 @@ fi
 change_openssh_port() {
 
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
-echo  "New Openssh Port: " >> /root/login_information
-echo  "$NEW_SSH_PORT" >> /root/login_information
+echo  "New Openssh Port: " >> ${SCRIPT_PATH}/login_information
+echo  "$NEW_SSH_PORT" >> ${SCRIPT_PATH}/login_information
 
 service sshd restart
 }
@@ -185,8 +185,8 @@ create_new_openssh_key() {
 rm -rf ~/.ssh/*
 
 SSH_PASS=$(password)
-echo  "New Openssh password: " >> /root/login_information
-echo  "$SSH_PASS" >> /root/login_information
+echo  "New Openssh password: " >> ${SCRIPT_PATH}/login_information
+echo  "$SSH_PASS" >> ${SCRIPT_PATH}/login_information
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh

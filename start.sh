@@ -19,13 +19,14 @@
 clear
 echo "NeXt Server"
 echo "Preparing menu..."
-apt-get -qq update
 
 #-------------dialog
 apt-get -qq install dialog >/dev/null 2>&1
 
+$SCRIPT_PATH=/root/NeXt-Server
+
 source ~/configs/versions.cfg
-source /root/script/functions.sh
+source ${SCRIPT_PATH}/script/functions.sh
 
 HEIGHT=30
 WIDTH=60
@@ -64,8 +65,8 @@ MENU="Choose one of the following options:"
 				2)
 					#check if installed, otherwise skip single services
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating all services" $HEIGHT $WIDTH
-					source /root/script/logs.sh; set_logs
-					source /root/script/prerequisites.sh; prerequisites
+					source ${SCRIPT_PATH}/script/logs.sh; set_logs
+					source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 					source script/openssh.sh; update_openssh
 					source script/openssl.sh; update_openssl
@@ -92,7 +93,7 @@ MENU="Choose one of the following options:"
 					apt-get update
 					;;
 				9)
-					source /root/update_script.sh; update_script
+					source ${SCRIPT_PATH}/update_script.sh; update_script
 					;;
 				10)
 					echo "Exit"

@@ -44,21 +44,21 @@ MENU="Choose one of the following options:"
 	case $CHOICE in
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssl" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
-				source /root/script/prerequisites.sh; prerequisites
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				install_openssl
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssl" $HEIGHT $WIDTH
 				exit 1
 				;;
 			2)
 			    dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssl" $HEIGHT $WIDTH
-				source /root/script/logs.sh; set_logs
-				source /root/script/prerequisites.sh; prerequisites
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				update_openssl
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssl" $HEIGHT $WIDTH
 				;;
 			3)
-				bash /root/start.sh;
+				bash ${SCRIPT_PATH}/start.sh;
 				;;
 			4)
 				echo "Exit"

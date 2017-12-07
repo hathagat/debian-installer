@@ -101,7 +101,7 @@ sed -i 's/.*BLOCK_NETSET_DIR=.*/BLOCK_NETSET_DIR="\/etc\/arno-iptables-firewall\
 
 cat > /etc/cron.daily/blocked-hosts <<END
 #!/bin/bash
-BLACKLIST_DIR="/root/sources/blacklist"
+BLACKLIST_DIR="${SCRIPT_PATH}/sources/blacklist"
 BLACKLIST="/etc/arno-iptables-firewall/blocklists/blocklist.netset"
 BLACKLIST_TEMP="\$BLACKLIST_DIR/blacklist"
 LIST=(
