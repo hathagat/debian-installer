@@ -123,7 +123,7 @@ cp ${SCRIPT_PATH}/configs/nginx/nginx.conf /etc/nginx/nginx.conf
 mkdir -p /etc/nginx/html/${MYDOMAIN}
 systemctl -q restart nginx.service
 
-cp ${SCRIPT_PATH}/prs-logo.jpg /etc/nginx/html/${MYDOMAIN}/
+cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/
 cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.html
 
 #Make folder writeable
