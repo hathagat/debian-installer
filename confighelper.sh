@@ -23,8 +23,8 @@ source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/menu.sh
 
 # --- GLOBAL MENU VARIABLES ---
-BACKTITLE="Perfect Root Server Installation"
-TITLE="Perfect Root Server Installation"
+BACKTITLE="NeXt Server Installation"
+TITLE="NeXt Server Installation"
 HEIGHT=30
 WIDTH=60
 
@@ -96,7 +96,7 @@ while true
 			if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
 				break
 			else
-				dialog --title "Perfectrootserver Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+				dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
 				dialog --clear
 			fi
 	done
@@ -133,7 +133,6 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	CONFIG_COMPLETED="${CONFIG_COMPLETED}"
 	TIMEZONE="${TIMEZONE}"
 	MYDOMAIN="${MYDOMAIN}"
-	#SSH_PORT="${SSH_PORT}"
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"

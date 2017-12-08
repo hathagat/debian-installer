@@ -68,8 +68,20 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	nginx_end=`date +%s`
 	nginxtime=$((nginx_end-nginx_start))
 
+	echo "45" | dialog --gauge "Installing PHP..." 10 70 0
+	php_start=`date +%s`
+	if [[ ${USE_PHP7_1} = "1" ]]; then
+		source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1
+	fi
+
+	if [[ ${USE_PHP7_2} = "1" ]]; then
+		source ${SCRIPT_PATH}/script/php7_2.sh; install_php_7_2
+	fi
+	php_end=`date +%s`
+	phptime=$((php_end-php_start))
+
 	firewall_start=`date +%s`
-	echo "25" | dialog --gauge "Installing Firewall..." 10 70 0
+	echo "55" | dialog --gauge "Installing Firewall..." 10 70 0
 	source ${SCRIPT_PATH}/script/firewall.sh; install_firewall
 	firewall_end=`date +%s`
 	firewalltime=$((firewall_end-firewall_start))
@@ -85,6 +97,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "$install_runtime_string SSH in seconds: ${opensshtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string fail2ban in seconds: ${fail2bantime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Nginx in seconds: ${nginxtime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string PHP in seconds: ${phptime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
