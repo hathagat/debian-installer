@@ -101,6 +101,9 @@ while true
 			fi
 	done
 
+##load checkdns function
+source ${SCRIPT_PATH}/script/checkdns.sh; check_dns
+
 # --- PHP ---
 CHOICE_HEIGHT=2
 MENU="Do you want to Use PHP 7.1 or PHP 7.2?:"

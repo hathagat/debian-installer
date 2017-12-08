@@ -60,7 +60,6 @@ MENU="Choose one of the following options:"
 		clear
 		case $CHOICE in
 				1)
-					source ${SCRIPT_PATH}/script/checkdns.sh; check_dns
 					source ${SCRIPT_PATH}/confighelper.sh; confighelper_userconfig
 					bash install.sh
 					;;
