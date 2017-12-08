@@ -238,11 +238,11 @@ END
 
 
 if [[ ${USE_PHP7_1} == '1' ]]; then
-	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf>>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 397! Aborting"
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
 fi
 
 if [[ ${USE_PHP7_2} == '1' ]]; then
-	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf>>"$main_log" 2>>"$err_log" || error_exit "Failed to SED nginx.sh Line 401! Aborting"
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
 fi
 
 ln -s /etc/nginx/sites-available/${MYDOMAIN}.conf /etc/nginx/sites-enabled/${MYDOMAIN}.conf
