@@ -20,24 +20,40 @@ SCRIPT_PATH="/root/NeXt-Server"
 source ${SCRIPT_PATH}/configs/versions.cfg
 
 #if [[ ${INSTALLATION} = "1" ]]; then
+	install_start=`date +%s`
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
 	source ${SCRIPT_PATH}/script/logs.sh; set_logs
 	source ${SCRIPT_PATH}/script/functions.sh
 	source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
+	system_end=`date +%s`
+	systemtime=$((system_end-install_start))
 
+  system_start=`date +%s`
 	echo "0" | dialog --gauge "Installing System..." 10 70 0
 	source ${SCRIPT_PATH}/script/system.sh; install_system
+	system_end=`date +%s`
+	systemtime=$((system_end-system_start))
 
+	openssl_start=`date +%s`
 	echo "2" | dialog --gauge "Installing OpenSSL..." 10 70 0
 	source ${SCRIPT_PATH}/script/openssl.sh; install_openssl
+	openssl_end=`date +%s`
+	openssltime=$((openssl_end-openssl_start))
 
+	openssh_start=`date +%s`
 	echo "5" | dialog --gauge "Installing OpenSSH..." 10 70 0
 	source ${SCRIPT_PATH}/script/openssh.sh; install_openssh
+	openssh_end=`date +%s`
+	opensshtime=$((openssh_end-openssh_start))
 
+	fail2ban_start=`date +%s`
 	echo "10" | dialog --gauge "Installing fail2ban..." 10 70 0
 	source ${SCRIPT_PATH}/script/fail2ban.sh; install_fail2ban
+	fail2ban_end=`date +%s`
+	fail2bantime=$((fail2ban_end-fail2ban_start))
 
+	nginx_start=`date +%s`
 	echo "12" | dialog --gauge "Installing Nginx Addons..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_addons.sh; install_nginx_addons
 
@@ -49,9 +65,32 @@ source ${SCRIPT_PATH}/configs/versions.cfg
 
 	echo "25" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
+	nginx_end=`date +%s`
+	nginxtime=$((nginx_end-nginx_start))
 
+	firewall_start=`date +%s`
 	echo "25" | dialog --gauge "Installing Firewall..." 10 70 0
 	source ${SCRIPT_PATH}/script/firewall.sh; install_firewall
+	firewall_end=`date +%s`
+	firewalltime=$((firewall_end-firewall_start))
+
+	install_end=`date +%s`
+	runtime=$((install_end-install_start))
+
+	touch ~/installation_times.txt
+	install_runtime_string="NeXt Server Installation runtime for"
+	echo "----------------------------------------------------------------------------------------" >> ~/installation_times.txt
+	echo "$install_runtime_string System preparation in seconds: ${systemtime}" >> ~/installation_times.txt
+	echo "$install_runtime_string SSL in seconds: ${openssltime}" >> ~/installation_times.txt
+	echo "$install_runtime_string SSH in seconds: ${opensshtime}" >> ~/installation_times.txt
+	echo "$install_runtime_string fail2ban in seconds: ${fail2bantime}" >> ~/installation_times.txt
+	echo "$install_runtime_string Nginx in seconds: ${nginxtime}" >> ~/installation_times.txt
+	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ~/installation_times.txt
+	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ~/installation_times.txt
+	echo "----------------------------------------------------------------------------------------" >> ~/installation_times.txt
+	echo "" >> ~/installation_times.txt
+
+	echo "100" | dialog --gauge "NeXt Server Installation finished!" 10 70 0
 #fi
 
 #if [[ ${UPDATE_INSTALLATION} = "1" ]]; then

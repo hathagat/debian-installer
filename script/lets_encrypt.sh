@@ -68,45 +68,32 @@ MENU="Choose one of the following options:"
 
 install_lets_encrypt() {
 
-echo "50" | dialog --gauge "Creating SSL CERT - This can take a long time! ..." 10 70 0
-# SSL certificate
 service nginx stop
 mkdir -p /etc/nginx/ssl/
 
 apt-get -y --assume-yes install cron netcat-openbsd curl socat >>"${main_log}" 2>>"${err_log}"
-cd ~/sources
+cd ${SCRIPT_PATH}/sources
 git clone https://github.com/Neilpang/acme.sh.git -q >>"${main_log}" 2>>"${err_log}"
 cd ./acme.sh
 sleep 1
-./acme.sh --install --accountemail  "${SSLMAIL}" >>"${main_log}" 2>>"${err_log}"
+./acme.sh --install >>"${main_log}" 2>>"${err_log}"
+# --accountemail  "${SSLMAIL}"
 
 . ~/.bashrc >>"${main_log}" 2>>"${err_log}"
 . ~/.profile >>"${main_log}" 2>>"${err_log}"
-cd ${SCRIPT_PATH}/.acme.sh/
+cd ${SCRIPT_PATH}/sources/acme.sh/
 
-#if [[ ${USE_MAILSERVER} == '1' ]]; then
-#	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-#else
-#	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-#fi
+if [[ ${USE_MAILSERVER} == '1' ]]; then
+	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
+else
+	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
+fi
 
-openssl ecparam -genkey -name secp384r1 -out /etc/nginx/ssl/${MYDOMAIN}.key.pem >>"$main_log" 2>>"$err_log"
-openssl req -new -sha256 -key /etc/nginx/ssl/${MYDOMAIN}.key.pem -out /etc/nginx/ssl/csr.pem -subj "/C=DE/ST=Private/L=Private/O=Private/OU=Private/CN=*.${MYDOMAIN}" >>"$main_log" 2>>"$err_log"
-openssl req -x509 -days 365 -key /etc/nginx/ssl/${MYDOMAIN}.key.pem -in /etc/nginx/ssl/csr.pem -out /etc/nginx/ssl/${MYDOMAIN}.pem >>"$main_log" 2>>"$err_log"
-HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}.pem | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64)
-HPKP2=$(openssl rand -base64 32)
+ln -s /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
+ln -s /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-ecc.key >>"${main_log}" 2>>"${err_log}"
 
-
-#ln -s ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
-#ln -s ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-ecc.key >>"${main_log}" 2>>"${err_log}"
-
-#Your cert is in  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.cer
-#Your cert key is in  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key
-#The intermediate CA cert is in  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/ca.cer
-#And the full chain certs is there:  ${SCRIPT_PATH}/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer
-
-#HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}-ecc.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
-#HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"
+HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}-ecc.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
+HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"
 
 openssl dhparam -out /etc/nginx/ssl/dh.pem 1024 >>"${main_log}" 2>>"${err_log}"
 ##### change for release to 4096 ##############
@@ -120,7 +107,7 @@ update_lets_encrypt() {
 }
 
 renew_lets_encrypt_certs() {
-  
+
 source ${SCRIPT_PATH}/configs/versions.cfg
 
 cd ${SCRIPT_PATH}/.acme.sh/
