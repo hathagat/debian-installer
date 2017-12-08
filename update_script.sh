@@ -18,8 +18,6 @@
 
 update_script() {
 
-#GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
-
 git remote update
 if ! git diff --quiet origin/master; then
   mkdir -p /root/backup_next_server
@@ -40,8 +38,11 @@ if ! git diff --quiet origin/master; then
   #restore backup
   cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
   cp /root/backup_next_server/* ${SCRIPT_PATH}/
+
+  GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 else
-    dialog --backtitle "NeXt Server Installation" --msgbox "The local Version is equal with Github, no update needed!" $HEIGHT $WIDTH
-    exit 1
+  GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
+  dialog --backtitle "NeXt Server Installation" --msgbox "The local Version ${GIT_LOCAL_FILES_HEAD} is equal with Github, no update needed!" $HEIGHT $WIDTH
+  exit 1
 fi
 }

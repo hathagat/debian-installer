@@ -94,7 +94,7 @@ MENU="Choose one of the following options:"
 				9)
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/update_script.sh; update_script
-					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script" $HEIGHT $WIDTH
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}" $HEIGHT $WIDTH
 					;;
 				10)
 					echo "Exit"
