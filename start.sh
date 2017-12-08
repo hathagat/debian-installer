@@ -25,6 +25,7 @@ apt-get -qq install dialog >/dev/null 2>&1
 
 SCRIPT_PATH="/root/NeXt-Server"
 
+GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 
@@ -35,7 +36,7 @@ BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-		OPTIONS=(1 "Install NeXt Server ${NEXT_VERSION}"
+		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD}"
 						 2 "Update all services"
 				 		 3 "Openssh Options"
 						 4 "Openssl Options"
