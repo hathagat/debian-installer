@@ -96,15 +96,15 @@ server {
 	add_header 		Alternate-Protocol  443:npn-http/2;
 	add_header 		Strict-Transport-Security "max-age=63072000; includeSubdomains; preload" always;
 	add_header 		Public-Key-Pins 'pin-sha256="PIN1"; pin-sha256="PIN2"; max-age=5184000; includeSubDomains';
-	add_header X-Frame-Options SAMEORIGIN;
-	add_header X-Xss-Protection "1; mode=block" always;
-	add_header X-Content-Type-Options "nosniff" always;
-	add_header 			Cache-Control "public";
-	add_header 			X-Content-Type-Options nosniff;
-	add_header 			X-Permitted-Cross-Domain-Policies "master-only";
-	add_header 			"X-UA-Compatible" "IE=Edge";
-	add_header 			"Access-Control-Allow-Origin" "*";
-	add_header 			Content-Security-Policy "script-src 'self' 'unsafe-inline' 'unsafe-eval' *.youtube.com maps.gstatic.com *.googleapis.com *.google-analytics.com cdnjs.cloudflare.com assets.zendesk.com connect.facebook.net; frame-src 'self' *.youtube.com assets.zendesk.com *.facebook.com s-static.ak.facebook.com tautt.zendesk.com; object-src 'self'";
+	add_header 		X-Frame-Options SAMEORIGIN;
+	add_header 		X-Xss-Protection "1; mode=block" always;
+	add_header 		X-Content-Type-Options "nosniff" always;
+	add_header 		Cache-Control "public";
+	add_header 		X-Permitted-Cross-Domain-Policies "master-only";
+	add_header 		"X-UA-Compatible" "IE=Edge";
+	add_header 		"Access-Control-Allow-Origin" "*";
+	add_header 		'Referrer-Policy' 'strict-origin';
+	add_header 		Content-Security-Policy "script-src 'self' *.youtube.com maps.gstatic.com *.googleapis.com *.google-analytics.com cdnjs.cloudflare.com assets.zendesk.com connect.facebook.net; frame-src 'self' *.youtube.com assets.zendesk.com *.facebook.com s-static.ak.facebook.com tautt.zendesk.com; object-src 'self'";
 
 	brotli on;
 			brotli_static on;
