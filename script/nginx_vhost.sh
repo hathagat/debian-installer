@@ -79,7 +79,7 @@ server {
 	ssl_certificate 	ssl/${MYDOMAIN}-ecc.cer;
 	ssl_certificate_key ssl/${MYDOMAIN}-ecc.key;
 	ssl_trusted_certificate ssl/${MYDOMAIN}-ecc.cer;
-	ssl_ciphers 		"EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH EDH+aRSA !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS !RC4";
+	ssl_ciphers AES256+EECDH:AES256+EDH:!aNULL;
 	ssl_ecdh_curve 		X25519:secp384r1;
 	ssl_prefer_server_ciphers   on;
 	ssl_protocols       TLSv1.2 TLSv1.3;
