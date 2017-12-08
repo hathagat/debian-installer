@@ -27,6 +27,9 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 	source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
+
+	source ${SCRIPT_PATH}/confighelper.sh; confighelper_userconfig
+	
 	system_end=`date +%s`
 	systemtime=$((system_end-install_start))
 
