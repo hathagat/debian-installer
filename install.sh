@@ -18,6 +18,7 @@
 SCRIPT_PATH="/root/NeXt-Server"
 
 source ${SCRIPT_PATH}/configs/versions.cfg
+source ${SCRIPT_PATH}/configs/userconfigs.cfg
 
 	install_start=`date +%s`
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0

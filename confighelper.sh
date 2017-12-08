@@ -16,12 +16,10 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-CONFIGHELPER_PATH="/root"
-source $CONFIGHELPER_PATH/script/security.sh
-source $CONFIGHELPER_PATH/script/functions.sh
-
-# --- CONFIGHELPER USERCONFIG ---
 confighelper_userconfig() {
+
+SCRIPT_PATH="/root/NeXt-Server"
+source ${SCRIPT_PATH}/script/functions.sh
 
 # --- GLOBAL MENU VARIABLES ---
 BACKTITLE="Perfect Root Server Installation"
@@ -87,43 +85,20 @@ esac
 
 # --- MYDOMAIN ---
 while true
-		do
-			MYDOMAIN=$(dialog --clear \
-			--backtitle "$BACKTITLE" \
-			--inputbox "Enter your Domain without http:// (exmaple.org):" \
-			$HEIGHT $WIDTH \
-			3>&1 1>&2 2>&3 3>&- \
-			)
-				if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
-					break
-				else
-					dialog --title "Perfectrootserver Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
-					dialog --clear
-				fi
-		done
-
-# --- MAILSERVER ---
-CHOICE_HEIGHT=3
-MENU="Do you want to Use Mailserver?:"
-OPTIONS=(1 "Yes"
-		     2 "Yes with Webmail"
-         3 "No")
-menu
-clear
-case $CHOICE in
-        1)
-			USE_MAILSERVER="1"
-			USE_WEBMAIL="0"
-            ;;
-        2)
-			USE_MAILSERVER="1"
-			USE_WEBMAIL="1"
-            ;;
-		3)
-			USE_MAILSERVER="0"
-			USE_WEBMAIL="0"
-            ;;
-esac
+	do
+		MYDOMAIN=$(dialog --clear \
+		--backtitle "$BACKTITLE" \
+		--inputbox "Enter your Domain without http:// (exmaple.org):" \
+		$HEIGHT $WIDTH \
+		3>&1 1>&2 2>&3 3>&- \
+		)
+			if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+				break
+			else
+				dialog --title "Perfectrootserver Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+				dialog --clear
+			fi
+	done
 
 # --- PHP ---
 CHOICE_HEIGHT=3
@@ -145,107 +120,19 @@ case $CHOICE in
             ;;
 esac
 
-	# --- SEND SERVER LOGIN VIA EMAIL ---
-CHOICE_HEIGHT=2
-MENU="Do you want to send the server login data via encryptet GPG Email?:"
-OPTIONS=(1 "Yes"
-         2 "No")
-menu
-clear
-case $CHOICE in
-        1)
-			while true
-			do
-				USE_ENCRYPTED_LOGIN_MAIL="1"
-				LOGIN_DATA_MAIL=$(dialog --clear \
-				--backtitle "$BACKTITLE" \
-				--inputbox "Enter your valid E-Mail address:" \
-				$HEIGHT $WIDTH \
-				3>&1 1>&2 2>&3 3>&- \
-				)
-					if [[ "$LOGIN_DATA_MAIL" =~ $CHECK_E_MAIL ]];then
-						break
-					else
-						dialog --title "Perfectrootserver Confighelper" --msgbox "[ERROR] Should we again practice how an e-mail address looks?" $HEIGHT $WIDTH
-						dialog --clear
-					fi
-			done
-
-			while true
-			do
-				LOGIN_DATA_MAIL_PW=$(dialog --clear \
-							--backtitle "$BACKTITLE" \
-							--inputbox "Please choose an password for the GPG encryption of the server login data: \
-							Only letters (aBc) and numbers (123) allowed! The minimum password length should be 10! " \
-							$HEIGHT $WIDTH \
-							3>&1 1>&2 2>&3 3>&- \
-						)
-				if [[ "$LOGIN_DATA_MAIL_PW" =~ $CHECK_PASSWORD ]];then
-						break
-					else
-						dialog --title "Perfectrootserver Confighelper" --msgbox "[ERROR] Should we practice how letters and numbers look like?" $HEIGHT $WIDTH
-						dialog --clear
-					fi
-			done
-           ;;
-        2)
-			USE_ENCRYPTED_LOGIN_MAIL="0"
-           ;;
-esac
-
-	# --- NGINX MODULES ---
-	BACKTITLE="Perfect Root Server Installation"
-	TITLE="Nginx Modules"
-
-	RESULTS=$(dialog --stdout --backtitle "$BACKTITLE" --title "$TITLE" \
-	 --checklist "Waehle die zu installierenden Nginx Module aus" 0 0 0 \
-			01 "Brotli" off \
-			02 "Autoindex" off )
-	for RESULT in $RESULTS
-	do
-			case $RESULT in
-					"01" )
-							USE_BROTLI="1"
-							;;
-					"02" )
-							USE_AUTOINDEX="1"
-							;;
-			esac
-	done
-
-# --- ADDONCONFIG? ---
-CHOICE_HEIGHT=2
-MENU="Do You need Addonconfig?:"
-OPTIONS=(1 "Yes"
-         2 "No")
-menu
-clear
-case $CHOICE in
-        1)
-			ADDONCONFIG_COMPLETED="0"
-            ;;
-        2)
-			ADDONCONFIG_COMPLETED="2"
-            ;;
-esac
-
 CONFIG_COMPLETED="1"
 
-rm -rf $CONFIGHELPER_PATH/configs/userconfig.cfg
-cat >> $CONFIGHELPER_PATH/configs/userconfig.cfg <<END
+rm -rf ${SCRIPT_PATH}/configs/userconfig.cfg
+cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 #-----------------------------------------------------------#
 ############### Config File from Confighelper ###############
 #-----------------------------------------------------------#
-# This file was created on ${CURRENT_DATE} with PRS Version ${PRS_VERSION}
+# This file was created on ${CURRENT_DATE} with NeXt Server Version ${GIT_LOCAL_FILES_HEAD}
 
 	CONFIG_COMPLETED="${CONFIG_COMPLETED}"
 	TIMEZONE="${TIMEZONE}"
 	MYDOMAIN="${MYDOMAIN}"
-	SSH_PORT="${SSH_PORT}"
-	LOGIN_DATA_MAIL="${LOGIN_DATA_MAIL}"
-	USE_ENCRYPTED_LOGIN_MAIL="${USE_ENCRYPTED_LOGIN_MAIL}"
-	USE_MAILSERVER="${USE_MAILSERVER}"
-	USE_WEBMAIL="${USE_WEBMAIL}"
+	#SSH_PORT="${SSH_PORT}"
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"
@@ -253,21 +140,6 @@ cat >> $CONFIGHELPER_PATH/configs/userconfig.cfg <<END
 	PMA_HTTPAUTH_USER="${PMA_HTTPAUTH_USER}"
 	MYSQL_PMADB_NAME="${MYSQL_PMADB_NAME}"
 	MYSQL_PMADB_USER="${MYSQL_PMADB_USER}"
-
-	#NGINX MODULES
-	USE_BROTLI="${USE_BROTLI}"
-	USE_AUTOINDEX="${USE_AUTOINDEX}"
-
-	# Passwords
-	LOGIN_DATA_MAIL_PW="${LOGIN_DATA_MAIL_PW}"
-	SSH_PASS="${SSH_PASS}"
-	POSTFIX_ADMIN_PASS="${POSTFIX_ADMIN_PASS}"
-	VIMB_MYSQL_PASS="${VIMB_MYSQL_PASS}"
-	ROUNDCUBE_MYSQL_PASS="${ROUNDCUBE_MYSQL_PASS}"
-	PMA_HTTPAUTH_PASS="${PMA_HTTPAUTH_PASS}"
-	PMA_BFSECURE_PASS="${PMA_BFSECURE_PASS}"
-	MYSQL_ROOT_PASS="${MYSQL_ROOT_PASS}"
-	MYSQL_PMADB_PASS="${MYSQL_PMADB_PASS}"
 
 	MYSQL_HOSTNAME="localhost"
 #-----------------------------------------------------------#
@@ -286,11 +158,10 @@ menu
 clear
 case $CHOICE in
         1)
-			#break
-            ;;
+				#break
+        ;;
         2)
-			confighelper_generate_passwords
-			confighelper_userconfig
-            ;;
+				confighelper_userconfig
+        ;;
 esac
 }
