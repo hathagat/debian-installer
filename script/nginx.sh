@@ -118,100 +118,13 @@ chown root:root /etc/init.d/nginx >>"${main_log}" 2>>"${err_log}"
 update-rc.d nginx defaults >>"${main_log}" 2>>"${err_log}"
 
 rm -rf /etc/nginx/nginx.conf
-cat > /etc/nginx/nginx.conf <<END
-user www-data;
-worker_processes auto;
-pid /var/run/nginx.pid;
-
-events {
-        worker_connections 2048;
-        use epoll;
-        multi_accept on;
-}
-
-http {
-        include /etc/nginx/mime.types;
-        default_type application/octet-stream;
-
-        access_log  /var/log/nginx/access.log;
-        error_log /var/log/nginx/error.log;
-
-        aio threads;
-        sendfile on;
-        tcp_nopush on;
-        tcp_nodelay on;
-        server_tokens off;
-        keepalive_timeout 15;
-
-        client_max_body_size 1G;
-        client_body_buffer_size 10K;
-        client_header_buffer_size 1k;
-        large_client_header_buffers 2 1k;
-
-        open_file_cache          max=2000 inactive=20s;
-        open_file_cache_valid    60s;
-        open_file_cache_min_uses 5;
-        open_file_cache_errors   off;
-
-        gzip on;
-        gzip_disable "msie6";
-        gzip_http_version 1.1;
-        gzip_vary on;
-        gzip_comp_level 6;
-        gzip_buffers 16 8k;
-        gzip_proxied any;
-        gzip_types
-                text/css
-                text/javascript
-                text/xml
-                text/plain
-                text/x-component
-                application/javascript
-                application/x-javascript
-                application/json
-                application/xml
-                application/rss+xml
-                application/atom+xml
-                application/rdf+xml
-                application/vnd.ms-fontobject
-                font/truetype
-                font/opentype
-                image/svg+xml;
-
-        add_header X-XSS-Protection "1; mode=block"; #Cross-site scripting
-        add_header X-Frame-Options "SAMEORIGIN" always; #clickjacking
-        add_header X-Content-Type-Options nosniff; #MIME-type sniffing
-
-        include		/etc/nginx/sites-enabled/*.conf;
-}
-END
+cp ${SCRIPT_PATH}/configs/nginx.conf /etc/nginx/nginx.conf
 
 mkdir -p /etc/nginx/html/${MYDOMAIN}
-
 systemctl -q restart nginx.service
 
 cp ${SCRIPT_PATH}/prs-logo.jpg /etc/nginx/html/${MYDOMAIN}/
-
-cat > /etc/nginx/html/${MYDOMAIN}/index.html <<END
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>${MYDOMAIN}</title>
-	</head>
-	<body>
-		<center><img src="prs-logo.jpg" alt="prs-logo.jpg" style="width:304px;height:228px;"></center>
-		<p style="text-align: center;">
-			Herzlich willkommen!</p>
-		<p style="text-align: center;">
-			Der &gt;<a href="http://perfectrootserver.de" target="_blank">Perfectrootserver</a>&lt; wurde erfolgreich auf deinem Server eingerichtet!</p>
-		<p style="text-align: center;">
-			Du kannst dich mit den Zugangsdaten aus dem Terminal nun in dein System einloggen.</p>
-		<p style="text-align: center;">
-			&nbsp;</p>
-	</body>
-</html>
-
-END
+cp ${SCRIPT_PATH}/configs/index.html /etc/nginx/html/${MYDOMAIN}/index.html
 
 #Make folder writeable
 chown -R www-data:www-data /etc/nginx/html/${MYDOMAIN}
