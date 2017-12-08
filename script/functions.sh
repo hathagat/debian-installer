@@ -25,17 +25,10 @@ setipaddrvars() {
 
 IPADR=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 INTERFACE=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f5)
-FQDNIP=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 +short ${MYDOMAIN})
-WWWIP=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 +short www.${MYDOMAIN})
-MAILIP=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 +short mail.${MYDOMAIN})
-CLOUDIP=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 +short cloud.${MYDOMAIN})
-CHECKAC=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 ${MYDOMAIN} txt | grep -i mailconf=)
-CHECKMX=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 mx ${MYDOMAIN} +short)
-CHECKSPF=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 ${MYDOMAIN} txt | grep -i spf)
-CHECKDKIM=$(source ~/configs/userconfig.cfg; dig @8.8.8.8 mail._domainkey.${MYDOMAIN} txt | grep -i DKIM1)
+FQDNIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @8.8.8.8 +short ${MYDOMAIN})
+WWWIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @8.8.8.8 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @8.8.8.8 -x ${IPADR} +short)
 }
-
 
 # Check valid E-Mail
 CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"

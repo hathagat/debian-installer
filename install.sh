@@ -30,7 +30,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	systemtime=$((system_end-install_start))
 
   system_start=`date +%s`
-	echo "0" | dialog --gauge "Installing System..." 10 70 0
+	echo "1" | dialog --gauge "Installing System..." 10 70 0
 	source ${SCRIPT_PATH}/script/system.sh; install_system
 	system_end=`date +%s`
 	systemtime=$((system_end-system_start))
