@@ -59,7 +59,6 @@ MENU="Choose one of the following options:"
 		clear
 		case $CHOICE in
 				1)
-					INSTALLATION="1"
 					bash install.sh
 					;;
 				2)

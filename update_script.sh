@@ -20,8 +20,6 @@ update_script() {
 
 mkdir -p /root/backup_next_server
 
-#backup first
-
 ### add more important stuff to backup ###
 mkdir -p /root/backup_next_server/logs
 cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/

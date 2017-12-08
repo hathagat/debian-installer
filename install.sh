@@ -19,7 +19,6 @@ SCRIPT_PATH="/root/NeXt-Server"
 
 source ${SCRIPT_PATH}/configs/versions.cfg
 
-#if [[ ${INSTALLATION} = "1" ]]; then
 	install_start=`date +%s`
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
 	source ${SCRIPT_PATH}/script/logs.sh; set_logs
@@ -91,9 +90,3 @@ source ${SCRIPT_PATH}/configs/versions.cfg
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
 
 	echo "100" | dialog --gauge "NeXt Server Installation finished!" 10 70 0
-#fi
-
-#if [[ ${UPDATE_INSTALLATION} = "1" ]]; then
-#	update_openssl
-#	update_openssh
-#fi
