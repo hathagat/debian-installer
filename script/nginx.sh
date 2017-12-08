@@ -118,13 +118,13 @@ chown root:root /etc/init.d/nginx >>"${main_log}" 2>>"${err_log}"
 update-rc.d nginx defaults >>"${main_log}" 2>>"${err_log}"
 
 rm -rf /etc/nginx/nginx.conf
-cp ${SCRIPT_PATH}/configs/nginx.conf /etc/nginx/nginx.conf
+cp ${SCRIPT_PATH}/configs/nginx/nginx.conf /etc/nginx/nginx.conf
 
 mkdir -p /etc/nginx/html/${MYDOMAIN}
 systemctl -q restart nginx.service
 
 cp ${SCRIPT_PATH}/prs-logo.jpg /etc/nginx/html/${MYDOMAIN}/
-cp ${SCRIPT_PATH}/configs/index.html /etc/nginx/html/${MYDOMAIN}/index.html
+cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.html
 
 #Make folder writeable
 chown -R www-data:www-data /etc/nginx/html/${MYDOMAIN}

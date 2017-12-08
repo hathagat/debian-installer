@@ -34,16 +34,16 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install php-auth-sasl php-http-request
 #get timezone from user config???
 #sed -i 's/.*disable_functions =.*/disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,escapeshellarg,passthru,proc_close,proc_get_status,proc_nice,proc_open,proc_terminate,/' /etc/php/$PHPVERSION7/fpm/php.ini
 
-cp ${SCRIPT_PATH}/configs/php.ini /etc/php/$PHPVERSION7/fpm/php.ini
-cp ${SCRIPT_PATH}/configs/php-fpm.conf /etc/php/$PHPVERSION7/fpm/php-fpm.conf
-cp ${SCRIPT_PATH}/configs/www.conf /etc/php/$PHPVERSION7/fpm/pool.d/www.conf
+cp ${SCRIPT_PATH}/configs/php/php.ini /etc/php/$PHPVERSION7/fpm/php.ini
+cp ${SCRIPT_PATH}/configs/php/php-fpm.conf /etc/php/$PHPVERSION7/fpm/php-fpm.conf
+cp ${SCRIPT_PATH}/configs/php/www.conf /etc/php/$PHPVERSION7/fpm/pool.d/www.conf
 
 # Configure APCu
 rm -rf /etc/php/$PHPVERSION7/mods-available/apcu.ini
 rm -rf /etc/php/$PHPVERSION7/mods-available/20-apcu.ini
 
 #überarbeiten
-cp ${SCRIPT_PATH}/configs/apcu.ini /etc/php/$PHPVERSION7/mods-available/apcu.ini
+cp ${SCRIPT_PATH}/configs/php/apcu.ini /etc/php/$PHPVERSION7/mods-available/apcu.ini
 
 ln -s /etc/php/$PHPVERSION7/mods-available/apcu.ini /etc/php/$PHPVERSION7/mods-available/20-apcu.ini
 
