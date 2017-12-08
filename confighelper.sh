@@ -20,6 +20,7 @@ confighelper_userconfig() {
 
 SCRIPT_PATH="/root/NeXt-Server"
 source ${SCRIPT_PATH}/script/functions.sh
+source ${SCRIPT_PATH}/script/menu.sh
 
 # --- GLOBAL MENU VARIABLES ---
 BACKTITLE="Perfect Root Server Installation"
