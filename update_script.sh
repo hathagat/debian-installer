@@ -27,6 +27,7 @@ mkdir -p /root/backup_next_server/logs
 cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
 cp ${SCRIPT_PATH}/login_information /root/backup_next_server/
 cp ${SCRIPT_PATH}/ssh_privatekey.txt /root/backup_next_server/
+cp ${SCRIPT_PATH}/installation_times.txt /root/backup_next_server/
 
 #reset branch
 cd ${SCRIPT_PATH}
@@ -34,6 +35,7 @@ git fetch
 git reset --hard origin/master
 
 #restore backup
-
+cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
+cp /root/backup_next_server/* ${SCRIPT_PATH}/
 
 }

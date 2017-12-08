@@ -77,18 +77,18 @@ source ${SCRIPT_PATH}/configs/versions.cfg
 	install_end=`date +%s`
 	runtime=$((install_end-install_start))
 
-	touch ~/installation_times.txt
+	touch ${SCRIPT_PATH}/installation_times.txt
 	install_runtime_string="NeXt Server Installation runtime for"
-	echo "----------------------------------------------------------------------------------------" >> ~/installation_times.txt
-	echo "$install_runtime_string System preparation in seconds: ${systemtime}" >> ~/installation_times.txt
-	echo "$install_runtime_string SSL in seconds: ${openssltime}" >> ~/installation_times.txt
-	echo "$install_runtime_string SSH in seconds: ${opensshtime}" >> ~/installation_times.txt
-	echo "$install_runtime_string fail2ban in seconds: ${fail2bantime}" >> ~/installation_times.txt
-	echo "$install_runtime_string Nginx in seconds: ${nginxtime}" >> ~/installation_times.txt
-	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ~/installation_times.txt
-	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ~/installation_times.txt
-	echo "----------------------------------------------------------------------------------------" >> ~/installation_times.txt
-	echo "" >> ~/installation_times.txt
+	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string System preparation in seconds: ${systemtime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string SSL in seconds: ${openssltime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string SSH in seconds: ${opensshtime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string fail2ban in seconds: ${fail2bantime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string Nginx in seconds: ${nginxtime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "" >> ${SCRIPT_PATH}/installation_times.txt
 
 	echo "100" | dialog --gauge "NeXt Server Installation finished!" 10 70 0
 #fi
