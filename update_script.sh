@@ -18,22 +18,30 @@
 
 update_script() {
 
-mkdir -p /root/backup_next_server
+#GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 
-### add more important stuff to backup ###
-mkdir -p /root/backup_next_server/logs
-cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
-cp ${SCRIPT_PATH}/login_information /root/backup_next_server/
-cp ${SCRIPT_PATH}/ssh_privatekey.txt /root/backup_next_server/
-cp ${SCRIPT_PATH}/installation_times.txt /root/backup_next_server/
+git remote update
+if ! git diff --quiet origin/master; then
+  mkdir -p /root/backup_next_server
 
-#reset branch
-cd ${SCRIPT_PATH}
-git fetch
-git reset --hard origin/master
+  ### add more important stuff to backup ###
+  mkdir -p /root/backup_next_server/logs
+  cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
+  cp ${SCRIPT_PATH}/login_information /root/backup_next_server/
+  cp ${SCRIPT_PATH}/ssh_privatekey.txt /root/backup_next_server/
+  cp ${SCRIPT_PATH}/installation_times.txt /root/backup_next_server/
+  echo "the branch is different!"
 
-#restore backup
-cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
-cp /root/backup_next_server/* ${SCRIPT_PATH}/
+  #reset branch
+  cd ${SCRIPT_PATH}
+  git fetch
+  git reset --hard origin/master
 
+  #restore backup
+  cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
+  cp /root/backup_next_server/* ${SCRIPT_PATH}/
+else
+    dialog --backtitle "NeXt Server Installation" --msgbox "The local Version is equal with Github, no update needed!" $HEIGHT $WIDTH
+    exit 1
+fi
 }
