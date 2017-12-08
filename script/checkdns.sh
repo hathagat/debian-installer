@@ -18,9 +18,38 @@
 
 check_dns() {
 
-server_ip=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
-sed -i "s/server_ip/$server_ip/g" ~/include/dns_settings.txt
-dialog --title "DNS Settings" --textbox ~/dns_settings.txt 50 200
+server_ip=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
+sed -i "s/server_ip/$server_ip/g" ${SCRIPT_PATH}/dns_settings.txt
+dialog --title "DNS Settings" --textbox ${SCRIPT_PATH}/dns_settings.txt 50 200
+
+BACKTITLE="NeXt Server Installation"
+TITLE="NeXt Server Installation"
+HEIGHT=15
+WIDTH=70
+
+CHOICE_HEIGHT=2
+MENU="Have you set the DNS Settings 24-48 hours before running this Script?:"
+OPTIONS=(1 "Yes"
+		 2 "No")
+
+CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+				--no-cancel \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+	1)
+		;;
+	2)
+		dialog --backtitle "NeXt Server Installation" --msgbox "Sorry, you have to wait 24 - 48 hours, until the DNS system knows your settings!" $HEIGHT $WIDTH
+		exit 1
+		;;
+esac
 
 if [[ $FQDNIP != $IPADR ]]; then
 	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
@@ -29,11 +58,6 @@ fi
 
 if [[ $CHECKRDNS != mail.${MYDOMAIN}. ]]; then
 	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to $(mail.${MYDOMAIN})"
-	exit 1
-fi
-
-if [[ $MAILIP != $IPADR ]]; then
-	echo "mail.${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
 	exit 1
 fi
 }

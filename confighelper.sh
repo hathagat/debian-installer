@@ -102,7 +102,7 @@ while true
 	done
 
 # --- PHP ---
-CHOICE_HEIGHT=3
+CHOICE_HEIGHT=2
 MENU="Do you want to Use PHP 7.1 or PHP 7.2?:"
 OPTIONS=(1 "PHP 7.1"
 		     2 "PHP 7.2")

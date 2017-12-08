@@ -23,11 +23,11 @@ function password {
 
 setipaddrvars() {
 
-IPADR=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
-INTERFACE=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f5)
-FQDNIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @8.8.8.8 +short ${MYDOMAIN})
-WWWIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @8.8.8.8 +short www.${MYDOMAIN})
-CHECKRDNS=$(dig @8.8.8.8 -x ${IPADR} +short)
+IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
+INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
+FQDNIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @9.9.9.9 +short ${MYDOMAIN})
+WWWIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @9.9.9.9 +short www.${MYDOMAIN})
+CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
 # Check valid E-Mail
