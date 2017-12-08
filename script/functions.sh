@@ -22,11 +22,12 @@ function password {
 }
 
 setipaddrvars() {
+source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
-FQDNIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @9.9.9.9 +short ${MYDOMAIN})
-WWWIP=$(source ${SCRIPT_PATH}/configs/userconfig.cfg; dig @9.9.9.9 +short www.${MYDOMAIN})
+FQDNIP=$(dig @9.9.9.9 +short ${MYDOMAIN})
+WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
