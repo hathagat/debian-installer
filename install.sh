@@ -24,8 +24,8 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
 	source ${SCRIPT_PATH}/script/logs.sh; set_logs
 	source ${SCRIPT_PATH}/script/functions.sh
-	source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 	source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+	source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
 	system_end=`date +%s`
 	systemtime=$((system_end-install_start))
