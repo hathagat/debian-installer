@@ -102,6 +102,8 @@ while true
 	done
 
 # --- DNS Check ---
+source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
+
 server_ip=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 sed -i "s/server_ip/$server_ip/g" ${SCRIPT_PATH}/dns_settings.txt
 dialog --title "DNS Settings" --textbox ${SCRIPT_PATH}/dns_settings.txt 50 200
@@ -140,8 +142,8 @@ if [[ $FQDNIP != $IPADR ]]; then
 	exit 1
 fi
 
-if [[ $CHECKRDNS != mail.${MYDOMAIN}. ]]; then
-	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.${MYDOMAIN}"
+if [[ $CHECKRDNS != mail.$MYDOMAIN. ]]; then
+	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
 	exit 1
 fi
 

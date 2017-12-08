@@ -28,7 +28,6 @@ if ! git diff --quiet origin/master; then
   cp ${SCRIPT_PATH}/login_information /root/backup_next_server/
   cp ${SCRIPT_PATH}/ssh_privatekey.txt /root/backup_next_server/
   cp ${SCRIPT_PATH}/installation_times.txt /root/backup_next_server/
-  echo "the branch is different!"
 
   #reset branch
   cd ${SCRIPT_PATH}

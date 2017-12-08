@@ -22,7 +22,6 @@ function password {
 }
 
 setipaddrvars() {
-source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
