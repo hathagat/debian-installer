@@ -137,15 +137,15 @@ case $CHOICE in
 		;;
 esac
 
-if [[ $FQDNIP != $IPADR ]]; then
-	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
-	exit 1
-fi
+#if [[ $FQDNIP != $IPADR ]]; then
+#	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
+#	exit 1
+#fi
 
-if [[ $CHECKRDNS != mail.$MYDOMAIN. ]]; then
-	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
-	exit 1
-fi
+#if [[ $CHECKRDNS != mail.$MYDOMAIN. ]]; then
+#	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
+#	exit 1
+#fi
 
 # --- PHP ---
 CHOICE_HEIGHT=2

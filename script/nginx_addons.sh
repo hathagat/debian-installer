@@ -15,7 +15,7 @@
     # with this program; if not, write to the Free Software Foundation, Inc.,
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
-
+set -x
 install_nginx_addons() {
 
 apt-get -y --assume-yes install autoconf automake libtool git unzip >>"${main_log}" 2>>"${err_log}"

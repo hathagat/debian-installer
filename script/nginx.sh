@@ -17,7 +17,7 @@
 #-------------------------------------------------------------------------------------------------------------
 
 install_nginx() {
-
+set -x
 apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}"
 
 cd ${SCRIPT_PATH}/sources
