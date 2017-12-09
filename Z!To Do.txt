@@ -30,7 +30,7 @@ So etwas gibt es schon, aber vll besser	machen?
 - PHP apcu.ini überarbeiten (welche Werte sind sinnvoll)
 
 ######### Maria DB #########
-- SED Befhele in Config auslagern + Werte checken
+- SED Befehle in Config auslagern + Werte checken
 - Automated mysql_secure_installation checken + ob Var Werte da sind
 
 ######### update script #########
