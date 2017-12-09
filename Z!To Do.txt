@@ -1,0 +1,66 @@
+######### Allgemein #########
+- SCRIPT_PATH="/root/NeXt-Server" unbedingt darauf achten!
+- Schauen das alles eigenständig laufen kann -> welche sources / Variablen braucht die Funktion zum eigenständigen laufen?
+
+######### Error Handling #########
+- Error Handling
+	wget --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: nginx-${NGINX_VERSION}.tar.gz download failed."
+      exit
+    fi
+
+	tar -xzf nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
+		ERROR=$?
+		if [[ "$ERROR" != '0' ]]; then
+		  echo "Error: nginx-${NGINX_VERSION}.tar.gz is corrupted."
+		  exit
+		fi
+		
+So etwas gibt es schon, aber vll besser	machen?
+
+
+######### Nginx #########
+- Nginx HPKP fixen
+
+
+######### PHP #########
+- menu_options_php_7_x anlegen
+- option zum ändern anbieten: post_max_size und upload_max_filesize auf 128 mb gesetzt, Wert sollte nicht größer sein als memory_limit (256)
+- sed -i 's/.*date.timezone =.*/date.timezone = Europe\/Berlin/' /etc/php/$PHPVERSION7/fpm/php.ini <- übernehmen von Confighelper
+- Was macht Sinn? #sed -i 's/.*disable_functions =.*/disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,escapeshellarg,passthru,proc_close,proc_get_status,proc_nice,proc_open,proc_terminate,/' /etc/php/$PHPVERSION7/fpm/php.ini
+- PHP apcu.ini überarbeiten (welche Werte sind sinnvoll)
+
+######### Maria DB #########
+- SED Befhele in Config auslagern + Werte checken
+- Automated mysql_secure_installation checken + ob Var Werte da sind
+
+######### Bash #########
+- Welche Version hat Sretch --> ist es notwendig Bash extra zu installieren / kompilieren?
+
+######### update script #########
+- alle Dateien mit User Daten in /root/ sichern und dann zurück spielen
+- checken ob dateien überhaupt vorhanden sind -> erst dann kopieren wenn sicher vorhanden
+
+######### services updates #########
+- für alle Services eine Update Funktion anlegen + in das jeweilige menu_options_xx eintragen
+
+######### fail2ban #########
+- activate_fail2ban_jails Option anbieten weitere jails zu aktivieren (oder aktivieren wir die automatisch, falls z.B. ein Mailserver dazu kommt?)
+
+######### Firewall #########
+- Welche Firewall nehmen wir? Wenn Arnos bleibt -> überarbeiten!
+
+######### Mailserver #########
+- Erstmal alle Reste entfernen die man noch im Script findet
+
+######### Checks #########
+- CHECK_DOMAIN, CHECK_PASSWORD, CHECK_E_MAIL optimieren bzw testen ob es so passt (CHECK_DOMAIN fehlerhaft?)
+
+######### Openssh #########
+- create_new_openssh_key Funktion überarbeiten, der alte Key muss gelöscht werden, bevor neuer erzeugt wird, oder backuppen?
+- create_new_openssh_user Funktion anlegen (unbedingt zu ssh-user Gruppe hinzufügen, sonst kein SSH Login möglich!!)
+- BLOCKED_PORTS Check geht / gibt es nicht mehr? WIeder einfügen und optimieren?
+
+	
