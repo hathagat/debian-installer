@@ -18,11 +18,6 @@
 
 install_mariadb() {
 
-######überarbeiten keine seds mehr #####
-#### bash version? #####
-####update script alles backuppen ####
-
-
 DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server >>"${main_log}" 2>>"${err_log}"
 
 mysqladmin -u root password ${MYSQL_ROOT_PASS}

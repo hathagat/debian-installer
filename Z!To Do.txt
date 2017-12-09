@@ -36,9 +36,6 @@ So etwas gibt es schon, aber vll besser	machen?
 - SED Befhele in Config auslagern + Werte checken
 - Automated mysql_secure_installation checken + ob Var Werte da sind
 
-######### Bash #########
-- Welche Version hat Stretch --> ist es notwendig Bash extra zu installieren / kompilieren?
-
 ######### update script #########
 - alle Dateien mit User Daten in /root/ sichern und dann zurück spielen
 - checken ob dateien überhaupt vorhanden sind -> erst dann kopieren wenn sicher vorhanden
