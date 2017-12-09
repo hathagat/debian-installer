@@ -29,7 +29,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
 
 	source ${SCRIPT_PATH}/confighelper.sh; confighelper_userconfig
-	
+
 	system_end=`date +%s`
 	systemtime=$((system_end-install_start))
 
@@ -40,39 +40,45 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	systemtime=$((system_end-system_start))
 
 	openssl_start=`date +%s`
-	echo "2" | dialog --gauge "Installing OpenSSL..." 10 70 0
+	echo "5" | dialog --gauge "Installing OpenSSL..." 10 70 0
 	source ${SCRIPT_PATH}/script/openssl.sh; install_openssl
 	openssl_end=`date +%s`
 	openssltime=$((openssl_end-openssl_start))
 
 	openssh_start=`date +%s`
-	echo "5" | dialog --gauge "Installing OpenSSH..." 10 70 0
+	echo "10" | dialog --gauge "Installing OpenSSH..." 10 70 0
 	source ${SCRIPT_PATH}/script/openssh.sh; install_openssh
 	openssh_end=`date +%s`
 	opensshtime=$((openssh_end-openssh_start))
 
 	fail2ban_start=`date +%s`
-	echo "10" | dialog --gauge "Installing fail2ban..." 10 70 0
+	echo "15" | dialog --gauge "Installing fail2ban..." 10 70 0
 	source ${SCRIPT_PATH}/script/fail2ban.sh; install_fail2ban
 	fail2ban_end=`date +%s`
 	fail2bantime=$((fail2ban_end-fail2ban_start))
 
+	mariadb_start=`date +%s`
+	echo "20" | dialog --gauge "Installing MariaDB..." 10 70 0
+	source ${SCRIPT_PATH}/script/mariadb.sh; install_mariadb
+	maria_end=`date +%s`
+	mariatime=$((maria_end-mariadb_start))
+
 	nginx_start=`date +%s`
-	echo "12" | dialog --gauge "Installing Nginx Addons..." 10 70 0
+	echo "25" | dialog --gauge "Installing Nginx Addons..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_addons.sh; install_nginx_addons
 
-	echo "15" | dialog --gauge "Installing Nginx..." 10 70 0
+	echo "30" | dialog --gauge "Installing Nginx..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx.sh; install_nginx
 
-	echo "15" | dialog --gauge "Installing LE..." 10 70 0
+	echo "50" | dialog --gauge "Installing LE..." 10 70 0
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
 
-	echo "25" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
+	echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
 	nginx_end=`date +%s`
 	nginxtime=$((nginx_end-nginx_start))
 
-	echo "45" | dialog --gauge "Installing PHP..." 10 70 0
+	echo "75" | dialog --gauge "Installing PHP..." 10 70 0
 	php_start=`date +%s`
 	if [[ ${USE_PHP7_1} = "1" ]]; then
 		source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1
@@ -85,7 +91,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	phptime=$((php_end-php_start))
 
 	firewall_start=`date +%s`
-	echo "55" | dialog --gauge "Installing Firewall..." 10 70 0
+	echo "90" | dialog --gauge "Installing Firewall..." 10 70 0
 	source ${SCRIPT_PATH}/script/firewall.sh; install_firewall
 	firewall_end=`date +%s`
 	firewalltime=$((firewall_end-firewall_start))
@@ -100,6 +106,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "$install_runtime_string SSL in seconds: ${openssltime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string SSH in seconds: ${opensshtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string fail2ban in seconds: ${fail2bantime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string MariaDB in seconds: ${mariatime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Nginx in seconds: ${nginxtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string PHP in seconds: ${phptime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ${SCRIPT_PATH}/installation_times.txt
