@@ -95,7 +95,7 @@ server {
 
 	add_header 		Alternate-Protocol  443:npn-http/2;
 	add_header 		Strict-Transport-Security "max-age=63072000; includeSubdomains; preload" always;
-	add_header 		Public-Key-Pins 'pin-sha256="PIN1"; pin-sha256="PIN2"; max-age=5184000; includeSubDomains';
+	add_header 		Public-Key-Pins 'pin-sha256="${HPKP1}"; pin-sha256="${HPKP2}"; max-age=5184000; includeSubDomains';
 	add_header 		X-Frame-Options SAMEORIGIN;
 	add_header 		X-Xss-Protection "1; mode=block" always;
 	add_header 		X-Content-Type-Options "nosniff" always;

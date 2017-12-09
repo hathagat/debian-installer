@@ -69,11 +69,11 @@ MENU="Choose one of the following options:"
 
 install_openssl() {
 
-mkdir -p ~/sources/
+mkdir -p ${SCRIPT_PATH}/sources/
 
 apt-get install -y libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev >>"${main_log}" 2>>"${err_log}"
 
-cd ~/sources
+cd ${SCRIPT_PATH}/sources
 wget --no-check-certificate https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
@@ -100,7 +100,7 @@ make install >>"${make_log}" 2>>"${make_err_log}"
 
 update_openssl() {
 
-source configs/versions.cfg
+source ${SCRIPT_PATH}/configs/versions.cfg
 
 LOCAL_OPENSSL_VERSION_STRING=$(openssl version)
 LOCAL_OPENSSL_VERSION=$(echo $LOCAL_OPENSSL_VERSION_STRING | cut -c9-14)
@@ -109,9 +109,9 @@ if [[ ${LOCAL_OPENSSL_VERSION} != ${OPENSSL_VERSION} ]]; then
 
 	apt-get install -y libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev >>"${main_log}" 2>>"${err_log}"
 
-	mkdir -p ~/sources/
+	mkdir -p ${SCRIPT_PATH}/sources/
 
-	cd ~/sources
+	cd ${SCRIPT_PATH}/sources
 	wget --no-check-certificate https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 		ERROR=$?
 		if [[ "$ERROR" != '0' ]]; then

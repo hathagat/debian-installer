@@ -169,6 +169,7 @@ esac
 
 CONFIG_COMPLETED="1"
 
+GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 rm -rf ${SCRIPT_PATH}/configs/userconfig.cfg
 cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 #-----------------------------------------------------------#

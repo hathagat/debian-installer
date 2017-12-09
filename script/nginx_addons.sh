@@ -20,7 +20,7 @@ install_nginx_addons() {
 
 apt-get -y --assume-yes install autoconf automake libtool git unzip >>"${main_log}" 2>>"${err_log}"
 
-cd ~/sources
+cd ${SCRIPT_PATH}/sources
 wget --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}-stable --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
@@ -53,7 +53,7 @@ tar -xzf ${PSOL_VERSION}-x64.tar.gz >>"${main_log}" 2>>"${err_log}"
     fi
 rm ${PSOL_VERSION}-x64.tar.gz
 
-cd ~/sources
+cd ${SCRIPT_PATH}/sources
 git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}"
 cd libbrotli
 autoreconf -v -i >>"${main_log}" 2>>"${err_log}"

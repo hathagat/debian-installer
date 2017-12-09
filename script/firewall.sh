@@ -22,10 +22,10 @@ if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	apt-get -y --assume-yes install ipset >>"${main_log}" 2>>"${err_log}"
 fi
 
-git clone https://github.com/arno-iptables-firewall/aif.git ~/sources/aif -q
+git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q
 
 # Create folders and copy files
-cd ~/sources/aif
+cd ${SCRIPT_PATH}/sources/aif
 
 mkdir -p /usr/local/share/arno-iptables-firewall/plugins
 mkdir -p /usr/local/share/man/man1
@@ -88,7 +88,7 @@ systemctl -q start arno-iptables-firewall.service
 touch /etc/rc.local
 
 # Blacklist some bad guys
-mkdir -p ~/sources/blacklist
+mkdir -p ${SCRIPT_PATH}/sources/blacklist
 mkdir -p /etc/arno-iptables-firewall/blocklists
 sed -i 's/.*IPTABLES_IPSET=.*/IPTABLES_IPSET=1/' /etc/arno-iptables-firewall/firewall.conf
 sed -i 's/.*IPTABLES_IPSET_HASHSIZE=.*/IPTABLES_IPSET_HASHSIZE=16384/' /etc/arno-iptables-firewall/firewall.conf

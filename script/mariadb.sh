@@ -20,6 +20,9 @@ install_mariadb() {
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server >>"${main_log}" 2>>"${err_log}"
 
+MYSQL_ROOT_PASS=$(password)
+echo  "MYSQL_ROOT_PASS password: $MYSQL_ROOT_PASS" >> ${SCRIPT_PATH}/login_information
+
 mysqladmin -u root password ${MYSQL_ROOT_PASS}
 
 sed -i 's/.*max_allowed_packet.*/max_allowed_packet = 128M/g' /etc/mysql/my.cnf
