@@ -64,7 +64,7 @@ make -j $(nproc) >>"${main_log}" 2>>"${err_log}"
 make install >>"${main_log}" 2>>"${err_log}"
 ldconfig
 
-cd ~/sources
+cd ${SCRIPT_PATH}/sources
 git clone https://github.com/google/ngx_brotli >>"${main_log}" 2>>"${err_log}"
 cd ngx_brotli
 git submodule update --init >>"${main_log}" 2>>"${err_log}"
