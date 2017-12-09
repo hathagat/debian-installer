@@ -1,6 +1,7 @@
 ######### Allgemein #########
 - SCRIPT_PATH="/root/NeXt-Server" unbedingt darauf achten!
 - Schauen das alles eigenständig laufen kann -> welche sources / Variablen braucht die Funktion zum eigenständigen laufen?
+- Alles auf Englisch übersetzen? Teilweise sind Sachen auf Englisch und Deutsch
 
 ######### Error Handling #########
 - Error Handling
@@ -17,13 +18,12 @@
 		  echo "Error: nginx-${NGINX_VERSION}.tar.gz is corrupted."
 		  exit
 		fi
-		
+
 So etwas gibt es schon, aber vll besser	machen?
 
 
 ######### Nginx #########
 - Nginx HPKP fixen
-
 
 ######### PHP #########
 - menu_options_php_7_x anlegen
@@ -37,14 +37,16 @@ So etwas gibt es schon, aber vll besser	machen?
 - Automated mysql_secure_installation checken + ob Var Werte da sind
 
 ######### Bash #########
-- Welche Version hat Sretch --> ist es notwendig Bash extra zu installieren / kompilieren?
+- Welche Version hat Stretch --> ist es notwendig Bash extra zu installieren / kompilieren?
 
 ######### update script #########
 - alle Dateien mit User Daten in /root/ sichern und dann zurück spielen
 - checken ob dateien überhaupt vorhanden sind -> erst dann kopieren wenn sicher vorhanden
+- nach dem updaten und zurück spielen der Daten, die entstandenen Ordner in /root/ löschen
 
 ######### services updates #########
 - für alle Services eine Update Funktion anlegen + in das jeweilige menu_options_xx eintragen
+- Update Funktionen testen
 
 ######### fail2ban #########
 - activate_fail2ban_jails Option anbieten weitere jails zu aktivieren (oder aktivieren wir die automatisch, falls z.B. ein Mailserver dazu kommt?)
@@ -61,6 +63,15 @@ So etwas gibt es schon, aber vll besser	machen?
 ######### Openssh #########
 - create_new_openssh_key Funktion überarbeiten, der alte Key muss gelöscht werden, bevor neuer erzeugt wird, oder backuppen?
 - create_new_openssh_user Funktion anlegen (unbedingt zu ssh-user Gruppe hinzufügen, sonst kein SSH Login möglich!!)
-- BLOCKED_PORTS Check geht / gibt es nicht mehr? WIeder einfügen und optimieren?
+- BLOCKED_PORTS Check geht / gibt es nicht mehr? Wieder einfügen und optimieren?
 
-	
+######### Logs #########
+- Welche Sachen müssen unbedingt ins Log und welche können ins Nirvana? muss apt-get update und so Konsorten ins Log?
+
+######### Login Informationen #########
+- Wohin schreiben wir die ganzen Informationen?
+- Unbedingt bedenken, dass man später Services einzeln updaten kann + einzelne Werte manuell ändern kann -> die müssen auch erfasst werden , alte Werte dann löschen?
+- Bsp: SSH Port wird manuell geändert, wohin den speichern und alten Eintrag von Installation löschen?
+
+######### automatische Tests #########
+- nachdem ein Service installiert wurde testen ob er funktioniert + (wenn vorhanden) der Config check positiv ist? z.B. nginx -t
