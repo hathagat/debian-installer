@@ -80,9 +80,9 @@ NGINX_MODULES="--without-http_browser_module \
 --with-http_dav_module \
 --with-http_mp4_module \
 --with-http_gunzip_module \
---with-openssl=$HOME/sources/openssl-${OPENSSL_VERSION} \
---add-module=$HOME/sources/ngx_pagespeed-${NPS_VERSION}-stable \
---add-module=$HOME/sources/ngx_brotli "
+--with-openssl=${SCRIPT_PATH}/sources/openssl-${OPENSSL_VERSION} \
+--add-module=${SCRIPT_PATH}/sources/ngx_pagespeed-${NPS_VERSION}-stable \
+--add-module=${SCRIPT_PATH}/sources/ngx_brotli "
 
 #--with-openssl-opt=enable-tls1_3
 
