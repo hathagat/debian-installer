@@ -15,7 +15,7 @@
     # with this program; if not, write to the Free Software Foundation, Inc.,
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
-set -x
+
 install_firewall() {
 # ipset
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
