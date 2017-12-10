@@ -21,7 +21,7 @@ install_php_7_2() {
 DEBIAN_FRONTEND=noninteractive apt-get -y install apt-transport-https >>"${main_log}" 2>>"${err_log}"
 wget --no-check-certificate -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg >>"${main_log}" 2>>"${err_log}"
 echo "deb https://packages.sury.org/php/ stretch main" > /etc/apt/sources.list.d/php.list
-apt-get update -y >>"${main_log}" 2>>"${err_log}"
+apt-get update -y >/dev/null 2>&1
 
 PHPVERSION7="7.2"
 

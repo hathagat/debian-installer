@@ -33,8 +33,7 @@ So etwas gibt es schon, aber vll besser	machen?
 - Automated mysql_secure_installation checken + ob Var Werte da sind
 
 ######### update script #########
-- alle Dateien mit User Daten in /root/ sichern und dann zurück spielen
-- nach dem updaten und zurück spielen der Daten, die entstandenen Ordner in /root/ löschen
+- alle Dateien mit User Daten in /root/ sichern und dann zurück spielen ### zukünftige Dateien hinzufügen
 
 ######### services updates #########
 - für alle Services eine Update Funktion anlegen + in das jeweilige menu_options_xx eintragen

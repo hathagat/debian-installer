@@ -21,11 +21,11 @@ SCRIPT_PATH="/root/NeXt-Server"
 
 git remote update
 if ! git diff --quiet origin/master; then
-  
+
   mkdir -p /root/backup_next_server
 
   ### add more important stuff to backup ###
-  if [ -d "${SCRIPT_PATH}/logs/"] ; then
+  if [ -d "${SCRIPT_PATH}/logs/" ]; then
     mkdir -p /root/backup_next_server/logs
     cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
   fi
@@ -56,7 +56,7 @@ if ! git diff --quiet origin/master; then
   git reset --hard origin/master
 
   #restore backup
-  if [ -d "/root/backup_next_server/logs/"] ; then
+  if [ -d "/root/backup_next_server/logs/" ]; then
     cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
   fi
 
@@ -84,6 +84,8 @@ if ! git diff --quiet origin/master; then
   if [ -e ${SCRIPT_PATH}/configs/versions.cfg ]; then
     cp ${SCRIPT_PATH}/configs/versions.cfg /root/backup_next_server/
   fi
+
+  rm -R /root/backup_next_server/
 
   GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 else

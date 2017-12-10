@@ -47,8 +47,8 @@ deb http://security.debian.org/debian-security stretch/updates main
 deb-src http://security.debian.org/debian-security stretch/updates main
 END
 
-apt-get update -y >>"${main_log}" 2>>"${err_log}"
-apt-get -y upgrade >>"${main_log}" 2>>"${err_log}"
+apt-get update -y >/dev/null 2>&1
+apt-get -y upgrade >/dev/null 2>&1
 
 #thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1
 cat > /etc/sysctl.conf <<END
