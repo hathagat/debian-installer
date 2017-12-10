@@ -35,7 +35,6 @@ So etwas gibt es schon, aber vll besser	machen?
 
 ######### update script #########
 - alle Dateien mit User Daten in /root/ sichern und dann zurück spielen
-- checken ob dateien überhaupt vorhanden sind -> erst dann kopieren wenn sicher vorhanden
 - nach dem updaten und zurück spielen der Daten, die entstandenen Ordner in /root/ löschen
 
 ######### services updates #########
