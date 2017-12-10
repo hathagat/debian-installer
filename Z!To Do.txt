@@ -2,7 +2,6 @@
 - SCRIPT_PATH="/root/NeXt-Server" unbedingt darauf achten!
 - Schauen das alles eigenständig laufen kann -> welche sources / Variablen braucht die Funktion zum eigenständigen laufen?
 - Alles auf Englisch übersetzen? Teilweise sind Sachen auf Englisch und Deutsch
-- sources ist in /root und nicht im Script path, überall ändern
 
 ######### Error Handling #########
 - Error Handling
