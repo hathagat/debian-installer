@@ -75,7 +75,6 @@ server {
 	charset 			utf-8;
 	error_page 404 		/index.php;
 
-	ssl_dhparam	     	ssl/dh.pem;
 	ssl_certificate 	ssl/${MYDOMAIN}-ecc.cer;
 	ssl_certificate_key ssl/${MYDOMAIN}-ecc.key;
 	ssl_trusted_certificate ssl/${MYDOMAIN}-ecc.cer;
