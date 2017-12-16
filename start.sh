@@ -92,7 +92,20 @@ MENU="Choose one of the following options:"
 							case $CHOICE in
 									1)
 										source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
+										read -p "Continue (y/n)?" ANSW
+										if [ "$ANSW" = "y" ]; then
+
+										else
+										  exit 1
+										fi
+
 										source ${SCRIPT_PATH}/configuration.sh; show_login_information
+										if [ "$ANSW" = "y" ]; then
+
+										else
+											exit 1
+										fi
+										
 										source ${SCRIPT_PATH}/configuration.sh; create_private_key
 										dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
 										;;

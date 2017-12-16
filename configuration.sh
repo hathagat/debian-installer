@@ -16,13 +16,9 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-after_install_configuration()
-{
-
 SCRIPT_PATH="/root/NeXt-Server"
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/menu.sh
-
 HEIGHT=30
 WIDTH=60
 
@@ -46,5 +42,4 @@ Now select the Text file, where you saved the ssh_privatekey. \n
 After entering your SSH Password, you have to switch the paramter from RSA to ED25519. \n
 In the last step click on save private key - done! \n \n
 Dont forget to change your SSH Port in PuTTY!" $HEIGHT $WIDTH
-}
 }
