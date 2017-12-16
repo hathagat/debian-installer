@@ -91,22 +91,22 @@ MENU="Choose one of the following options:"
 							clear
 							case $CHOICE in
 									1)
-										source configuration.sh; show_ssh_key()
-										source configuration.sh; show_login_information()
-										source configuration.sh; create_private_key()
+										source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
+										source ${SCRIPT_PATH}/configuration.sh; show_login_information
+										source ${SCRIPT_PATH}/configuration.sh; create_private_key
 										dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
 										;;
 									2)
-										source configuration.sh; show_ssh_key()
+										source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 										;;
 									3)
-										source configuration.sh; show_login_information()
+										source ${SCRIPT_PATH}/configuration.sh; show_login_information
 										;;
 									4)
-										source configuration.sh; create_private_key()
+										source ${SCRIPT_PATH}/configuration.sh; create_private_key
 										;;
 									5)
-										bash start.sh
+										bash ${SCRIPT_PATH}/start.sh
 										;;
 									6)
 										echo "Exit"
