@@ -93,19 +93,15 @@ MENU="Choose one of the following options:"
 									1)
 										source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 										read -p "Continue (y/n)?" ANSW
-										if [ "$ANSW" = "y" ]; then
-											#nothing
-										else
+										if [ "$ANSW" = "n" ]; then
 											echo "Exit"
 										  exit 1
 										fi
 
 										source ${SCRIPT_PATH}/configuration.sh; show_login_information
 										read -p "Continue (y/n)?" ANSW
-										if [ "$ANSW" = "y" ]; then
-											#nothing
-										else
-											echo "Exit"	
+										if [ "$ANSW" = "n" ]; then
+											echo "Exit"
 											exit 1
 										fi
 
