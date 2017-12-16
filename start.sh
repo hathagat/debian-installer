@@ -31,21 +31,22 @@ source ${SCRIPT_PATH}/script/functions.sh
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=10
+CHOICE_HEIGHT=11
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
 		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD}"
-						 2 "Update all services"
-				 		 3 "Openssh Options"
-						 4 "Openssl Options"
-						 5 "Fail2ban Options"
-						 6 "Nginx vHost Options"
-						 7 "Lets Encrypt Options"
-						 8 "Firewall Settings"
-						 9 "Update NeXt Server Script"
-			     	 10 "Exit")
+						 2 "After Installation configuration"
+						 3 "Update all services"
+				 		 4 "Openssh Options"
+						 5 "Openssl Options"
+						 6 "Fail2ban Options"
+						 7 "Nginx vHost Options"
+						 8 "Lets Encrypt Options"
+						 9 "Firewall Settings"
+						 10 "Update NeXt Server Script"
+			     	 11 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -63,6 +64,57 @@ MENU="Choose one of the following options:"
 					bash install.sh
 					;;
 				2)
+					HEIGHT=30
+					WIDTH=60
+					CHOICE_HEIGHT=10
+					BACKTITLE="NeXt Server"
+					TITLE="NeXt Server"
+					MENU="Choose one of the following options:"
+
+							OPTIONS=(1 "Full after installation configuration"
+											 2 "Show SSH Key"
+											 3 "Show Login information"
+											 4 "Create private key"
+											 5 "Back"
+											 6 "Exit")
+
+							CHOICE=$(dialog --clear \
+											--nocancel \
+											--no-cancel \
+											--backtitle "$BACKTITLE" \
+											--title "$TITLE" \
+											--menu "$MENU" \
+											$HEIGHT $WIDTH $CHOICE_HEIGHT \
+											"${OPTIONS[@]}" \
+											2>&1 >/dev/tty)
+
+							clear
+							case $CHOICE in
+									1)
+										source configuration.sh; show_ssh_key()
+										source configuration.sh; show_login_information()
+										source configuration.sh; create_private_key()
+										dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
+										;;
+									2)
+										source configuration.sh; show_ssh_key()
+										;;
+									3)
+										source configuration.sh; show_login_information()
+										;;
+									4)
+										source configuration.sh; create_private_key()
+										;;
+									5)
+										bash start.sh
+										;;
+									6)
+										echo "Exit"
+										exit 1
+										;;
+							esac
+					;;
+				3)
 					#check if installed, otherwise skip single services
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating all services" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/script/logs.sh; set_logs
@@ -72,33 +124,33 @@ MENU="Choose one of the following options:"
 					source script/openssl.sh; update_openssl
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
 					;;
-				3)
+				4)
 					source script/openssh.sh; menu_options_openssh
 					;;
-				4)
+				5)
 					source script/openssl.sh; menu_options_openssl
 					;;
-				5)
+				6)
 					source script/fail2ban.sh; menu_options_fail2ban
 					;;
-				6)
+				7)
 					source script/nginx_vhost.sh; menu_options_nginx_vhost
 					;;
-				7)
+				8)
 					source script/lets_encrypt.sh; menu_options_lets_encrypt
 					;;
-				8)
+				9)
 					#firewall settings
 					#source script/lets_encrypt.sh; menu_options_lets_encrypt
 					apt-get update
 					;;
-				9)
+				10)
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/update_script.sh; update_script
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}" $HEIGHT $WIDTH
 					bash start.sh
 					;;
-				10)
+				11)
 					echo "Exit"
 					exit 1
 					;;
