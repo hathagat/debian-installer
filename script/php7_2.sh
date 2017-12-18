@@ -29,6 +29,10 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install php-auth-sasl php-http-request
 
 cp ${SCRIPT_PATH}/configs/php/php.ini /etc/php/$PHPVERSION7/fpm/php.ini
 cp ${SCRIPT_PATH}/configs/php/php-fpm.conf /etc/php/$PHPVERSION7/fpm/php-fpm.conf
+
+sed -i "s/php7.1/php7.2/g" /etc/php/$PHPVERSION7/fpm/php-fpm.conf >>"${main_log}" 2>>"${err_log}"
+sed -i "s/7.1/7.2/g" /etc/php/$PHPVERSION7/fpm/php-fpm.conf >>"${main_log}" 2>>"${err_log}"
+
 cp ${SCRIPT_PATH}/configs/php/www.conf /etc/php/$PHPVERSION7/fpm/pool.d/www.conf
 
 # Configure APCu
@@ -41,5 +45,5 @@ cp ${SCRIPT_PATH}/configs/php/apcu.ini /etc/php/$PHPVERSION7/mods-available/apcu
 ln -s /etc/php/$PHPVERSION7/mods-available/apcu.ini /etc/php/$PHPVERSION7/mods-available/20-apcu.ini
 
 systemctl -q restart nginx.service
-systemctl -q restart php7.2-fpm.service
+systemctl -q restart php$PHPVERSION7-fpm.service
 }

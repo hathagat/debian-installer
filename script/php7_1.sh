@@ -41,5 +41,5 @@ cp ${SCRIPT_PATH}/configs/php/apcu.ini /etc/php/$PHPVERSION7/mods-available/apcu
 ln -s /etc/php/$PHPVERSION7/mods-available/apcu.ini /etc/php/$PHPVERSION7/mods-available/20-apcu.ini
 
 systemctl -q restart nginx.service
-systemctl -q restart php7.1-fpm.service
+systemctl -q restart php$PHPVERSION7-fpm.service
 }

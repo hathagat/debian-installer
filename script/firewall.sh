@@ -16,15 +16,102 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
+menu_options_firewall() {
+
+HEIGHT=30
+WIDTH=60
+CHOICE_HEIGHT=6
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
+MENU="Choose one of the following options:"
+
+	OPTIONS=(1 "Install Firewall"
+			 		2 "Update Firewall (not working yet)"
+			 		3 "Open TCP Port"
+			 		4 "Open UDP Port"
+			 		5 "Back"
+			 		6 "Exit")
+
+	CHOICE=$(dialog --clear \
+					--nocancel \
+					--no-cancel \
+					--backtitle "$BACKTITLE" \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+	clear
+	case $CHOICE in
+			1)
+				dialog --backtitle "NeXt Server Installation" --infobox "Installing Firewall" $HEIGHT $WIDTH
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+				install_firewall
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Firewall" $HEIGHT $WIDTH
+				;;
+			2)
+				dialog --backtitle "NeXt Server Installation" --infobox "Updating Firewall" $HEIGHT $WIDTH
+				source ${SCRIPT_PATH}/script/logs.sh; set_logs
+				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+				update_firewall
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Firewall" $HEIGHT $WIDTH
+				;;
+			3)
+			while true
+					do
+						CHOOSE_TCP_PORT=$(dialog --clear \
+							--backtitle "$BACKTITLE" \
+							--inputbox "Enter your TCP Port (only max. 3 numbers!):" \
+							$HEIGHT $WIDTH \
+							3>&1 1>&2 2>&3 3>&- \
+							)
+						if [[ ${CHOOSE_TCP_PORT} =~ ^-?[0-9]+$ ]]; then
+								TCP_PORT="$CHOOSE_TCP_PORT"
+								sed -i "/\<$TCP_PORT\>/ "\!"s/^OPEN_TCP=\"/&$TCP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
+								systemctl force-reload arno-iptables-firewall.service
+								dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The new TCP Port ${TCP_PORT} is opened!" $HEIGHT $WIDTH
+								break
+						fi
+					done
+				;;
+			4)
+			while true
+				do
+					CHOOSE_UDP_PORT=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter your UDP Port (only max. 3 numbers!):" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+						)
+					if [[ ${CHOOSE_UDP_PORT} =~ ^-?[0-9]+$ ]]; then
+							UDP_PORT="$CHOOSE_UDP_PORT"
+							sed -i "/\<$UDP_PORT\>/ "\!"s/^OPEN_UDP=\"/&$UDP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
+							systemctl force-reload arno-iptables-firewall.service
+							dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The new UDP Port ${UDP_PORT} is opened!" $HEIGHT $WIDTH
+							break
+					fi
+				done
+				;;
+			5)
+				bash ${SCRIPT_PATH}/start.sh;
+				;;
+			6)
+				echo "Exit"
+				exit 1
+				;;
+	esac
+}
+
 install_firewall() {
-# ipset
+
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	apt-get -y --assume-yes install ipset >>"${main_log}" 2>>"${err_log}"
 fi
 
+mkdir -p ${SCRIPT_PATH}/sources/aif
 git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q
-
-# Create folders and copy files
 cd ${SCRIPT_PATH}/sources/aif
 
 mkdir -p /usr/local/share/arno-iptables-firewall/plugins
@@ -44,9 +131,8 @@ gzip -c share/man/man1/arno-fwfilter.1 >/usr/local/share/man/man1/arno-fwfilter.
 gzip -c share/man/man8/arno-iptables-firewall.8 >/usr/local/share/man/man8/arno-iptables-firewall.8.gz >>"${main_log}" 2>>"${err_log}"
 
 cp README /usr/local/share/doc/arno-iptables-firewall/
-cp etc/init.d/arno-iptables-firewall /etc/init.d/
 if [ -d "/usr/lib/systemd/system/" ]; then
-  cp lib/systemd/system/arno-iptables-firewall.service /usr/lib/systemd/system/
+  cp lib/systemd/system/arno-iptables-firewall.service /usr/lib/systemd/system/ ###
 fi
 
 cp etc/arno-iptables-firewall/firewall.conf /etc/arno-iptables-firewall/
@@ -54,34 +140,22 @@ cp etc/arno-iptables-firewall/custom-rules /etc/arno-iptables-firewall/
 cp -R etc/arno-iptables-firewall/plugins/ /etc/arno-iptables-firewall/
 cp share/arno-iptables-firewall/environment /usr/local/share/
 
+cp ${SCRIPT_PATH}/configs/arno-iptables-firewall/firewall.conf /etc/arno-iptables-firewall/firewall.conf
+cp ${SCRIPT_PATH}/configs/arno-iptables-firewall/arno-iptables-firewall /etc/init.d/arno-iptables-firewall
+
 chmod +x /usr/local/sbin/arno-iptables-firewall
 chown 0:0 /etc/arno-iptables-firewall/firewall.conf
 chown 0:0 /etc/arno-iptables-firewall/custom-rules
 chmod +x /usr/local/share/environment
 
-# Start Arno-Iptables-Firewall at boot
-update-rc.d -f arno-iptables-firewall start 11 S . stop 10 0 6 >>"${main_log}" 2>>"${err_log}"
+update-rc.d -f arno-iptables-firewall start 11 S . stop 10 0 6 >>"${main_log}" 2>>"${err_log}" ###
 
-# Configure firewall.conf
 bash /usr/local/share/environment >>"${main_log}" 2>>"${err_log}"
 
 sed -i "s/^EXT_IF=.*/EXT_IF="${INTERFACE}"/g" /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^EXT_IF_DHCP_IP=.*/EXT_IF_DHCP_IP="0"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^#FIREWALL_LOG=.*/FIREWALL_LOG="\/var\/log\/firewall.log"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^DRDOS_PROTECT=.*/DRDOS_PROTECT="1"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^OPEN_ICMP=.*/OPEN_ICMP="1"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^#BLOCK_HOSTS_FILE=.*/BLOCK_HOSTS_FILE="\/etc\/arno-iptables-firewall\/blocked-hosts"/g' /etc/arno-iptables-firewall/firewall.conf
+sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, \"/" /etc/arno-iptables-firewall/firewall.conf
 
-#if [[ ${USE_MAILSERVER} == '1' ]]; then
-#	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 25, 80, 110, 143, 443, 465, 587, 993, 995\"/" /etc/arno-iptables-firewall/firewall.conf
-#else
-	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 80, 443\"/" /etc/arno-iptables-firewall/firewall.conf
-#fi
-sed -i 's/^OPEN_UDP=.*/OPEN_UDP=""/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^VERBOSE=.*/VERBOSE=1/' /etc/init.d/arno-iptables-firewall
-
-# Start the firewall
-systemctl -q daemon-reload || error_exit "Failed to daemon-reload! Aborting"
+systemctl -q daemon-reload
 systemctl -q start arno-iptables-firewall.service
 
 #Fix error with /etc/rc.local
@@ -90,10 +164,6 @@ touch /etc/rc.local
 # Blacklist some bad guys
 mkdir -p ${SCRIPT_PATH}/sources/blacklist
 mkdir -p /etc/arno-iptables-firewall/blocklists
-sed -i 's/.*IPTABLES_IPSET=.*/IPTABLES_IPSET=1/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/.*IPTABLES_IPSET_HASHSIZE=.*/IPTABLES_IPSET_HASHSIZE=16384/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/.*IPTABLES_IPSET_MAXELEM=.*/IPTABLES_IPSET_MAXELEM=120000/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/.*BLOCK_NETSET_DIR=.*/BLOCK_NETSET_DIR="\/etc\/arno-iptables-firewall\/blocklists"/' /etc/arno-iptables-firewall/firewall.conf
 
 cat > /etc/cron.daily/blocked-hosts <<END
 #!/bin/bash
@@ -134,4 +204,8 @@ fi
 if [[ ${USE_PHP7_2} == '1' ]]; then
 	systemctl -q restart {nginx,php7.2-fpm}
 fi
+}
+
+update_firewall() {
+	apt-get update
 }

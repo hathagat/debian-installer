@@ -152,9 +152,7 @@ MENU="Choose one of the following options:"
 					source script/lets_encrypt.sh; menu_options_lets_encrypt
 					;;
 				9)
-					#firewall settings
-					#source script/lets_encrypt.sh; menu_options_lets_encrypt
-					apt-get update
+					source script/lets_encrypt.sh; menu_options_firewall
 					;;
 				10)
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
