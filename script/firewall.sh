@@ -106,12 +106,16 @@ MENU="Choose one of the following options:"
 
 install_firewall() {
 
+SCRIPT_PATH="/root/NeXt-Server"
+
+# ipset
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	apt-get -y --assume-yes install ipset >>"${main_log}" 2>>"${err_log}"
 fi
 
-mkdir -p ${SCRIPT_PATH}/sources/aif
 git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q
+
+# Create folders and copy files
 cd ${SCRIPT_PATH}/sources/aif
 
 mkdir -p /usr/local/share/arno-iptables-firewall/plugins
@@ -146,17 +150,22 @@ chown 0:0 /etc/arno-iptables-firewall/firewall.conf
 chown 0:0 /etc/arno-iptables-firewall/custom-rules
 chmod +x /usr/local/share/environment
 
+# Start Arno-Iptables-Firewall at boot
 update-rc.d -f arno-iptables-firewall start 11 S . stop 10 0 6 >>"${main_log}" 2>>"${err_log}"
 
+# Configure firewall.conf
 bash /usr/local/share/environment >>"${main_log}" 2>>"${err_log}"
 
 cp ${SCRIPT_PATH}/configs/arno-iptables-firewall/firewall.conf /etc/arno-iptables-firewall/firewall.conf
-cp ${SCRIPT_PATH}/configs/arno-iptables-firewall/arno-iptables-firewall /etc/init.d/arno-iptables-firewall
 
 sed -i "s/^EXT_IF=.*/EXT_IF="${INTERFACE}"/g" /etc/arno-iptables-firewall/firewall.conf
-sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, \"/" /etc/arno-iptables-firewall/firewall.conf
 
-systemctl -q daemon-reload
+sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 80, 443\"/" /etc/arno-iptables-firewall/firewall.conf
+
+sed -i 's/^VERBOSE=.*/VERBOSE=1/' /etc/init.d/arno-iptables-firewall
+
+# Start the firewall
+systemctl -q daemon-reload || error_exit "Failed to daemon-reload! Aborting"
 systemctl -q start arno-iptables-firewall.service
 
 #Fix error with /etc/rc.local
@@ -165,6 +174,10 @@ touch /etc/rc.local
 # Blacklist some bad guys
 mkdir -p ${SCRIPT_PATH}/sources/blacklist
 mkdir -p /etc/arno-iptables-firewall/blocklists
+sed -i 's/.*IPTABLES_IPSET=.*/IPTABLES_IPSET=1/' /etc/arno-iptables-firewall/firewall.conf
+sed -i 's/.*IPTABLES_IPSET_HASHSIZE=.*/IPTABLES_IPSET_HASHSIZE=16384/' /etc/arno-iptables-firewall/firewall.conf
+sed -i 's/.*IPTABLES_IPSET_MAXELEM=.*/IPTABLES_IPSET_MAXELEM=120000/' /etc/arno-iptables-firewall/firewall.conf
+sed -i 's/.*BLOCK_NETSET_DIR=.*/BLOCK_NETSET_DIR="\/etc\/arno-iptables-firewall\/blocklists"/' /etc/arno-iptables-firewall/firewall.conf
 
 cat > /etc/cron.daily/blocked-hosts <<END
 #!/bin/bash
@@ -205,6 +218,7 @@ fi
 if [[ ${USE_PHP7_2} == '1' ]]; then
 	systemctl -q restart {nginx,php7.2-fpm}
 fi
+
 }
 
 update_firewall() {
