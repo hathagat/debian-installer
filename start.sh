@@ -152,7 +152,7 @@ MENU="Choose one of the following options:"
 					source script/lets_encrypt.sh; menu_options_lets_encrypt
 					;;
 				9)
-					source script/lets_encrypt.sh; menu_options_firewall
+					source script/firewall.sh; menu_options_firewall
 					;;
 				10)
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
