@@ -106,6 +106,9 @@ MENU="Choose one of the following options:"
 
 install_firewall() {
 
+rm -R ${SCRIPT_PATH}/sources/aif
+rm -R ${SCRIPT_PATH}/sources/blacklist
+
 # ipset
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	apt-get -y --assume-yes install ipset >>"${main_log}" 2>>"${err_log}"
@@ -153,6 +156,8 @@ update-rc.d -f arno-iptables-firewall start 11 S . stop 10 0 6 >>"${main_log}" 2
 
 # Configure firewall.conf
 bash /usr/local/share/environment >>"${main_log}" 2>>"${err_log}"
+
+INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
 
 sed -i "s/^EXT_IF=.*/EXT_IF="${INTERFACE}"/g" /etc/arno-iptables-firewall/firewall.conf
 sed -i 's/^EXT_IF_DHCP_IP=.*/EXT_IF_DHCP_IP="0"/g' /etc/arno-iptables-firewall/firewall.conf
