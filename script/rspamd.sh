@@ -23,24 +23,12 @@ wget -O- https://rspamd.com/apt-stable/gpg.key | apt-key add -
 echo "deb http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" > /etc/apt/sources.list.d/rspamd.list
 echo "deb-src http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" >> /etc/apt/sources.list.d/rspamd.list
 
-apt update
-apt install rspamd
+apt-get update -y >/dev/null 2>&1
+DEBIAN_FRONTEND=noninteractive apt-get -y install rspamd >>"${main_log}" 2>>"${err_log}"
 systemctl stop rspamd
 
-cat > /etc/rspamd/local.d/options.inc <<END
-local_addrs = "127.0.0.0/8, ::1";
-
-dns {
-    nameserver = ["127.0.0.1:53:10"];
-}
-END
-
-cat > /etc/rspamd/local.d/worker-normal.inc <<END
-bind_socket = "localhost:11333";
-### Anzahl der zu nutzenden Worker. Standard: Anzahl der virtuellen Prozessorkerne.
-# count = 1
-END
-
+cp ${SCRIPT_PATH}/configs/rspamd/options.inc /etc/rspamd/local.d/options.inc
+cp ${SCRIPT_PATH}/configs/rspamd/worker-normal.inc /etc/rspamd/local.d/worker-normal.inc
 ###hier anpassungen mit make compile anzahl
 
 cat > /etc/rspamd/local.d/worker-controller.inc <<END
@@ -48,57 +36,27 @@ password = "$2$qecacwgrz13owkag4gqcy5y7yeqh7yh4$y6i6gn5q3538tzsn19ojchuudoauw3rz
 END
 
 rspamadm pw
-
 ##dann pw hash in obere file eingeben
 
-cat > /etc/rspamd/local.d/worker-proxy.inc <<END
-bind_socket = "localhost:11332";
-milter = yes;
-timeout = 120s;
-upstream "local" {
-    default = yes;
-    self_scan = yes;
-}
-END
-
-cat > /etc/rspamd/local.d/logging.inc <<END
-type = "file";
-filename = "/var/log/rspamd/rspamd.log";
-level = "error";
-debug_modules = [];
-END
-
-cat > /etc/rspamd/local.d/milter_headers.conf <<END
-use = ["x-spamd-bar", "x-spam-level", "authentication-results"];
-authenticated_headers = ["authentication-results"];
-END
+cp ${SCRIPT_PATH}/configs/rspamd/worker-proxy.inc /etc/rspamd/local.d/worker-proxy.inc
+cp ${SCRIPT_PATH}/configs/rspamd/logging.inc /etc/rspamd/local.d/logging.inc
+cp ${SCRIPT_PATH}/configs/rspamd/milter_headers.conf /etc/rspamd/local.d/milter_headers.conf
 
 mkdir /var/lib/rspamd/dkim/
 rspamadm dkim_keygen -b 2048 -s 2017 -k /var/lib/rspamd/dkim/2017.key > /var/lib/rspamd/dkim/2017.txt
 chown -R _rspamd:_rspamd /var/lib/rspamd/dkim
 chmod 440 /var/lib/rspamd/dkim/*
-
 ##key jahr ändern 2017 -> 2018
-
 cat /var/lib/rspamd/dkim/2017.txt
-
 ##key in dns record packen
 
-cat > /etc/rspamd/local.d/dkim_signing.conf <<END
-path = "/var/lib/rspamd/dkim/$selector.key";
-selector = "2017";
-
-### Enable DKIM signing for alias sender addresses
-allow_username_mismatch = true;
-END
+cp ${SCRIPT_PATH}/configs/rspamd/dkim_signing.conf /etc/rspamd/local.d/dkim_signing.conf
+##key jahr ändern 2017 -> 2018
 
 cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 
 apt install redis-server
-
-cat > /etc/rspamd/local.d/redis.conf <<END
-servers = "127.0.0.1";
-END
+cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
 systemctl start rspamd
 
