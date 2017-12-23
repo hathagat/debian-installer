@@ -147,6 +147,22 @@ esac
 #	exit 1
 #fi
 
+# --- Mailserver ---
+CHOICE_HEIGHT=2
+MENU="Do you want to use the Mailserver?:"
+OPTIONS=(1 "Yes"
+		     2 "No")
+menu
+clear
+case $CHOICE in
+      1)
+			USE_MAILSERVER="1"
+            ;;
+		2)
+			USE_MAILSERVER="0"
+            ;;
+esac
+
 # --- PHP ---
 CHOICE_HEIGHT=2
 MENU="Do you want to Use PHP 7.1 or PHP 7.2?:"
@@ -180,6 +196,7 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	CONFIG_COMPLETED="${CONFIG_COMPLETED}"
 	TIMEZONE="${TIMEZONE}"
 	MYDOMAIN="${MYDOMAIN}"
+	USE_MAILSERVER="${USE_MAILSERVER}"
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"

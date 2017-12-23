@@ -90,6 +90,18 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	php_end=`date +%s`
 	phptime=$((php_end-php_start))
 
+	echo "85" | dialog --gauge "Installing Mailserver..." 10 70 0
+	mailserver_start=`date +%s`
+	if [[ ${USE_MAILSERVER} = "1" ]]; then
+		source ${SCRIPT_PATH}/script/unbound.sh; install_unbound
+		source ${SCRIPT_PATH}/script/mailserver_sql.sh; install_mailserver_sql
+		source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot
+		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
+		source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd
+	fi
+	mailserver_end=`date +%s`
+	mailservertime=$((mailserver_end-mailserver_start))
+
 	firewall_start=`date +%s`
 	echo "90" | dialog --gauge "Installing Firewall..." 10 70 0
 	source ${SCRIPT_PATH}/script/firewall.sh; install_firewall
@@ -109,6 +121,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "$install_runtime_string MariaDB in seconds: ${mariatime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Nginx in seconds: ${nginxtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string PHP in seconds: ${phptime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string Mailserver in seconds: ${mailservertime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt

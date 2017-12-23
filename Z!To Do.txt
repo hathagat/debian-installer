@@ -46,6 +46,9 @@ So etwas gibt es schon, aber vll besser	machen?
 - Welche Firewall nehmen wir? Wenn Arnos bleibt -> überarbeiten!
 
 ######### Mailserver #########
+- Zertifikate unabhängig vom Webserver erstellen lassen in Single Install?
+
+######### Mailserver #########
 - Erstmal alle Reste entfernen die man noch im Script findet
 
 ######### Checks #########

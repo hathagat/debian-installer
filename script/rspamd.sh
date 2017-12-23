@@ -18,7 +18,8 @@
 
 install_rspamd() {
 
-apt install -y lsb-release wget
+DEBIAN_FRONTEND=noninteractive apt-get -y install lsb-release wget >>"${main_log}" 2>>"${err_log}"
+
 wget -O- https://rspamd.com/apt-stable/gpg.key | apt-key add -
 echo "deb http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" > /etc/apt/sources.list.d/rspamd.list
 echo "deb-src http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" >> /etc/apt/sources.list.d/rspamd.list
