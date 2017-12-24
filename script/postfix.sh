@@ -46,4 +46,9 @@ touch /etc/postfix/postscreen_access
 postmap /etc/postfix/without_ptr
 newaliases
 
+#postmap: fatal: parameter inet_interfaces: no local interface found for ::1
+#+ newaliases
+#newaliases: fatal: parameter inet_interfaces: no local interface found for ::1
+
+
 }

@@ -47,6 +47,7 @@ So etwas gibt es schon, aber vll besser	machen?
 
 ######### Mailserver #########
 - Zertifikate unabhängig vom Webserver erstellen lassen in Single Install?
+- DNS Einträge Info File
 
 ######### Mailserver #########
 - Erstmal alle Reste entfernen die man noch im Script findet

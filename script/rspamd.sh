@@ -38,6 +38,9 @@ END
 
 rspamadm pw
 ##dann pw hash in obere file eingeben
+#rspamadm pw please enter pasphrase <-- pipen?
+
+#echo testasdf|rspamadm pw
 
 cp ${SCRIPT_PATH}/configs/rspamd/worker-proxy.inc /etc/rspamd/local.d/worker-proxy.inc
 cp ${SCRIPT_PATH}/configs/rspamd/logging.inc /etc/rspamd/local.d/logging.inc
@@ -56,7 +59,7 @@ cp ${SCRIPT_PATH}/configs/rspamd/dkim_signing.conf /etc/rspamd/local.d/dkim_sign
 
 cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 
-apt install redis-server
+DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server >>"${main_log}" 2>>"${err_log}"
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
 systemctl start rspamd

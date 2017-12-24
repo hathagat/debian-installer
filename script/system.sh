@@ -19,15 +19,19 @@
 install_system() {
 
 cat > /etc/hosts <<END
-127.0.0.1 localhost
-::1 localhost ip6-localhost ip6-loopback
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
+127.0.0.1   localhost
+127.0.1.1   mail.domain.tld  mail
+
+::1         localhost ip6-localhost ip6-loopback
+ff02::1     ip6-allnodes
+ff02::2     ip6-allrouters
 END
 
+sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
+hostnamectl set-hostname --static mail
+echo $(hostname -f) > /etc/mailname
 echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
-hostnamectl set-hostname mail.${MYDOMAIN}
-echo "${MYDOMAIN}" > /etc/mailname
+
 
 timedatectl set-timezone ${TIMEZONE}
 

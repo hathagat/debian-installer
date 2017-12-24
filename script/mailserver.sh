@@ -18,13 +18,14 @@
 
 install_mailserver() {
 
-set -x  
+set -x
 
 mysql -u root mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql
 #change placeholder
 
 mkdir /var/vmail
-adduser --disabled-login --disabled-password --home /var/vmail vmail
+adduser --gecos "" --disabled-login --disabled-password --home /var/vmail vmail
+
 mkdir /var/vmail/mailboxes
 mkdir -p /var/vmail/sieve/global
 chown -R vmail /var/vmail
