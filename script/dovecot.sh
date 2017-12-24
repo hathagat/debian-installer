@@ -30,7 +30,10 @@ sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/dovecot/dovecot.conf
 
 cp ${SCRIPT_PATH}/configs/dovecot/dovecot-sql.conf /etc/dovecot/dovecot-sql.conf
 chmod 440 /etc/dovecot/dovecot-sql.conf
-### change vmaildbpass
+
+VMAILDBPASS=$(password)
+echo  "VMAILDBPASS password: $VMAILDBPASS" >> ${SCRIPT_PATH}/login_information
+sed -i "s/placeholder/${VMAILDBPASS}/g" /etc/dovecot/dovecot.conf
 
 cat > /var/vmail/sieve/global/spam-global.sieve <<END
 require "fileinto";

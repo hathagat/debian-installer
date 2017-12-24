@@ -94,7 +94,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	mailserver_start=`date +%s`
 	if [[ ${USE_MAILSERVER} = "1" ]]; then
 		source ${SCRIPT_PATH}/script/unbound.sh; install_unbound
-		source ${SCRIPT_PATH}/script/mailserver_sql.sh; install_mailserver_sql
+		source ${SCRIPT_PATH}/script/mailserver.sh; install_mailserver
 		source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot
 		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
 		source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd

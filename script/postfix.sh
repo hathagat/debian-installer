@@ -30,17 +30,10 @@ cp ${SCRIPT_PATH}/configs/postfix/main.cf /etc/postfix/main.cf
 #ändern inet_interfaces:  myhostname  smtpd_tls_cert_file smtpd_tls_key_file
 
 cp ${SCRIPT_PATH}/configs/postfix/master.cf /etc/postfix/master.cf
-
 cp ${SCRIPT_PATH}/configs/postfix/submission_header_cleanup /etc/postfix/submission_header_cleanup
 
 mkdir /etc/postfix/sql
-#cp recursiv?
-cp ${SCRIPT_PATH}/configs/postfix/accounts.cf /etc/postfix/sql/accounts.cf
-cp ${SCRIPT_PATH}/configs/postfix/aliases.cf /etc/postfix/sql/aliases.cf
-cp ${SCRIPT_PATH}/configs/postfix/domains.cf /etc/postfix/sql/domains.cf
-cp ${SCRIPT_PATH}/configs/postfix/recipient-access.cf /etc/postfix/sql/recipient-access.cf
-cp ${SCRIPT_PATH}/configs/postfix/sender-login-maps.cf /etc/postfix/sql/sender-login-maps.cf
-cp ${SCRIPT_PATH}/configs/postfix/tls-policy.cf /etc/postfix/sql/tls-policy.cf
+cp -R ${SCRIPT_PATH}/configs/postfix/sql/ /etc/postfix/sql/
 chmod -R 640 /etc/postfix/sql
 
 touch /etc/postfix/without_ptr
