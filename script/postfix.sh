@@ -18,6 +18,8 @@
 
 install_postfix() {
 
+set -x
+
 DEBIAN_FRONTEND=noninteractive apt-get -y install postfix postfix-mysql >>"${main_log}" 2>>"${err_log}"
 
 systemctl stop postfix
@@ -27,7 +29,9 @@ rm -r sasl
 rm master.cf main.cf.proto master.cf.proto
 
 cp ${SCRIPT_PATH}/configs/postfix/main.cf /etc/postfix/main.cf
-#ändern inet_interfaces:  myhostname  smtpd_tls_cert_file smtpd_tls_key_file
+sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/postfix/main.cf
+IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
+sed -i "s/changeme/${IPADR}/g" /etc/postfix/main.cf
 
 cp ${SCRIPT_PATH}/configs/postfix/master.cf /etc/postfix/master.cf
 cp ${SCRIPT_PATH}/configs/postfix/submission_header_cleanup /etc/postfix/submission_header_cleanup

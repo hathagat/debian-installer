@@ -18,6 +18,8 @@
 
 install_dovecot() {
 
+set -x
+
 DEBIAN_FRONTEND=noninteractive apt-get -y install dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved >>"${main_log}" 2>>"${err_log}"
 
 systemctl stop dovecot
@@ -31,9 +33,9 @@ sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/dovecot/dovecot.conf
 cp ${SCRIPT_PATH}/configs/dovecot/dovecot-sql.conf /etc/dovecot/dovecot-sql.conf
 chmod 440 /etc/dovecot/dovecot-sql.conf
 
-VMAILDBPASS=$(password)
-echo  "VMAILDBPASS password: $VMAILDBPASS" >> ${SCRIPT_PATH}/login_information
-sed -i "s/placeholder/${VMAILDBPASS}/g" /etc/dovecot/dovecot.conf
+#VMAILDBPASS=$(password)
+#echo  "VMAILDBPASS password: $VMAILDBPASS" >> ${SCRIPT_PATH}/login_information
+#sed -i "s/placeholder/${VMAILDBPASS}/g" /etc/dovecot/dovecot.conf
 
 cat > /var/vmail/sieve/global/spam-global.sieve <<END
 require "fileinto";
