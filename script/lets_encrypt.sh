@@ -83,11 +83,7 @@ sleep 1
 . ~/.profile >>"${main_log}" 2>>"${err_log}"
 cd ${SCRIPT_PATH}/sources/acme.sh/
 
-if [[ ${USE_MAILSERVER} == '1' ]]; then
-	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} -d imap.${MYDOMAIN} -d smtp.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-else
-	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-fi
+bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
 
 ln -s /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
 ln -s /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-ecc.key >>"${main_log}" 2>>"${err_log}"
@@ -109,9 +105,5 @@ source ${SCRIPT_PATH}/configs/versions.cfg
 
 cd ${SCRIPT_PATH}/.acme.sh/
 
-if [[ ${USE_MAILSERVER} == '1' ]]; then
-	bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} -d mail.${MYDOMAIN} imap.${MYDOMAIN} smtp.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}"
-else
-  bash acme.sh --renew -d ${MYDOMAIN} -d www.${MYDOMAIN} --force --ecc >>"${main_log}" 2>>"${err_log}"
-fi
+bash acme.sh --renew -d ${MYDOMAIN} -d www.${MYDOMAIN} --force --ecc >>"${main_log}" 2>>"${err_log}"
 }

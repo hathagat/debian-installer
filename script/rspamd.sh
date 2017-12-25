@@ -61,5 +61,7 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server >>"${main_log}" 2
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
 systemctl start rspamd
+systemctl start dovecot
+systemctl start postfix
 
 }

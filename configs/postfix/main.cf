@@ -43,8 +43,8 @@ smtpd_tls_protocols = !SSLv2, !SSLv3
 smtpd_tls_ciphers = high
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 
-smtpd_tls_cert_file=/etc/nginx/ssl/domain.tld-ecc.cer
-smtpd_tls_key_file=/etc/nginx/ssl/domain.tld-ecc.key;
+smtpd_tls_cert_file=/etc/nginx/ssl/domain.tld.cer
+smtpd_tls_key_file=/etc/nginx/ssl/domain.tld.key
 
 
 ##

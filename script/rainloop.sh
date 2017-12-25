@@ -21,4 +21,28 @@ install_rainloop() {
 mkdir -p /var/www/html/webmail
 wget -qO- https://repository.rainloop.net/installer.php | php
 
+mkdir -p /etc/nginx/sites-custom/
+
+cat >> /etc/nginx/sites-custom/rainloop.conf << 'EOF1'
+location ~ ^/webmail {
+    alias /var/www/rainloop/$1;
+    location ~ ^/vma/(.*\.(js|css|gif|jpg|png|ico))$ {
+        alias /var/www/rainloop/$1;
+    }
+    rewrite ^/webmail(.*)$ /vma/index.php last;
+    location ~ ^/webmail(.+\.php)$ {
+        alias /var/www/rainloop/$1;
+        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_index index.php;
+        charset utf8;
+        include fastcgi_params;
+        fastcgi_param DOCUMENT_ROOT /var/www/rainloop/$1;
+    }
+}
+EOF1
+
+if [[ ${USE_PHP7_2} == '1' ]]; then
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-custom/vimbadmin.conf || error_exit "Failed to sed fastcgi_pass unix! Aborting"
+fi
+
 }
