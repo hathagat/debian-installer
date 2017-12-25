@@ -19,6 +19,7 @@
 install_postfix() {
 
 set -x
+#smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt in main.cf
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install postfix postfix-mysql >>"${main_log}" 2>>"${err_log}"
 
@@ -37,7 +38,7 @@ cp ${SCRIPT_PATH}/configs/postfix/master.cf /etc/postfix/master.cf
 cp ${SCRIPT_PATH}/configs/postfix/submission_header_cleanup /etc/postfix/submission_header_cleanup
 
 mkdir /etc/postfix/sql
-cp -R ${SCRIPT_PATH}/configs/postfix/sql/ /etc/postfix/sql/
+cp -R ${SCRIPT_PATH}/configs/postfix/sql/* /etc/postfix/sql/
 chmod -R 640 /etc/postfix/sql
 
 touch /etc/postfix/without_ptr
@@ -45,10 +46,5 @@ touch /etc/postfix/postscreen_access
 
 postmap /etc/postfix/without_ptr
 newaliases
-
-#postmap: fatal: parameter inet_interfaces: no local interface found for ::1
-#+ newaliases
-#newaliases: fatal: parameter inet_interfaces: no local interface found for ::1
-
 
 }
