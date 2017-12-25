@@ -22,9 +22,8 @@ set -x
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved >>"${main_log}" 2>>"${err_log}"
 
-systemctl stop dovecot
-
 rm -r /etc/dovecot/*
+mkdir -p /etc/dovecot
 cd /etc/dovecot
 
 cp ${SCRIPT_PATH}/configs/dovecot/dovecot.conf /etc/dovecot/dovecot.conf
@@ -58,4 +57,6 @@ cat > /var/vmail/sieve/global/learn-ham.sieve <<END
 require ["vnd.dovecot.pipe", "copy", "imapsieve"];
 pipe :copy "rspamc" ["learn_ham"];
 END
+
+systemctl restart dovecot
 }

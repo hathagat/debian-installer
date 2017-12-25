@@ -98,6 +98,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 		source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot
 		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
 		source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd
+		source ${SCRIPT_PATH}/script/rainloop.sh; install_rainloop
 	fi
 	mailserver_end=`date +%s`
 	mailservertime=$((mailserver_end-mailserver_start))

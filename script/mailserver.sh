@@ -23,10 +23,9 @@ set -x
 mysql -u root mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql
 #change placeholder
 
-mkdir /var/vmail
 adduser --gecos "" --disabled-login --disabled-password --home /var/vmail vmail
 
-mkdir /var/vmail/mailboxes
+mkdir -p /var/vmail/mailboxes
 mkdir -p /var/vmail/sieve/global
 chown -R vmail /var/vmail
 chgrp -R vmail /var/vmail

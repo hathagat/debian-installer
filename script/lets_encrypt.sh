@@ -68,8 +68,6 @@ MENU="Choose one of the following options:"
 
 install_lets_encrypt() {
 
-set -x
-
 service nginx stop
 mkdir -p /etc/nginx/ssl/
 

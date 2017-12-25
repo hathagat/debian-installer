@@ -16,18 +16,9 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-NGINX_VERSION="1.13.6"
-NGINX_HEADER_MOD_VERSION="0.33"
-NPS_VERSION="1.12.34.3"
-PSOL_VERSION="1.12.34.2"
-PCRE_Version="8.41"
-ZLIB_Version="1.2.11"
-OPENSSH_VERSION="7.4p1"
-OPENSSL_VERSION="1.1.0g"
-FAIL2BAN_VERSION="0.10.1"
-RAINLOOP_VERSION="1.11.3"
+install_rainloop() {
 
-USE_PMA="1"
-PMA_HTTPAUTH_USER="httpauth"
-MYSQL_PMADB_USER="phpmyadmin"
-MYSQL_PMADB_NAME="phpmyadmin"
+mkdir -p /var/www/html/webmail
+wget -qO- https://repository.rainloop.net/installer.php | php
+
+}
