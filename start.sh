@@ -144,6 +144,7 @@ MENU="Choose one of the following options:"
 					source ${SCRIPT_PATH}/script/functions.sh
 					source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 					source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
+					source ${SCRIPT_PATH}/configs/versions.cfg
 
 
 					source ${SCRIPT_PATH}/script/openssl.sh; install_openssl
@@ -159,7 +160,7 @@ MENU="Choose one of the following options:"
 					#source ${SCRIPT_PATH}/script/rainloop.sh; install_rainloop
 
 
-					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Standalone Mailserver" $HEIGHT $WIDTH
 					;;
 				5)
 					source script/openssh.sh; menu_options_openssh
