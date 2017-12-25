@@ -32,15 +32,13 @@ cp ${SCRIPT_PATH}/configs/rspamd/options.inc /etc/rspamd/local.d/options.inc
 cp ${SCRIPT_PATH}/configs/rspamd/worker-normal.inc /etc/rspamd/local.d/worker-normal.inc
 ###hier anpassungen mit make compile anzahl
 
+RSPAMADM_PASSWORT=$(password)
+echo  "RSPAMADM_PASSWORT password: $RSPAMADM_PASSWORT" >> ${SCRIPT_PATH}/login_information
+RSPAMADM_PASSWORT_HASH=$(rspamadm pw -p ${RSPAMADM_PASSWORT})
+
 cat > /etc/rspamd/local.d/worker-controller.inc <<END
-password = "$2$qecacwgrz13owkag4gqcy5y7yeqh7yh4$y6i6gn5q3538tzsn19ojchuudoauw3rzdj1z74h5us4gd3jj5e8y";
+password = "${RSPAMADM_PASSWORT_HASH}";
 END
-
-rspamadm pw
-##dann pw hash in obere file eingeben
-#rspamadm pw please enter pasphrase <-- pipen?
-
-#echo testasdf|rspamadm pw
 
 cp ${SCRIPT_PATH}/configs/rspamd/worker-proxy.inc /etc/rspamd/local.d/worker-proxy.inc
 cp ${SCRIPT_PATH}/configs/rspamd/logging.inc /etc/rspamd/local.d/logging.inc
