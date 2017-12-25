@@ -138,7 +138,23 @@ MENU="Choose one of the following options:"
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
 					;;
 				4)
-					#check if installed, otherwise skip single services
+				# --- MYDOMAIN ---
+				while true
+					do
+						MYDOMAIN=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter your Domain without http:// (exmaple.org):" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+						)
+							if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+								break
+							else
+								dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+								dialog --clear
+							fi
+					done
+
 					dialog --backtitle "NeXt Server Installation" --infobox "Install Standalone Mailserver" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/script/logs.sh; set_logs
 					source ${SCRIPT_PATH}/script/functions.sh
