@@ -20,9 +20,9 @@ install_mailserver() {
 
 set -x
 cd ${SCRIPT_PATH}/sources/acme.sh/
-bash acme.sh --issue --standalone mail.${MYDOMAIN} -d imap.${MYDOMAIN} -d smtp.${MYDOMAIN} --keylength 4096 >>"${main_log}" 2>>"${err_log}"
-ln -s /root/.acme.sh/${MYDOMAIN}/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}.cer
-ln -s /root/.acme.sh/${MYDOMAIN}/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}.key
+bash acme.sh --issue --standalone -d mail.${MYDOMAIN} -d imap.${MYDOMAIN} -d smtp.${MYDOMAIN} --keylength 4096 >>"${main_log}" 2>>"${err_log}"
+ln -s /root/.acme.sh/mail.${MYDOMAIN}/fullchain.cer /etc/nginx/ssl/mail.${MYDOMAIN}.cer
+ln -s /root/.acme.sh/mail.${MYDOMAIN}/mail.${MYDOMAIN}.key /etc/nginx/ssl/mail.${MYDOMAIN}.key
 
 mysql -u root mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql
 #change placeholder

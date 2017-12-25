@@ -18,13 +18,12 @@
 
 install_unbound() {
 
-set -x  
-
-DEBIAN_FRONTEND=noninteractive apt-get -y install unbound dnsutils resolvconf >>"${main_log}" 2>>"${err_log}"
+DEBIAN_FRONTEND=noninteractive apt-get -y install unbound dnsutils >>"${main_log}" 2>>"${err_log}"
 
 su -c "unbound-anchor -a /var/lib/unbound/root.key" - unbound
 systemctl reload unbound
 
+DEBIAN_FRONTEND=noninteractive apt-get -y install resolvconf >>"${main_log}" 2>>"${err_log}"
 echo "nameserver 127.0.0.1" >> /etc/resolvconf/resolv.conf.d/head
 
 }

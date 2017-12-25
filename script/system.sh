@@ -18,6 +18,7 @@
 
 install_system() {
 
+rm /etc/hosts
 cat > /etc/hosts <<END
 127.0.0.1   localhost
 127.0.1.1   mail.domain.tld  mail
@@ -30,18 +31,11 @@ END
 sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
 hostnamectl set-hostname --static mail
 echo $(hostname -f) > /etc/mailname
-echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
-
+#echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
 
 timedatectl set-timezone ${TIMEZONE}
 
-#we use another DNS to prevent resolving errors later (the OVH DNS for exmaple has sometimes problems, with resolving gnu.org and so on).
-echo 'options rotate' >> /etc/resolv.conf
-echo 'options timeout:1' >> /etc/resolv.conf
-echo 'nameserver 9.9.9.9' >> /etc/resolv.conf
-
 rm /etc/apt/sources.list
-
 cat > /etc/apt/sources.list <<END
 #Debian
 deb http://ftp.de.debian.org/debian/ stretch main contrib non-free
