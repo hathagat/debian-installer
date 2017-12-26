@@ -39,7 +39,7 @@ MENU="Choose one of the following options:"
 		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD}"
 						 2 "After Installation configuration"
 						 3 "Update all services"
-						 4 "Install Standalone Mailserver"
+						 4 "Mailserver Options"
 				 		 5 "Openssh Options"
 						 6 "Openssl Options"
 						 7 "Fail2ban Options"
@@ -138,45 +138,7 @@ MENU="Choose one of the following options:"
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
 					;;
 				4)
-				# --- MYDOMAIN ---
-				while true
-					do
-						MYDOMAIN=$(dialog --clear \
-						--backtitle "$BACKTITLE" \
-						--inputbox "Enter your Domain without http:// (exmaple.org):" \
-						$HEIGHT $WIDTH \
-						3>&1 1>&2 2>&3 3>&- \
-						)
-							if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
-								break
-							else
-								dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
-								dialog --clear
-							fi
-					done
-
-					dialog --backtitle "NeXt Server Installation" --infobox "Install Standalone Mailserver" $HEIGHT $WIDTH
-					source ${SCRIPT_PATH}/script/logs.sh; set_logs
-					source ${SCRIPT_PATH}/script/functions.sh
-					source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
-					source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
-					source ${SCRIPT_PATH}/configs/versions.cfg
-
-
-					source ${SCRIPT_PATH}/script/openssl.sh; install_openssl
-					source ${SCRIPT_PATH}/script/mariadb.sh; install_mariadb
-					source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
-					#später 7.1 or 7.2
-					#source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1
-					source ${SCRIPT_PATH}/script/unbound.sh; install_unbound
-					source ${SCRIPT_PATH}/script/mailserver.sh; install_mailserver
-					source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot
-					source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
-					source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd
-					#source ${SCRIPT_PATH}/script/rainloop.sh; install_rainloop
-
-
-					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Standalone Mailserver" $HEIGHT $WIDTH
+					source script/mailserver.sh; menu_options_mailserver
 					;;
 				5)
 					source script/openssh.sh; menu_options_openssh
