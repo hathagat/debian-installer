@@ -18,6 +18,8 @@
 
 install_system() {
 
+hostnamectl set-hostname --static mail
+
 rm /etc/hosts
 cat > /etc/hosts <<END
 127.0.0.1   localhost
@@ -27,9 +29,8 @@ cat > /etc/hosts <<END
 ff02::1     ip6-allnodes
 ff02::2     ip6-allrouters
 END
-
 sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
-hostnamectl set-hostname --static mail
+
 echo $(hostname -f) > /etc/mailname
 #echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
 

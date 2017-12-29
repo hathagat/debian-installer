@@ -122,6 +122,9 @@ MENU="Choose one of the following options:"
 install_mailserver() {
 
 set -x
+
+SCRIPT_PATH="/root/NeXt-Server"
+
 cd ${SCRIPT_PATH}/sources/acme.sh/
 bash acme.sh --issue --standalone -d mail.${MYDOMAIN} -d imap.${MYDOMAIN} -d smtp.${MYDOMAIN} --keylength 4096 >>"${main_log}" 2>>"${err_log}"
 ln -s /root/.acme.sh/mail.${MYDOMAIN}/fullchain.cer /etc/nginx/ssl/mail.${MYDOMAIN}.cer
