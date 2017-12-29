@@ -90,7 +90,6 @@ net.ipv4.conf.all.send_redirects = 0
 net.ipv4.conf.default.send_redirects = 0
 
 # Turn on execshield for reducing worm or other automated remote attacks
-kernel.exec-shield = 1
 kernel.randomize_va_space = 1
 
 # Increase system file descriptor limit
