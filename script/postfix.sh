@@ -39,6 +39,12 @@ cp ${SCRIPT_PATH}/configs/postfix/submission_header_cleanup /etc/postfix/submiss
 
 mkdir /etc/postfix/sql
 cp -R ${SCRIPT_PATH}/configs/postfix/sql/* /etc/postfix/sql/
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" /etc/postfix/sql/accounts.cf
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" /etc/postfix/sql/aliases.cf
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" /etc/postfix/sql/domains.cf
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" /etc/postfix/sql/recipient-access.cf
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" /etc/postfix/sql/sender-login-maps.cf
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" /etc/postfix/sql/tls-policy.cf
 chmod -R 640 /etc/postfix/sql
 
 touch /etc/postfix/without_ptr

@@ -127,8 +127,11 @@ bash acme.sh --issue --standalone -d mail.${MYDOMAIN} -d imap.${MYDOMAIN} -d smt
 ln -s /root/.acme.sh/mail.${MYDOMAIN}/fullchain.cer /etc/nginx/ssl/mail.${MYDOMAIN}.cer
 ln -s /root/.acme.sh/mail.${MYDOMAIN}/mail.${MYDOMAIN}.key /etc/nginx/ssl/mail.${MYDOMAIN}.key
 
+MAILSERVER_DB_PASS=$(password)
+echo  "Mailserver DB Password: $MAILSERVER_DB_PASS" >> ${SCRIPT_PATH}/login_information
+
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" ${SCRIPT_PATH}/configs/mailserver/database.sql
 mysql -u root mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql
-#change placeholder
 
 adduser --gecos "" --disabled-login --disabled-password --home /var/vmail vmail
 

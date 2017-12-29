@@ -31,11 +31,8 @@ cp ${SCRIPT_PATH}/configs/dovecot/dovecot.conf /etc/dovecot/dovecot.conf
 sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/dovecot/dovecot.conf
 
 cp ${SCRIPT_PATH}/configs/dovecot/dovecot-sql.conf /etc/dovecot/dovecot-sql.conf
+sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" /etc/dovecot/dovecot-sql.conf
 chmod 440 /etc/dovecot/dovecot-sql.conf
-
-#VMAILDBPASS=$(password)
-#echo  "VMAILDBPASS password: $VMAILDBPASS" >> ${SCRIPT_PATH}/login_information
-#sed -i "s/placeholder/${VMAILDBPASS}/g" /etc/dovecot/dovecot.conf
 
 cat > /var/vmail/sieve/global/spam-global.sieve <<END
 require "fileinto";

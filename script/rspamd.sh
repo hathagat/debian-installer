@@ -44,16 +44,17 @@ cp ${SCRIPT_PATH}/configs/rspamd/worker-proxy.inc /etc/rspamd/local.d/worker-pro
 cp ${SCRIPT_PATH}/configs/rspamd/logging.inc /etc/rspamd/local.d/logging.inc
 cp ${SCRIPT_PATH}/configs/rspamd/milter_headers.conf /etc/rspamd/local.d/milter_headers.conf
 
+CURRENT_YEAR=$(date +'%Y')
+
 mkdir /var/lib/rspamd/dkim/
-rspamadm dkim_keygen -b 2048 -s 2017 -k /var/lib/rspamd/dkim/2017.key > /var/lib/rspamd/dkim/2017.txt
+rspamadm dkim_keygen -b 2048 -s ${CURRENT_YEAR} -k /var/lib/rspamd/dkim/${CURRENT_YEAR}.key > /var/lib/rspamd/dkim/${CURRENT_YEAR}.txt
 chown -R _rspamd:_rspamd /var/lib/rspamd/dkim
 chmod 440 /var/lib/rspamd/dkim/*
-##key jahr ändern 2017 -> 2018
-cat /var/lib/rspamd/dkim/2017.txt
+cat /var/lib/rspamd/dkim/${CURRENT_YEAR}.txt
 ##key in dns record packen
 
 cp ${SCRIPT_PATH}/configs/rspamd/dkim_signing.conf /etc/rspamd/local.d/dkim_signing.conf
-##key jahr ändern 2017 -> 2018
+sed -i "s/placeholder/${CURRENT_YEAR}/g" /etc/rspamd/local.d/dkim_signing.conf
 
 cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 
