@@ -16,8 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 SCRIPT_PATH="/root/NeXt-Server"
-set -x
-set -e
 
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/configs/userconfig.cfg
@@ -69,6 +67,8 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "25" | dialog --gauge "Installing Nginx Addons..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_addons.sh; install_nginx_addons
 
+	set -x
+	set -e
 	echo "30" | dialog --gauge "Installing Nginx..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx.sh; install_nginx
 
