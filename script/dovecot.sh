@@ -18,8 +18,6 @@
 
 install_dovecot() {
 
-set -x
-
 DEBIAN_FRONTEND=noninteractive apt-get -y install dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved >>"${main_log}" 2>>"${err_log}"
 
 systemctl stop dovecot

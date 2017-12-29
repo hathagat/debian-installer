@@ -121,8 +121,6 @@ MENU="Choose one of the following options:"
 
 install_mailserver() {
 
-set -x
-
 SCRIPT_PATH="/root/NeXt-Server"
 
 cd ${SCRIPT_PATH}/sources/acme.sh/
