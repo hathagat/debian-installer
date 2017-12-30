@@ -19,5 +19,11 @@
 install_rainloop() {
 
 mkdir -p /var/www/html/webmail
+cd /var/www/html/webmail
+wget https://github.com/RainLoop/rainloop-webmail/archive/v${RAINLOOP_VERSION}.tar.gz
+tar zxvf v${RAINLOOP_VERSION}.tar.gz
+mv /var/www/html/rainloop*/* /var/www/html/webmail
+
+chown -R www-data:www-data /var/www/html/webmail
 
 }
