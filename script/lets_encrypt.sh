@@ -68,7 +68,7 @@ MENU="Choose one of the following options:"
 
 install_lets_encrypt() {
 
-service nginx stop
+systemctl -q stop nginx.service
 mkdir -p /etc/nginx/ssl/
 
 apt-get -y --assume-yes install cron netcat-openbsd curl socat >>"${main_log}" 2>>"${err_log}"
@@ -82,9 +82,13 @@ sleep 1
 . ~/.bashrc >>"${main_log}" 2>>"${err_log}"
 . ~/.profile >>"${main_log}" 2>>"${err_log}"
 
+systemctl -q start nginx.service
+
 }
 
 create_nginx_cert() {
+
+systemctl -q stop nginx.service
 
 cd ${SCRIPT_PATH}/sources/acme.sh/
 
@@ -95,6 +99,8 @@ ln -s /root/.acme.sh/${MYDOMAIN}_ecc/${MYDOMAIN}.key /etc/nginx/ssl/${MYDOMAIN}-
 
 HPKP1=$(openssl x509 -pubkey < /etc/nginx/ssl/${MYDOMAIN}-ecc.cer | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64) >>"${main_log}" 2>>"${err_log}"
 HPKP2=$(openssl rand -base64 32) >>"${main_log}" 2>>"${err_log}"
+
+systemctl -q start nginx.service	
 
 }
 
