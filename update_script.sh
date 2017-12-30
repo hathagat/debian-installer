@@ -50,6 +50,10 @@ if ! git diff --quiet origin/master; then
     cp ${SCRIPT_PATH}/configs/versions.cfg /root/backup_next_server/
   fi
 
+  if [ -e ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt ]; then
+    cp ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt /root/backup_next_server/
+  fi
+
   #reset branch
   cd ${SCRIPT_PATH}
   git fetch
@@ -80,6 +84,9 @@ if ! git diff --quiet origin/master; then
     cp /root/backup_next_server/versions.cfg ${SCRIPT_PATH}/configs/
   fi
 
+  if [ -e /root/backup_next_server/DKIM_KEY_ADD_TO_DNS.txt ]; then
+    cp /root/backup_next_server/DKIM_KEY_ADD_TO_DNS.txt ${SCRIPT_PATH}/
+  fi
 
   if [ -e ${SCRIPT_PATH}/configs/versions.cfg ]; then
     cp ${SCRIPT_PATH}/configs/versions.cfg /root/backup_next_server/

@@ -20,7 +20,7 @@ menu_options_mailserver() {
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=6
+CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -29,8 +29,9 @@ MENU="Choose one of the following options:"
 			 2 "Update Mailserver"
 			 3 "Add new Domain"
 			 4 "Add Email Account (WIP!)"
-			 5 "Back"
-			 6 "Exit")
+			 5 "Add Alias (WIP!)"
+			 6 "Back"
+			 7 "Exit")
 
 	CHOICE=$(dialog --clear \
 					--nocancel \
@@ -107,12 +108,28 @@ MENU="Choose one of the following options:"
         dialog --backtitle "NeXt Server Installation" --msgbox "Added domain ${MYDOMAIN} to the Mailserver" $HEIGHT $WIDTH
 				;;
 			4)
-				#check if domain is created
+				#let the user enter the email username
+				SCRIPT_PATH="/root/NeXt-Server"
+				source ${SCRIPT_PATH}/script/functions.sh
+				source ${SCRIPT_PATH}/configs/versions.cfg
+				EMAIL_ACCOUNT_PASS=$(password)
+				echo  "Your Email Account password: $EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
+
+				EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
+				mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('user1', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
+				dialog --backtitle "NeXt Server Installation" --msgbox "Added user1 to the Mailserver" $HEIGHT $WIDTH
 				;;
 			5)
-				bash ${SCRIPT_PATH}/start.sh;
+				#let the user enter the alias
+				source ${SCRIPT_PATH}/script/functions.sh
+				source ${SCRIPT_PATH}/configs/versions.cfg
+				mysql -u root -e "use vmail; insert into aliases (source_username, source_domain, destination_username, destination_domain, enabled) values ('alias', '${MYDOMAIN}', 'user1', '${MYDOMAIN}', true);"
+				dialog --backtitle "NeXt Server Installation" --msgbox "Added Alias alias to the Mailserver" $HEIGHT $WIDTH
 				;;
 			6)
+				bash ${SCRIPT_PATH}/start.sh;
+				;;
+			7)
 				echo "Exit"
 				exit 1
 				;;
@@ -138,7 +155,7 @@ echo  "Mailserver DB Password: $MAILSERVER_DB_PASS" >> ${SCRIPT_PATH}/login_info
 sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" ${SCRIPT_PATH}/configs/mailserver/database.sql
 mysql -u root mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql
 
-adduser --gecos "" --disabled-login --disabled-password --home /var/vmail vmail
+adduser --gecos "" --disabled-login --disabled-password --home /var/vmail vmail >>"${main_log}" 2>>"${err_log}"
 
 mkdir -p /var/vmail/mailboxes
 mkdir -p /var/vmail/sieve/global
