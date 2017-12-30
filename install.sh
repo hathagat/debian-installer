@@ -74,6 +74,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 	echo "50" | dialog --gauge "Installing LE..." 10 70 0
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
+	source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert
 
 	echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
