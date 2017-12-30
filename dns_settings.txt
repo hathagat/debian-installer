@@ -1,10 +1,18 @@
 You can find the DNS settings in the Web Panel of your Hoster / Domain seller! 
 
 DNS Settings:
-@ 					A 				server_ip
-WWW 				A 				server_ip
-yourdomain.com		A 				server_ip
-* 					A 				server_ip
+@ 						A 				server_ip
+WWW 					A 				server_ip
+yourdomain.com			A 				server_ip
+* 						A 				server_ip
+mail.yourdomain.com.	A				server_ip
+imap.yourdomain.com. 	CNAME 			mail.yourdomain.com.
+smtp.yourdomain.com. 	CNAME 			mail.yourdomain.com.
+yourdomain.com.  		MX 0 			mail.yourdomain.com.
+yourdomain.com. 		TXT 			v=spf1 a:mail.yourdomain.com ?all
+_dmarc.yourdomain.com.  IN TXT    		v=DMARC1; p=reject;
+
+
 
 If CAA Records are supported:
 yourdomain.com.    IN    CAA    0 issue "letsencrypt.org"

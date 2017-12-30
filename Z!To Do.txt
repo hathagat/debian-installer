@@ -46,11 +46,7 @@ So etwas gibt es schon, aber vll besser	machen?
 - Welche Firewall nehmen wir? Wenn Arnos bleibt -> überarbeiten!
 
 ######### Mailserver #########
-- Zertifikate unabhängig vom Webserver erstellen lassen in Single Install?
-- DNS Einträge Info File
-
-######### Mailserver #########
-- Erstmal alle Reste entfernen die man noch im Script findet
+- DNS DKIM Eintrag after install
 
 ######### Checks #########
 - CHECK_DOMAIN, CHECK_PASSWORD, CHECK_E_MAIL optimieren bzw testen ob es so passt (CHECK_DOMAIN fehlerhaft?)
