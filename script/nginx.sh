@@ -104,8 +104,6 @@ mkdir -p /var/log/nginx/
 mkdir -p /etc/nginx/sites-available/
 mkdir -p /etc/nginx/sites-enabled/
 
-chown www-data:www-data /etc/nginx/logs >>"${main_log}" 2>>"${err_log}"
-
 # Install the Nginx service script
 wget -O /etc/init.d/nginx -c4 --no-check-certificate https://raw.githubusercontent.com/Fleshgrinder/nginx-sysvinit-script/master/init --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?

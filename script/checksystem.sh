@@ -45,11 +45,11 @@ check_system() {
 		echo "This script needs at least ~1000MB of memory"
 	fi
 
-	FREE=`df -k --output=avail "$PWD" | tail -n1`
-	if [[ $FREE -lt 8388608 ]]; then
-		echo "This script needs at least 8 GB free disk space"
-		exit 1
-	fi
+	#FREE=`df -k --output=avail "$PWD" | tail -n1`
+	#if [[ $FREE -lt 8388608 ]]; then
+		#echo "This script needs at least 8 GB free disk space"
+	#	exit 1
+	#fi
 
 	if [ $(dpkg-query -l | grep dmidecode | wc -l) -ne 1 ]; then
     	echo "This script does not support the virtualization technology!"
