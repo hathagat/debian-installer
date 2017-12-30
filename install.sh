@@ -91,13 +91,12 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	php_end=`date +%s`
 	phptime=$((php_end-php_start))
 
-	set -x
-	set -e
-
 	echo "85" | dialog --gauge "Installing Mailserver..." 10 70 0
 	mailserver_start=`date +%s`
 	if [[ ${USE_MAILSERVER} = "1" ]]; then
 		source ${SCRIPT_PATH}/script/unbound.sh; install_unbound
+		set -x
+		set -e
 		source ${SCRIPT_PATH}/script/mailserver.sh; install_mailserver
 		source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot
 		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
