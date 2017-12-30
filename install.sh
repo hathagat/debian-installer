@@ -94,7 +94,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "85" | dialog --gauge "Installing Mailserver..." 10 70 0
 	mailserver_start=`date +%s`
 	if [[ ${USE_MAILSERVER} = "1" ]]; then
-		set -x
 		source ${SCRIPT_PATH}/script/unbound.sh; install_unbound
 		source ${SCRIPT_PATH}/script/mailserver.sh; install_mailserver
 		source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot

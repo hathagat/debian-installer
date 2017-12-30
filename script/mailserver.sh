@@ -121,12 +121,16 @@ MENU="Choose one of the following options:"
 
 install_mailserver() {
 
+systemctl -q stop nginx.service
+
 SCRIPT_PATH="/root/NeXt-Server"
 
 cd ${SCRIPT_PATH}/sources/acme.sh/
 bash acme.sh --issue --standalone -d mail.${MYDOMAIN} -d imap.${MYDOMAIN} -d smtp.${MYDOMAIN} --keylength 4096 >>"${main_log}" 2>>"${err_log}"
 ln -s /root/.acme.sh/mail.${MYDOMAIN}/fullchain.cer /etc/nginx/ssl/mail.${MYDOMAIN}.cer
 ln -s /root/.acme.sh/mail.${MYDOMAIN}/mail.${MYDOMAIN}.key /etc/nginx/ssl/mail.${MYDOMAIN}.key
+
+systemctl -q start nginx.service
 
 MAILSERVER_DB_PASS=$(password)
 echo  "Mailserver DB Password: $MAILSERVER_DB_PASS" >> ${SCRIPT_PATH}/login_information

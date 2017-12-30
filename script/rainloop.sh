@@ -42,7 +42,7 @@ location ~ ^/webmail {
 EOF1
 
 if [[ ${USE_PHP7_2} == '1' ]]; then
-	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.0-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-custom/vimbadmin.conf || error_exit "Failed to sed fastcgi_pass unix! Aborting"
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' rainloop.conf
 fi
 
 }
