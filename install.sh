@@ -67,8 +67,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "25" | dialog --gauge "Installing Nginx Addons..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_addons.sh; install_nginx_addons
 
-	set -x
-	set -e
 	echo "30" | dialog --gauge "Installing Nginx..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx.sh; install_nginx
 
@@ -76,6 +74,8 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert
 
+	set -x
+	set -e
 	echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
 	nginx_end=`date +%s`
