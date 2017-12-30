@@ -74,8 +74,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert
 
-	set -x
-	set -e
 	echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
 	source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
 	nginx_end=`date +%s`
@@ -92,6 +90,9 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	fi
 	php_end=`date +%s`
 	phptime=$((php_end-php_start))
+
+	set -x
+	set -e
 
 	echo "85" | dialog --gauge "Installing Mailserver..." 10 70 0
 	mailserver_start=`date +%s`
