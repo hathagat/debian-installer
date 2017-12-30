@@ -27,7 +27,7 @@ sed -i "s/# interface: 192.0.2.153/  interface: 127.0.0.1/g" /etc/unbound/unboun
 sed -i "s/# control-interface: 127.0.0.1/  control-interface: 127.0.0.1/g" /etc/unbound/unbound.conf
 
 su -c "unbound-anchor -a /var/lib/unbound/root.key" - unbound
-systemctl reload unbound
+systemctl restart unbound
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install resolvconf >>"${main_log}" 2>>"${err_log}"
 echo "nameserver 127.0.0.1" >> /etc/resolvconf/resolv.conf.d/head

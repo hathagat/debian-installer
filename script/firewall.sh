@@ -55,6 +55,8 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server Installation" --infobox "Updating Firewall" $HEIGHT $WIDTH
 				source ${SCRIPT_PATH}/script/logs.sh; set_logs
 				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+				rm -R ${SCRIPT_PATH}/sources/aif
+				rm -R ${SCRIPT_PATH}/sources/blacklist
 				update_firewall
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Firewall" $HEIGHT $WIDTH
 				;;
@@ -105,9 +107,6 @@ MENU="Choose one of the following options:"
 }
 
 install_firewall() {
-
-rm -R ${SCRIPT_PATH}/sources/aif
-rm -R ${SCRIPT_PATH}/sources/blacklist
 
 # ipset
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
