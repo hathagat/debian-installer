@@ -189,6 +189,12 @@ server {
 		#
 		#try_files \$uri \$uri/ /index.php?\$args;
 	}
+	#comment out, if you dont want to use rspamd web interface
+	location /rspamd/ {
+					proxy_pass http://localhost:11334/;
+					proxy_set_header Host $host;
+					proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
 	location ~* /\.(?!well-known\/) {
 		deny all;
 		access_log off;
@@ -203,26 +209,10 @@ server {
 		access_log off;
 		log_not_found off;
 	}
-
 	location = /robots.txt {
 		allow all;
 		access_log off;
 		log_not_found off;
-	}
-	location ~* ^.+\.(css|js)\$ {
-		rewrite ^(.+)\.(\d+)\.(css|js)\$ \$1.\$3 last;
-		expires 30d;
-		access_log off;
-		log_not_found off;
-		add_header Pragma public;
-		add_header Cache-Control "max-age=2592000, public";
-	}
-	location ~* \.(asf|asx|wax|wmv|wmx|avi|bmp|class|divx|doc|docx|eot|exe|gif|gz|gzip|ico|jpg|jpeg|jpe|mdb|mid|midi|mov|qt|mp3|m4a|mp4|m4v|mpeg|mpg|mpe|mpp|odb|odc|odf|odg|odp|ods|odt|ogg|ogv|otf|pdf|png|pot|pps|ppt|pptx|ra|ram|svg|svgz|swf|tar|t?gz|tif|tiff|ttf|wav|webm|wma|woff|wri|xla|xls|xlsx|xlt|xlw|zip)\$ {
-		expires 30d;
-		access_log off;
-		log_not_found off;
-		add_header Pragma public;
-		add_header Cache-Control "max-age=2592000, public";
 	}
 	if (\$http_user_agent ~* "FeedDemon|JikeSpider|Indy Library|Alexa Toolbar|AskTbFXTV|AhrefsBot|CrawlDaddy|CoolpadWebkit|Java|Feedly|UniversalFeedParser|ApacheBench|Microsoft URL Control|Swiftbot|ZmEu|oBot|jaunty|Python-urllib|lightDeckReports Bot|YYSpider|DigExt|YisouSpider|HttpClient|MJ12bot|heritrix|EasouSpider|Ezooms|Scrapy") {
 		return 403;
