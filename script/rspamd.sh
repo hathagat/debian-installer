@@ -20,7 +20,7 @@ install_rspamd() {
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install lsb-release wget >>"${main_log}" 2>>"${err_log}"
 
-wget -O- https://rspamd.com/apt-stable/gpg.key | apt-key add - >>"${main_log}" 2>>"${err_log}"
+wget -q -O- https://rspamd.com/apt-stable/gpg.key | apt-key add - >>"${main_log}" 2>>"${err_log}"
 echo "deb http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" > /etc/apt/sources.list.d/rspamd.list
 echo "deb-src http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" >> /etc/apt/sources.list.d/rspamd.list
 
@@ -61,6 +61,14 @@ cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server >>"${main_log}" 2>>"${err_log}"
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
+
+##sed to vhost
+#uncomment, if you want to use the webinterface
+#location /rspamd/ {
+#				proxy_pass http://localhost:11334/;
+#				proxy_set_header Host $host;
+#				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#}
 
 systemctl start rspamd
 systemctl start dovecot

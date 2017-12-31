@@ -48,6 +48,7 @@ So etwas gibt es schon, aber vll besser	machen?
 ######### Mailserver #########
 - DNS DKIM Eintrag after install
 - Webmail nicht im Mailserver Standalone -> Nginx fehlt
+- Complete Standalone
 
 ######### Checks #########
 - CHECK_DOMAIN, CHECK_PASSWORD, CHECK_E_MAIL optimieren bzw testen ob es so passt (CHECK_DOMAIN fehlerhaft?)

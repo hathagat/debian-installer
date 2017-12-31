@@ -189,12 +189,6 @@ server {
 		#
 		#try_files \$uri \$uri/ /index.php?\$args;
 	}
-	#comment out, if you dont want to use rspamd web interface
-	location /rspamd/ {
-					proxy_pass http://localhost:11334/;
-					proxy_set_header Host $host;
-					proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-	}
 	location ~* /\.(?!well-known\/) {
 		deny all;
 		access_log off;
