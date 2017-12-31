@@ -62,14 +62,18 @@ cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server >>"${main_log}" 2>>"${err_log}"
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
-cat <<EOT >> /etc/nginx/sites-available/${MYDOMAIN}.conf
-location /rspamd/ {
-				proxy_pass http://localhost:11334/;
-				proxy_set_header Host $host;
-				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-}
-EOT
+mkdir -p /etc/nginx/sites-custom
 
+
+cat >> /etc/nginx/sites-custom/rspamd.conf << 'EOF1'
+location /rspamd/ {
+  proxy_pass http://localhost:11334/;
+	proxy_set_header Host $host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+EOF1
+
+systemctl restart nginx
 systemctl start rspamd
 systemctl start dovecot
 systemctl start postfix
