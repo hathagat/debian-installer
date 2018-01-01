@@ -114,15 +114,12 @@ MENU="Choose one of the following options:"
         dialog --backtitle "NeXt Server Installation" --msgbox "Added domain ${MYDOMAIN} to the Mailserver" $HEIGHT $WIDTH
 				;;
 			4)
-				while true
-					do
-						EMAIL_USER_NAME=$(dialog --clear \
-						--backtitle "$BACKTITLE" \
-						--inputbox "Enter your Email User ("admin" for example)" \
-						$HEIGHT $WIDTH \
-						3>&1 1>&2 2>&3 3>&- \
-						)
-					done
+					EMAIL_USER_NAME=$(dialog --clear \
+					--backtitle "$BACKTITLE" \
+					--inputbox "Enter your Email User ("admin" for example)" \
+					$HEIGHT $WIDTH \
+					3>&1 1>&2 2>&3 3>&- \
+					)
 
 				SCRIPT_PATH="/root/NeXt-Server"
 				source ${SCRIPT_PATH}/script/functions.sh
@@ -136,25 +133,19 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Added ${EMAIL_USER_NAME} with the password: ${EMAIL_ACCOUNT_PASS} to the Mailserver" $HEIGHT $WIDTH
 				;;
 			5)
-				while true
-					do
-						EMAIL_USER_NAME=$(dialog --clear \
-						--backtitle "$BACKTITLE" \
-						--inputbox "Enter your Email User Name, you created and that should get the alias (if you haven't created a user yet, do it before this step!)" \
-						$HEIGHT $WIDTH \
-						3>&1 1>&2 2>&3 3>&- \
-						)
-					done
+					EMAIL_USER_NAME=$(dialog --clear \
+					--backtitle "$BACKTITLE" \
+					--inputbox "Enter your Email User Name, you created and that should get the alias (if you haven't created a user yet, do it before this step!)" \
+					$HEIGHT $WIDTH \
+					3>&1 1>&2 2>&3 3>&- \
+					)
 
-					while true
-						do
-							EMAIL_ALIAS_NAME=$(dialog --clear \
-							--backtitle "$BACKTITLE" \
-							--inputbox "Enter the Alias Name for the Email user (for example "postmaster")" \
-							$HEIGHT $WIDTH \
-							3>&1 1>&2 2>&3 3>&- \
-							)
-						done
+					EMAIL_ALIAS_NAME=$(dialog --clear \
+					--backtitle "$BACKTITLE" \
+					--inputbox "Enter the Alias Name for the Email user (for example "postmaster")" \
+					$HEIGHT $WIDTH \
+					3>&1 1>&2 2>&3 3>&- \
+					)
 				source ${SCRIPT_PATH}/script/functions.sh
 				source ${SCRIPT_PATH}/configs/versions.cfg
 				mysql -u root -e "use vmail; insert into aliases (source_username, source_domain, destination_username, destination_domain, enabled) values ('${EMAIL_ALIAS_NAME}', '${MYDOMAIN}', '${EMAIL_USER_NAME}', '${MYDOMAIN}', true);"
