@@ -56,8 +56,8 @@ if ! git diff --quiet origin/master; then
 
   #reset branch
   cd ${SCRIPT_PATH}
-  git fetch
-  git reset --hard origin/master
+  git fetch >>"${main_log}" 2>>"${err_log}"
+  git reset --hard origin/master >>"${main_log}" 2>>"${err_log}"
 
   #restore backup
   if [ -d "/root/backup_next_server/logs/" ]; then
