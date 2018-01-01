@@ -30,6 +30,25 @@ WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
+start_after_install() {
+	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
+	read -p "Continue (y/n)?" ANSW
+	if [ "$ANSW" = "n" ]; then
+		echo "Exit"
+		exit 1
+	fi
+
+	source ${SCRIPT_PATH}/configuration.sh; show_login_information
+	read -p "Continue (y/n)?" ANSW
+	if [ "$ANSW" = "n" ]; then
+		echo "Exit"
+		exit 1
+	fi
+
+	source ${SCRIPT_PATH}/configuration.sh; create_private_key
+	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
+}
+
 # Check valid E-Mail
 CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
 

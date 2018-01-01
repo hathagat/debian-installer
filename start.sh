@@ -31,7 +31,7 @@ source ${SCRIPT_PATH}/script/functions.sh
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=12
+CHOICE_HEIGHT=13
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -44,10 +44,11 @@ MENU="Choose one of the following options:"
 						 6 "Openssl Options"
 						 7 "Fail2ban Options"
 						 8 "Nginx vHost Options"
-						 9 "Lets Encrypt Options"
-						 10 "Firewall Settings"
-						 11 "Update NeXt Server Script"
-			     	 12 "Exit")
+						 9 "PHP 7.x Options"
+						 10 "Lets Encrypt Options"
+						 11 "Firewall Settings"
+						 12 "Update NeXt Server Script"
+						 13 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -92,22 +93,7 @@ MENU="Choose one of the following options:"
 							clear
 							case $CHOICE in
 									1)
-										source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
-										read -p "Continue (y/n)?" ANSW
-										if [ "$ANSW" = "n" ]; then
-											echo "Exit"
-										  exit 1
-										fi
-
-										source ${SCRIPT_PATH}/configuration.sh; show_login_information
-										read -p "Continue (y/n)?" ANSW
-										if [ "$ANSW" = "n" ]; then
-											echo "Exit"
-											exit 1
-										fi
-
-										source ${SCRIPT_PATH}/configuration.sh; create_private_key
-										dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
+										source ${SCRIPT_PATH}/functions.sh; start_after_install
 										;;
 									2)
 										source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
@@ -153,18 +139,21 @@ MENU="Choose one of the following options:"
 					source script/nginx_vhost.sh; menu_options_nginx_vhost
 					;;
 				9)
-					source script/lets_encrypt.sh; menu_options_lets_encrypt
+					source script/php_7_x_config.sh; php_7_x_config
 					;;
 				10)
-					source script/firewall.sh; menu_options_firewall
+					source script/lets_encrypt.sh; menu_options_lets_encrypt
 					;;
 				11)
+					source script/firewall.sh; menu_options_firewall
+					;;
+				12)
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/update_script.sh; update_script
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}" $HEIGHT $WIDTH
 					bash start.sh
 					;;
-				12)
+				13)
 					echo "Exit"
 					exit 1
 					;;

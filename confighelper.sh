@@ -106,7 +106,8 @@ source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 
 server_ip=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 sed -i "s/server_ip/$server_ip/g" ${SCRIPT_PATH}/dns_settings.txt
-dialog --title "DNS Settings" --textbox ${SCRIPT_PATH}/dns_settings.txt 50 200
+sed -i "s/yourdomain.com/$MYDOMAIN/g" ${SCRIPT_PATH}/dns_settings.txt
+dialog --title "DNS Settings" --tab-correct --textbox ${SCRIPT_PATH}/dns_settings.txt 50 200
 
 BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"

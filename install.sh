@@ -130,3 +130,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
 
 	echo "100" | dialog --gauge "NeXt Server Installation finished!" 10 70 0
+	
+	# Start Full Config after installation
+	source ${SCRIPT_PATH}/functions.sh; start_after_install
