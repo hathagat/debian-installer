@@ -43,3 +43,11 @@ After entering your SSH Password, you have to switch the paramter from RSA to ED
 In the last step click on save private key - done! \n \n
 Dont forget to change your SSH Port in PuTTY!" $HEIGHT $WIDTH
 }
+
+show_dkim_key()
+{
+dialog --backtitle "NeXt Server Configuration" --msgbox "Please enter the shown DKIM key to you DNS settings \n\n
+remove all quote signs - so it looks like that:  \n\n
+v=DKIM1; k=rsa; p=MIIBIjANBgkqh[...] "$HEIGHT $WIDTH
+cat ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt
+}

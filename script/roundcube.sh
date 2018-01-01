@@ -78,7 +78,6 @@ mysql --defaults-file=/etc/mysql/debian.cnf roundcube < /var/www/html/webmail/SQ
 #Nginx custom site config
 cat > /etc/nginx/sites-custom/roundcube.conf <<END
 location /webmail {
-    #auth_basic "Restricted";
     alias /var/www/html/webmail;
     index index.php;
     location ~ ^/webmail/(.+\.php)$ {
@@ -92,12 +91,12 @@ location /webmail {
     location ~* ^/webmail/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
         alias /var/www/html/webmail/\$1;
     }
-    #location ~ ^/webmail/save/ {
-    #    deny all;
-    #}
-    #location ~ ^/webmail/upload/ {
-    #    deny all;
-    #}
+    location ~ ^/webmail/save/ {
+        deny all;
+    }
+    location ~ ^/webmail/upload/ {
+        deny all;
+    }
 }
 END
 

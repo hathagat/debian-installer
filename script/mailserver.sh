@@ -72,23 +72,29 @@ MENU="Choose one of the following options:"
         source ${SCRIPT_PATH}/script/openssl.sh; install_openssl
         source ${SCRIPT_PATH}/script/mariadb.sh; install_mariadb
         source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
-        #später 7.1 or 7.2
-        #source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1
         source ${SCRIPT_PATH}/script/unbound.sh; install_unbound
         source ${SCRIPT_PATH}/script/mailserver.sh; install_mailserver
         source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot
         source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
         source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd
-        #source ${SCRIPT_PATH}/script/roundcube.sh; install_roundcube
 
+				source ${SCRIPT_PATH}/configuration.sh; show_login_information
+				read -p "Continue (y/n)?" ANSW
+				if [ "$ANSW" = "n" ]; then
+					echo "Exit"
+					exit 1
+				fi
+
+				source ${SCRIPT_PATH}/configuration.sh; show_dkim_key
         dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Standalone Mailserver" $HEIGHT $WIDTH
 				;;
 			2)
 				dialog --backtitle "NeXt Server Installation" --infobox "Updating Mailserver" $HEIGHT $WIDTH
+				apt-get update >/dev/null 2>&1
+				apt-get -y upgrade >>"${main_log}" 2>>"${err_log}"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Mailserver" $HEIGHT $WIDTH
 				;;
 			3)
-        # --- MYDOMAIN ---
         while true
           do
             MYDOMAIN=$(dialog --clear \
@@ -108,23 +114,51 @@ MENU="Choose one of the following options:"
         dialog --backtitle "NeXt Server Installation" --msgbox "Added domain ${MYDOMAIN} to the Mailserver" $HEIGHT $WIDTH
 				;;
 			4)
-				#let the user enter the email username
+				while true
+					do
+						EMAIL_USER_NAME=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter your Email User ("admin" for example)" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+						)
+					done
+
 				SCRIPT_PATH="/root/NeXt-Server"
 				source ${SCRIPT_PATH}/script/functions.sh
 				source ${SCRIPT_PATH}/configs/versions.cfg
 				EMAIL_ACCOUNT_PASS=$(password)
+				echo  "Your Email User Name: $EMAIL_USER_NAME" >> ${SCRIPT_PATH}/login_information
 				echo  "Your Email Account password: $EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
 
 				EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
-				mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('user1', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
-				dialog --backtitle "NeXt Server Installation" --msgbox "Added user1 to the Mailserver" $HEIGHT $WIDTH
+				mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('${EMAIL_USER_NAME}', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
+				dialog --backtitle "NeXt Server Installation" --msgbox "Added ${EMAIL_USER_NAME} with the password: ${EMAIL_ACCOUNT_PASS} to the Mailserver" $HEIGHT $WIDTH
 				;;
 			5)
-				#let the user enter the alias
+				while true
+					do
+						EMAIL_USER_NAME=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter your Email User Name, you created and that should get the alias (if you haven't created a user yet, do it before this step!)" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+						)
+					done
+
+					while true
+						do
+							EMAIL_ALIAS_NAME=$(dialog --clear \
+							--backtitle "$BACKTITLE" \
+							--inputbox "Enter the Alias Name for the Email user (for example "postmaster")" \
+							$HEIGHT $WIDTH \
+							3>&1 1>&2 2>&3 3>&- \
+							)
+						done
 				source ${SCRIPT_PATH}/script/functions.sh
 				source ${SCRIPT_PATH}/configs/versions.cfg
-				mysql -u root -e "use vmail; insert into aliases (source_username, source_domain, destination_username, destination_domain, enabled) values ('alias', '${MYDOMAIN}', 'user1', '${MYDOMAIN}', true);"
-				dialog --backtitle "NeXt Server Installation" --msgbox "Added Alias alias to the Mailserver" $HEIGHT $WIDTH
+				mysql -u root -e "use vmail; insert into aliases (source_username, source_domain, destination_username, destination_domain, enabled) values ('${EMAIL_ALIAS_NAME}', '${MYDOMAIN}', '${EMAIL_USER_NAME}', '${MYDOMAIN}', true);"
+				dialog --backtitle "NeXt Server Installation" --msgbox "Added Alias ${EMAIL_ALIAS_NAME} to the Email User ${EMAIL_USER_NAME}" $HEIGHT $WIDTH
 				;;
 			6)
 				bash ${SCRIPT_PATH}/start.sh;

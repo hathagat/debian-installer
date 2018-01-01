@@ -42,14 +42,6 @@ So etwas gibt es schon, aber vll besser	machen?
 ######### fail2ban #########
 - activate_fail2ban_jails Option anbieten weitere jails zu aktivieren (oder aktivieren wir die automatisch, falls z.B. ein Mailserver dazu kommt?)
 
-######### Firewall #########
-- Welche Firewall nehmen wir? Wenn Arnos bleibt -> überarbeiten!
-
-######### Mailserver #########
-- DNS DKIM Eintrag after install
-- Webmail nicht im Mailserver Standalone -> Nginx fehlt
-- Complete Standalone
-
 ######### Checks #########
 - CHECK_DOMAIN, CHECK_PASSWORD, CHECK_E_MAIL optimieren bzw testen ob es so passt (CHECK_DOMAIN fehlerhaft?)
 
@@ -58,8 +50,6 @@ So etwas gibt es schon, aber vll besser	machen?
 - create_new_openssh_user Funktion anlegen (unbedingt zu ssh-user Gruppe hinzufügen, sonst kein SSH Login möglich!!)
 - BLOCKED_PORTS Check geht / gibt es nicht mehr? Wieder einfügen und optimieren?
 
-######### Logs #########
-- Welche Sachen müssen unbedingt ins Log und welche können ins Nirvana? muss apt-get update und so Konsorten ins Log?
 
 ######### Login Informationen #########
 - Wohin schreiben wir die ganzen Informationen?
