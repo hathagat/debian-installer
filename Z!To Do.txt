@@ -19,7 +19,8 @@
 		  exit
 		fi
 
-So etwas gibt es schon, aber vll besser	machen?
+## in der error exit function vars anpassen
+
 
 ######### PHP #########
 - menu_options_php_7_x anlegen

@@ -38,12 +38,23 @@ timedatectl set-timezone ${TIMEZONE}
 
 rm /etc/apt/sources.list
 cat > /etc/apt/sources.list <<END
-#Debian
-deb http://ftp.de.debian.org/debian/ stretch main contrib non-free
-deb-src http://ftp.de.debian.org/debian/ stretch main contrib non-free
+#------------------------------------------------------------------------------#
+#                   OFFICIAL DEBIAN REPOS
+#------------------------------------------------------------------------------#
 
-deb http://security.debian.org/debian-security stretch/updates main
-deb-src http://security.debian.org/debian-security stretch/updates main
+###### Debian Main Repos
+deb http://deb.debian.org/debian/ stretch main contrib non-free
+deb-src http://deb.debian.org/debian/ stretch main contrib non-free
+
+deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+
+deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
+deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
+
+#Backports
+deb http://ftp.debian.org/debian stretch-backports main
+deb-src http://ftp.debian.org/debian stretch-backports main
 END
 
 apt-get update -y >/dev/null 2>&1

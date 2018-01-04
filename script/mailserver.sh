@@ -143,6 +143,7 @@ MENU="Choose one of the following options:"
 				$HEIGHT $WIDTH \
 				3>&1 1>&2 2>&3 3>&- \
 				)
+				
 				mysql -u root -e "use vmail; insert into aliases (source_username, source_domain, destination_username, destination_domain, enabled) values ('${EMAIL_ALIAS_NAME}', '${MYDOMAIN}', '${EMAIL_USER_NAME}', '${MYDOMAIN}', true);"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Added Alias "${EMAIL_ALIAS_NAME}" to the Email User "${EMAIL_USER_NAME}" " $HEIGHT $WIDTH
 				;;
