@@ -1,7 +1,7 @@
 #Short instructions:
 
 ```
-apt-get update; apt-get install git -y; git clone https://github.com/shoujii/NeXt-Server; cd NeXt-Server; bash ~/NeXt-Server/start.sh
+cd /root/; apt-get update; apt-get install git -y; git clone https://github.com/shoujii/NeXt-Server; cd NeXt-Server; bash start.sh
 ```
 
 Follow the instructions!

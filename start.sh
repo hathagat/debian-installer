@@ -26,10 +26,10 @@ apt-get -qq install dialog >/dev/null 2>&1
 SCRIPT_PATH="/root/NeXt-Server"
 
 GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
-source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
+source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60

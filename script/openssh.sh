@@ -20,17 +20,18 @@ menu_options_openssh() {
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=6
+CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
 	OPTIONS=(1 "Install Openssh"
 			 2 "Update Openssh"
-			 3 "Change Openssh Port"
-			 4 "Create new Openssh Key"
-			 5 "Back"
-			 6 "Exit")
+			 3 "Add new Openssh User"
+			 4 "Change Openssh Port"
+			 5 "Create new Openssh Key"
+			 6 "Back"
+			 7 "Exit")
 
 	CHOICE=$(dialog --clear \
 					--nocancel \
@@ -57,7 +58,7 @@ MENU="Choose one of the following options:"
 				echo
 				echo
 				echo "Your SSH Key"
-				cat ~/ssh_privatekey.txt
+				cat ${SCRIPT_PATH}/ssh_privatekey.txt
 				exit 1
 				;;
 			2)
@@ -66,6 +67,16 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssh" $HEIGHT $WIDTH
 				;;
 			3)
+				NEW_OPENSSH_USER=$(dialog --clear \
+				--backtitle "$BACKTITLE" \
+				--inputbox "Please enter the new Openssh Username:" \
+				$HEIGHT $WIDTH \
+				3>&1 1>&2 2>&3 3>&- \
+				)
+				add_openssh_user
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished adding Openssh User" $HEIGHT $WIDTH
+				;;
+			4)
 			while true
 				do
 					INPUT_NEW_SSH_PORT=$(dialog --clear \
@@ -91,7 +102,7 @@ MENU="Choose one of the following options:"
 				change_openssh_port
 				dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH Port to $NEW_SSH_PORT" $HEIGHT $WIDTH
 				;;
-			4)
+			5
 				dialog --backtitle "NeXt Server Installation" --infobox "Creating new Openssh key" $HEIGHT $WIDTH
 				create_new_openssh_key
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished creating new ssh key" $HEIGHT $WIDTH
@@ -100,17 +111,17 @@ MENU="Choose one of the following options:"
 				echo "You can find your New SSH key at ${SCRIPT_PATH}/ssh_privatekey.txt"
 				echo
 				echo
-				echo "Password for your  new ssh key = $SSH_PASS"
+				echo "Password for your new ssh key = $NEW_SSH_PASS"
 				echo
 				echo
 				echo "Your new SSH Key"
 				cat ~/ssh_privatekey.txt
 				exit 1
 				;;
-			5)
+			6)
 				bash ${SCRIPT_PATH}/start.sh;
 				;;
-			6)
+			7)
 				echo "Exit"
 				exit 1
 				;;
@@ -129,20 +140,18 @@ SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#                 				  Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
-echo "															$SSH_PORT																					" >> ${SCRIPT_PATH}/login_information
+echo "#Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
+echo "$SSH_PORT																					" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
 
 SSH_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#                 			  Openssh password:																		 #" >> ${SCRIPT_PATH}/login_information
-echo "															SSH_PASS																					" >> ${SCRIPT_PATH}/login_information
+echo "#Openssh password:																		 #" >> ${SCRIPT_PATH}/login_information
+echo "$SSH_PASS																					" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
-
-echo  "Openssh password: $SSH_PASS" >> ${SCRIPT_PATH}/login_information
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -178,25 +187,40 @@ else
 fi
 }
 
+add_openssh_user() {
+
+#NEW_OPENSSH_USER
+
+#usermod -a -G ssh-user root
+
+}
+
 change_openssh_port() {
 
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
-echo  "New Openssh Port: " >> ${SCRIPT_PATH}/login_information
-echo  "$NEW_SSH_PORT" >> ${SCRIPT_PATH}/login_information
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#New Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
+echo "$NEW_SSH_PORT																				" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
 
 service sshd restart
 }
 
 create_new_openssh_key() {
 
-#delete old key ####
 rm -rf ~/.ssh/*
+rm ${SCRIPT_PATH}/ssh_privatekey.txt
 
-SSH_PASS=$(password)
-echo  "New Openssh password: " >> ${SCRIPT_PATH}/login_information
-echo  "$SSH_PASS" >> ${SCRIPT_PATH}/login_information
+NEW_SSH_PASS=$(password)
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#New Openssh password:																			 #" >> ${SCRIPT_PATH}/login_information
+echo "$NEW_SSH_PASS																				" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
 
-ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
+ssh-keygen -f ~/ssh.key -t ed25519 -N $NEW_SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2

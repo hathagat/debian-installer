@@ -48,7 +48,6 @@
 - CHECK_DOMAIN, CHECK_PASSWORD, CHECK_E_MAIL optimieren bzw testen ob es so passt (CHECK_DOMAIN fehlerhaft?)
 
 ######### Openssh #########
-- create_new_openssh_key Funktion überarbeiten, der alte Key muss gelöscht werden, bevor neuer erzeugt wird, oder backuppen?
 - create_new_openssh_user Funktion anlegen (unbedingt zu ssh-user Gruppe hinzufügen, sonst kein SSH Login möglich!!)
 - BLOCKED_PORTS Check geht / gibt es nicht mehr? Wieder einfügen und optimieren?
 
