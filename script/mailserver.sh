@@ -63,11 +63,7 @@ MENU="Choose one of the following options:"
               fi
           done
         dialog --backtitle "NeXt Server Installation" --infobox "Install Standalone Mailserver" $HEIGHT $WIDTH
-        source ${SCRIPT_PATH}/script/logs.sh; set_logs
-        source ${SCRIPT_PATH}/script/functions.sh
-        source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
         source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
-        source ${SCRIPT_PATH}/configs/versions.cfg
 
         source ${SCRIPT_PATH}/script/openssl.sh; install_openssl
         source ${SCRIPT_PATH}/script/mariadb.sh; install_mariadb
@@ -122,8 +118,18 @@ MENU="Choose one of the following options:"
 				)
 
 				EMAIL_ACCOUNT_PASS=$(password)
-				echo  "Your Email User Name: $EMAIL_USER_NAME" >> ${SCRIPT_PATH}/login_information
-				echo  "Your Email Account password: $EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
+
+				echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+				echo "#                  	 Your Email User Name:																		 #" >> ${SCRIPT_PATH}/login_information
+				echo "												$EMAIL_USER_NAME																				" >> ${SCRIPT_PATH}/login_information
+				echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+				echo ""
+
+				echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+				echo "#                   Your Email Account password:															 #" >> ${SCRIPT_PATH}/login_information
+				echo "											$EMAIL_ACCOUNT_PASS																				" >> ${SCRIPT_PATH}/login_information
+				echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+				echo ""
 
 				EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
 				mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('${EMAIL_USER_NAME}', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"

@@ -46,8 +46,6 @@ MENU="Choose one of the following options:"
 	case $CHOICE in
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssh" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/logs.sh; set_logs
-				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				install_openssh
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
 				echo
@@ -64,8 +62,6 @@ MENU="Choose one of the following options:"
 				;;
 			2)
 				dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssh" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/logs.sh; set_logs
-				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				update_openssh
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssh" $HEIGHT $WIDTH
 				;;
@@ -97,7 +93,6 @@ MENU="Choose one of the following options:"
 				;;
 			4)
 				dialog --backtitle "NeXt Server Installation" --infobox "Creating new Openssh key" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/logs.sh; set_logs
 				create_new_openssh_key
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished creating new ssh key" $HEIGHT $WIDTH
 				echo

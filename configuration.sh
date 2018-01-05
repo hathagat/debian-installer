@@ -16,9 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-SCRIPT_PATH="/root/NeXt-Server"
-source ${SCRIPT_PATH}/script/functions.sh
-source ${SCRIPT_PATH}/script/menu.sh
 HEIGHT=30
 WIDTH=60
 

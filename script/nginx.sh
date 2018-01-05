@@ -20,8 +20,6 @@ install_nginx() {
 
 apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}"
 
-SCRIPT_PATH="/root/NeXt-Server"
-
 cd ${SCRIPT_PATH}/sources
 wget --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?

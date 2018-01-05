@@ -18,10 +18,6 @@
 
 confighelper_userconfig() {
 
-SCRIPT_PATH="/root/NeXt-Server"
-source ${SCRIPT_PATH}/script/functions.sh
-source ${SCRIPT_PATH}/script/menu.sh
-
 # --- GLOBAL MENU VARIABLES ---
 BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"
@@ -102,7 +98,6 @@ while true
 	done
 
 # --- DNS Check ---
-source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 
 server_ip=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 sed -i "s/server_ip/$server_ip/g" ${SCRIPT_PATH}/dns_settings.txt
@@ -138,15 +133,15 @@ case $CHOICE in
 		;;
 esac
 
-#if [[ $FQDNIP != $IPADR ]]; then
-#	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
-#	exit 1
-#fi
+if [[ $FQDNIP != $IPADR ]]; then
+	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
+	exit 1
+fi
 
-#if [[ $CHECKRDNS != mail.$MYDOMAIN. ]]; then
-#	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
-#	exit 1
-#fi
+if [[ $CHECKRDNS != mail.$MYDOMAIN. ]]; then
+	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
+	exit 1
+fi
 
 # --- Mailserver ---
 CHOICE_HEIGHT=2

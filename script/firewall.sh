@@ -46,15 +46,11 @@ MENU="Choose one of the following options:"
 	case $CHOICE in
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing Firewall" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/logs.sh; set_logs
-				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				install_firewall
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Firewall" $HEIGHT $WIDTH
 				;;
 			2)
 				dialog --backtitle "NeXt Server Installation" --infobox "Updating Firewall" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/logs.sh; set_logs
-				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				rm -R ${SCRIPT_PATH}/sources/aif
 				rm -R ${SCRIPT_PATH}/sources/blacklist
 				update_firewall

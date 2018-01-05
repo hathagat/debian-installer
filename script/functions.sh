@@ -30,6 +30,17 @@ WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
+menu() {
+CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+				--no-cancel \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+}
+
 start_after_install() {
   source ${SCRIPT_PATH}/configs/versions.cfg
 	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key

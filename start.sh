@@ -26,8 +26,10 @@ apt-get -qq install dialog >/dev/null 2>&1
 SCRIPT_PATH="/root/NeXt-Server"
 
 GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
+source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
+source ${SCRIPT_PATH}/script/logs.sh; set_logs
 
 HEIGHT=30
 WIDTH=60
@@ -116,7 +118,6 @@ MENU="Choose one of the following options:"
 				3)
 					#check if installed, otherwise skip single services
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating all services" $HEIGHT $WIDTH
-					source ${SCRIPT_PATH}/script/logs.sh; set_logs
 					source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 					source script/openssh.sh; update_openssh

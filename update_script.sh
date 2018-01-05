@@ -17,7 +17,6 @@
 #-------------------------------------------------------------------------------------------------------------
 
 update_script() {
-SCRIPT_PATH="/root/NeXt-Server"
 
 git remote update
 if ! git diff --quiet origin/master; then

@@ -44,16 +44,12 @@ MENU="Choose one of the following options:"
 	case $CHOICE in
 			1)
 				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssl" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/logs.sh; set_logs
-				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 				install_openssl
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssl" $HEIGHT $WIDTH
 				exit 1
 				;;
 			2)
-			    dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssl" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/logs.sh; set_logs
-				source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+			  dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssl" $HEIGHT $WIDTH
 				update_openssl
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssl" $HEIGHT $WIDTH
 				;;
@@ -90,7 +86,6 @@ tar -xzf openssl-${OPENSSL_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
 rm openssl-${OPENSSL_VERSION}.tar.gz
 
 cd openssl-${OPENSSL_VERSION}
-
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic >>"${make_log}" 2>>"${make_err_log}"
 
 make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}"
