@@ -19,7 +19,12 @@
 install_roundcube() {
 
 ROUNDCUBE_MYSQL_PASS=$(password)
-echo  "ROUNDCUBE_MYSQL_PASS password: $ROUNDCUBE_MYSQL_PASS" >> ${SCRIPT_PATH}/login_information
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#                   ROUNDCUBE_MYSQL_PASS password:														 #" >> ${SCRIPT_PATH}/login_information
+echo "											 $ROUNDCUBE_MYSQL_PASS				    												" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
 
 #Create Database
 mysql --defaults-file=/etc/mysql/debian.cnf -e "CREATE DATABASE roundcube; GRANT ALL ON roundcube.* TO 'roundcube'@'localhost' IDENTIFIED BY '${ROUNDCUBE_MYSQL_PASS}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"

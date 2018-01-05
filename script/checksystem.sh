@@ -56,18 +56,18 @@ check_system() {
 		exit 1
 	fi
 
-#	if [ "$(dmidecode -s system-product-name)" == 'Bochs' ] || [ "$(dmidecode -s system-product-name)" == 'KVM' ] || [ "$(dmidecode -s system-product-name)" == 'All Series' ] || [ "$(dmidecode -s system-product-name)" == 'OpenStack Nova' ] || [ "$(dmidecode -s system-product-name)" == 'Standard' ]; then
-#		echo > /dev/null
-#	else
-#		if [ $(dpkg-query -l | grep facter | wc -l) -ne 1 ]; then
-#			apt-get -y --assume-yes install facter >>"${main_log}" 2>>"${err_log}"
-#		fi
-#
-#		if	[ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then
-#			echo > /dev/null
-#		else
-#	        echo "This script does not support the virtualization technology ($(dmidecode -s system-product-name))"
-#			exit 1
-#       fi
-#	fi
+	if [ "$(dmidecode -s system-product-name)" == 'Bochs' ] || [ "$(dmidecode -s system-product-name)" == 'KVM' ] || [ "$(dmidecode -s system-product-name)" == 'All Series' ] || [ "$(dmidecode -s system-product-name)" == 'OpenStack Nova' ] || [ "$(dmidecode -s system-product-name)" == 'Standard' ]; then
+		echo > /dev/null
+	else
+		if [ $(dpkg-query -l | grep facter | wc -l) -ne 1 ]; then
+			apt-get -y --assume-yes install facter >>"${main_log}" 2>>"${err_log}"
+		fi
+
+		if	[ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then
+ 		echo > /dev/null
+		else
+	        echo "This script does not support the virtualization technology ($(dmidecode -s system-product-name))"
+			exit 1
+       fi
+	fi
 }

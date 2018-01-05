@@ -132,9 +132,21 @@ cp ${SCRIPT_PATH}/includes/issue /etc/issue
 RANDOM_SSH_PORT="$(($RANDOM % 1023))"
 SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
-echo  "Openssh Port: $SSH_PORT" >> ${SCRIPT_PATH}/login_information
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#                 				  Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
+echo "															$SSH_PORT																					" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
 
 SSH_PASS=$(password)
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#                 			  Openssh password:																		 #" >> ${SCRIPT_PATH}/login_information
+echo "															SSH_PASS																					" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
+
 echo  "Openssh password: $SSH_PASS" >> ${SCRIPT_PATH}/login_information
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"

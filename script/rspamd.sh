@@ -30,10 +30,15 @@ systemctl stop rspamd
 
 cp ${SCRIPT_PATH}/configs/rspamd/options.inc /etc/rspamd/local.d/options.inc
 cp ${SCRIPT_PATH}/configs/rspamd/worker-normal.inc /etc/rspamd/local.d/worker-normal.inc
-###hier anpassungen mit make compile anzahl
 
 RSPAMADM_PASSWORT=$(password)
-echo  "RSPAMADM_PASSWORT password: $RSPAMADM_PASSWORT" >> ${SCRIPT_PATH}/login_information
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#                   RSPAMADM_PASSWORT password:   														 #" >> ${SCRIPT_PATH}/login_information
+echo "											 $RSPAMADM_PASSWORT   				    												" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
+
 RSPAMADM_PASSWORT_HASH=$(rspamadm pw -p ${RSPAMADM_PASSWORT})
 
 cat > /etc/rspamd/local.d/worker-controller.inc <<END

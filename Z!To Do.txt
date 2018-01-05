@@ -20,6 +20,7 @@
 		fi
 
 ## in der error exit function vars anpassen
+#check ob eth0 vorhanden
 
 
 ######### PHP #########
