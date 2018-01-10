@@ -190,7 +190,6 @@ fi
 add_openssh_user() {
 
 #NEW_OPENSSH_USER
-
 #usermod -a -G ssh-user root
 
 }
