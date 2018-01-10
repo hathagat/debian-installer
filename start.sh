@@ -17,25 +17,26 @@
 #-------------------------------------------------------------------------------------------------------------
 
 SCRIPT_PATH="/root/NeXt-Server"
+source ${SCRIPT_PATH}/script/functions.sh
 
 git remote update
 if ! git diff --quiet origin/master; then
 	CHOICE_HEIGHT=2
 	MENU="There's a new NeXt-Server Script Update, do you want to update?:"
 	OPTIONS=(1 "Yes"
-			 2 "No")
+			 		 2 "No")
 	menu
 	clear
 	case $CHOICE in
 	  1)
 			source ${SCRIPT_PATH}/update_script.sh; update_script
+			dialog --title "Changelog" --textbox ${SCRIPT_PATH}/changelog.log 50 250
 			;;
 	  2)
 			;;
-	esac	
-	
+	esac
+
   GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
-  dialog --title "Changelog" --textbox ${SCRIPT_PATH}/changelog.log 50 250
 fi
 clear
 
@@ -46,7 +47,6 @@ apt-get -qq install dialog >/dev/null 2>&1
 
 
 source ${SCRIPT_PATH}/configs/versions.cfg
-source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
