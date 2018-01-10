@@ -41,7 +41,8 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 	openssl_start=`date +%s`
 	echo "5" | dialog --gauge "Installing OpenSSL..." 10 70 0
-	source ${SCRIPT_PATH}/script/openssl.sh; install_openssl || error_exit
+	source ${SCRIPT_PATH}/script/openssl.sh; install_openssl
+	#|| error_exit deactivated until https://github.com/openssl/openssl/issues/4886 doesn't appear anymore
 	openssl_end=`date +%s`
 	openssltime=$((openssl_end-openssl_start))
 

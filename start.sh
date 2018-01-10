@@ -16,16 +16,35 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
+SCRIPT_PATH="/root/NeXt-Server"
+
+git remote update
+if ! git diff --quiet origin/master; then
+	CHOICE_HEIGHT=2
+	MENU="There's a new NeXt-Server Script Update, do you want to update?:"
+	OPTIONS=(1 "Yes"
+			 2 "No")
+	menu
+	clear
+	case $CHOICE in
+	  1)
+			source ${SCRIPT_PATH}/update_script.sh; update_script
+			;;
+	  2)
+			;;
+	esac	
+	
+  GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
+  dialog --title "Changelog" --textbox ${SCRIPT_PATH}/changelog.log 50 250
+fi
 clear
+
 echo "NeXt Server"
 echo "Preparing menu..."
-
 #-------------dialog
 apt-get -qq install dialog >/dev/null 2>&1
 
-SCRIPT_PATH="/root/NeXt-Server"
 
-GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs

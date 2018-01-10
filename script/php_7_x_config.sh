@@ -20,7 +20,7 @@ php_7_x_config() {
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=4
+CHOICE_HEIGHT=6
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -111,4 +111,6 @@ MENU="Choose one of the following options:"
 
 	
 	esac
+	# Back to menu
+	start.sh
 }
