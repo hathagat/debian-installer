@@ -16,6 +16,11 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
+echo "NeXt Server"
+echo "Preparing menu..."
+#-------------dialog
+apt-get -qq install dialog >/dev/null 2>&1
+
 SCRIPT_PATH="/root/NeXt-Server"
 source ${SCRIPT_PATH}/script/functions.sh
 
@@ -33,19 +38,15 @@ if ! git diff --quiet origin/master; then
 			dialog --title "Changelog" --textbox ${SCRIPT_PATH}/changelog.log 50 250
 			;;
 	  2)
+			echo "Update skipped!"
 			;;
 	esac
-
-  GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
+else
+	echo "No update available!"
 fi
 clear
 
-echo "NeXt Server"
-echo "Preparing menu..."
-#-------------dialog
-apt-get -qq install dialog >/dev/null 2>&1
-
-
+GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
