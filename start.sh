@@ -24,6 +24,11 @@ apt-get -qq install dialog >/dev/null 2>&1
 SCRIPT_PATH="/root/NeXt-Server"
 source ${SCRIPT_PATH}/script/functions.sh
 
+HEIGHT=30
+WIDTH=60
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
+
 git remote update
 if ! git diff --quiet origin/master; then
 	CHOICE_HEIGHT=2
@@ -51,11 +56,8 @@ source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
-HEIGHT=30
-WIDTH=60
+
 CHOICE_HEIGHT=13
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
 		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD}"
