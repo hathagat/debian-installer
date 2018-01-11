@@ -16,118 +16,6 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-menu_options_openssh() {
-
-HEIGHT=30
-WIDTH=60
-CHOICE_HEIGHT=7
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
-MENU="Choose one of the following options:"
-
-	OPTIONS=(1 "Install Openssh"
-			 2 "Update Openssh"
-			 3 "Add new Openssh User"
-			 4 "Change Openssh Port"
-			 5 "Create new Openssh Key"
-			 6 "Back"
-			 7 "Exit")
-
-	CHOICE=$(dialog --clear \
-					--nocancel \
-					--no-cancel \
-					--backtitle "$BACKTITLE" \
-					--title "$TITLE" \
-					--menu "$MENU" \
-					$HEIGHT $WIDTH $CHOICE_HEIGHT \
-					"${OPTIONS[@]}" \
-					2>&1 >/dev/tty)
-
-	clear
-	case $CHOICE in
-			1)
-				dialog --backtitle "NeXt Server Installation" --infobox "Installing Openssh" $HEIGHT $WIDTH
-				install_openssh
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Openssh" $HEIGHT $WIDTH
-				echo
-				echo
-				echo "You can find your SSH key at ${SCRIPT_PATH}/ssh_privatekey.txt"
-				echo
-				echo
-				echo "Password for your ssh key = $SSH_PASS"
-				echo
-				echo
-				echo "Your SSH Key"
-				cat ${SCRIPT_PATH}/ssh_privatekey.txt
-				exit 1
-				;;
-			2)
-				dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssh" $HEIGHT $WIDTH
-				update_openssh
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssh" $HEIGHT $WIDTH
-				;;
-			3)
-				NEW_OPENSSH_USER=$(dialog --clear \
-				--backtitle "$BACKTITLE" \
-				--inputbox "Please enter the new Openssh Username:" \
-				$HEIGHT $WIDTH \
-				3>&1 1>&2 2>&3 3>&- \
-				)
-				add_openssh_user
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished adding Openssh User" $HEIGHT $WIDTH
-				;;
-			4)
-			while true
-				do
-					INPUT_NEW_SSH_PORT=$(dialog --clear \
-							--backtitle "$BACKTITLE" \
-							--inputbox "Enter your SSH Port (only max. 3 numbers!):" \
-							$HEIGHT $WIDTH \
-							3>&1 1>&2 2>&3 3>&- \
-							)
-					if [[ $INPUT_NEW_SSH_PORT =~ ^-?[0-9]+$ ]]; then
-						if [[ -v BLOCKED_PORTS[$INPUT_NEW_SSH_PORT] ]]; then
-							dialog --title "NeXt Server Confighelper" --msgbox "$INPUT_NEW_SSH_PORT is known. Choose an other Port!" $HEIGHT $WIDTH
-							dialog --clear
-						else
-							NEW_SSH_PORT="$INPUT_NEW_SSH_PORT"
-							echo " you port is $NEW_SSH_PORT"
-							break
-						fi
-					else
-					dialog --title "NeXt Server Confighelper" --msgbox "The Port should only contain numbers!" $HEIGHT $WIDTH
-					dialog --clear
-					fi
-				done
-				change_openssh_port
-				dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH Port to $NEW_SSH_PORT" $HEIGHT $WIDTH
-				;;
-			5)
-				dialog --backtitle "NeXt Server Installation" --infobox "Creating new Openssh key" $HEIGHT $WIDTH
-				create_new_openssh_key
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished creating new ssh key" $HEIGHT $WIDTH
-				echo
-				echo
-				echo "You can find your New SSH key at ${SCRIPT_PATH}/ssh_privatekey.txt"
-				echo
-				echo
-				echo "Password for your new ssh key = $NEW_SSH_PASS"
-				echo
-				echo
-				echo "Your new SSH Key"
-				cat ~/ssh_privatekey.txt
-				exit 1
-				;;
-			6)
-				bash ${SCRIPT_PATH}/start.sh;
-				;;
-			7)
-				echo "Exit"
-				exit 1
-				;;
-	esac
-}
-
 install_openssh() {
 
 apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}"
@@ -140,16 +28,16 @@ SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
-echo "$SSH_PORT																					" >> ${SCRIPT_PATH}/login_information
+echo "#Openssh Port:" >> ${SCRIPT_PATH}/login_information
+echo "$SSH_PORT" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
 
 SSH_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#Openssh password:																		 #" >> ${SCRIPT_PATH}/login_information
-echo "$SSH_PASS																					" >> ${SCRIPT_PATH}/login_information
+echo "#Openssh password:" >> ${SCRIPT_PATH}/login_information
+echo "$SSH_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
 

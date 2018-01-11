@@ -21,8 +21,8 @@ install_roundcube() {
 ROUNDCUBE_MYSQL_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#                   ROUNDCUBE_MYSQL_PASS password:														 #" >> ${SCRIPT_PATH}/login_information
-echo "											 $ROUNDCUBE_MYSQL_PASS				    												" >> ${SCRIPT_PATH}/login_information
+echo "ROUNDCUBE_MYSQL_PASS password:" >> ${SCRIPT_PATH}/login_information
+echo "$ROUNDCUBE_MYSQL_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
 

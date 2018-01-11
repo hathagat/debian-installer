@@ -125,16 +125,16 @@ MENU="Choose one of the following options:"
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
 					;;
 				4)
-					source script/mailserver.sh; menu_options_mailserver
+					source ${SCRIPT_PATH}/options/menu_mailserver.sh; menu_options_mailserver
 					;;
 				5)
-					source script/openssh.sh; menu_options_openssh
+					source ${SCRIPT_PATH}/options/menu_openssh.sh; menu_options_openssh
 					;;
 				6)
 					source script/openssl.sh; menu_options_openssl
 					;;
 				7)
-					source script/fail2ban.sh; menu_options_fail2ban
+					source ${SCRIPT_PATH}/options/menu_fail2ban.sh; menu_options_fail2ban
 					;;
 				8)
 					source script/nginx_vhost.sh; menu_options_nginx_vhost
