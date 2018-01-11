@@ -16,48 +16,26 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
+clear
 echo "NeXt Server"
 echo "Preparing menu..."
+
 #-------------dialog
 apt-get -qq install dialog >/dev/null 2>&1
 
 SCRIPT_PATH="/root/NeXt-Server"
-source ${SCRIPT_PATH}/script/functions.sh
-
-HEIGHT=30
-WIDTH=60
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
-
-git remote update
-if ! git diff --quiet origin/master; then
-	CHOICE_HEIGHT=2
-	MENU="There's a new NeXt-Server Script Update, do you want to update?:"
-	OPTIONS=(1 "Yes"
-			 		 2 "No")
-	menu
-	clear
-	case $CHOICE in
-	  1)
-			source ${SCRIPT_PATH}/update_script.sh; update_script
-			dialog --title "Changelog" --textbox ${SCRIPT_PATH}/changelog.log 50 250
-			;;
-	  2)
-			echo "Update skipped!"
-			;;
-	esac
-else
-	echo "No update available!"
-fi
-clear
 
 GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 source ${SCRIPT_PATH}/configs/versions.cfg
+source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
-
+HEIGHT=30
+WIDTH=60
 CHOICE_HEIGHT=13
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
 		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD}"
