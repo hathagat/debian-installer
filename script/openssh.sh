@@ -102,7 +102,7 @@ MENU="Choose one of the following options:"
 				change_openssh_port
 				dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH Port to $NEW_SSH_PORT" $HEIGHT $WIDTH
 				;;
-			5
+			5)
 				dialog --backtitle "NeXt Server Installation" --infobox "Creating new Openssh key" $HEIGHT $WIDTH
 				create_new_openssh_key
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished creating new ssh key" $HEIGHT $WIDTH
