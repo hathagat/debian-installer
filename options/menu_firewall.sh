@@ -1,0 +1,103 @@
+#!/bin/bash
+# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+#
+	# This program is free software; you can redistribute it and/or modify
+    # it under the terms of the GNU General Public License as published by
+    # the Free Software Foundation; either version 2 of the License, or
+    # (at your option) any later version.
+
+    # This program is distributed in the hope that it will be useful,
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    # GNU General Public License for more details.
+
+    # You should have received a copy of the GNU General Public License along
+    # with this program; if not, write to the Free Software Foundation, Inc.,
+    # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#-------------------------------------------------------------------------------------------------------------
+
+menu_options_firewall() {
+
+HEIGHT=30
+WIDTH=60
+CHOICE_HEIGHT=6
+BACKTITLE="NeXt Server"
+TITLE="NeXt Server"
+MENU="Choose one of the following options:"
+
+	OPTIONS=(1 "Install Firewall"
+			 		2 "Update Firewall (not working yet)"
+			 		3 "Open TCP Port"
+			 		4 "Open UDP Port"
+			 		5 "Back"
+			 		6 "Exit")
+
+	CHOICE=$(dialog --clear \
+					--nocancel \
+					--no-cancel \
+					--backtitle "$BACKTITLE" \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+	clear
+	case $CHOICE in
+			1)
+				dialog --backtitle "NeXt Server Installation" --infobox "Installing Firewall" $HEIGHT $WIDTH
+				source ${SCRIPT_PATH}/script/firewall.sh; install_firewall || error_exit
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Firewall" $HEIGHT $WIDTH
+				;;
+			2)
+				dialog --backtitle "NeXt Server Installation" --infobox "Updating Firewall" $HEIGHT $WIDTH
+				rm -R ${SCRIPT_PATH}/sources/aif
+				rm -R ${SCRIPT_PATH}/sources/blacklist
+				source ${SCRIPT_PATH}/script/firewall.sh; update_firewall || error_exit
+				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Firewall" $HEIGHT $WIDTH
+				;;
+			3)
+			while true
+					do
+						CHOOSE_TCP_PORT=$(dialog --clear \
+							--backtitle "$BACKTITLE" \
+							--inputbox "Enter your TCP Port (only max. 3 numbers!):" \
+							$HEIGHT $WIDTH \
+							3>&1 1>&2 2>&3 3>&- \
+							)
+						if [[ ${CHOOSE_TCP_PORT} =~ ^-?[0-9]+$ ]]; then
+								TCP_PORT="$CHOOSE_TCP_PORT"
+								sed -i "/\<$TCP_PORT\>/ "\!"s/^OPEN_TCP=\"/&$TCP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
+								systemctl force-reload arno-iptables-firewall.service
+								dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The new TCP Port ${TCP_PORT} is opened!" $HEIGHT $WIDTH
+								break
+						fi
+					done
+				;;
+			4)
+			while true
+				do
+					CHOOSE_UDP_PORT=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter your UDP Port (only max. 3 numbers!):" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+						)
+					if [[ ${CHOOSE_UDP_PORT} =~ ^-?[0-9]+$ ]]; then
+							UDP_PORT="$CHOOSE_UDP_PORT"
+							sed -i "/\<$UDP_PORT\>/ "\!"s/^OPEN_UDP=\"/&$UDP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
+							systemctl force-reload arno-iptables-firewall.service
+							dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The new UDP Port ${UDP_PORT} is opened!" $HEIGHT $WIDTH
+							break
+					fi
+				done
+				;;
+			5)
+				bash ${SCRIPT_PATH}/start.sh;
+				;;
+			6)
+				echo "Exit"
+				exit 1
+				;;
+	esac
+}
