@@ -139,7 +139,7 @@ if [[ ${FQDNIP} != ${IPADR} ]]; then
 	exit 1
 fi
 
-if [[ ${CHECKRDNS} != mail.${MYDOMAIN} ]]; then
+if [ ${CHECKRDNS} != mail.${MYDOMAIN} ] | [ ${CHECKRDNS} != mail.${MYDOMAIN}. ]; then
 	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
 	exit 1
 fi
