@@ -35,8 +35,7 @@ unzip v${NPS_VERSION}-stable >>"${main_log}" 2>>"${err_log}"
       exit
     fi
 #rm v${NPS_VERSION}-stable.zip
-
-cd ngx_pagespeed-${NPS_VERSION}-stable/ >>"${main_log}" 2>>"${err_log}"
+cd incubator-pagespeed-ngx-${NPS_VERSION}-stable/ >>"${main_log}" 2>>"${err_log}"
 
 wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
