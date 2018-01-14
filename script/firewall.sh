@@ -81,7 +81,7 @@ else
 	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 80, 443\"/" /etc/arno-iptables-firewall/firewall.conf
 fi
 
-sed -i 's/^OPEN_UDP=.*/OPEN_UDP="143, 587"/' /etc/arno-iptables-firewall/firewall.conf
+sed -i 's/^OPEN_UDP=.*/OPEN_UDP="25, 80, 110, 143, 443, 465, 587, 993, 995"/' /etc/arno-iptables-firewall/firewall.conf
 sed -i 's/^VERBOSE=.*/VERBOSE=1/' /etc/init.d/arno-iptables-firewall
 
 systemctl -q daemon-reload

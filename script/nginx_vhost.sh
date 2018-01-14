@@ -61,7 +61,7 @@ server {
 	add_header 		"X-UA-Compatible" "IE=Edge";
 	add_header 		"Access-Control-Allow-Origin" "*";
 	add_header 		'Referrer-Policy' 'strict-origin';
-	
+
 	brotli on;
 			brotli_static on;
 			brotli_buffers 16 8k;
@@ -150,6 +150,9 @@ server {
 		deny all;
 		access_log off;
 		log_not_found off;
+	}
+	location ^~ /data {
+  deny all;
 	}
 	location ~* (?:\.(?:bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$ {
 		deny all;
