@@ -102,7 +102,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 		source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot || error_exit
 		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix || error_exit
 		source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd || error_exit
-		source ${SCRIPT_PATH}/script/roundcube.sh; install_roundcube || error_exit
+		source ${SCRIPT_PATH}/script/rainloop.sh; install_rainloop || error_exit
 	fi
 	mailserver_end=`date +%s`
 	mailservertime=$((mailserver_end-mailserver_start))
@@ -112,12 +112,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	source ${SCRIPT_PATH}/script/firewall.sh; install_firewall || error_exit
 	firewall_end=`date +%s`
 	firewalltime=$((firewall_end-firewall_start))
-
-	phpmyadmin_start=`date +%s`
-	echo "95" | dialog --gauge "Installing PHPmyadmin..." 10 70 0
-	source ${SCRIPT_PATH}/script/phpmyadmin.sh; install_phpmyadmin || error_exit
-	phpmyadmin_end=`date +%s`
-	phpmyadmintime=$((phpmyadmin_end-phpmyadmin_start))
 
 	install_end=`date +%s`
 	runtime=$((install_end-install_start))
@@ -134,7 +128,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "$install_runtime_string PHP in seconds: ${phptime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Mailserver in seconds: ${mailservertime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ${SCRIPT_PATH}/installation_times.txt
-	echo "$install_runtime_string PHPmyadmin in seconds: ${phpmyadmintime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
@@ -142,4 +135,4 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "100" | dialog --gauge "NeXt Server Installation finished!" 10 70 0
 
 	# Start Full Config after installation
-	source ${SCRIPT_PATH}/functions.sh; start_after_install
+	source ${SCRIPT_PATH}/script/functions.sh; start_after_install

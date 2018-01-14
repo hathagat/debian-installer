@@ -61,8 +61,7 @@ server {
 	add_header 		"X-UA-Compatible" "IE=Edge";
 	add_header 		"Access-Control-Allow-Origin" "*";
 	add_header 		'Referrer-Policy' 'strict-origin';
-	add_header 		Content-Security-Policy "script-src 'self' *.youtube.com maps.gstatic.com *.googleapis.com *.google-analytics.com cdnjs.cloudflare.com assets.zendesk.com connect.facebook.net; frame-src 'self' *.youtube.com assets.zendesk.com *.facebook.com s-static.ak.facebook.com tautt.zendesk.com; object-src 'self'";
-
+	
 	brotli on;
 			brotli_static on;
 			brotli_buffers 16 8k;

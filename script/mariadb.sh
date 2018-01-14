@@ -24,9 +24,9 @@ MYSQL_ROOT_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "MYSQL_ROOT_PASS password:" >> ${SCRIPT_PATH}/login_information
-echo " $MYSQL_ROOT_PASS" >> ${SCRIPT_PATH}/login_information
+echo "$MYSQL_ROOT_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+echo "" >> ${SCRIPT_PATH}/login_information
 
 mysqladmin -u root password ${MYSQL_ROOT_PASS}
 

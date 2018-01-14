@@ -36,7 +36,7 @@ echo "#-------------------------------------------------------------------------
 echo "Mailserver DB Password:" >> ${SCRIPT_PATH}/login_information
 echo "$MAILSERVER_DB_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+echo "" >> ${SCRIPT_PATH}/login_information
 
 sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" ${SCRIPT_PATH}/configs/mailserver/database.sql
 mysql -u root mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql

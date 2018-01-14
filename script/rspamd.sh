@@ -34,10 +34,10 @@ cp ${SCRIPT_PATH}/configs/rspamd/worker-normal.inc /etc/rspamd/local.d/worker-no
 RSPAMADM_PASSWORT=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#                   RSPAMADM_PASSWORT password:   														 #" >> ${SCRIPT_PATH}/login_information
-echo "											 $RSPAMADM_PASSWORT   				    												" >> ${SCRIPT_PATH}/login_information
+echo "RSPAMADM_PASSWORT password:" >> ${SCRIPT_PATH}/login_information
+echo "$RSPAMADM_PASSWORT" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+echo "" >> ${SCRIPT_PATH}/login_information
 
 RSPAMADM_PASSWORT_HASH=$(rspamadm pw -p ${RSPAMADM_PASSWORT})
 

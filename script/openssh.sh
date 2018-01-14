@@ -31,7 +31,7 @@ echo "#-------------------------------------------------------------------------
 echo "#Openssh Port:" >> ${SCRIPT_PATH}/login_information
 echo "$SSH_PORT" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+echo "" >> ${SCRIPT_PATH}/login_information
 
 SSH_PASS=$(password)
 
@@ -39,7 +39,7 @@ echo "#-------------------------------------------------------------------------
 echo "#Openssh password:" >> ${SCRIPT_PATH}/login_information
 echo "$SSH_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+echo "" >> ${SCRIPT_PATH}/login_information
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -91,7 +91,7 @@ echo "#-------------------------------------------------------------------------
 echo "#New Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
 echo "$NEW_SSH_PORT																				" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+echo "" >> ${SCRIPT_PATH}/login_information
 
 service sshd restart
 }
@@ -106,7 +106,7 @@ echo "#-------------------------------------------------------------------------
 echo "#New Openssh password:																			 #" >> ${SCRIPT_PATH}/login_information
 echo "$NEW_SSH_PASS																				" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+echo "" >> ${SCRIPT_PATH}/login_information
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $NEW_SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
