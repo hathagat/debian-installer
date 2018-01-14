@@ -52,7 +52,7 @@ echo "" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "Rainloop Admin Login:" >> ${SCRIPT_PATH}/login_information
 echo "User: admin" >> ${SCRIPT_PATH}/login_information
-echo "Password please change immediately: 12345" >> ${SCRIPT_PATH}/login_information
+echo "Password please change immediately!: 12345" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 

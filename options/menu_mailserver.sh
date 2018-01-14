@@ -20,7 +20,7 @@ menu_options_mailserver() {
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=7
+CHOICE_HEIGHT=6
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -28,10 +28,9 @@ MENU="Choose one of the following options:"
 	OPTIONS=(1 "Install Mailserver Standalone"
 			 2 "Update Mailserver"
 			 3 "Add new Domain"
-			 4 "Add Email Account (WIP!)"
-			 5 "Add Alias (WIP!)"
-			 6 "Back"
-			 7 "Exit")
+			 4 "Add Email Account"
+			 5 "Back"
+			 6 "Exit")
 
 	CHOICE=$(dialog --clear \
 					--nocancel \
@@ -135,28 +134,28 @@ MENU="Choose one of the following options:"
 				mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('${EMAIL_USER_NAME}', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Added Email User "${EMAIL_USER_NAME}" with the password: "${EMAIL_ACCOUNT_PASS}" to the Mailserver" $HEIGHT $WIDTH
 				;;
+	#		5)
+	#			EMAIL_USER_NAME=$(dialog --clear \
+	#			--backtitle "$BACKTITLE" \
+	#			--inputbox "Enter your Email User Name, you created and that should get the alias (if you haven't created a user yet, do it before this step!)" \
+	#			$HEIGHT $WIDTH \
+	#			3>&1 1>&2 2>&3 3>&- \
+	#			)
+  #
+	#			EMAIL_ALIAS_NAME=$(dialog --clear \
+	#			--backtitle "$BACKTITLE" \
+	#			--inputbox "Enter the Alias Name for the Email user (for example "postmaster")" \
+	#			$HEIGHT $WIDTH \
+	#			3>&1 1>&2 2>&3 3>&- \
+	#			)
+  #
+	#			mysql -u root -e "use vmail; insert into aliases (source_username, source_domain, destination_username, destination_domain, enabled) values ('${EMAIL_ALIAS_NAME}', '${MYDOMAIN}', '${EMAIL_USER_NAME}', '${MYDOMAIN}', true);"
+	#			dialog --backtitle "NeXt Server Installation" --msgbox "Added Alias "${EMAIL_ALIAS_NAME}" to the Email User "${EMAIL_USER_NAME}" " $HEIGHT $WIDTH
+	#			;;
 			5)
-				EMAIL_USER_NAME=$(dialog --clear \
-				--backtitle "$BACKTITLE" \
-				--inputbox "Enter your Email User Name, you created and that should get the alias (if you haven't created a user yet, do it before this step!)" \
-				$HEIGHT $WIDTH \
-				3>&1 1>&2 2>&3 3>&- \
-				)
-
-				EMAIL_ALIAS_NAME=$(dialog --clear \
-				--backtitle "$BACKTITLE" \
-				--inputbox "Enter the Alias Name for the Email user (for example "postmaster")" \
-				$HEIGHT $WIDTH \
-				3>&1 1>&2 2>&3 3>&- \
-				)
-
-				mysql -u root -e "use vmail; insert into aliases (source_username, source_domain, destination_username, destination_domain, enabled) values ('${EMAIL_ALIAS_NAME}', '${MYDOMAIN}', '${EMAIL_USER_NAME}', '${MYDOMAIN}', true);"
-				dialog --backtitle "NeXt Server Installation" --msgbox "Added Alias "${EMAIL_ALIAS_NAME}" to the Email User "${EMAIL_USER_NAME}" " $HEIGHT $WIDTH
-				;;
-			6)
 				bash ${SCRIPT_PATH}/start.sh;
 				;;
-			7)
+			6)
 				echo "Exit"
 				exit 1
 				;;
