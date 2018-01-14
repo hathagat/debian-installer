@@ -103,6 +103,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix || error_exit
 		source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd || error_exit
 		source ${SCRIPT_PATH}/script/rainloop.sh; install_rainloop || error_exit
+		source ${SCRIPT_PATH}/script/mailman.sh; install_mailman || error_exit
 	fi
 	mailserver_end=`date +%s`
 	mailservertime=$((mailserver_end-mailserver_start))

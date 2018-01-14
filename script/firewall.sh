@@ -76,9 +76,9 @@ sed -i 's/^OPEN_ICMP=.*/OPEN_ICMP="1"/g' /etc/arno-iptables-firewall/firewall.co
 sed -i 's/^#BLOCK_HOSTS_FILE=.*/BLOCK_HOSTS_FILE="\/etc\/arno-iptables-firewall\/blocked-hosts"/g' /etc/arno-iptables-firewall/firewall.conf
 
 if [[ ${USE_MAILSERVER} == '1' ]]; then
-	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 25, 80, 110, 143, 443, 465, 587, 993, 995\"/" /etc/arno-iptables-firewall/firewall.conf
+	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 25, 80, 110, 143, 443, 465, 587, 993, 995, 4000\"/" /etc/arno-iptables-firewall/firewall.conf
 else
-	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 80, 443\"/" /etc/arno-iptables-firewall/firewall.conf
+	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 80, 443, 4000\"/" /etc/arno-iptables-firewall/firewall.conf
 fi
 
 sed -i 's/^OPEN_UDP=.*/OPEN_UDP="25, 80, 110, 143, 443, 465, 587, 993, 995"/' /etc/arno-iptables-firewall/firewall.conf
