@@ -32,9 +32,12 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 9.1.0
 npm i -g pm2
 
-git clone https://github.com/phiilu/mailman.git /etc/nginx/html/${MYDOMAIN}/
+cd /etc/nginx/html/${MYDOMAIN}/
+git clone https://github.com/phiilu/mailman.git
 cd mailman/
 cp sample.env .env
+
+/etc/nginx/html/nxt-server.de/mailman
 
 sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g" /etc/nginx/html/${MYDOMAIN}/mailman/.env
 npm install && cd client && npm install && cd - && npm run build
