@@ -23,6 +23,9 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential python curl >>
 
 mysql -u root -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
 
+set -x
+set -e
+
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
 
 export NVM_DIR="$HOME/.nvm"
