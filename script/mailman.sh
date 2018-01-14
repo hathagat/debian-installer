@@ -40,9 +40,9 @@ git clone https://github.com/phiilu/mailman.git
 cd mailman/
 cp sample.env .env
 
-/etc/nginx/html/nxt-server.de/mailman
-
 sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g" /etc/nginx/html/${MYDOMAIN}/mailman/.env
+sed -i "s/^MAILMAN_HOST=127.0.0.1/MAILMAN_HOST=0.0.0.0/g" /etc/nginx/html/${MYDOMAIN}/mailman/.env
+
 npm install && cd client && npm install && cd - && npm run build
 npm start
 
