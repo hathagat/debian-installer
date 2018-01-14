@@ -58,7 +58,7 @@ echo "" >> ${SCRIPT_PATH}/login_information
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "Rainloop Webmail URL:" >> ${SCRIPT_PATH}/login_information
-echo "https://${MYDOMAIN}/webmail/ >> ${SCRIPT_PATH}/login_information
+echo "https://${MYDOMAIN}/webmail/" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
