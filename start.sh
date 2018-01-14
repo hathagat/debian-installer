@@ -33,7 +33,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=13
+CHOICE_HEIGHT=14
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -50,7 +50,8 @@ MENU="Choose one of the following options:"
 						 10 "Lets Encrypt Options"
 						 11 "Firewall Settings"
 						 12 "Update NeXt Server Script"
-						 13 "Exit")
+						 13 "Install TS3 Server"
+						 14 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -155,6 +156,9 @@ MENU="Choose one of the following options:"
 					bash start.sh
 					;;
 				13)
+					source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
+					;;
+				14)
 					echo "Exit"
 					exit 1
 					;;
