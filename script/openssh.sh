@@ -78,7 +78,7 @@ fi
 add_openssh_user() {
 
 #NEW_OPENSSH_USER
-
+apt-get update
 #usermod -a -G ssh-user root
 
 }

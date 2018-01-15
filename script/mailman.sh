@@ -35,15 +35,30 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 9.1.0
 npm i -g pm2
 
-cd /etc/nginx/html/${MYDOMAIN}/
+cd /etc/
 git clone https://github.com/phiilu/mailman.git
 cd mailman/
 cp sample.env .env
 
-sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g" /etc/nginx/html/${MYDOMAIN}/mailman/.env
-sed -i "s/^MAILMAN_HOST=127.0.0.1/MAILMAN_HOST=0.0.0.0/g" /etc/nginx/html/${MYDOMAIN}/mailman/.env
+sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g" /etc/mailman/.env
+#sed -i "s/^MAILMAN_HOST=127.0.0.1/MAILMAN_HOST=0.0.0.0/g" /etc/mailman/.env
 
 npm install && cd client && npm install && cd - && npm run build
 npm start
+
+cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
+location /mailman {
+  proxy_pass       http://localhost:4000;
+  proxy_set_header Host      $host;
+  proxy_set_header X-Real-IP $remote_addr;
+}
+EOF1
+
+IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "Mailman IP:" >> ${SCRIPT_PATH}/login_information
+echo "${IPADR}:4000" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
 
 }
