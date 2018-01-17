@@ -40,10 +40,17 @@ git clone https://github.com/phiilu/mailman.git
 cd mailman/
 cp sample.env .env
 
+sed -i '/^[[:blank:]]*"homepage"/s#:4000/#:4000/mailman#' /etc/mailman/client/package.json
+sed -i "s/^REACT_APP_BASENAME=\//REACT_APP_BASENAME=\/mailman/g" /etc/mailman/client/.env.production
+
 sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g" /etc/mailman/.env
+sed -i "s/^MAILMAN_BASENAME=\//MAILMAN_BASENAME=\/mailman/g" /etc/mailman/.env
 #sed -i "s/^MAILMAN_HOST=127.0.0.1/MAILMAN_HOST=0.0.0.0/g" /etc/mailman/.env
 
 npm install && cd client && npm install && cd - && npm run build
+
+pm2 kill
+
 npm start
 
 cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
