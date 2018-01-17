@@ -45,7 +45,7 @@ sed -i "s/^REACT_APP_BASENAME=\//REACT_APP_BASENAME=\/mailman/g" /etc/mailman/cl
 
 sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g" /etc/mailman/.env
 sed -i "s/^MAILMAN_BASENAME=\//MAILMAN_BASENAME=\/mailman/g" /etc/mailman/.env
-#sed -i "s/^MAILMAN_HOST=127.0.0.1/MAILMAN_HOST=0.0.0.0/g" /etc/mailman/.env
+sed -i "s/^MAILMAN_ADMIN=florian@example.org/MAILMAN_ADMIN=${MAILMAN_EMAIL}/g" /etc/mailman/.env
 
 npm install && cd client && npm install && cd - && npm run build
 
@@ -61,10 +61,9 @@ location /mailman {
 }
 EOF1
 
-IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Mailman IP:" >> ${SCRIPT_PATH}/login_information
-echo "${IPADR}:4000" >> ${SCRIPT_PATH}/login_information
+echo "Mailman Address:" >> ${SCRIPT_PATH}/login_information
+echo "${MYDOMAIN}/mailman" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 

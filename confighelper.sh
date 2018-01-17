@@ -154,6 +154,22 @@ clear
 case $CHOICE in
       1)
 			USE_MAILSERVER="1"
+			CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
+			while true
+				do
+					MAILMAN_EMAIL=$(dialog --clear \
+					--backtitle "$BACKTITLE" \
+					--inputbox "Enter your Email adress for mailman example: nextserver@gmail.com" \
+					$HEIGHT $WIDTH \
+					3>&1 1>&2 2>&3 3>&- \
+					)
+						if [[ "$MAILMAN_EMAIL" =~ $CHECK_E_MAIL ]];then
+							break
+						else
+							dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Email address looks?" $HEIGHT $WIDTH
+							dialog --clear
+						fi
+				done
             ;;
 		2)
 			USE_MAILSERVER="0"
