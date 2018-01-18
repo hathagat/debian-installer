@@ -19,6 +19,24 @@
 
 install_mailman() {
 
+mysql -u root -e "use vmail; insert into domains (domain) values ('${MYDOMAIN}');"
+EMAIL_ACCOUNT_PASS=$(password)
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "Your Email User Name:" >> ${SCRIPT_PATH}/login_information
+echo "postmaster@${MYDOMAIN}">> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "Your Email Account password:" >> ${SCRIPT_PATH}/login_information
+echo "$EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo ""
+
+EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
+mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('postmaster', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
+
 DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential python curl >>"${main_log}" 2>>"${err_log}"
 
 mysql -u root -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
@@ -45,7 +63,7 @@ sed -i "s/^REACT_APP_BASENAME=\//REACT_APP_BASENAME=\/mailman/g" /etc/mailman/cl
 
 sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g" /etc/mailman/.env
 sed -i "s/^MAILMAN_BASENAME=\//MAILMAN_BASENAME=\/mailman/g" /etc/mailman/.env
-sed -i "s/^MAILMAN_ADMIN=florian@example.org/MAILMAN_ADMIN=${MAILMAN_EMAIL}/g" /etc/mailman/.env
+sed -i "s/^MAILMAN_ADMIN=florian@example.org/MAILMAN_ADMIN=postmaster@${MYDOMAIN}/g" /etc/mailman/.env
 
 npm install && cd client && npm install && cd - && npm run build
 
