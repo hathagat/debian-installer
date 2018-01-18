@@ -22,6 +22,8 @@ HEIGHT=15
 WIDTH=60
 dialog --backtitle "Addon-Installation" --infobox "Installing Teamspeak 3..." $HEIGHT $WIDTH
 
+DEBIAN_FRONTEND=noninteractive apt-get -y install sudo >>"${main_log}" 2>>"${err_log}"
+
 adduser ts3user --gecos "" --no-create-home --disabled-password >>"${main_log}" 2>>"${err_log}"
 mkdir -p /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
 chown ts3user /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
