@@ -24,12 +24,12 @@ check_system() {
 	fi
 
 	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -is) != 'Ubuntu' ]; then
-		echo "The script for now works only on $(textb Ubuntu) $(textb 16.04 Xenial) and $(textb Debian) $(textb 9.x)"
+		echo "The script only works on Ubuntu 16.04 Xenial and Debian 9.x"
 		exit 1
 	fi
 
 	if [ $(lsb_release -cs) != 'xenial' ] && [ $(lsb_release -cs) != 'stretch' ]; then
-		echo "The script for now works only on $(textb Ubuntu) $(textb 16.04 Xenial) and $(textb Debian) $(textb 9.x)"
+		echo "The script only works on Ubuntu 16.04 Xenial and Debian 9.x"
 		exit 1
 	fi
 

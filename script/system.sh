@@ -37,9 +37,11 @@ echo $(hostname -f) > /etc/mailname
 timedatectl set-timezone ${TIMEZONE}
 
 rm /etc/apt/sources.list
+
+if [[ ${DISTOS} == 'DEBIAN' ]]; then
 cat > /etc/apt/sources.list <<END
 #------------------------------------------------------------------------------#
-#                   OFFICIAL DEBIAN REPOS
+#                   OFFICIAL DEBIAN REPOS                                      #
 #------------------------------------------------------------------------------#
 
 ###### Debian Main Repos
@@ -56,6 +58,25 @@ deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-f
 deb http://ftp.debian.org/debian stretch-backports main
 deb-src http://ftp.debian.org/debian stretch-backports main
 END
+fi
+
+if [[ ${DISTOS} == 'UBUNTU' ]]; then
+cat > /etc/apt/sources.list <<END
+#------------------------------------------------------------------------------#
+#                            OFFICIAL UBUNTU REPOS                             #
+#------------------------------------------------------------------------------#
+
+###### Ubuntu Main Repos
+deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+
+###### Ubuntu Update Repos
+deb http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
+deb http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
+END
+fi
 
 apt-get update -y >/dev/null 2>&1
 apt-get -y upgrade >/dev/null 2>&1
