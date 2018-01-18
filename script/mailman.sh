@@ -25,12 +25,14 @@ EMAIL_ACCOUNT_PASS=$(password)
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "Your Email User Name:" >> ${SCRIPT_PATH}/login_information
 echo "postmaster@${MYDOMAIN}">> ${SCRIPT_PATH}/login_information
+echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "Your Email Account password:" >> ${SCRIPT_PATH}/login_information
 echo "$EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
+echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
 
