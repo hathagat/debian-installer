@@ -75,7 +75,7 @@ MENU="Choose one of the following options:"
 
 				sed -i 's/NXT_IS_INSTALLED_MAILSERVER_STANDALONE="0"/NXT_IS_INSTALLED_MAILSERVER_STANDALONE="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 				date=$(date +"%d-%m-%Y")
-				sed -i 's/NXT_INSTALL_DATE="0"/NXT_INSTALL_DATE="${date}"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+				sed -i 's/NXT_INSTALL_DATE="0"/NXT_INSTALL_DATE="'${date}'"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 
 				source ${SCRIPT_PATH}/configuration.sh; show_login_information
 				read -p "Continue (y/n)?" ANSW

@@ -81,6 +81,8 @@ fi
 apt-get update -y >/dev/null 2>&1
 apt-get -y upgrade >/dev/null 2>&1
 
+DEBIAN_FRONTEND=noninteractive apt-get -y install apt-listbugs apt-listchanges rkhunter >>"${main_log}" 2>>"${err_log}"
+
 #thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1
 cat > /etc/sysctl.conf <<END
 #disable IPv6
