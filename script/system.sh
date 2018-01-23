@@ -149,4 +149,8 @@ net.ipv4.tcp_window_scaling = 1
 END
 
 sysctl -p >>"${main_log}" 2>>"${err_log}"
+
+# Enable Backupscript
+#cp -f ${SCRIPT_PATH}/cronjobs/backupscript /etc/cron.daily/
+#chmod +x /etc/cron.daily/backupscript
 }

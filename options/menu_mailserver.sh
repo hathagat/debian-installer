@@ -73,6 +73,10 @@ MENU="Choose one of the following options:"
         source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
         source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd
 
+				sed -i 's/NXT_IS_INSTALLED_MAILSERVER_STANDALONE="0"/NXT_IS_INSTALLED_MAILSERVER_STANDALONE="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+				date=$(date +"%d-%m-%Y")
+				sed -i 's/NXT_INSTALL_DATE="0"/NXT_INSTALL_DATE="${date}"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+
 				source ${SCRIPT_PATH}/configuration.sh; show_login_information
 				read -p "Continue (y/n)?" ANSW
 				if [ "$ANSW" = "n" ]; then

@@ -144,6 +144,23 @@ if [ ${CHECKRDNS} != mail.${MYDOMAIN} ] | [ ${CHECKRDNS} != mail.${MYDOMAIN}. ];
 	exit 1
 fi
 
+CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
+while true
+	do
+		NXT_SYSTEM_EMAIL=$(dialog --clear \
+		--backtitle "$BACKTITLE" \
+		--inputbox "Enter your Email adress for system services example: nextserver@gmail.com" \
+		$HEIGHT $WIDTH \
+		3>&1 1>&2 2>&3 3>&- \
+		)
+			if [[ "$NXT_SYSTEM_EMAIL" =~ $CHECK_E_MAIL ]];then
+				break
+			else
+				dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Email address looks?" $HEIGHT $WIDTH
+				dialog --clear
+			fi
+	done
+
 # --- Mailserver ---
 CHOICE_HEIGHT=2
 MENU="Do you want to use the Mailserver?:"
@@ -203,6 +220,11 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	MYSQL_PMADB_USER="${MYSQL_PMADB_USER}"
 
 	MYSQL_HOSTNAME="localhost"
+
+	NXT_SYSTEM_EMAIL="${NXT_SYSTEM_EMAIL}"
+	NXT_IS_INSTALLED="0"
+	NXT_IS_INSTALLED_MAILSERVER_STANDALONE="0"
+	NXT_INSTALL_DATE="0"
 #-----------------------------------------------------------#
 ############### Config File from Confighelper ###############
 #-----------------------------------------------------------#

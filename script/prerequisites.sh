@@ -25,6 +25,10 @@ prerequisites() {
 		apt-get -y --assume-yes install build-essential >>"${main_log}" 2>>"${err_log}"
 	fi
 
+	if [ $(dpkg-query -l | grep dbus | wc -l) -ne 1 ]; then
+		apt-get -y --assume-yes install dbus >>"${main_log}" 2>>"${err_log}"
+	fi
+
 	if [ $(dpkg-query -l | grep libcrack2 | wc -l) -ne 1 ]; then
 		apt-get -y --assume-yes install libcrack2 >>"${main_log}" 2>>"${err_log}"
 	fi

@@ -132,6 +132,10 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
 
+	sed -i 's/NXT_IS_INSTALLED="0"/NXT_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	date=$(date +"%d-%m-%Y")
+	sed -i 's/NXT_INSTALL_DATE="0"/NXT_INSTALL_DATE="${date}"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+
 	echo "100" | dialog --gauge "NeXt Server Installation finished!" 10 70 0
 
 	# Start Full Config after installation

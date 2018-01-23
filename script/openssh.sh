@@ -47,7 +47,19 @@ cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
 mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
 
+NEW_SSH_USER_PASS=$(password)
+adduser nxtuser --gecos "" --no-create-home --${NEW_SSH_USER_PASS}
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#SSH User:" >> ${SCRIPT_PATH}/login_information
+echo "nxtuser" >> ${SCRIPT_PATH}/login_information
+echo "#SSH User Password:" >> ${SCRIPT_PATH}/login_information
+echo "${NEW_SSH_USER_PASS}" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
+
 groupadd ssh-user
+usermod -a -G ssh-user nxtuser
 usermod -a -G ssh-user root
 
 truncate -s 0 /var/log/daemon.log
