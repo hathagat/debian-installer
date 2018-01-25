@@ -16,7 +16,7 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-SCRIPT_PATH="/root/NeXt-Server"
+SCRIPT_PATH=$(pwd)
 
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/configs/userconfig.cfg
@@ -29,14 +29,19 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 	source ${SCRIPT_PATH}/script/checksystem.sh; check_system || error_exit
 
-	source ${SCRIPT_PATH}/confighelper.sh; confighelper_userconfig
-
+	if [[ ${USE_CONFIGHELPER} = "1" ]]; then
+		source ${SCRIPT_PATH}/confighelper.sh; confighelper_userconfig
+	fi
 	system_end=`date +%s`
 	systemtime=$((system_end-install_start))
 
   system_start=`date +%s`
 	echo "1" | dialog --gauge "Installing System..." 10 70 0
 	source ${SCRIPT_PATH}/script/system.sh; install_system || error_exit
+	if [[ ${USE_MAIL} = "0" ]]; then
+		sed -i '/mail/d' /etc/hosts
+		rm /etc/mailname
+	fi
 	system_end=`date +%s`
 	systemtime=$((system_end-system_start))
 
@@ -50,6 +55,9 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	openssh_start=`date +%s`
 	echo "10" | dialog --gauge "Installing OpenSSH..." 10 70 0
 	source ${SCRIPT_PATH}/script/openssh.sh; install_openssh || error_exit
+	if [[ ${FIX_SSH_PORT} = "1" ]]; then
+		sed -i 's/Port .*/Port ${FIXED_SSH_PORT}/g' /etc/ssh/sshd_config
+	fi
 	openssh_end=`date +%s`
 	opensshtime=$((openssh_end-openssh_start))
 
@@ -60,35 +68,41 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	fail2bantime=$((fail2ban_end-fail2ban_start))
 
 	mariadb_start=`date +%s`
-	echo "20" | dialog --gauge "Installing MariaDB..." 10 70 0
-	source ${SCRIPT_PATH}/script/mariadb.sh; install_mariadb || error_exit
+	if [[ ${INSTALL_MARIADB} = "1" ]]; then
+	    echo "20" | dialog --gauge "Installing MariaDB..." 10 70 0
+		source ${SCRIPT_PATH}/script/mariadb.sh; install_mariadb || error_exit
+	fi
 	maria_end=`date +%s`
 	mariatime=$((maria_end-mariadb_start))
 
 	nginx_start=`date +%s`
-	echo "25" | dialog --gauge "Installing Nginx Addons..." 10 70 0
-	source ${SCRIPT_PATH}/script/nginx_addons.sh; install_nginx_addons || error_exit
+	if [[ ${INSTALL_NGINX} = "1" ]]; then
+	    echo "25" | dialog --gauge "Installing Nginx Addons..." 10 70 0
+	    source ${SCRIPT_PATH}/script/nginx_addons.sh; install_nginx_addons || error_exit
 
-	echo "30" | dialog --gauge "Installing Nginx..." 10 70 0
-	source ${SCRIPT_PATH}/script/nginx.sh; install_nginx || error_exit
+	    echo "30" | dialog --gauge "Installing Nginx..." 10 70 0
+	    source ${SCRIPT_PATH}/script/nginx.sh; install_nginx || error_exit
 
-	echo "50" | dialog --gauge "Installing LE..." 10 70 0
-	source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt || error_exit
-	source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert || error_exit
+	    echo "50" | dialog --gauge "Installing LE..." 10 70 0
+	    source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt || error_exit
+	    source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert || error_exit
 
-	echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
-	source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost || error_exit
+	    echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
+	    source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost || error_exit
+	fi
 	nginx_end=`date +%s`
 	nginxtime=$((nginx_end-nginx_start))
 
-	echo "75" | dialog --gauge "Installing PHP..." 10 70 0
 	php_start=`date +%s`
-	if [[ ${USE_PHP7_1} = "1" ]]; then
-		source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1 || error_exit
-	fi
+	if [[ ${INSTALL_PHP} = "1" ]]; then
+	    echo "75" | dialog --gauge "Installing PHP..." 10 70 0
+        if [[ ${USE_PHP7_1} = "1" ]]; then
+		    source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1 || error_exit
+	    fi
 
-	if [[ ${USE_PHP7_2} = "1" ]]; then
-		source ${SCRIPT_PATH}/script/php7_2.sh; install_php_7_2 || error_exit
+	    if [[ ${USE_PHP7_2} = "1" ]]; then
+		    source ${SCRIPT_PATH}/script/php7_2.sh; install_php_7_2 || error_exit
+	    fi
 	fi
 	php_end=`date +%s`
 	phptime=$((php_end-php_start))
