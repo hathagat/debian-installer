@@ -30,6 +30,7 @@ systemctl stop rspamd
 
 cp ${SCRIPT_PATH}/configs/rspamd/options.inc /etc/rspamd/local.d/options.inc
 cp ${SCRIPT_PATH}/configs/rspamd/worker-normal.inc /etc/rspamd/local.d/worker-normal.inc
+cp ${SCRIPT_PATH}/configs/rspamd/classifier-bayes.conf /etc/rspamd/local.d/classifier-bayes.conf
 
 RSPAMADM_PASSWORT=$(password)
 
