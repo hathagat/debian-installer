@@ -22,6 +22,7 @@ apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${ma
 
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
 cp ${SCRIPT_PATH}/includes/issue /etc/issue
+cp ${SCRIPT_PATH}/includes/issue.net /etc/issue.net
 
 RANDOM_SSH_PORT="$(($RANDOM % 1023))"
 SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
