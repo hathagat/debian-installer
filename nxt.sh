@@ -33,7 +33,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=16
+CHOICE_HEIGHT=17
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -53,7 +53,8 @@ MENU="Choose one of the following options:"
 						 13 "Install TS3 Server"
 						 14 "Install Minecraft (WIP!)"
 						 15 "Install Nextcloud (WIP!)"
-						 16 "Exit")
+						 16 "Install phpmyadmin (WIP!)"
+						 17 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -168,6 +169,13 @@ MENU="Choose one of the following options:"
 				15)
 					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
+					;;
+				15)
+					dialog --backtitle "NeXt Server Installation" --infobox "Installing phpmyadmin" $HEIGHT $WIDTH
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
+					source ${SCRIPT_PATH}/addons/composer.sh; install_composer
+					source ${SCRIPT_PATH}/addons/phpmyadmin.sh; install_phpmyadmin
+					dialog --backtitle "NeXt Server Installation" --msgbox "Installing phpmyadmin" $HEIGHT $WIDTH
 					;;
 				16)
 					echo "Exit"
