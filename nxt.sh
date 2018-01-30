@@ -33,7 +33,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=14
+CHOICE_HEIGHT=16
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -51,7 +51,9 @@ MENU="Choose one of the following options:"
 						 11 "Firewall Settings"
 						 12 "Update NeXt Server Script"
 						 13 "Install TS3 Server"
-						 14 "Exit")
+						 14 "Install Minecraft (WIP!)"
+						 15 "Install Nextcloud (WIP!)"
+						 16 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -71,7 +73,7 @@ MENU="Choose one of the following options:"
 				2)
 					HEIGHT=30
 					WIDTH=60
-					CHOICE_HEIGHT=10
+					CHOICE_HEIGHT=6
 					BACKTITLE="NeXt Server"
 					TITLE="NeXt Server"
 					MENU="Choose one of the following options:"
@@ -159,6 +161,12 @@ MENU="Choose one of the following options:"
 					source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
 					;;
 				14)
+					source ${SCRIPT_PATH}/addons/minecraft.sh; install_minecraft
+					;;
+				15)
+					source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
+					;;
+				16)
 					echo "Exit"
 					exit 1
 					;;

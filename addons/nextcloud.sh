@@ -40,7 +40,7 @@ rm nextcloud-${NEXTCLOUD_VERSION}.zip
 chown -R www-data: /srv/nextcloud
 ln -s /srv/nextcloud/ /etc/nginx/html/${MYDOMAIN}/nextcloud >>"${main_log}" 2>>"${err_log}"
 
-mysql --defaults-file=/etc/mysql/debian.cnf -e "CREATE DATABASE nextcloud; GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY '${NEXTCLOUD_PASS}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
+mysql --defaults-file=/etc/mysql/debian.cnf -e "CREATE DATABASE nextcloud; GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY '${NEXTCLOUD_DB_PASS}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
 
 #Nginx custom site config
 cat >> /etc/nginx/sites-custom/nextcloud.conf << 'EOF1'
@@ -85,7 +85,7 @@ echo "Nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information
-echo "Database password = ${NEXTCLOUD_PASS}" >> ${SCRIPT_PATH}/login_information
+echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "Database name = nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
