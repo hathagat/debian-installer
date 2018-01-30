@@ -18,19 +18,21 @@
 
 install_nextcloud() {
 
+set -x
+
 HEIGHT=15
 WIDTH=60
 dialog --backtitle "Addon-Installation" --infobox "Installing Nextcloud..." $HEIGHT $WIDTH
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install unzip >>"${main_log}" 2>>"${err_log}"
 
-MYSQL_PASSWORD=$(grep -Pom 1 "(?<=^password = ).*$" /root/NeXt-Server/login_information)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^password = ).*$" /root/NeXt-Server/login_information)
 NEXTCLOUD_DB_PASS=$(password)
 
-mysql -uroot -p${MYSQL_PASSWORD} -e "CREATE DATABASE nextclouddb;"
-mysql -uroot -p${MYSQL_PASSWORD} -e "CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY '${NEXTCLOUD_DB_PASS}';"
-mysql -uroot -p${MYSQL_PASSWORD} -e "GRANT ALL PRIVILEGES ON nextclouddb.* TO 'nextcloud'@'localhost';"
-mysql -uroot -p${MYSQL_PASSWORD} -e "FLUSH PRIVILEGES;"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE nextclouddb;"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY '${NEXTCLOUD_DB_PASS}';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON nextclouddb.* TO 'nextcloud'@'localhost';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cd /srv/
 wget https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.zip >>"${main_log}" 2>>"${err_log}"

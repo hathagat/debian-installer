@@ -38,11 +38,11 @@ USED_HTML_SPACE=$(du -hs /etc/nginx/html/ | tail -1 | awk '{print $1}' | sed '$s
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 #Lese Db passwort aus und speichere es
 #Todo: Explizites aufsuchen des 1. Treffers
-MYSQL_PASSWORD=$(grep -Pom 1 "(?<=^password = ).*$" $PATH_TO_PASSWORDS)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^password = ).*$" $PATH_TO_PASSWORDS)
 MYSQL=/usr/bin/mysql
 MYSQLDUMP=/usr/bin/mysqldump
 
-MYSQL_PASSWORD=$(grep -Pom 1 "(?<=^password = ).*$" /root/NeXt-Server/login_information)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^password = ).*$" /root/NeXt-Server/login_information)
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # ToDo
@@ -65,10 +65,10 @@ touch ${SCRIPT_PATH}/logs/stdoutBACKUP.log
 touch ${SCRIPT_PATH}/logs/stderrorBACKUP.log
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
-databases=`$MYSQL --user=$MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW DATABASES;" | grep -Ev "(Database|mysql|information_schema|performance_schema)"`
+databases=`$MYSQL --user=$MYSQL_USER -p$MYSQL_ROOT_PASS -e "SHOW DATABASES;" | grep -Ev "(Database|mysql|information_schema|performance_schema)"`
 for db in $databases; do
 #echo "${info} Backup Database $db" | awk '{ print strftime("[%H:%M:%S] |"), $0 }'
-  $MYSQLDUMP --force --opt --user=$MYSQL_USER -p$MYSQL_PASSWORD --databases $db | gzip > "$BACKUP_PATH/DATABESES/$db-$datum.tgz"
+  $MYSQLDUMP --force --opt --user=$MYSQL_USER -p$MYSQL_ROOT_PASS --databases $db | gzip > "$BACKUP_PATH/DATABESES/$db-$datum.tgz"
 done
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 cd $PATH_TO_WEBFOLDER
