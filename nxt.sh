@@ -108,7 +108,7 @@ MENU="Choose one of the following options:"
 										source ${SCRIPT_PATH}/configuration.sh; create_private_key
 										;;
 									5)
-										bash ${SCRIPT_PATH}/start.sh
+										bash ${SCRIPT_PATH}/nxt.sh
 										;;
 									6)
 										echo "Exit"
@@ -153,7 +153,7 @@ MENU="Choose one of the following options:"
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/update_script.sh; update_script
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}" $HEIGHT $WIDTH
-					bash start.sh
+					bash nxt.sh
 					;;
 				13)
 					source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3

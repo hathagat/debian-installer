@@ -93,7 +93,7 @@ MENU="Choose one of the following options:"
 				done
 				;;
 			5)
-				bash ${SCRIPT_PATH}/start.sh;
+				bash ${SCRIPT_PATH}/nxt.sh;
 				;;
 			6)
 				echo "Exit"

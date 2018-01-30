@@ -62,7 +62,7 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished activating fail2ban jails" $HEIGHT $WIDTH
 				;;
 			4)
-				bash ${SCRIPT_PATH}/start.sh;
+				bash ${SCRIPT_PATH}/nxt.sh;
 				;;
 			5)
 				echo "Exit"

@@ -141,7 +141,7 @@ error_exit()
 				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/logs/error.log
 
 				#PGP issue
-				echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server Installation. Error: $1" | mutt -a "${SCRIPT_PATH}/logs/main.log" "${SCRIPT_PATH}/logs/error.log" "${SCRIPT_PATH}/logs/make.log" "${SCRIPT_PATH}/logs/make_error.log" "${SCRIPT_PATH}/configs/userconfig.cfg" -s "FAILED INSTALLATION OF NeXt Server Installation" -- error@perfectrootserver.de >/dev/null 2>&1
+				echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server Installation. Error: $1" | mutt -a "${SCRIPT_PATH}/logs/main.log" "${SCRIPT_PATH}/logs/error.log" "${SCRIPT_PATH}/logs/make.log" "${SCRIPT_PATH}/logs/make_error.log" "${SCRIPT_PATH}/configs/userconfig.cfg" -s "FAILED INSTALLATION OF NeXt Server Installation" -- error@nxt.sh >/dev/null 2>&1
 
 				HEIGHT=15
 				WIDTH=70
@@ -150,7 +150,7 @@ error_exit()
 				exit 1
 				;;
 			2)
-				echo "Please post the following Error at https://perfectrootserver.de/ to get help. Error: $1"
+				echo "Please post the following Error at https://nxt.sh/ to get help. Error: $1"
 				exit 1
 				;;
 	esac

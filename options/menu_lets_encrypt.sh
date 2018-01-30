@@ -59,7 +59,7 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished update Lets Encrypt" $HEIGHT $WIDTH
 				;;
 			4)
-				bash ${SCRIPT_PATH}/start.sh;
+				bash ${SCRIPT_PATH}/nxt.sh;
 				;;
 			5)
 				echo "Exit"

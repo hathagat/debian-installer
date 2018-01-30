@@ -157,7 +157,7 @@ MENU="Choose one of the following options:"
 	#			dialog --backtitle "NeXt Server Installation" --msgbox "Added Alias "${EMAIL_ALIAS_NAME}" to the Email User "${EMAIL_USER_NAME}" " $HEIGHT $WIDTH
 	#			;;
 			5)
-				bash ${SCRIPT_PATH}/start.sh;
+				bash ${SCRIPT_PATH}/nxt.sh;
 				;;
 			6)
 				echo "Exit"

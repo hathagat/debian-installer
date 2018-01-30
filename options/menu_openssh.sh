@@ -119,7 +119,7 @@ MENU="Choose one of the following options:"
 				exit 1
 				;;
 			6)
-				bash ${SCRIPT_PATH}/start.sh;
+				bash ${SCRIPT_PATH}/nxt.sh;
 				;;
 			7)
 				echo "Exit"

@@ -54,7 +54,7 @@ MENU="Choose one of the following options:"
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssl" $HEIGHT $WIDTH
 				;;
 			3)
-				bash ${SCRIPT_PATH}/start.sh;
+				bash ${SCRIPT_PATH}/nxt.sh;
 				;;
 			4)
 				echo "Exit"
