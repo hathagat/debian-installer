@@ -43,15 +43,11 @@ declare -A BLOCKED_PORTS='(
 
 		while true
 		do
-		#Generate Port
 		RANDOM_SSH_PORT="$(($RANDOM % 1023))"
-
-			# Check varname is known
 			# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
 			if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
-			# Repeat
+				echo "Random Openssh Port is used by the system, creating new one"
 			else
-				# generated port can be
 				SSH_PORT="$RANDOM_SSH_PORT"
 				break
 			fi
