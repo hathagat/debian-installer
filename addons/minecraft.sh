@@ -66,7 +66,7 @@ java -Xmx${MINECRAFT_JAVA_RAM}M -Xms${MINECRAFT_JAVA_RAM}M -jar minecraft_server
 
 chmod +x run-minecraft-server.sh
 
-sudo chown -c minecraft /usr/local/minecraft/run-minecraft-server.sh
+sudo chown -c minecraft /usr/local/minecraft/run-minecraft-server.sh >>"${main_log}" 2>>"${err_log}"
 sudo -u  minecraft /usr/local/minecraft/run-minecraft-server.sh >>"${main_log}" 2>>"${err_log}"
 
 sed -i 's|eula=false|eula=true|' /usr/local/minecraft/eula.txt
@@ -80,5 +80,5 @@ echo "Zum zurück kehren in die Screen Session: screen -r in der Terminal eingeb
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
-dialog --backtitle "Addon-Installation" --infobox "Minecraft Installation finished! Credentials: ~/addoninformation.txt" $HEIGHT $WIDTH
+dialog --backtitle "Addon-Installation" --infobox "Minecraft Installation finished! Credentials: ${SCRIPT_PATH}/login_information" $HEIGHT $WIDTH
 }

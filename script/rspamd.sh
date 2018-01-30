@@ -65,7 +65,6 @@ chmod 440 /var/lib/rspamd/dkim/*
 cat /var/lib/rspamd/dkim/${CURRENT_YEAR}.txt
 cp /var/lib/rspamd/dkim/${CURRENT_YEAR}.txt ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt
 
-
 cp ${SCRIPT_PATH}/configs/rspamd/dkim_signing.conf /etc/rspamd/local.d/dkim_signing.conf
 sed -i "s/placeholder/${CURRENT_YEAR}/g" /etc/rspamd/local.d/dkim_signing.conf
 
@@ -75,7 +74,6 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server >>"${main_log}" 2
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
 mkdir -p /etc/nginx/sites-custom
-
 
 cat >> /etc/nginx/sites-custom/rspamd.conf << 'EOF1'
 location /rspamd/ {

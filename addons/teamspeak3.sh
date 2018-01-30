@@ -91,5 +91,5 @@ echo "/etc/init.d/ts3server start and /etc/init.d/ts3server stop" >> ${SCRIPT_PA
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
-dialog --backtitle "Addon-Installation" --infobox "Teamspeak 3 Installation finished! Credentials: ~/addoninformation.txt" $HEIGHT $WIDTH
+dialog --backtitle "Addon-Installation" --infobox "Teamspeak 3 Installation finished! Credentials: ${SCRIPT_PATH}/login_information" $HEIGHT $WIDTH
 }

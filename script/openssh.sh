@@ -29,7 +29,6 @@ cp ${SCRIPT_PATH}/includes/issue.net /etc/issue.net
 
 #Blocked SSH Ports
 declare -A BLOCKED_PORTS='(
-	[${SSH_PORT}]="1"
     [25]="1"
     [80]="1"
     [110]="1"
@@ -53,7 +52,7 @@ declare -A BLOCKED_PORTS='(
 			fi
 		done
 
-SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
+#SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
 
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 

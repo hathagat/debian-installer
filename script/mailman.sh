@@ -43,14 +43,14 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential python curl >>
 
 mysql -u root -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash >>"${main_log}" 2>>"${err_log}"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-nvm install 9.1.0
-npm i -g pm2
+nvm install 9.1.0 >>"${main_log}" 2>>"${err_log}"
+npm i -g pm2 >>"${main_log}" 2>>"${err_log}"
 
 cd /etc/
 git clone https://github.com/phiilu/mailman.git
@@ -64,7 +64,7 @@ sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g
 sed -i "s/^MAILMAN_BASENAME=\//MAILMAN_BASENAME=\/mailman/g" /etc/mailman/.env
 sed -i "s/^MAILMAN_ADMIN=florian@example.org/MAILMAN_ADMIN=postmaster@${MYDOMAIN}/g" /etc/mailman/.env
 
-npm install && cd client && npm install && cd - && npm run build
+npm install && cd client && npm install && cd - && npm run build >>"${main_log}" 2>>"${err_log}"
 
 pm2 kill
 
