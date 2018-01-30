@@ -158,12 +158,15 @@ MENU="Choose one of the following options:"
 					bash nxt.sh
 					;;
 				13)
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
 					;;
 				14)
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/minecraft.sh; install_minecraft
 					;;
 				15)
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
 					;;
 				16)

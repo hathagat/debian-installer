@@ -33,8 +33,7 @@ systemctl -q start nginx.service
 MAILSERVER_DB_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Mailserver DB Password:" >> ${SCRIPT_PATH}/login_information
-echo "$MAILSERVER_DB_PASS" >> ${SCRIPT_PATH}/login_information
+echo "MAILSERVER_DB_PASS: $MAILSERVER_DB_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 

@@ -42,7 +42,7 @@ MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^password = ).*$" $PATH_TO_PASSWORDS)
 MYSQL=/usr/bin/mysql
 MYSQLDUMP=/usr/bin/mysqldump
 
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^password = ).*$" /root/NeXt-Server/login_information)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # ToDo

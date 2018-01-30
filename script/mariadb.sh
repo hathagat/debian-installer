@@ -23,8 +23,7 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server >>"${main_log}"
 MYSQL_ROOT_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "MYSQL_ROOT_PASS password:" >> ${SCRIPT_PATH}/login_information
-echo "$MYSQL_ROOT_PASS" >> ${SCRIPT_PATH}/login_information
+echo "MYSQL_ROOT_PASS: $MYSQL_ROOT_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 

@@ -26,7 +26,7 @@ dialog --backtitle "Addon-Installation" --infobox "Installing Nextcloud..." $HEI
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install unzip >>"${main_log}" 2>>"${err_log}"
 
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^password = ).*$" /root/NeXt-Server/login_information)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 echo "${MYSQL_ROOT_PASS}"
 NEXTCLOUD_DB_PASS=$(password)
 

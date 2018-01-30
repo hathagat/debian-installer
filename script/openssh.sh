@@ -51,16 +51,14 @@ declare -A BLOCKED_PORTS='(
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#Openssh Port:" >> ${SCRIPT_PATH}/login_information
-echo "$SSH_PORT" >> ${SCRIPT_PATH}/login_information
+echo "#SSH_PORT: $SSH_PORT" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
 SSH_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#Openssh password:" >> ${SCRIPT_PATH}/login_information
-echo "$SSH_PASS" >> ${SCRIPT_PATH}/login_information
+echo "#SSH_PASS: $SSH_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
@@ -111,8 +109,7 @@ change_openssh_port() {
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#New Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
-echo "$NEW_SSH_PORT																				" >> ${SCRIPT_PATH}/login_information
+echo "#NEW_SSH_PORT: $NEW_SSH_PORT" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
@@ -126,8 +123,7 @@ rm ${SCRIPT_PATH}/ssh_privatekey.txt
 
 NEW_SSH_PASS=$(password)
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#New Openssh password:																			 #" >> ${SCRIPT_PATH}/login_information
-echo "$NEW_SSH_PASS																				" >> ${SCRIPT_PATH}/login_information
+echo "#NEW_SSH_PASS: $NEW_SSH_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
