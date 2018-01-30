@@ -41,21 +41,21 @@ declare -A BLOCKED_PORTS='(
     [995]="1"
     [4000]="1")'
 
-			while true
-			do
-			#Generate Port
-			RANDOM_SSH_PORT="$(($RANDOM % 1023))"
+		while true
+		do
+		#Generate Port
+		RANDOM_SSH_PORT="$(($RANDOM % 1023))"
 
-				# Check varname is known
-				# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
-				if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
-				# Repeat
-				else
-					# generated port can be
-					SSH_PORT="$RANDOM_SSH_PORT"
-					break
-				fi
-			done
+			# Check varname is known
+			# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
+			if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
+			# Repeat
+			else
+				# generated port can be
+				SSH_PORT="$RANDOM_SSH_PORT"
+				break
+			fi
+		done
 
 SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
 
