@@ -24,8 +24,41 @@ cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
 cp ${SCRIPT_PATH}/includes/issue /etc/issue
 cp ${SCRIPT_PATH}/includes/issue.net /etc/issue.net
 
-RANDOM_SSH_PORT="$(($RANDOM % 1023))"
+#RANDOM_SSH_PORT="$(($RANDOM % 1023))"
+#SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
+
+#Blocked SSH Ports
+declare -A BLOCKED_PORTS='(
+	[${SSH_PORT}]="1"
+    [25]="1"
+    [80]="1"
+    [110]="1"
+    [143]="1"
+    [443]="1"
+    [465]="1"
+    [587]="1"
+    [993]="1"
+    [995]="1"
+    [4000]="1")'
+
+			while true
+			do
+			#Generate Port
+			RANDOM_SSH_PORT="$(($RANDOM % 1023))"
+				
+				# Check varname is known
+				# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
+				if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
+				# Repeat
+				else
+					# generated port can be
+					SSH_PORT="$RANDOM_SSH_PORT"
+					break
+				fi
+			done
+
 SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
+
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
