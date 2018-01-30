@@ -45,7 +45,7 @@ declare -A BLOCKED_PORTS='(
 			do
 			#Generate Port
 			RANDOM_SSH_PORT="$(($RANDOM % 1023))"
-				
+
 				# Check varname is known
 				# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
 				if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
