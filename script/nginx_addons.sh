@@ -24,18 +24,18 @@ cd ${SCRIPT_PATH}/sources
 wget --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NPS_VERSION}-stable download failed."
+      echo "Error: v${NPS_VERSION} download failed."
       exit
     fi
 
-unzip v${NPS_VERSION}-stable >>"${main_log}" 2>>"${err_log}"
+unzip v${NPS_VERSION} >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NPS_VERSION}-stable is corrupted."
+      echo "Error: v${NPS_VERSION} is corrupted."
       exit
     fi
 #rm v${NPS_VERSION}-stable.zip
-cd incubator-pagespeed-ngx-${NPS_VERSION}-stable/ >>"${main_log}" 2>>"${err_log}"
+cd incubator-pagespeed-ngx-${NPS_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
 wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
