@@ -21,36 +21,41 @@ install_nginx_addons() {
 apt-get -y --assume-yes install autoconf automake libtool git unzip >>"${main_log}" 2>>"${err_log}"
 
 cd ${SCRIPT_PATH}/sources
-wget --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}-stable --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip --tries=3 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: v${NPS_VERSION}-stable download failed."
       exit
     fi
 
-unzip v${NPS_VERSION}-stable >>"${main_log}" 2>>"${err_log}"
+unzip v${NPS_VERSION}.zip >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: v${NPS_VERSION}-stable is corrupted."
       exit
     fi
 #rm v${NPS_VERSION}-stable.zip
-cd incubator-pagespeed-ngx-${NPS_VERSION}-stable/ >>"${main_log}" 2>>"${err_log}"
+nps_dir=$(find . -name "*pagespeed-ngx-${NPS_VERSION}" -type d)
+cd "$nps_dir" >>"${main_log}" 2>>"${err_log}"
+NPS_RELEASE_NUMBER=${NPS_VERSION/beta/}
+NPS_RELEASE_NUMBER=${NPS_VERSION/stable/}
 
-wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz >>"${main_log}" 2>>"${err_log}"
+[ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
+wget ${psol_url} --tries=3
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: ${PSOL_VERSION}-x64.tar.gz download failed."
       exit
     fi
-
-tar -xzf ${PSOL_VERSION}-x64.tar.gz >>"${main_log}" 2>>"${err_log}"
+# extracts to psol/
+tar -xzvf $(basename ${psol_url})   >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: ${PSOL_VERSION}-x64.tar.gz is corrupted."
       exit
     fi
-rm ${PSOL_VERSION}-x64.tar.gz
+#rm ${PSOL_VERSION}-x64.tar.gz
 
 cd ${SCRIPT_PATH}/sources
 git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}"
