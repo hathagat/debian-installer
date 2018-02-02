@@ -81,7 +81,7 @@ NGINX_MODULES="--without-http_browser_module \
 --with-http_mp4_module \
 --with-http_gunzip_module \
 --with-openssl=${SCRIPT_PATH}/sources/openssl-${OPENSSL_VERSION} \
---add-module=${SCRIPT_PATH}/sources/incubator-pagespeed-ngx-${NPS_VERSION}-stable \
+--add-module=${SCRIPT_PATH}/sources/incubator-pagespeed-ngx-${NPS_VERSION} \
 --add-module=${SCRIPT_PATH}/sources/ngx_brotli "
 
 #--with-openssl-opt=enable-tls1_3
