@@ -16,7 +16,7 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 #GlobalScriptPath
-SCRIPT_PATH="/root/NeXt-Server/"
+SCRIPT_PATH="/root/NeXt-Server"
 
 OLD_BACKUP_FILES=3
 
@@ -36,13 +36,11 @@ USED_SPACE=$(df -Th /dev/sda3 | tail -1 | awk '{print $4}' | sed '$s/.$//')
 FREE_SPACE=$(df -Th /dev/sda3 | tail -1 | awk '{print $5}' | sed '$s/.$//')
 USED_HTML_SPACE=$(du -hs /etc/nginx/html/ | tail -1 | awk '{print $1}' | sed '$s/.$//')
 # --------------------------------------------------------------------------------------------------------------------------------------------------
-#Lese Db passwort aus und speichere es
-#Todo: Explizites aufsuchen des 1. Treffers
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^password = ).*$" $PATH_TO_PASSWORDS)
+#Read MYSQL_ROOT_PASS from login_information
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" ${SCRIPT_PATH}/login_information)
 MYSQL=/usr/bin/mysql
 MYSQLDUMP=/usr/bin/mysqldump
 
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # ToDo
