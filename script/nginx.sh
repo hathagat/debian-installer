@@ -34,6 +34,7 @@ tar -xzf nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
       echo "Error: nginx-${NGINX_VERSION}.tar.gz is corrupted."
       exit
     fi
+rm nginx-${NGINX_VERSION}.tar.gz
 
 cd nginx-${NGINX_VERSION} >>"${main_log}" 2>>"${err_log}"
 
@@ -94,6 +95,11 @@ checkinstall --install=no -y >>"${main_log}" 2>>"${err_log}"
 dpkg -i nginx_${NGINX_VERSION}-1_amd64.deb >>"${main_log}" 2>>"${err_log}"
 mv nginx_${NGINX_VERSION}-1_amd64.deb ../ >>"${main_log}" 2>>"${err_log}"
 
+#cleanup
+rm -R ${SCRIPT_PATH}/sources/nginx-${NGINX_VERSION}
+rm -R ${SCRIPT_PATH}/sources/libbrotli
+rm -R ${SCRIPT_PATH}/sources/ngx_brotli
+
 mkdir -p /etc/nginx
 mkdir -p /etc/nginx/sites
 mkdir -p /etc/nginx/ssl
@@ -101,6 +107,8 @@ mkdir -p /var/cache/nginx
 mkdir -p /var/log/nginx/
 mkdir -p /etc/nginx/sites-available/
 mkdir -p /etc/nginx/sites-enabled/
+mkdir -p /etc/nginx/htpasswd/
+touch /etc/nginx/htpasswd/.htpasswd
 
 # Install the Nginx service script
 wget -O /etc/init.d/nginx -c4 --no-check-certificate https://raw.githubusercontent.com/Fleshgrinder/nginx-sysvinit-script/master/init --tries=3 >>"${main_log}" 2>>"${err_log}"

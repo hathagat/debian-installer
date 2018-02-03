@@ -34,7 +34,7 @@ unzip v${NPS_VERSION} >>"${main_log}" 2>>"${err_log}"
       echo "Error: v${NPS_VERSION} is corrupted."
       exit
     fi
-#rm v${NPS_VERSION}-stable.zip
+rm v${NPS_VERSION}
 cd incubator-pagespeed-ngx-${NPS_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
 wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"

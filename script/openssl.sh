@@ -44,6 +44,8 @@ cd openssl-${OPENSSL_VERSION}
 make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}"
 make install >>"${make_log}" 2>>"${make_err_log}"
 
+rm -R ${SCRIPT_PATH}/sources/openssl-${OPENSSL_VERSION}
+
 }
 
 update_openssl() {

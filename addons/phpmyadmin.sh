@@ -31,6 +31,7 @@ PMADB_PASS=$(password)
 PMA_USER_PASS=$(password)
 
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
+
 cd /usr/local
 git clone -b STABLE https://github.com/phpmyadmin/phpmyadmin.git -q >>"${main_log}" 2>>"${err_log}"
 cd /usr/local/phpmyadmin
