@@ -30,6 +30,13 @@ WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
+get_domain()
+{
+  LOCAL_IP=$(hostname -I)
+  POSSIBLE_DOMAIN=$(dig -x ${LOCAL_IP} +short)
+  DETECTED_DOMAIN=$(echo "${POSSIBLE_DOMAIN}" | awk -v FS='.' '{print $2 "." $3}')
+}
+
 menu() {
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \

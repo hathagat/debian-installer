@@ -81,21 +81,36 @@ case $CHOICE in
 esac
 
 # --- MYDOMAIN ---
-while true
-	do
-		MYDOMAIN=$(dialog --clear \
-		--backtitle "$BACKTITLE" \
-		--inputbox "Enter your Domain without http:// (exmaple.org):" \
-		$HEIGHT $WIDTH \
-		3>&1 1>&2 2>&3 3>&- \
-		)
-			if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
-				break
-			else
-				dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
-				dialog --clear
-			fi
-	done
+source ${SCRIPT_PATH}/script/functions.sh; get_domain
+
+CHOICE_HEIGHT=2
+MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
+OPTIONS=(1 "Yes"
+		     2 "No")
+menu
+clear
+case $CHOICE in
+      1)
+			MYDOMAIN=${DETECTED_DOMAIN}
+            ;;
+		2)
+			while true
+				do
+					MYDOMAIN=$(dialog --clear \
+					--backtitle "$BACKTITLE" \
+					--inputbox "Enter your Domain without http:// (exmaple.org):" \
+					$HEIGHT $WIDTH \
+					3>&1 1>&2 2>&3 3>&- \
+					)
+						if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+							break
+						else
+							dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+							dialog --clear
+						fi
+				done
+            ;;
+esac
 
 # --- DNS Check ---
 
