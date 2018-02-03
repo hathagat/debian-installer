@@ -20,7 +20,7 @@ menu_options_firewall() {
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=6
+CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -29,8 +29,9 @@ MENU="Choose one of the following options:"
 			 		2 "Update Firewall (not working yet)"
 			 		3 "Open TCP Port"
 			 		4 "Open UDP Port"
-			 		5 "Back"
-			 		6 "Exit")
+					5 "Show open Ports"
+			 		6 "Back"
+			 		7 "Exit")
 
 	CHOICE=$(dialog --clear \
 					--nocancel \
@@ -93,9 +94,12 @@ MENU="Choose one of the following options:"
 				done
 				;;
 			5)
-				bash ${SCRIPT_PATH}/nxt.sh;
+				source ${SCRIPT_PATH}/script/firewall.sh; show_open_ports || error_exit
 				;;
 			6)
+				bash ${SCRIPT_PATH}/nxt.sh;
+				;;
+			7)
 				echo "Exit"
 				exit 1
 				;;

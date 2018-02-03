@@ -142,3 +142,15 @@ fi
 update_firewall() {
 	apt-get update
 }
+
+show_open_ports()
+{
+grep -w 'OPEN_TCP=' /etc/arno-iptables-firewall/firewall.conf
+OPEN_TCP_PORTS=$(grep -w 'OPEN_TCP=' /etc/arno-iptables-firewall/firewall.conf | cut -c10-)
+
+grep -w 'OPEN_UDP' /etc/arno-iptables-firewall/firewall.conf
+OPEN_UDP_PORTS=$(grep -w 'OPEN_UDP=' /etc/arno-iptables-firewall/firewall.conf | cut -c10-)
+
+dialog --backtitle "NeXt Server Installation" --msgbox "Open TCP Ports: $OPEN_TCP_PORTS \n \n \n \n
+Open UDP Ports: $OPEN_UDP_PORTS" $HEIGHT $WIDTH
+}
