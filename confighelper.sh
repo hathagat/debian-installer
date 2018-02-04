@@ -150,7 +150,7 @@ esac
 
 source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 if [[ ${FQDNIP} != ${IPADR} ]]; then
-	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
+	echo "${MYDOMAIN} (${FQDNIP}) does not resolve to the IP address of your server (${IPADR})"
 	exit 1
 fi
 
