@@ -130,8 +130,6 @@ sed -i "74s/.*/?>/" /usr/local/phpmyadmin/config.inc.php
 
 cat > /etc/nginx/sites-custom/phpmyadmin.conf <<END
 location /pma {
-	allow 127.0.0.1;
-	deny all;
     auth_basic "Restricted";
     alias /usr/local/phpmyadmin;
     index index.php;

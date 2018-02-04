@@ -170,14 +170,14 @@ MENU="Choose one of the following options:"
 					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
 					;;
-				15)
+				16)
 					dialog --backtitle "NeXt Server Installation" --infobox "Installing phpmyadmin" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/composer.sh; install_composer
 					source ${SCRIPT_PATH}/addons/phpmyadmin.sh; install_phpmyadmin
 					dialog --backtitle "NeXt Server Installation" --msgbox "Installing phpmyadmin" $HEIGHT $WIDTH
 					;;
-				16)
+				17)
 					echo "Exit"
 					exit 1
 					;;

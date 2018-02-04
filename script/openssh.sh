@@ -17,7 +17,6 @@
 #-------------------------------------------------------------------------------------------------------------
 
 install_openssh() {
-  set -x
 
 apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}"
 
