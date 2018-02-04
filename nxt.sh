@@ -48,7 +48,7 @@ MENU="Choose one of the following options:"
 						 8 "Nginx vHost Options"
 						 9 "PHP 7.x Options"
 						 10 "Lets Encrypt Options"
-						 11 "Firewall Settings"
+						 11 "Firewall Options"
 						 12 "Update NeXt Server Script"
 						 13 "Install TS3 Server"
 						 14 "Install Minecraft (WIP!)"
@@ -175,7 +175,7 @@ MENU="Choose one of the following options:"
 					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/composer.sh; install_composer
 					source ${SCRIPT_PATH}/addons/phpmyadmin.sh; install_phpmyadmin
-					dialog --backtitle "NeXt Server Installation" --msgbox "Installing phpmyadmin" $HEIGHT $WIDTH
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing phpmyadmin" $HEIGHT $WIDTH
 					;;
 				17)
 					echo "Exit"
