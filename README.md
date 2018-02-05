@@ -12,4 +12,4 @@ https://thomas-leister.de/mailserver-debian-stretch/
 IrcChat
 QuakeNet
 #NeXtServer
-https://webchat.quakenet.org/?channels=NeXetServer&uio=d4
+https://webchat.quakenet.org/?channels=NeXtServer&uio=d4
