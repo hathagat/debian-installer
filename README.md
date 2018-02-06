@@ -8,3 +8,8 @@ Follow the instructions!
 
 #Thanks to Thomas Leister and his awesome Mailserver Setup, we're using in this Script!
 https://thomas-leister.de/mailserver-debian-stretch/
+
+IrcChat
+QuakeNet
+#NeXtServer
+https://webchat.quakenet.org/?channels=NeXtServer&uio=d4
