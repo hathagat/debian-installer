@@ -137,6 +137,7 @@ MENU="Choose one of the following options:"
 				;;
 			7)
 				source ${SCRIPT_PATH}/script/firewall.sh; show_open_ports || error_exit
+				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			8)
 				bash ${SCRIPT_PATH}/nxt.sh;
