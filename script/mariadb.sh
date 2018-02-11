@@ -18,7 +18,7 @@
 
 install_mariadb() {
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server >>"${main_log}" 2>>"${err_log}"
+DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install mariadb-server package"
 
 MYSQL_ROOT_PASS=$(password)
 

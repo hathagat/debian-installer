@@ -53,18 +53,18 @@ tar -xzf ${PSOL_VERSION}-x64.tar.gz >>"${main_log}" 2>>"${err_log}"
 rm ${PSOL_VERSION}-x64.tar.gz
 
 cd ${SCRIPT_PATH}/sources
-git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}"
+git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone libbrotli"
 cd libbrotli
 autoreconf -v -i >>"${main_log}" 2>>"${err_log}"
 ./autogen.sh >>"${main_log}" 2>>"${err_log}"
-./configure >>"${main_log}" 2>>"${err_log}"
+./configure >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to configure libbrotli"
 mkdir brotli/c/tools/.deps && touch brotli/c/tools/.deps/brotli-brotli.Po
-make -j $(nproc) >>"${main_log}" 2>>"${err_log}"
-make install >>"${main_log}" 2>>"${err_log}"
+make -j $(nproc) >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to make libbrotli"
+make install >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install libbrotli"
 ldconfig
 
 cd ${SCRIPT_PATH}/sources
-git clone https://github.com/google/ngx_brotli >>"${main_log}" 2>>"${err_log}"
+git clone https://github.com/google/ngx_brotli >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone ngx_brotli"
 cd ngx_brotli
 git submodule update --init >>"${main_log}" 2>>"${err_log}"
 
