@@ -33,7 +33,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=14
+CHOICE_HEIGHT=18
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -48,10 +48,14 @@ MENU="Choose one of the following options:"
 						 8 "Nginx vHost Options"
 						 9 "PHP 7.x Options"
 						 10 "Lets Encrypt Options"
-						 11 "Firewall Settings"
+						 11 "Firewall Options"
 						 12 "Update NeXt Server Script"
 						 13 "Install TS3 Server"
-						 14 "Exit")
+						 14 "Install Minecraft (WIP!)"
+						 15 "Install Nextcloud (WIP!)"
+						 16 "Install phpmyadmin (WIP!)"
+						 17 "Install Munin (WIP!)"
+						 18 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -71,7 +75,7 @@ MENU="Choose one of the following options:"
 				2)
 					HEIGHT=30
 					WIDTH=60
-					CHOICE_HEIGHT=10
+					CHOICE_HEIGHT=6
 					BACKTITLE="NeXt Server"
 					TITLE="NeXt Server"
 					MENU="Choose one of the following options:"
@@ -108,7 +112,7 @@ MENU="Choose one of the following options:"
 										source ${SCRIPT_PATH}/configuration.sh; create_private_key
 										;;
 									5)
-										bash ${SCRIPT_PATH}/start.sh
+										bash ${SCRIPT_PATH}/nxt.sh
 										;;
 									6)
 										echo "Exit"
@@ -153,12 +157,33 @@ MENU="Choose one of the following options:"
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/update_script.sh; update_script
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}" $HEIGHT $WIDTH
-					bash start.sh
+					bash nxt.sh
 					;;
 				13)
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
 					;;
 				14)
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
+					source ${SCRIPT_PATH}/addons/minecraft.sh; install_minecraft
+					;;
+				15)
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
+					source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
+					;;
+				16)
+					dialog --backtitle "NeXt Server Installation" --infobox "Installing phpmyadmin" $HEIGHT $WIDTH
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
+					source ${SCRIPT_PATH}/addons/composer.sh; install_composer
+					source ${SCRIPT_PATH}/addons/phpmyadmin.sh; install_phpmyadmin
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing phpmyadmin" $HEIGHT $WIDTH
+					;;
+				17)
+					dialog --backtitle "NeXt Server Installation" --infobox "Installing Munin" $HEIGHT $WIDTH
+					source ${SCRIPT_PATH}/addons/munin.sh; install_munin
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Munin" $HEIGHT $WIDTH
+					;;
+				18)
 					echo "Exit"
 					exit 1
 					;;

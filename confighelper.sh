@@ -81,21 +81,36 @@ case $CHOICE in
 esac
 
 # --- MYDOMAIN ---
-while true
-	do
-		MYDOMAIN=$(dialog --clear \
-		--backtitle "$BACKTITLE" \
-		--inputbox "Enter your Domain without http:// (exmaple.org):" \
-		$HEIGHT $WIDTH \
-		3>&1 1>&2 2>&3 3>&- \
-		)
-			if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
-				break
-			else
-				dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
-				dialog --clear
-			fi
-	done
+source ${SCRIPT_PATH}/script/functions.sh; get_domain
+
+CHOICE_HEIGHT=2
+MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
+OPTIONS=(1 "Yes"
+		     2 "No")
+menu
+clear
+case $CHOICE in
+      1)
+			MYDOMAIN=${DETECTED_DOMAIN}
+            ;;
+		2)
+			while true
+				do
+					MYDOMAIN=$(dialog --clear \
+					--backtitle "$BACKTITLE" \
+					--inputbox "Enter your Domain without http:// (exmaple.org):" \
+					$HEIGHT $WIDTH \
+					3>&1 1>&2 2>&3 3>&- \
+					)
+						if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+							break
+						else
+							dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+							dialog --clear
+						fi
+				done
+            ;;
+esac
 
 # --- DNS Check ---
 
@@ -135,12 +150,12 @@ esac
 
 source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 if [[ ${FQDNIP} != ${IPADR} ]]; then
-	echo "${MYDOMAIN} does not resolve to the IP address of your server (${IPADR})"
+	echo "${MYDOMAIN} (${FQDNIP}) does not resolve to the IP address of your server (${IPADR})"
 	exit 1
 fi
 
 if [ ${CHECKRDNS} != mail.${MYDOMAIN} ] | [ ${CHECKRDNS} != mail.${MYDOMAIN}. ]; then
-	echo "Your reverse DNS does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
+	echo "Your reverse DNS (${CHECKRDNS}) does not match the SMTP Banner. Please set your Reverse DNS to mail.$MYDOMAIN"
 	exit 1
 fi
 
@@ -214,10 +229,6 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"
-	USE_PMA="${USE_PMA}"
-	PMA_HTTPAUTH_USER="${PMA_HTTPAUTH_USER}"
-	MYSQL_PMADB_NAME="${MYSQL_PMADB_NAME}"
-	MYSQL_PMADB_USER="${MYSQL_PMADB_USER}"
 
 	MYSQL_HOSTNAME="localhost"
 

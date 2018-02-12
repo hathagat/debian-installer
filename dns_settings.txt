@@ -1,4 +1,4 @@
-You can find the DNS settings in the Web Panel of your Hoster / Domain seller! 
+You can find the DNS settings in the Web Panel of your Hoster / Domain seller!
 
 DNS Settings:
 @ 						A 				server_ip

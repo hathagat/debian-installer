@@ -106,12 +106,11 @@ MENU="Choose one of the following options:"
 				;;
 
 				6)
-				bash ~/NeXt-Server/start.sh
+				bash ~/NeXt-Server/nxt.sh
 				;;
 
-	
+
 	esac
 	# Back to menu
-	start.sh
+	nxt.sh
 }
-
