@@ -38,6 +38,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
   system_start=`date +%s`
 	echo "1" | dialog --gauge "Installing System..." 10 70 0
 	source ${SCRIPT_PATH}/script/system.sh; install_system
+	apt-get -y install htop >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install htop package"
 	if [[ ${USE_MAIL} = "0" ]]; then
 		sed -i '/mail/d' /etc/hosts
 		rm /etc/mailname
