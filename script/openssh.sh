@@ -18,26 +18,47 @@
 
 install_openssh() {
 
-apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}"
+apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install openssh packages"
 
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
 cp ${SCRIPT_PATH}/includes/issue /etc/issue
+cp ${SCRIPT_PATH}/includes/issue.net /etc/issue.net
 
-RANDOM_SSH_PORT="$(($RANDOM % 1023))"
-SSH_PORT=$([[ ! -n "${BLOCKED_PORTS["$RANDOM_SSH_PORT"]}" ]] && printf "%s\n" "$RANDOM_SSH_PORT")
+declare -A BLOCKED_PORTS='(
+    [25]="1"
+    [80]="1"
+    [110]="1"
+    [143]="1"
+    [443]="1"
+    [465]="1"
+    [587]="1"
+    [993]="1"
+    [995]="1"
+    [4000]="1")'
+
+		while true
+		do
+		RANDOM_SSH_PORT="$(($RANDOM % 1023))"
+			# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
+			if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
+				echo "Random Openssh Port is used by the system, creating new one"
+			else
+				SSH_PORT="$RANDOM_SSH_PORT"
+				break
+			fi
+		done
+
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#Openssh Port:" >> ${SCRIPT_PATH}/login_information
-echo "$SSH_PORT" >> ${SCRIPT_PATH}/login_information
+echo "#SSH_PORT: $SSH_PORT" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
 SSH_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#Openssh password:" >> ${SCRIPT_PATH}/login_information
-echo "$SSH_PASS" >> ${SCRIPT_PATH}/login_information
+echo "#SSH_PASS: $SSH_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
@@ -88,8 +109,7 @@ change_openssh_port() {
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#New Openssh Port:																			 #" >> ${SCRIPT_PATH}/login_information
-echo "$NEW_SSH_PORT																				" >> ${SCRIPT_PATH}/login_information
+echo "#NEW_SSH_PORT: $NEW_SSH_PORT" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
@@ -103,8 +123,7 @@ rm ${SCRIPT_PATH}/ssh_privatekey.txt
 
 NEW_SSH_PASS=$(password)
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#New Openssh password:																			 #" >> ${SCRIPT_PATH}/login_information
-echo "$NEW_SSH_PASS																				" >> ${SCRIPT_PATH}/login_information
+echo "#NEW_SSH_PASS: $NEW_SSH_PASS" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 

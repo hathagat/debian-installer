@@ -16,44 +16,24 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-menu_options_nginx_vhost() {
+install_composer() {
 
-HEIGHT=30
-WIDTH=60
-CHOICE_HEIGHT=4
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
-MENU="Choose one of the following options:"
+  set -x
 
-	OPTIONS=(1 "Placeholder"
-				 	 2 "Placeholder"
-			 	   3 "Back"
-			  	 4 "Exit")
+cd ${SCRIPT_PATH}/sources/ >>"${main_log}" 2>>"${err_log}"
 
-	CHOICE=$(dialog --clear \
-					--nocancel \
-					--no-cancel \
-					--backtitle "$BACKTITLE" \
-					--title "$TITLE" \
-					--menu "$MENU" \
-					$HEIGHT $WIDTH $CHOICE_HEIGHT \
-					"${OPTIONS[@]}" \
-					2>&1 >/dev/tty)
+EXPECTED_SIGNATURE=$(wget -q -O - https://composer.github.io/installer.sig)
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+ACTUAL_SIGNATURE=$(php -r "echo hash_file('SHA384', 'composer-setup.php');")
 
-	clear
-	case $CHOICE in
-			1)
-				echo "Placeholder"
-				;;
-			2)
-				echo "Placeholder"
-				;;
-			3)
-				bash ${SCRIPT_PATH}/nxt.sh;
-				;;
-			4)
-				echo "Exit"
-				exit 1
-				;;
-	esac
+if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+then
+    >&2 echo 'ERROR: Invalid installer signature'
+    rm composer-setup.php
+    exit 1
+fi
+
+php composer-setup.php >>"${main_log}" 2>>"${err_log}"
+php -r "unlink('composer-setup.php');" >>"${main_log}" 2>>"${err_log}"
+mv composer.phar /usr/local/bin/composer >>"${main_log}" 2>>"${err_log}"
 }

@@ -23,15 +23,13 @@ mysql -u root -e "use vmail; insert into domains (domain) values ('${MYDOMAIN}')
 EMAIL_ACCOUNT_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Your Email User Name:" >> ${SCRIPT_PATH}/login_information
-echo "postmaster@${MYDOMAIN}">> ${SCRIPT_PATH}/login_information
+echo "Your Email User Name: postmaster@${MYDOMAIN}" >> ${SCRIPT_PATH}/login_information
 echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Your Email Account password:" >> ${SCRIPT_PATH}/login_information
-echo "$EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
+echo "EMAIL_ACCOUNT_PASS: $EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
 echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo ""
@@ -39,21 +37,21 @@ echo ""
 EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
 mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('postmaster', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential python curl >>"${main_log}" 2>>"${err_log}"
+DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential python curl >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install build-essential python curl packages"
 
 mysql -u root -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to curl nvm"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-nvm install 9.1.0
-npm i -g pm2
+nvm install 9.1.0 >>"${main_log}" 2>>"${err_log}"
+npm i -g pm2 >>"${main_log}" 2>>"${err_log}"
 
 cd /etc/
-git clone https://github.com/phiilu/mailman.git
+git clone https://github.com/phiilu/mailman.git || error_exit "Failed to clone mailman"
 cd mailman/
 cp sample.env .env
 
@@ -64,7 +62,7 @@ sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g
 sed -i "s/^MAILMAN_BASENAME=\//MAILMAN_BASENAME=\/mailman/g" /etc/mailman/.env
 sed -i "s/^MAILMAN_ADMIN=florian@example.org/MAILMAN_ADMIN=postmaster@${MYDOMAIN}/g" /etc/mailman/.env
 
-npm install && cd client && npm install && cd - && npm run build
+npm install && cd client && npm install && cd - && npm run build >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to build mailman"
 
 pm2 kill
 
@@ -79,8 +77,7 @@ location /mailman {
 EOF1
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Mailman Address:" >> ${SCRIPT_PATH}/login_information
-echo "${MYDOMAIN}/mailman" >> ${SCRIPT_PATH}/login_information
+echo "Mailman Address: ${MYDOMAIN}/mailman" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 

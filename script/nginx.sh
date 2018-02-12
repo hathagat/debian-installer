@@ -18,7 +18,7 @@
 
 install_nginx() {
 
-apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}"
+apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install nginx packages"
 
 cd ${SCRIPT_PATH}/sources
 wget --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
@@ -34,6 +34,7 @@ tar -xzf nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
       echo "Error: nginx-${NGINX_VERSION}.tar.gz is corrupted."
       exit
     fi
+rm nginx-${NGINX_VERSION}.tar.gz
 
 cd nginx-${NGINX_VERSION} >>"${main_log}" 2>>"${err_log}"
 
@@ -81,18 +82,23 @@ NGINX_MODULES="--without-http_browser_module \
 --with-http_mp4_module \
 --with-http_gunzip_module \
 --with-openssl=${SCRIPT_PATH}/sources/openssl-${OPENSSL_VERSION} \
---add-module=${SCRIPT_PATH}/sources/incubator-pagespeed-ngx-${NPS_VERSION}-stable \
+--add-module=${SCRIPT_PATH}/sources/incubator-pagespeed-ngx-${NPS_VERSION} \
 --add-module=${SCRIPT_PATH}/sources/ngx_brotli "
 
 #--with-openssl-opt=enable-tls1_3
 
-./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt='-O2 -g -pipe -Wall -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong -m64 -mtune=generic' >>"${main_log}" 2>>"${err_log}"
+./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt='-O2 -g -pipe -Wall -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong -m64 -mtune=generic' >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to configure nginx"
 
-make -j $(nproc) >>"${main_log}" 2>>"${err_log}"
+make -j $(nproc) >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to make nginx"
 checkinstall --install=no -y >>"${main_log}" 2>>"${err_log}"
 
 dpkg -i nginx_${NGINX_VERSION}-1_amd64.deb >>"${main_log}" 2>>"${err_log}"
 mv nginx_${NGINX_VERSION}-1_amd64.deb ../ >>"${main_log}" 2>>"${err_log}"
+
+#cleanup
+rm -R ${SCRIPT_PATH}/sources/nginx-${NGINX_VERSION}
+rm -R ${SCRIPT_PATH}/sources/libbrotli
+rm -R ${SCRIPT_PATH}/sources/ngx_brotli
 
 mkdir -p /etc/nginx
 mkdir -p /etc/nginx/sites
@@ -101,6 +107,8 @@ mkdir -p /var/cache/nginx
 mkdir -p /var/log/nginx/
 mkdir -p /etc/nginx/sites-available/
 mkdir -p /etc/nginx/sites-enabled/
+mkdir -p /etc/nginx/htpasswd/
+touch /etc/nginx/htpasswd/.htpasswd
 
 # Install the Nginx service script
 wget -O /etc/init.d/nginx -c4 --no-check-certificate https://raw.githubusercontent.com/Fleshgrinder/nginx-sysvinit-script/master/init --tries=3 >>"${main_log}" 2>>"${err_log}"

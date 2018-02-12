@@ -20,10 +20,10 @@ install_firewall() {
 
 # ipset
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
-	apt-get -y --assume-yes install ipset >>"${main_log}" 2>>"${err_log}"
+	apt-get -y --assume-yes install ipset >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install ipset package"
 fi
 
-git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q
+git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q || error_exit "Failed to clone arno-ip-tables package"
 
 # Create folders and copy files
 cd ${SCRIPT_PATH}/sources/aif
@@ -141,4 +141,16 @@ fi
 
 update_firewall() {
 	apt-get update
+}
+
+show_open_ports()
+{
+grep -w 'OPEN_TCP=' /etc/arno-iptables-firewall/firewall.conf
+OPEN_TCP_PORTS=$(grep -w 'OPEN_TCP=' /etc/arno-iptables-firewall/firewall.conf | cut -c10-)
+
+grep -w 'OPEN_UDP' /etc/arno-iptables-firewall/firewall.conf
+OPEN_UDP_PORTS=$(grep -w 'OPEN_UDP=' /etc/arno-iptables-firewall/firewall.conf | cut -c10-)
+
+dialog --backtitle "NeXt Server Installation" --msgbox "Open TCP Ports: $OPEN_TCP_PORTS \n \n \n \n
+Open UDP Ports: $OPEN_UDP_PORTS" $HEIGHT $WIDTH
 }
