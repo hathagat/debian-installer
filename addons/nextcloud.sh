@@ -20,10 +20,6 @@ install_nextcloud() {
 
 set -x
 
-HEIGHT=15
-WIDTH=60
-dialog --backtitle "Addon-Installation" --infobox "Installing Nextcloud..." $HEIGHT $WIDTH
-
 DEBIAN_FRONTEND=noninteractive apt-get -y install unzip >>"${main_log}" 2>>"${err_log}"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
@@ -93,5 +89,4 @@ echo "Database name = nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
-dialog --backtitle "Addon-Installation" --infobox "Nextcloud Installation finished! Credentials: ${SCRIPT_PATH}/login_information" $HEIGHT $WIDTH
 }
