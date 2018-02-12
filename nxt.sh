@@ -33,7 +33,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=17
+CHOICE_HEIGHT=18
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -54,7 +54,8 @@ MENU="Choose one of the following options:"
 						 14 "Install Minecraft (WIP!)"
 						 15 "Install Nextcloud (WIP!)"
 						 16 "Install phpmyadmin (WIP!)"
-						 17 "Exit")
+						 17 "Install Munin (WIP!)"
+						 18 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -178,6 +179,11 @@ MENU="Choose one of the following options:"
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing phpmyadmin" $HEIGHT $WIDTH
 					;;
 				17)
+					dialog --backtitle "NeXt Server Installation" --infobox "Installing Munin" $HEIGHT $WIDTH
+					source ${SCRIPT_PATH}/addons/munin.sh; install_munin
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Munin" $HEIGHT $WIDTH
+					;;
+				18)
 					echo "Exit"
 					exit 1
 					;;
