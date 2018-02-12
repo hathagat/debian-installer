@@ -20,28 +20,16 @@ install_mariadb() {
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install mariadb-server package"
 
-#MYSQL_ROOT_PASS=$(password)
-
-
-
-#mysqladmin -u root password ${MYSQL_ROOT_PASS}
-
 MYSQLUSER="NXTDBUSER"
-#MYSQLUSERPW="TESTUSER"
 MYSQLUSERPW=$(password)
-#echo $MYSQLUSERPW
-mysql -uroot -e "CREATE USER '${MYSQLUSER}'@'localhost' IDENTIFIED BY '${MYSQLUSERPW}';GRANT ALL PRIVILEGES ON * . * TO '${MYSQLUSER}'@'localhost';FLUSH PRIVILEGES;"
 
-
-#CREATE USER '${MYSQLUSER}'@'localhost' IDENTIFIED BY 'TESTUSER';
-#GRANT ALL PRIVILEGES ON * . * TO '${MYSQLUSER}'@'localhost';
-
-sed -i 's/.*max_allowed_packet.*/max_allowed_packet = 128M/g' /etc/mysql/mariadb.conf.d/50-server.cnf
-
-mysql -u${MYSQLUSER} -p${MYSQLUSERPW} -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; FLUSH PRIVILEGES; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
+mysql -u root -e "CREATE USER '${MYSQLUSER}'@'localhost' IDENTIFIED BY '${MYSQLUSERPW}';GRANT ALL PRIVILEGES ON * . * TO '${MYSQLUSER}'@'localhost';FLUSH PRIVILEGES;"
+mysql -u ${MYSQLUSER} -p${MYSQLUSERPW} -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; FLUSH PRIVILEGES; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "NXTDBUSER: $MYSQLUSERPW" >> ${SCRIPT_PATH}/login_information
+echo "${MYSQLUSER}: ${MYSQLUSERPW}" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
+
+sed -i 's/.*max_allowed_packet.*/max_allowed_packet = 128M/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 }

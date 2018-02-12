@@ -57,6 +57,8 @@ rm -rf /etc/php/$PHPVERSION7/mods-available/20-apcu.ini
 #überarbeiten
 cp ${SCRIPT_PATH}/configs/php/apcu.ini /etc/php/$PHPVERSION7/mods-available/apcu.ini
 
+sed -i "s/^expose_php = On/expose_php = Off/g" /etc/php/$PHPVERSION7/cli/php.ini
+
 ln -s /etc/php/$PHPVERSION7/mods-available/apcu.ini /etc/php/$PHPVERSION7/mods-available/20-apcu.ini
 
 systemctl -q restart nginx.service
