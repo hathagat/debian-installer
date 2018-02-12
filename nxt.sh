@@ -21,7 +21,7 @@ echo "NeXt Server"
 echo "Preparing menu..."
 
 #-------------dialog
-apt-get -qq install dialog >/dev/null 2>&1
+apt-get -qq install dialog git >/dev/null 2>&1
 
 SCRIPT_PATH="/root/NeXt-Server"
 
