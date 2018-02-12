@@ -20,21 +20,28 @@ install_mariadb() {
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install mariadb-server package"
 
-MYSQL_ROOT_PASS=$(password)
+#MYSQL_ROOT_PASS=$(password)
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "MYSQL_ROOT_PASS: $MYSQL_ROOT_PASS" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
 
-mysqladmin -u root password ${MYSQL_ROOT_PASS}
 
-	if [[ "$MYSQL_ROOT_PASS" = '' ]]; then
-      echo "MYSQL_ROOT_PASS is empty"
-      exit
-    fi
+#mysqladmin -u root password ${MYSQL_ROOT_PASS}
+
+MYSQLUSER="NXTDBUSER"
+#MYSQLUSERPW="TESTUSER"
+MYSQLUSERPW=$(password)
+#echo $MYSQLUSERPW
+mysql -uroot -e "CREATE USER '${MYSQLUSER}'@'localhost' IDENTIFIED BY '${MYSQLUSERPW}';GRANT ALL PRIVILEGES ON * . * TO '${MYSQLUSER}'@'localhost';FLUSH PRIVILEGES;"
+
+
+#CREATE USER '${MYSQLUSER}'@'localhost' IDENTIFIED BY 'TESTUSER';
+#GRANT ALL PRIVILEGES ON * . * TO '${MYSQLUSER}'@'localhost';
 
 sed -i 's/.*max_allowed_packet.*/max_allowed_packet = 128M/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
-mysql -u root -p${MYSQL_ROOT_PASS} -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; FLUSH PRIVILEGES; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
+mysql -u${MYSQLUSER} -p${MYSQLUSERPW} -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; FLUSH PRIVILEGES; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "NXTDBUSER: $MYSQLUSERPW" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
 }
