@@ -63,7 +63,7 @@ MENU="Choose one of the following options:"
 				;;
 			2)
 				dialog --backtitle "NeXt Server Installation" --infobox "Updating Openssh" $HEIGHT $WIDTH
-				source ${SCRIPT_PATH}/script/openssh.sh; update_openssh || error_exit			
+				source ${SCRIPT_PATH}/script/openssh.sh; update_openssh || error_exit
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Openssh" $HEIGHT $WIDTH
 				;;
 			3)
@@ -73,7 +73,7 @@ MENU="Choose one of the following options:"
 				$HEIGHT $WIDTH \
 				3>&1 1>&2 2>&3 3>&- \
 				)
-				source ${SCRIPT_PATH}/script/openssh.sh; add_openssh_user || error_exit	
+				source ${SCRIPT_PATH}/script/openssh.sh; add_openssh_user || error_exit
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished adding Openssh User" $HEIGHT $WIDTH
 				;;
 			4)
@@ -99,7 +99,7 @@ MENU="Choose one of the following options:"
 					dialog --clear
 					fi
 				done
-				source ${SCRIPT_PATH}/script/openssh.sh; change_openssh_port || error_exit	
+				source ${SCRIPT_PATH}/script/openssh.sh; change_openssh_port || error_exit
 				dialog --backtitle "NeXt Server installation!" --infobox "Changed SSH Port to $NEW_SSH_PORT" $HEIGHT $WIDTH
 				;;
 			5)

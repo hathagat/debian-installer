@@ -109,9 +109,8 @@ MENU="Choose one of the following options:"
 				bash ~/NeXt-Server/nxt.sh
 				;;
 
-	
+
 	esac
 	# Back to menu
 	nxt.sh
 }
-

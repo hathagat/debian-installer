@@ -29,6 +29,11 @@ echo "" >> ${SCRIPT_PATH}/login_information
 
 mysqladmin -u root password ${MYSQL_ROOT_PASS}
 
+	if [[ "$MYSQL_ROOT_PASS" = '' ]]; then
+      echo "MYSQL_ROOT_PASS is empty"
+      exit
+    fi
+
 sed -i 's/.*max_allowed_packet.*/max_allowed_packet = 128M/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; FLUSH PRIVILEGES; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"

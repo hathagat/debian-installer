@@ -163,7 +163,7 @@ systemctl -q reload nginx.service
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "phpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "PMA_HTTPAUTH_USER = httpauth" >> ${SCRIPT_PATH}/login_information
+echo "PMA_HTTPAUTH_USER = ${PMA_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information
 echo "MYSQL_PMADB_USER = phpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "MYSQL_PMADB_NAME = phpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "PMA_HTTPAUTH_PASS = ${PMA_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_information
