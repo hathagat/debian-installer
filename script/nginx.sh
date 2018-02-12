@@ -107,6 +107,7 @@ mkdir -p /var/cache/nginx
 mkdir -p /var/log/nginx/
 mkdir -p /etc/nginx/sites-available/
 mkdir -p /etc/nginx/sites-enabled/
+mkdir -p /etc/nginx/sites-custom/
 mkdir -p /etc/nginx/htpasswd/
 touch /etc/nginx/htpasswd/.htpasswd
 

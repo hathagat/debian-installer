@@ -22,7 +22,7 @@ install_phpmyadmin() {
 
 apt-get -y --assume-yes install apache2-utils >>"${main_log}" 2>>"${err_log}"
 
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^NXTDBUSER: ).*$" /root/NeXt-Server/login_information)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 PMA_HTTPAUTH_USER="httpauth"
 MYSQL_PMADB_USER="phpmyadmin"
 MYSQL_PMADB_NAME="phpmyadmin"
