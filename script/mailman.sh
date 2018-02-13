@@ -19,7 +19,7 @@
 
 install_mailman() {
 
-mysql -u root -e "use vmail; insert into domains (domain) values ('${MYDOMAIN}');"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; insert into domains (domain) values ('${MYDOMAIN}');"
 EMAIL_ACCOUNT_PASS=$(password)
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
@@ -35,11 +35,11 @@ echo "#-------------------------------------------------------------------------
 echo ""
 
 EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
-mysql -u root -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('postmaster', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('postmaster', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential python curl >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install build-essential python curl packages"
 
-mysql -u root -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
 
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to curl nvm"
 

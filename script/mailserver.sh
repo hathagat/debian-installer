@@ -38,7 +38,7 @@ echo "#-------------------------------------------------------------------------
 echo "" >> ${SCRIPT_PATH}/login_information
 
 sed -i "s/placeholder/${MAILSERVER_DB_PASS}/g" ${SCRIPT_PATH}/configs/mailserver/database.sql
-mysql -u root mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql
+mysql -u root -p${MYSQL_ROOT_PASS} mysql < ${SCRIPT_PATH}/configs/mailserver/database.sql
 
 adduser --gecos "" --disabled-login --disabled-password --home /var/vmail vmail >>"${main_log}" 2>>"${err_log}"
 
