@@ -16,9 +16,7 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-
 install_phpmyadmin() {
-  set -x
 
 apt-get -y --assume-yes install apache2-utils >>"${main_log}" 2>>"${err_log}"
 
@@ -115,18 +113,6 @@ cat > phpmyadmin/config.inc.php <<END
 \$cfg['Servers'][\$i]['hide_db'] = 'information_schema';
 ?>
 END
-
-sed -i "64s/.*/\$cfg['Servers'][\$i]['AllowDeny']['order'] = 'deny,allow';\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "65s/.*/\$cfg['Servers'][\$i]['AllowDeny']['rules'] = array(\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "66s/.*/		'deny % from all',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "67s/.*/		'allow % from localhost',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "68s/.*/		'allow % from 127.0.0.1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "69s/.*/		'allow % from ::1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "70s/.*/		'allow root from localhost',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "71s/.*/		'allow root from 127.0.0.1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "72s/.*/		'allow root from ::1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "73s/.*/);\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "74s/.*/?>/" /usr/local/phpmyadmin/config.inc.php
 
 cat > /etc/nginx/sites-custom/phpmyadmin.conf <<END
 location /pma {
