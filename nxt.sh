@@ -169,12 +169,16 @@ MENU="Choose one of the following options:"
 					;;
 				15)
 					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-						dialog --backtitle "NeXt Server Installation" --infobox "Installing nextcloud" $HEIGHT $WIDTH
-						source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
-						dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing nextcloud" $HEIGHT $WIDTH
+					if [[ ${USE_PHP7_1} == '1' ]]; then
+						if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+							dialog --backtitle "NeXt Server Installation" --infobox "Installing nextcloud" $HEIGHT $WIDTH
+							source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
+							dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing nextcloud" $HEIGHT $WIDTH
+						else
+							echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
+						fi
 					else
-						echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
+						echo "Nextcloud 13 is only running on PHP 7.1!"
 					fi
 					;;
 				16)
