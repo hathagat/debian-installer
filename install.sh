@@ -16,7 +16,7 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-SCRIPT_PATH=$(pwd)
+SCRIPT_PATH="/root/NeXt-Server"
 
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/configs/userconfig.cfg
@@ -35,16 +35,26 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	system_end=`date +%s`
 	systemtime=$((system_end-install_start))
 
-  system_start=`date +%s`
+	system_start=`date +%s`
 	echo "1" | dialog --gauge "Installing System..." 10 70 0
 	source ${SCRIPT_PATH}/script/system.sh; install_system
-	apt-get -y install htop >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install htop package"
-	if [[ ${USE_MAIL} = "0" ]]; then
+	if [[ ${USE_MAILSERVER} = "0" ]]; then
 		sed -i '/mail/d' /etc/hosts
 		rm /etc/mailname
 	fi
 	system_end=`date +%s`
 	systemtime=$((system_end-system_start))
+
+	common_start=`date +%s`
+	if [[ ${INSTALL_COMMON} = "1" ]]; then
+	    echo "3" | dialog --gauge "Installing Common Tools..." 10 70 0
+		apt-get -y install curl htop vim >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install common packages"
+
+		git clone --depth=1 git://github.com/amix/vimrc.git ~/.vim_runtime >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone vimrx"
+		bash ~/.vim_runtime/install_basic_vimrc.sh >>"${main_log}" 2>>"${err_log}"
+	fi
+	common_end=`date +%s`
+	commontime=$((common_end-common_start))
 
 	openssl_start=`date +%s`
 	echo "5" | dialog --gauge "Installing OpenSSL..." 10 70 0
@@ -122,11 +132,22 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	mailserver_end=`date +%s`
 	mailservertime=$((mailserver_end-mailserver_start))
 
+	docker_start=`date +%s`
+	if [[ ${INSTALL_DOCKER} = "1" ]]; then
+		echo "90" | dialog --gauge "Installing docker..." 10 70 0
+		source ${SCRIPT_PATH}/script/docker.sh; install_docker
+	fi
+	docker_end=`date +%s`
+	dockertime=$((docker_end-docker_start))
+
 	firewall_start=`date +%s`
-	echo "90" | dialog --gauge "Installing Firewall..." 10 70 0
+	echo "95" | dialog --gauge "Installing Firewall..." 10 70 0
 	source ${SCRIPT_PATH}/script/firewall.sh; install_firewall
 	firewall_end=`date +%s`
 	firewalltime=$((firewall_end-firewall_start))
+
+	apt-get -y autoremove >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to autoremove packages"
+	apt-get autoclean
 
 	install_end=`date +%s`
 	runtime=$((install_end-install_start))
@@ -135,6 +156,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	install_runtime_string="NeXt Server Installation runtime for"
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string System preparation in seconds: ${systemtime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string Common Tools in seconds: ${commontime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string SSL in seconds: ${openssltime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string SSH in seconds: ${opensshtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string fail2ban in seconds: ${fail2bantime}" >> ${SCRIPT_PATH}/installation_times.txt
@@ -143,6 +165,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "$install_runtime_string PHP in seconds: ${phptime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Mailserver in seconds: ${mailservertime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ${SCRIPT_PATH}/installation_times.txt
+	echo "$install_runtime_string Docker in seconds: ${dockertime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt

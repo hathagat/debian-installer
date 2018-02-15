@@ -18,9 +18,11 @@
 
 clear
 echo "NeXt Server"
-echo "Preparing menu..."
+echo "Updating packages..."
+apt-get update -y >/dev/null 2>&1
+apt-get -y upgrade >/dev/null 2>&1
 
-#-------------dialog
+echo "Preparing menu..."
 apt-get -qq install dialog git >/dev/null 2>&1
 
 SCRIPT_PATH="/root/NeXt-Server"

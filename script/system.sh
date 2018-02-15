@@ -54,9 +54,11 @@ deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
 deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
 deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
 
-#Backports
+###### Backports
 deb http://ftp.debian.org/debian stretch-backports main
 deb-src http://ftp.debian.org/debian stretch-backports main
+
+###### Custom Repos
 END
 fi
 
@@ -75,13 +77,14 @@ deb http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted univers
 deb http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
+
+###### Custom Repos
 END
 fi
 
-apt-get update -y >/dev/null 2>&1
+apt-get clean
+apt-get update >/dev/null 2>&1
 apt-get -y upgrade >/dev/null 2>&1
-
-DEBIAN_FRONTEND=noninteractive apt-get -y install rkhunter >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install rkhunter package"
 
 #thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1
 cat > /etc/sysctl.conf <<END
