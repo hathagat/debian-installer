@@ -25,6 +25,7 @@ cp ${SCRIPT_PATH}/includes/issue /etc/issue
 cp ${SCRIPT_PATH}/includes/issue.net /etc/issue.net
 
 declare -A BLOCKED_PORTS='(
+    [22]="1"
     [25]="1"
     [80]="1"
     [110]="1"
