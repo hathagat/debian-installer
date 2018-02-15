@@ -18,8 +18,6 @@
 
 install_nextcloud() {
 
-set -x
-
 DEBIAN_FRONTEND=noninteractive apt-get -y install unzip >>"${main_log}" 2>>"${err_log}"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
@@ -39,16 +37,7 @@ rm nextcloud-${NEXTCLOUD_VERSION}.zip
 chown -R www-data: /srv/nextcloud
 ln -s /srv/nextcloud/ /etc/nginx/html/${MYDOMAIN}/nextcloud >>"${main_log}" 2>>"${err_log}"
 
-mysql --defaults-file=/etc/mysql/debian.cnf -e "CREATE DATABASE nextcloud; GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY '${NEXTCLOUD_DB_PASS}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
-
-#Nginx custom site config
 cat >> /etc/nginx/sites-custom/nextcloud.conf << 'EOF1'
-location = /robots.txt {
-	allow all;
-	log_not_found off;
-	access_log off;
-}
-
 # The following 2 rules are only needed for the user_webfinger app.
 # Uncomment it if you're planning to use this app.
 # rewrite ^/.well-known/host-meta /nextcloud/public.php?service=host-meta
@@ -151,10 +140,9 @@ echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_info
 echo "Nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information
+echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information
 echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information
-echo "Database name = nextcloud" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
 }
