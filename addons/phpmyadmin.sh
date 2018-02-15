@@ -16,9 +16,7 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-
 install_phpmyadmin() {
-  set -x
 
 apt-get -y --assume-yes install apache2-utils >>"${main_log}" 2>>"${err_log}"
 
@@ -116,18 +114,6 @@ cat > phpmyadmin/config.inc.php <<END
 ?>
 END
 
-sed -i "64s/.*/\$cfg['Servers'][\$i]['AllowDeny']['order'] = 'deny,allow';\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "65s/.*/\$cfg['Servers'][\$i]['AllowDeny']['rules'] = array(\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "66s/.*/		'deny % from all',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "67s/.*/		'allow % from localhost',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "68s/.*/		'allow % from 127.0.0.1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "69s/.*/		'allow % from ::1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "70s/.*/		'allow root from localhost',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "71s/.*/		'allow root from 127.0.0.1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "72s/.*/		'allow root from ::1',\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "73s/.*/);\n&/" /usr/local/phpmyadmin/config.inc.php
-sed -i "74s/.*/?>/" /usr/local/phpmyadmin/config.inc.php
-
 cat > /etc/nginx/sites-custom/phpmyadmin.conf <<END
 location /pma {
     auth_basic "Restricted";
@@ -163,11 +149,14 @@ systemctl -q reload nginx.service
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "phpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "PMA_HTTPAUTH_USER = ${PMA_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information
 echo "MYSQL_PMADB_USER = phpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "MYSQL_PMADB_NAME = phpmyadmin" >> ${SCRIPT_PATH}/login_information
-echo "PMA_HTTPAUTH_PASS = ${PMA_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "PMADB_PASS = ${PMADB_PASS}" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
+echo "PMA_HTTPAUTH_USER = ${PMA_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information
+echo "PMA_HTTPAUTH_PASS = ${PMA_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
+echo "PMA_USER = prsphpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "PMA_USER_PASS = ${PMA_USER_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information

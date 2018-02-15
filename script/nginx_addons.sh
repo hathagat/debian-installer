@@ -68,4 +68,19 @@ git clone https://github.com/google/ngx_brotli >>"${main_log}" 2>>"${err_log}" |
 cd ngx_brotli
 git submodule update --init >>"${main_log}" 2>>"${err_log}"
 
+
+cd ${SCRIPT_PATH}/sources
+wget --no-check-certificate https://codeload.github.com/openresty/headers-more-nginx-module/zip/v${NGINX_HEADER_MOD_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: v${NGINX_HEADER_MOD_VERSION} download failed."
+      exit
+    fi
+
+unzip v${NGINX_HEADER_MOD_VERSION} >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: v${NGINX_HEADER_MOD_VERSION} is corrupted."
+      exit
+    fi
 }

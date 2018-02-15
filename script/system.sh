@@ -127,7 +127,7 @@ net.ipv4.conf.all.send_redirects = 0
 net.ipv4.conf.default.send_redirects = 0
 
 # Turn on execshield for reducing worm or other automated remote attacks
-kernel.randomize_va_space = 1
+kernel.randomize_va_space = 2
 
 # Increase system file descriptor limit
 fs.file-max = 65535
@@ -151,6 +151,14 @@ net.core.netdev_max_backlog = 5000
 
 # For increasing transfer window, enable window scaling
 net.ipv4.tcp_window_scaling = 1
+
+###
+kernel.core_uses_pid = 1
+kernel.kptr_restrict = 2
+kernel.sysrq = 0
+net.ipv4.tcp_timestamps = 0
+net.ipv6.conf.all.accept_redirects = 0
+net.ipv6.conf.default.accept_redirects = 0
 END
 
 sysctl -p >>"${main_log}" 2>>"${err_log}"

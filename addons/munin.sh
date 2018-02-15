@@ -24,7 +24,7 @@ MUNIN_HTTPAUTH_PASS=$(password)
 
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${MUNIN_HTTPAUTH_USER} ${MUNIN_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
-cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
+cat >> /etc/nginx/sites-custom/munin.conf << 'EOF1'
 location /munin/static/ {
         alias /etc/munin/static/;
         expires modified +1w;

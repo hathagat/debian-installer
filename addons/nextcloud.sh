@@ -20,10 +20,6 @@ install_nextcloud() {
 
 set -x
 
-HEIGHT=15
-WIDTH=60
-dialog --backtitle "Addon-Installation" --infobox "Installing Nextcloud..." $HEIGHT $WIDTH
-
 DEBIAN_FRONTEND=noninteractive apt-get -y install unzip >>"${main_log}" 2>>"${err_log}"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
@@ -69,7 +65,7 @@ location ~ ^/nextcloud/(?:index|remote|public|cron|core/ajax/update|status|ocs/v
     #Avoid sending the security headers twice
     fastcgi_param modHeadersAvailable true;
     fastcgi_param front_controller_active true;
-    fastcgi_pass php-handler;
+    fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
     fastcgi_intercept_errors on;
     fastcgi_request_buffering off;
 }
@@ -78,8 +74,29 @@ location ~ ^/nextcloud/(?:updater|ocs-provider)(?:$|/) {
     try_files $uri/ =404;
     index index.php;
 }
+
+location ~ \.(?:css|js|woff|svg|gif)$ {
+    try_files $uri /nextcloud/index.php$uri$is_args$args;
+    add_header Cache-Control "public, max-age=15778463";
+    # Add headers to serve security related headers  (It is intended
+    # to have those duplicated to the ones above)
+    # Before enabling Strict-Transport-Security headers please read
+    # into this topic first.
+    # add_header Strict-Transport-Security "max-age=15768000;
+    # includeSubDomains; preload;";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Robots-Tag none;
+    add_header X-Download-Options noopen;
+    add_header X-Permitted-Cross-Domain-Policies none;
+    # Optional: Don't log access to assets
+    access_log off;
+}
 EOF1
 
+if [[ ${USE_PHP7_2} == '1' ]]; then
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-custom/nextcloud.conf >>"${main_log}" 2>>"${err_log}"
+fi
 
 ln -s /etc/nginx/sites-available/cloud.${MYDOMAIN}.conf /etc/nginx/sites-enabled/cloud.${MYDOMAIN}.conf
 
@@ -93,5 +110,4 @@ echo "Database name = nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
-dialog --backtitle "Addon-Installation" --infobox "Nextcloud Installation finished! Credentials: ${SCRIPT_PATH}/login_information" $HEIGHT $WIDTH
 }
