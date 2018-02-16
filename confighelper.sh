@@ -194,7 +194,7 @@ esac
 
 # --- PHP ---
 CHOICE_HEIGHT=3
-MENU="Do you want to Use PHP 7.1 or PHP 7.2?:"
+MENU="Do you want to Use PHP 5, 7.1 or PHP 7.2?:"
 OPTIONS=(1 "PHP 5"
 				 3 "PHP 7.1"
 		     2 "PHP 7.2")
