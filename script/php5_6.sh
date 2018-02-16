@@ -16,7 +16,7 @@
     # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #-------------------------------------------------------------------------------------------------------------
 
-install_php_5_6() {
+install_php_5() {
 
 
 if [[ ${DISTOS} == 'UBUNTU' ]]; then
@@ -31,7 +31,7 @@ fi
 
 apt-get update -y >/dev/null 2>&1
 
-PHPVERSION7="5.6"
+PHPVERSION7="5"
 
 if [[ ${DISTOS} == 'UBUNTU' ]]; then
 	apt-get -y --assume-yes install memcached >>"${main_log}" 2>>"${err_log}"
