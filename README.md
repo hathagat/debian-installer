@@ -6,4 +6,6 @@ cd /root/; apt-get update; apt-get install git -y; git clone https://github.com/
 ```
 
 ##
-Thanks to Thomas Leister and his awesome [Mailserver Setup](https://thomas-leister.de/mailserver-debian-stretch/), we're using in this Script!
+Thanks to [shoujii](https://github.com/shoujii), [BoBBer446](https://github.com/BoBBer446) and [Zypr](https://github.com/zypr) for the [initial script](https://github.com/shoujii/NeXt-Server)!
+
+Thanks to Thomas Leister for his awesome [mailserver setup](https://thomas-leister.de/mailserver-debian-stretch/)!
