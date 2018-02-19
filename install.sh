@@ -32,8 +32,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${USE_CONFIGHELPER} = "1" ]]; then
 		source ${SCRIPT_PATH}/confighelper.sh; confighelper_userconfig
 	fi
-	system_end=`date +%s`
-	systemtime=$((system_end-install_start))
 
 	system_start=`date +%s`
 	echo "1" | dialog --gauge "Installing System..." 10 70 0
@@ -65,6 +63,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	openssh_start=`date +%s`
 	echo "10" | dialog --gauge "Installing OpenSSH..." 10 70 0
 	source ${SCRIPT_PATH}/script/openssh.sh; install_openssh
+
 	if [[ ${FIX_SSH_PORT} = "1" ]]; then
 		sed -i 's/Port .*/Port ${FIXED_SSH_PORT}/g' /etc/ssh/sshd_config
 	fi
@@ -132,14 +131,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	mailserver_end=`date +%s`
 	mailservertime=$((mailserver_end-mailserver_start))
 
-	docker_start=`date +%s`
-	if [[ ${INSTALL_DOCKER} = "1" ]]; then
-		echo "90" | dialog --gauge "Installing docker..." 10 70 0
-		source ${SCRIPT_PATH}/script/docker.sh; install_docker
-	fi
-	docker_end=`date +%s`
-	dockertime=$((docker_end-docker_start))
-
 	firewall_start=`date +%s`
 	echo "95" | dialog --gauge "Installing Firewall..." 10 70 0
 	source ${SCRIPT_PATH}/script/firewall.sh; install_firewall
@@ -165,7 +156,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "$install_runtime_string PHP in seconds: ${phptime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Mailserver in seconds: ${mailservertime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string Firewall in seconds: ${firewalltime}" >> ${SCRIPT_PATH}/installation_times.txt
-	echo "$install_runtime_string Docker in seconds: ${dockertime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "$install_runtime_string the whole Installation seconds: ${runtime}" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
