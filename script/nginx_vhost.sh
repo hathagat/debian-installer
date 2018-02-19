@@ -36,7 +36,10 @@ server {
 	ssl_certificate 	ssl/${MYDOMAIN}-ecc.cer;
 	ssl_certificate_key ssl/${MYDOMAIN}-ecc.key;
 	ssl_trusted_certificate ssl/${MYDOMAIN}-ecc.cer;
-	ssl_ciphers	'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA';
+	#tls 1.2
+	#ssl_ciphers	'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA';
+	#TLS 1.3
+	ssl_ciphers 'TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA';
 	ssl_ecdh_curve	secp521r1:secp384r1;
 	ssl_prefer_server_ciphers   on;
 	ssl_protocols       TLSv1.2 TLSv1.3;
@@ -174,6 +177,10 @@ server {
 }
 
 END
+
+if [[ ${USE_PHP5} == '1' ]]; then
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php5-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
+fi
 
 if [[ ${USE_PHP7_2} == '1' ]]; then
 	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
