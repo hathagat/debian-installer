@@ -196,8 +196,8 @@ esac
 CHOICE_HEIGHT=3
 MENU="Do you want to Use PHP 5.6, 7.1 or PHP 7.2?:"
 OPTIONS=(1 "PHP 5"
-				 3 "PHP 7.1"
-		     2 "PHP 7.2")
+				 2 "PHP 7.1"
+		     3 "PHP 7.2")
 menu
 clear
 case $CHOICE in
