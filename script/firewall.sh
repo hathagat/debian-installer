@@ -23,6 +23,7 @@ if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	apt-get -y --assume-yes install ipset >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install ipset package"
 fi
 
+cd ${SCRIPT_PATH}
 git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q || error_exit "Failed to clone arno-ip-tables package"
 
 # Create folders and copy files
