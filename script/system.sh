@@ -18,10 +18,11 @@
 
 install_system() {
 
-hostnamectl set-hostname --static mail
+if [[ ${USE_MAILSERVER} = "1" ]]; then
+    hostnamectl set-hostname --static mail
 
-rm /etc/hosts
-cat > /etc/hosts <<END
+    rm /etc/hosts
+    cat > /etc/hosts <<END
 127.0.0.1   localhost
 127.0.1.1   mail.domain.tld  mail
 
@@ -29,10 +30,11 @@ cat > /etc/hosts <<END
 ff02::1     ip6-allnodes
 ff02::2     ip6-allrouters
 END
-sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
+    sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
 
-echo $(hostname -f) > /etc/mailname
-#echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
+    echo $(hostname -f) > /etc/mailname
+    #echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
+fi
 
 timedatectl set-timezone ${TIMEZONE}
 
