@@ -37,19 +37,22 @@ declare -A BLOCKED_PORTS='(
     [995]="1"
     [4000]="1")'
 
-		while true
-		do
-		RANDOM_SSH_PORT="$(($RANDOM % 1023))"
-			# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
-			if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
-				echo "Random Openssh Port is used by the system, creating new one"
-			else
-				SSH_PORT="$RANDOM_SSH_PORT"
-				break
-			fi
-		done
-
-sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
+if [[ ${FIX_SSH_PORT} = "1" ]]; then
+    sed -i "s/^Port 22/Port $FIXED_SSH_PORT/g" /etc/ssh/sshd_config
+else
+	while true
+	do
+	RANDOM_SSH_PORT="$(($RANDOM % 1023))"
+		# Check is RANDOM_SSH_PORT known in BLOCKED_PORTS
+		if [[ -v BLOCKED_PORTS[$RANDOM_SSH_PORT] ]]; then
+			echo "Random Openssh Port is used by the system, creating new one"
+		else
+			SSH_PORT="$RANDOM_SSH_PORT"
+			break
+		fi
+	done
+	sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
+fi
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "#SSH_PORT: ${SSH_PORT}" >> ${SCRIPT_PATH}/login_information
