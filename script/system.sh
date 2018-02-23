@@ -18,6 +18,8 @@
 
 install_system() {
 
+apt-get -y upgrade >/dev/null 2>&1
+
 if [[ ${USE_MAILSERVER} = "1" ]]; then
     hostnamectl set-hostname --static mail
 

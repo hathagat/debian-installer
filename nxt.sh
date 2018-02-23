@@ -18,7 +18,6 @@
 
 clear
 echo "NeXt Server"
-# Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root!" 1>&2
    exit 1
@@ -36,6 +35,8 @@ source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+
+chown -R root:root ${SCRIPT_PATH}
 
 HEIGHT=30
 WIDTH=60
