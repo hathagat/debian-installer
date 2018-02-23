@@ -18,9 +18,13 @@
 
 clear
 echo "NeXt Server"
+# Make sure only root can run our script
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root!" 1>&2
+   exit 1
+fi
 echo "Updating packages..."
 apt-get update -y >/dev/null 2>&1
-apt-get -y upgrade >/dev/null 2>&1
 
 echo "Preparing menu..."
 apt-get -qq install dialog git >/dev/null 2>&1
