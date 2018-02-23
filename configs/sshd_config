@@ -30,7 +30,7 @@ LogLevel VERBOSE
 # Authentication:
 
 LoginGraceTime 30
-PermitRootLogin yes
+PermitRootLogin no
 StrictModes yes
 MaxAuthTries 2
 MaxSessions 2
@@ -122,5 +122,5 @@ Subsystem	sftp	sftp /usr/lib/openssh/sftp-server
 #	PermitTTY no
 #	ForceCommand cvs server
 
-AllowGroups ssh-user
+AllowGroups ssh-usersn
 AcceptEnv LANG LC_* TZ

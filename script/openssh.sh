@@ -20,9 +20,10 @@ install_openssh() {
 
 apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install openssh packages"
 
+cd ${SCRIPT_PATH}
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
 cp ${SCRIPT_PATH}/includes/issue /etc/issue
-cp ${SCRIPT_PATH}/includes/issue.net /etc/issue.net
+cp ${SCRIPT_PATH}/includes/issue /etc/issue.net
 
 declare -A BLOCKED_PORTS='(
     [22]="1"
@@ -35,6 +36,7 @@ declare -A BLOCKED_PORTS='(
     [587]="1"
     [993]="1"
     [995]="1"
+    [1000]="1"
     [4000]="1")'
 
 if [ "$FIX_SSH_PORT" == "1" ] && ! [ -v BLOCKED_PORTS[$FIXED_SSH_PORT] ]; then
@@ -56,12 +58,9 @@ sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "#SSH_PORT: ${SSH_PORT}" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
 
 SSH_PASS=$(password)
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "#SSH_PASS: ${SSH_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
@@ -72,8 +71,17 @@ cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
 mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
 
-groupadd ssh-user
-usermod -a -G ssh-user root
+groupadd --system -g ${SSH_PORT} sshusers >>"$main_log" 2>>"$error_log"
+MYPASS=$(openssl rand -base64 30  |  sed 's|/|_|')
+adduser ${SSHUSER} --gecos "" --no-create-home --home /root/ --shell /bin/sh -u ${SSH_PORT} --ingroup sshusers >>"${main_log}" 2>>"${err_log}"
+echo ${SSHUSER}:${MYPASS} | chpasswd >>"${main_log}" 2>>"${err_log}"
+usermod -a -G sshusers ${SSHUSER} >>"${main_log}" 2>>"${err_log}"
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#LOGIN_USERNAME: ${SSHUSER}" >> ${SCRIPT_PATH}/login_information
+echo "#LOGIN_PASSWORD: ${MYPASS}" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
 
 truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog
