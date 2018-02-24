@@ -21,8 +21,8 @@ install_openssh() {
 apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install openssh packages"
 
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
-cp ${SCRIPT_PATH}/includes/issue /etc/issue
-cp ${SCRIPT_PATH}/includes/issue /etc/issue.net
+cp ${SCRIPT_PATH}/includes/issue.net /etc/issue
+cp ${SCRIPT_PATH}/includes/issue.net /etc/issue.net
 
 declare -A BLOCKED_PORTS='(
     [22]="1"
