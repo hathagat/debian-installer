@@ -57,9 +57,12 @@ sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "#SSH_PORT: ${SSH_PORT}" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
 
 SSH_PASS=$(password)
 
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "#SSH_PASS: ${SSH_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
@@ -71,14 +74,11 @@ chmod 600 ~/.ssh/authorized_keys2
 mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
 
 groupadd --system -g ${SSH_PORT} sshusers >>"${main_log}" 2>>"${err_log}"
-MYPASS=$(openssl rand -base64 30  |  sed 's|/|_|')
-adduser ${SSHUSER} --gecos "" --no-create-home --home /root/ --shell /bin/sh -u ${SSH_PORT} --ingroup sshusers >>"${main_log}" 2>>"${err_log}"
-echo ${SSHUSER}:${MYPASS} | chpasswd >>"${main_log}" 2>>"${err_log}"
-usermod -a -G sshusers ${SSHUSER} >>"${main_log}" 2>>"${err_log}"
+adduser ${LOGIN_USER} --gecos "" --disabled-password --no-create-home --home /root/ --shell /bin/sh -u ${SSH_PORT} --ingroup sshusers >>"${main_log}" 2>>"${err_log}"
+usermod -a -G sshusers ${LOGIN_USER} >>"${main_log}" 2>>"${err_log}"
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#LOGIN_USERNAME: ${SSHUSER}" >> ${SCRIPT_PATH}/login_information
-echo "#LOGIN_PASSWORD: ${MYPASS}" >> ${SCRIPT_PATH}/login_information
+echo "#LOGIN_USER: ${LOGIN_USER}" >> ${SCRIPT_PATH}/login_information
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
