@@ -44,8 +44,8 @@ git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it >>"${main_
 ~/.bash_it/install.sh --silent >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install bash-it"
 
 . ~/.bashrc
-bash-it enable plugin docker extract gh git >>"${main_log}" 2>>"${err_log}"
-bash-it enable completion defaults docker docker-compose export gh git git_flow_avh makefile ssh >>"${main_log}" 2>>"${err_log}"
+. bash-it enable plugin docker extract gh git history >>"${main_log}" 2>>"${err_log}"
+. bash-it enable completion defaults docker docker-compose export gh git git_flow_avh makefile ssh >>"${main_log}" 2>>"${err_log}"
 sed -i "s/bobby/pure/g" ~/.bashrc
 . ~/.bashrc
 
