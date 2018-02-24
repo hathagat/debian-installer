@@ -20,7 +20,6 @@ install_openssh() {
 
 apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install openssh packages"
 
-cd ${SCRIPT_PATH}
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
 cp ${SCRIPT_PATH}/includes/issue /etc/issue
 cp ${SCRIPT_PATH}/includes/issue /etc/issue.net
@@ -71,7 +70,7 @@ cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
 chmod 600 ~/.ssh/authorized_keys2
 mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
 
-groupadd --system -g ${SSH_PORT} sshusers >>"$main_log" 2>>"$error_log"
+groupadd --system -g ${SSH_PORT} sshusers >>"${main_log}" 2>>"${err_log}"
 MYPASS=$(openssl rand -base64 30  |  sed 's|/|_|')
 adduser ${SSHUSER} --gecos "" --no-create-home --home /root/ --shell /bin/sh -u ${SSH_PORT} --ingroup sshusers >>"${main_log}" 2>>"${err_log}"
 echo ${SSHUSER}:${MYPASS} | chpasswd >>"${main_log}" 2>>"${err_log}"

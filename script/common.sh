@@ -55,9 +55,4 @@ if [ -f ~/.bashrc ]; then
 fi
 END
 
-# User Accounts
-if [[ ${DELETE_USERS} = "1" ]]; then
-    awk -F'[/:]' '{if ($3 >= 1000 && $3 != 65534) print $1}' /etc/passwd | while read name ; do deluser --remove-all-files "$name" >/dev/null 2>&1 ; done
-fi
-
 }
