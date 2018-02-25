@@ -111,6 +111,9 @@ install() {
 	apt-get -y autoremove >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to autoremove packages"
 	apt-get autoclean >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to autoclean packages"
 
+    rm -rf  ~/.rnd
+    rm -rf  ~/.wget-hsts
+
 	install_end=`date +%s`
 	runtime=$((install_end-install_start))
 
