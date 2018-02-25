@@ -19,6 +19,7 @@
 installwordpress() {
 
 #fast test 3
+#from git edit
 
 WORDPRESS_USER="wordpressuser"
 WORDPRESS_DB_NAME="wordpressdb"
