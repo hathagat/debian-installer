@@ -1,28 +1,10 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#
-	# This program is free software; you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation; either version 2 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License along
-    # with this program; if not, write to the Free Software Foundation, Inc.,
-    # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#-------------------------------------------------------------------------------------------------------------
 
 function password {
-
   openssl rand -base64 40 | tr -d / | cut -c -32 | grep -P '(?=^.{8,255}$)(?=^[^\s]*$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])'
 }
 
 setipaddrvars() {
-
 IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
 FQDNIP=$(dig @9.9.9.9 +short ${MYDOMAIN})
@@ -30,8 +12,7 @@ WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
-get_domain()
-{
+get_domain() {
   LOCAL_IP=$(hostname -I)
   POSSIBLE_DOMAIN=$(dig -x ${LOCAL_IP} +short)
   DETECTED_DOMAIN=$(echo "${POSSIBLE_DOMAIN}" | awk -v FS='.' '{print $2 "." $3}')
@@ -79,8 +60,7 @@ start_after_install() {
 }
 
 # ERROR HANDLING
-error_exit()
-{
+error_exit() {
 	echo "$1" 1>&2
 
 	CHOICE_HEIGHT=2
