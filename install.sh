@@ -1,8 +1,6 @@
 #!/bin/bash
 
 SCRIPT_PATH="/root/NeXt-Server"
-
-source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 install() {
@@ -142,5 +140,3 @@ install() {
 	# Start Full Config after installation
 	source ${SCRIPT_PATH}/script/functions.sh; start_after_install
 }
-
-install

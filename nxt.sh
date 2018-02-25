@@ -14,7 +14,11 @@ apt-get -qq install dialog git >/dev/null 2>&1
 
 SCRIPT_PATH="/root/NeXt-Server"
 
-GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)}/configs/versions.cfg}/script/functions.sh}/script/logs.sh; set_logs}/script/prerequisites.sh; prerequisites
+GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
+source ${SCRIPT_PATH}/configs/versions.cfg
+source ${SCRIPT_PATH}/script/functions.sh
+source ${SCRIPT_PATH}/script/logs.sh; set_logs
+source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 chown -R root:root ${SCRIPT_PATH}
 
@@ -57,7 +61,7 @@ MENU="Choose one of the following options:"
 		clear
 		case $CHOICE in
 				1)
-					bash install.sh
+					source ${SCRIPT_PATH}/install.sh; install
 					;;
 				2)
 					HEIGHT=30
