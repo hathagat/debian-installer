@@ -34,26 +34,22 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NA
 mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cd root/etc/nginx/html/${MYDOMAIN}/
-#download wordpress
-curl -O https://wordpress.org/latest.tar.gz
 
-#unzip wordpress
+wget https://wordpress.org/latest.tar.gz
+
 tar -zxvf latest.tar.gz
-#change dir to wordpress
 cd wordpress
-#copy file to parent dir
 cp -rf . ..
-#move back to parent dir
 cd ..
-#remove files from wordpress folder
 rm -R wordpress
-
-
-
-#create wp config
 cp wp-config-sample.php wp-config.php
+
 #set database details with perl find and replace
-perl -pi -e "s/database_name_here/$dbname/g" wp-config.phpperl -pi -e "s/username_here/$dbuser/g" wp-config.phpperl -pi -e "s/password_here/$dbpass/g" wp-config.php
+sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" wp-config.php
+sed -e "s/username_here/${WORDPRESS_USER}/g" wp-config.php
+sed “"/password_here/${WORDPRESS_DB_PASS}/g" wp-config.php
+
+mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
 
 cd /etc/nginx/html/${MYDOMAIN}/
 chown www-data:www-data -R *          
