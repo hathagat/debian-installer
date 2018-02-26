@@ -50,7 +50,7 @@ cp wp-config-sample.php wp-config.php
 #set database details with perl find and replace
 sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" /wp-config.php
 sed -e "s/username_here/${WORDPRESS_USER}/g" /wp-config.php
-sed -e "/password_here/${WORDPRESS_DB_PASS}/g" /wp-config.php
+sed -e "s/password_here/${WORDPRESS_DB_PASS}/g" /wp-config.php
 
 SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
 while read -r SALT; do
