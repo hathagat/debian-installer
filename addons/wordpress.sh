@@ -18,22 +18,25 @@
 
 installwordpress() {
 
+#Set vars
 WORDPRESS_USER="wordpressuser"
 WORDPRESS_DB_NAME="wordpressdb"
 
 
 WORDPRESS_DB_PASS=$(password)
 
+# Get root PW
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 #echo "${MYSQL_ROOT_PASS}"
 
 
+#Ceate new DB User and DB
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME} . * TO '${WORDPRESS_USER}'@'localhost';"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
-cd root/etc/nginx/html/${MYDOMAIN}/
+cd /etc/nginx/html/${MYDOMAIN}/
 
 wget https://wordpress.org/latest.tar.gz
 
