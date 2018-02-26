@@ -52,6 +52,15 @@ sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" wp-config.php
 sed -e "s/username_here/${WORDPRESS_USER}/g" wp-config.php
 sed “"/password_here/${WORDPRESS_DB_PASS}/g" wp-config.php
 
+SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
+while read -r SALT; do
+SEARCH="define('$(echo "$SALT" | cut -d "'" -f 2)"
+REPLACE=$(echo "$SALT" | cut -d "'" -f 4)
+echo "... $SEARCH ... $SEARCH ..."
+sed -i "/^$SEARCH/s/put your unique phrase here/$(echo $REPLACE | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" /etc/nginx/html/${MYDOMAIN}/wp-config.php
+done <<< "$SALTS"
+
+
 mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
 
 cd /etc/nginx/html/${MYDOMAIN}/
