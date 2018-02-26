@@ -61,12 +61,12 @@ find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "Nextcloud" >> ${SCRIPT_PATH}/login_information
+echo "-wordpress" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information
-echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information
-echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information
-echo "Database name = nextcloud" >> ${SCRIPT_PATH}/login_information
+echo "https://${MYDOMAIN}/" >> ${SCRIPT_PATH}/login_information
+echo "DBUsername = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/login_information
+echo "DBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/login_information
+echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
