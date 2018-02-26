@@ -47,10 +47,18 @@ cp -rf . ..
 cd ..
 #remove files from wordpress folder
 rm -R wordpress
+
+
+
 #create wp config
 cp wp-config-sample.php wp-config.php
 #set database details with perl find and replace
 perl -pi -e "s/database_name_here/$dbname/g" wp-config.phpperl -pi -e "s/username_here/$dbuser/g" wp-config.phpperl -pi -e "s/password_here/$dbpass/g" wp-config.php
+
+cd /etc/nginx/html/${MYDOMAIN}/
+chown www-data:www-data -R *          
+find . -type d -exec chmod 755 {} \;  
+find . -type f -exec chmod 644 {} \;
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "Nextcloud" >> ${SCRIPT_PATH}/login_information
