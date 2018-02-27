@@ -55,7 +55,8 @@ MENU="Choose one of the following options:"
 						 15 "Install Nextcloud (WIP!)"
 						 16 "Install phpmyadmin (WIP!)"
 						 17 "Install Munin (WIP!)"
-						 18 "Exit")
+             18 "Install Wordpress (WIP!)"
+						 19 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -203,6 +204,12 @@ MENU="Choose one of the following options:"
 					fi
 					;;
 				18)
+					dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
+						source ${SCRIPT_PATH}/configs/userconfig.cfg
+						source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
+					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
+					;;
+				19)
 					echo "Exit"
 					exit 1
 					;;
