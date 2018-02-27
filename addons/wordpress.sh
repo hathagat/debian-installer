@@ -18,7 +18,7 @@
 
 install_wordpress() {
 
-  #Test
+#Push from Atom
 
 #Set vars
 WORDPRESS_USER="wordpressuser"
