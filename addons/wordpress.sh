@@ -37,8 +37,8 @@ install_wordpress() {
               ;;
   esac
 
-#Set vars
-# Mybe the user should not shoose an user and db name....
+# Set vars
+# Maybe the user should not shoose an user and db name....
 WORDPRESS_USER="NXTWORDPRESSUSER"
 WORDPRESS_DB_NAME="NXTWORDPRESSDB"
 
