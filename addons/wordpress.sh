@@ -84,9 +84,9 @@ done <<< "$SALTS"
 mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
 
 cd /etc/nginx/html/${MYDOMAIN}/
-chown www-data:www-data -R *
-find . -type d -exec chmod 755 {} \;
-find . -type f -exec chmod 644 {} \;
+chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/
+find . -type d -exec chmod 755 {} /etc/nginx/html/${MYDOMAIN}/;
+find . -type f -exec chmod 644 {} /etc/nginx/html/${MYDOMAIN}/;
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "-wordpress" >> ${SCRIPT_PATH}/login_information
