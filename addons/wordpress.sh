@@ -17,6 +17,7 @@
 #-------------------------------------------------------------------------------------------------------------
 
 install_wordpress() {
+#Test Script
 
 #Set vars
 WORDPRESS_USER="wordpressuser"
