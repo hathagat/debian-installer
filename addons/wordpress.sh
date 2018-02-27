@@ -18,6 +18,7 @@
 
 install_wordpress() {
 #Test Script
+#Back to root
 
 #Set vars
 WORDPRESS_USER="wordpressuser"
@@ -65,8 +66,8 @@ done <<< "$SALTS"
 mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
 
 cd /etc/nginx/html/${MYDOMAIN}/
-chown www-data:www-data -R *          
-find . -type d -exec chmod 755 {} \;  
+chown www-data:www-data -R *
+find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
