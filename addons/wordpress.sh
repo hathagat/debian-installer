@@ -18,6 +18,9 @@
 
 install_wordpress() {
 
+  # --- MYDOMAIN ---
+  source ${SCRIPT_PATH}/script/functions.sh; get_domain
+
   CHOICE_HEIGHT=2
   MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
   OPTIONS=(1 "Yes"
@@ -44,6 +47,8 @@ install_wordpress() {
   							dialog --clear
   						fi
   				done
+              ;;
+  esac
 
 #Set vars
 # Mybe the user should not shoose an user and db name....
