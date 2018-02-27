@@ -80,12 +80,12 @@ sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" /etc/nginx/html/${MYDOMAIN}
 sed -e "s/username_here/${WORDPRESS_USER}/g" /etc/nginx/html/${MYDOMAIN}/wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed user name"
 sed -e "s/password_here/${WORDPRESS_DB_PASS}/g" /etc/nginx/html/${MYDOMAIN}/wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db pass"
 
+# Get salts
 SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/) >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get salt"
 while read -r SALT; do
-SEARCH="define('$(echo "$SALT" | cut -d "'" -f 2)"
-REPLACE=$(echo "$SALT" | cut -d "'" -f 4)
-#echo "... $SEARCH ... $SEARCH ..."
-sed -i "/^$SEARCH/s/put your unique phrase here/$(echo $REPLACE | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" /etc/nginx/html/${MYDOMAIN}/wp-config.php
+search="define('$(echo "$SALT" | cut -d "'" -f 2)"
+replace=$(echo "$SALT" | cut -d "'" -f 4)
+sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" /etc/nginx/html/${MYDOMAIN}/wp-config.php
 done <<< "$SALTS"
 
 
