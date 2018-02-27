@@ -18,6 +18,8 @@
 
 install_wordpress() {
 
+  #Test
+
 #Set vars
 WORDPRESS_USER="wordpressuser"
 WORDPRESS_DB_NAME="wordpressdb"
