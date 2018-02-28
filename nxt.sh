@@ -191,10 +191,10 @@ MENU="Choose one of the following options:"
 					fi
 					;;
 				18)
-					dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
+					#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
 						source ${SCRIPT_PATH}/configs/userconfig.cfg
 						source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
-					dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
+					#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
 					;;
 				19)
 					echo "Exit"
