@@ -37,6 +37,22 @@ install_wordpress() {
               ;;
   esac
 
+
+#CHOICE_HEIGHT=2
+  #MENU="Where you want install Wordpress?"
+  #OPTIONS=(1 "Direct in ${MYDOMAIN}"
+  #		     2 "In ${MYDOMAIN}/blog")
+  #menu
+  #clear
+  #case $CHOICE in
+ #    1)
+ #		break;
+ #             ;;
+  #		2)
+  #			 WORDPRESSFOLDER="blog"
+    #          ;;
+ # esac
+
 # Set vars
 # Maybe the user should not shoose an user and db name....
 WORDPRESS_USER="NXTWORDPRESSUSER"
