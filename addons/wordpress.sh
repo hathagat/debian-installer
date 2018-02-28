@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_wordpress() {
@@ -49,6 +49,9 @@ WORDPRESS_DB_PASS=$(password)
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 #echo "${MYSQL_ROOT_PASS}"
 
+# Set Path wp-Config
+WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
+
 
 #Ceate new DB User and DB
 #mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
@@ -56,7 +59,7 @@ MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/log
 #mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME} . * TO '${WORDPRESS_USER}'@'localhost';"
 #mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to generate User or DB" 
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to generate User or DB"
 
 cd /etc/nginx/html/${MYDOMAIN}/
 
@@ -70,17 +73,17 @@ rm -R wordpress
 cp wp-config-sample.php wp-config.php
 
 #set database details with perl find and replace
-sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" /etc/nginx/html/${MYDOMAIN}/wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
-sed -e "s/username_here/${WORDPRESS_USER}/g" /etc/nginx/html/${MYDOMAIN}/wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed user name"
-sed -e "s/password_here/${WORDPRESS_DB_PASS}/g" /etc/nginx/html/${MYDOMAIN}/wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db pass"
+sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
+sed -e "s/username_here/${WORDPRESS_USER}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed user name"
+sed -e "s/password_here/${WORDPRESS_DB_PASS}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db pass"
 
 # Get salts
-SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/) >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get salt"
-while read -r SALT; do
-search="define('$(echo "$SALT" | cut -d "'" -f 2)"
-replace=$(echo "$SALT" | cut -d "'" -f 4)
-sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" /etc/nginx/html/${MYDOMAIN}/wp-config.php
-done <<< "$SALTS"
+salts=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/) >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get salt"
+while read -r salt; do
+search="define('$(echo "$salt" | cut -d "'" -f 2)"
+replace=$(echo "$salt" | cut -d "'" -f 4)
+sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" ${WPCONFIGFILE}
+done <<< "$salts"
 
 
 mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
