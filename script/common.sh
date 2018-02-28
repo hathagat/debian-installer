@@ -28,7 +28,7 @@ git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it >>"${main_
 
 . ~/.bashrc
 . bash-it enable plugin docker extract gh git history >>"${main_log}" 2>>"${err_log}"
-. bash-it enable completion defaults docker docker-compose export gh git git_flow_avh makefile ssh >>"${main_log}" 2>>"${err_log}"
+. bash-it enable completion defaults docker docker-compose export gh git git_flow_avh makefile ssh kubectl maven >>"${main_log}" 2>>"${err_log}"
 sed -i "s/bobby/pure/g" ~/.bashrc
 . ~/.bashrc
 
