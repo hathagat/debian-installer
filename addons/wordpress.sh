@@ -1,19 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#
-	# This program is free software; you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation; either version 2 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License along
-    # with this program; if not, write to the Free Software Foundation, Inc.,
-    # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#Please check the license provided with the script! 
 #-------------------------------------------------------------------------------------------------------------
 
 install_wordpress() {
@@ -50,8 +37,8 @@ install_wordpress() {
               ;;
   esac
 
-#Set vars
-# Mybe the user should not shoose an user and db name....
+# Set vars
+# Maybe the user should not shoose an user and db name....
 WORDPRESS_USER="NXTWORDPRESSUSER"
 WORDPRESS_DB_NAME="NXTWORDPRESSDB"
 
@@ -99,9 +86,9 @@ done <<< "$SALTS"
 mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
 
 cd /etc/nginx/html/${MYDOMAIN}/
-chown www-data:www-data -R *
-find . -type d -exec chmod 755 {} \;
-find . -type f -exec chmod 644 {} \;
+chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/
+find . -type d -exec chmod 755 {} /etc/nginx/html/${MYDOMAIN}/;
+find . -type f -exec chmod 644 {} /etc/nginx/html/${MYDOMAIN}/;
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "-wordpress" >> ${SCRIPT_PATH}/login_information
