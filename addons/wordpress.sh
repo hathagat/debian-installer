@@ -81,11 +81,13 @@ cd /etc/nginx/html/${MYDOMAIN}/
 
 wget https://wordpress.org/latest.tar.gz >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get Wordpress"
 tar -zxvf latest.tar.gz >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to tar wordpress"
-cd wordpress
-cp -rf . ..
-cd ..
-rm -R wordpress
-cp wp-config-sample.php wp-config.php
+cd wordpress >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to switch into folder wordpress"
+
+#cp -rf . ..
+#cd ..
+#rm -R wordpress
+
+cp wp-config-sample.php wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to rename wp-config.php"
 
 #set database details with perl find and replace
 sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
@@ -101,17 +103,21 @@ sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\
 done <<< "$salts"
 
 
-mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
+mkdir /etc/nginx/html/${MYDOMAIN}/wordpress/wp-content/uploads >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get creae folder uploads"
 
-cd /etc/nginx/html/${MYDOMAIN}/
-chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/
-find . -type d -exec chmod 755 {} /etc/nginx/html/${MYDOMAIN}/;
-find . -type f -exec chmod 644 {} /etc/nginx/html/${MYDOMAIN}/;
+cd /etc/nginx/html/${MYDOMAIN}/wordpress/ 
+chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/ >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to chown"
+find . -type f -exec chmod 644 {} \; >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to chmod 644 files"
+find . -type d -exec chmod 755 {} \; >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to chmod 755 directorys"
+
+
+echo "Visit ${MYDOMAIN}/wordpress to finish the installation"
+
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "-wordpress" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "https://${MYDOMAIN}/" >> ${SCRIPT_PATH}/login_information
+echo "https://${MYDOMAIN}/wordpress" >> ${SCRIPT_PATH}/login_information
 echo "DBUsername = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/login_information
 echo "DBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/login_information
 echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/login_information
