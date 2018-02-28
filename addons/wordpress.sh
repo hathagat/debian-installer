@@ -70,17 +70,16 @@ WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
 
 
 #Ceate new DB User and DB
-#mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
-#mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';"
-#mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME} . * TO '${WORDPRESS_USER}'@'localhost';"
-#mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"  >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to create db"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';"  >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to create user"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME} . * TO '${WORDPRESS_USER}'@'localhost';"  >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to set privileges"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"  >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to flush privileges"
 
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to generate User or DB"
+#mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to generate User or DB"
 
 cd /etc/nginx/html/${MYDOMAIN}/
 
 wget https://wordpress.org/latest.tar.gz >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get Wordpress"
-
 tar -zxvf latest.tar.gz >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to tar wordpress"
 cd wordpress
 cp -rf . ..
