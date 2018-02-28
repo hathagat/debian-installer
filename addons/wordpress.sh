@@ -68,9 +68,6 @@ WORDPRESS_DB_PASS=$(password)
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 #echo "${MYSQL_ROOT_PASS}"
 
-# Set Path wp-Config
-WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
-
 
 #Ceate new DB User and DB
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"  >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to create db"
@@ -91,6 +88,8 @@ cd wordpress >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to switc
 #rm -R wordpress
 
 cp wp-config-sample.php wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to rename wp-config.php"
+# Set Path wp-Config
+WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
 
 #set database details - find and replace
 sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
