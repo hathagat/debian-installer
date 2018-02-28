@@ -58,6 +58,9 @@ install_wordpress() {
 WORDPRESS_USER="NXTWORDPRESSUSER"
 WORDPRESS_DB_NAME="NXTWORDPRESSDB"
 
+echo "Wordpressuser - ${WORDPRESS_USER}"
+echo "WordpressDBName - ${WORDPRESS_DB_NAME}"
+
 
 WORDPRESS_DB_PASS=$(password)
 
@@ -89,7 +92,7 @@ cd wordpress >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to switc
 
 cp wp-config-sample.php wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to rename wp-config.php"
 
-#set database details with perl find and replace
+#set database details - find and replace
 sed -e "s/database_name_here/${WORDPRESS_DB_NAME}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
 sed -e "s/username_here/${WORDPRESS_USER}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed user name"
 sed -e "s/password_here/${WORDPRESS_DB_PASS}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db pass"
