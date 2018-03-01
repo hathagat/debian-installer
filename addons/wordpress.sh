@@ -92,9 +92,9 @@ cp wp-config-sample.php wp-config.php >>"${make_log}" 2>>"${make_err_log}" || er
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
 
 #set database details - find and replace
-sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
-sed -i "s/username_here/${WORDPRESS_USER}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed user name"
-sed -i "s/password_here/${WORDPRESS_DB_PASS}/g" ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db pass"
+sed -i 's/database_name_here/${WORDPRESS_DB_NAME}/g'  ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
+sed -i 's/username_here/${WORDPRESS_USER}/g'  ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed user name"
+sed -i 's/password_here/${WORDPRESS_DB_PASS}/g'  ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db pass"
 
 # Get salts
 salts=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/) >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get salt"
@@ -107,7 +107,7 @@ done <<< "$salts"
 
 mkdir /etc/nginx/html/${MYDOMAIN}/wordpress/wp-content/uploads >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to get creae folder uploads"
 
-cd /etc/nginx/html/${MYDOMAIN}/wordpress/ 
+cd /etc/nginx/html/${MYDOMAIN}/wordpress/
 chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/ >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to chown"
 find . -type f -exec chmod 644 {} \; >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to chmod 644 files"
 find . -type d -exec chmod 755 {} \; >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to chmod 755 directorys"
