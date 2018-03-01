@@ -89,7 +89,7 @@ cd wordpress >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to switc
 
 cp wp-config-sample.php wp-config.php >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to rename wp-config.php"
 # Set Path wp-Config
-WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
+WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wordpress/wp-config.php"
 
 #set database details - find and replace
 sed -i 's/database_name_here/${WORDPRESS_DB_NAME}/g'  ${WPCONFIGFILE} >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to sed db name"
