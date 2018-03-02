@@ -87,9 +87,7 @@ tar -zxvf latest.tar.gz >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log
 
 cd wordpress >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to switch into folder wordpress"
 
-#cp -rf . ..
-#cd ..
-#rm -R wordpress
+
 
 cp wp-config-sample.php wp-config.php >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to rename wp-config.php"
 # Set Path wp-Config
@@ -116,11 +114,18 @@ chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/ >>"${ADDON_WORDPRESS_log
 find . -type f -exec chmod 644 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 644 files"
 find . -type d -exec chmod 755 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 755 directorys"
 
+# Install in Path
 if [ "${WORDPRESSPATHNAME}" != "wordpress" ]; then
   cd ..
   mv wordpress ${WORDPRESSPATHNAME}
 fi
 
+# Install to root
+if [ -z "${WORDPRESSPATHNAME}" ];
+cp -rf . ..
+cd ..
+rm -R wordpress
+fi
 
 clear
 dialog --backtitle "NeXt Server Installation" --msgbox "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation" $HEIGHT $WIDTH
