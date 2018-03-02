@@ -27,7 +27,7 @@ timedatectl set-timezone ${TIMEZONE}
 rm /etc/apt/sources.list
 
 if [[ ${DISTOS} == 'DEBIAN' ]]; then
-cat > /etc/apt/sources.list <<END
+    cat > /etc/apt/sources.list <<END
 #------------------------------------------------------------------------------#
 #                   OFFICIAL DEBIAN REPOS                                      #
 #------------------------------------------------------------------------------#

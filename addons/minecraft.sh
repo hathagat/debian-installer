@@ -44,7 +44,6 @@ cd /usr/local/minecraft/
 sudo -u  minecraft wget -q https://s3.amazonaws.com/Minecraft.Download/versions/${MINECRAFT_VERSION}/minecraft_server.${MINECRAFT_VERSION}.jar
 
 echo "#!/bin/bash
-
 cd /usr/local/minecraft/
 java -Xmx${MINECRAFT_JAVA_RAM}M -Xms${MINECRAFT_JAVA_RAM}M -jar minecraft_server.${MINECRAFT_VERSION}.jar nogui
 " >> /usr/local/minecraft/run-minecraft-server.sh

@@ -51,6 +51,17 @@ pm2 kill
 
 npm start
 
+# Starts Mailman at bootup
+#
+#@reboot root /root/NeXt-Server/cronjobs/startmailman.sh
+#
+#chmod +x /root/NeXt-Server/cronjobs/startmailman.sh
+#
+#/startmailman.sh:
+#cd /etc/mailman
+#npm start
+# -------------------------------------------
+
 cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
 location /mailman {
   proxy_pass       http://localhost:4000;

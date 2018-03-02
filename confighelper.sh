@@ -64,7 +64,8 @@ case $CHOICE in
             ;;
 esac
 
-# --- MYDOMAIN ---}/script/functions.sh; get_domain
+# --- MYDOMAIN ---
+source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
 CHOICE_HEIGHT=2
 MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
