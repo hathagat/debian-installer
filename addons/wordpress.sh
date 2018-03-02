@@ -121,7 +121,7 @@ if [ "${WORDPRESSPATHNAME}" != "wordpress" ]; then
 fi
 
 # Install to root
-if [ -z "${WORDPRESSPATHNAME}" ];
+if [ -z "${WORDPRESSPATHNAME}" ]; then
 cp -rf . ..
 cd ..
 rm -R wordpress
