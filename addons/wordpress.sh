@@ -52,7 +52,7 @@ case $CHOICE in
     2)
           WORDPRESSPATHNAME=$(dialog --clear \
           --backtitle "$BACKTITLE" \
-          --inputbox "Enter your path like blog or site:" \
+          --inputbox "Enter your path like blog or site. Leave Empty for install in root path" \
           $HEIGHT $WIDTH \
           3>&1 1>&2 2>&3 3>&- \
           )
