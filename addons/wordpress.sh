@@ -5,6 +5,9 @@
 
 install_wordpress() {
 
+touch ${SCRIPT_PATH}/logs/ADDON_WORDPRESS_log
+touch ${SCRIPT_PATH}/logs/ADDON_WORDPRESS_err_log
+
   # --- MYDOMAIN ---
   source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
@@ -42,7 +45,7 @@ install_wordpress() {
 CHOICE_HEIGHT=2
 MENU="Under which URL should Wordpress be accessible?"
 OPTIONS=(1 "${MYDOMAIN}/wordpress"
-         2 "Custom")
+         2 "Custom EMPTY NOT WORING ATM")
 menu
 clear
 case $CHOICE in
@@ -58,7 +61,6 @@ case $CHOICE in
           )
             ;;
 esac
-
 
 
 # Set vars
@@ -91,7 +93,7 @@ cd wordpress >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error
 
 cp wp-config-sample.php wp-config.php >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to rename wp-config.php"
 # Set Path wp-Config
-WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wordpress/wp-config.php"
+WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
 
 #set database details - find and replace
 sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g"  ${WPCONFIGFILE} >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to sed db name"
@@ -107,10 +109,10 @@ while read -r salt; do
 done <<< "$salts"
 
 
-mkdir /etc/nginx/html/${MYDOMAIN}/wordpress/wp-content/uploads >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to get creae folder uploads"
+mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to get creae folder uploads"
 
-cd /etc/nginx/html/${MYDOMAIN}/wordpress/
-chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/ >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chown"
+cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
+chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME} >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chown"
 find . -type f -exec chmod 644 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 644 files"
 find . -type d -exec chmod 755 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 755 directorys"
 
