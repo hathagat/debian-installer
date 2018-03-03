@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_teamspeak3() {
@@ -25,6 +25,7 @@ rm -r /usr/local/ts3user/teamspeak3-server_linux_amd64/ >>"${main_log}" 2>>"${er
 chown -R ts3user /usr/local/ts3user/ts3server >>"${main_log}" 2>>"${err_log}"
 
 touch ${SCRIPT_PATH}/ts3serverdata.txt
+touch /usr/local/ts3user/ts3server/.ts3server_license_accepted
 timeout 10 sudo -u  ts3user /usr/local/ts3user/ts3server/ts3server_minimal_runscript.sh > ${SCRIPT_PATH}/ts3serverdata.txt
 
 echo "#! /bin/sh
