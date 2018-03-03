@@ -14,6 +14,7 @@ MYSQL_PMADB_NAME="phpmyadmin"
 PMA_HTTPAUTH_PASS=$(password)
 PMADB_PASS=$(password)
 PMA_USER_PASS=$(password)
+PMA_BFSECURE_PASS=$(password)
 
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
@@ -149,6 +150,8 @@ echo "PMA_HTTPAUTH_PASS = ${PMA_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_informat
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "PMA_USER = prsphpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "PMA_USER_PASS = ${PMA_USER_PASS}" >> ${SCRIPT_PATH}/login_information
+echo "" >> ${SCRIPT_PATH}/login_information
+echo "blowfish_secret = ${PMA_BFSECURE_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 }
