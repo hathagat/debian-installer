@@ -1,11 +1,9 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_composer() {
-
-  set -x
 
 cd ${SCRIPT_PATH}/sources/ >>"${main_log}" 2>>"${err_log}"
 

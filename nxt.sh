@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 clear
@@ -157,7 +157,7 @@ MENU="Choose one of the following options:"
 					;;
 				15)
 					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					if [[ ${USE_PHP7_1} == '1' ]]; then
+					if [ ${USE_PHP7_1} == '1'  ] || [ ${USE_PHP7_2} == '1'  ]; then
 						if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 							dialog --backtitle "NeXt Server Installation" --infobox "Installing nextcloud" $HEIGHT $WIDTH
 							source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
@@ -166,7 +166,7 @@ MENU="Choose one of the following options:"
 							echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 						fi
 					else
-						echo "Nextcloud 13 is only running on PHP 7.1!"
+						echo "Nextcloud 13 is only running on PHP 7.1 and 7.2!"
 					fi
 					;;
 				16)
@@ -191,10 +191,14 @@ MENU="Choose one of the following options:"
 					fi
 					;;
 				18)
-					#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
-						source ${SCRIPT_PATH}/configs/userconfig.cfg
-						source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
-					#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
+					if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+						#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
+							source ${SCRIPT_PATH}/configs/userconfig.cfg
+							source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
+						#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
+					else
+						echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
+					fi
 					;;
 				19)
 					echo "Exit"
