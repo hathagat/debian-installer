@@ -6,13 +6,8 @@
 install_wordpress() {
 set -x
 
-touch ${SCRIPT_PATH}/logs/ADDON_WORDPRESS_log
-touch ${SCRIPT_PATH}/logs/ADDON_WORDPRESS_err_log
-
   # --- MYDOMAIN ---
   source ${SCRIPT_PATH}/script/functions.sh; get_domain
-
-
 
 # Set vars
 # Maybe the user should not shoose an user and db name....
@@ -30,25 +25,22 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER ${WORDPRESS_USER}@localhost IDENTIFIED BY '${WORDPRESS_DB_PASS}';"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost';"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
-#mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to generate User or DB"
 
 cd /etc/nginx/html/${MYDOMAIN}/
 
-wget https://wordpress.org/latest.tar.gz >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to get Wordpress"
-tar -zxvf latest.tar.gz >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to tar wordpress"
+wget https://wordpress.org/latest.tar.gz
+tar -zxvf latest.tar.gz
 
-cd wordpress >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to switch into folder wordpress"
+cd wordpress
 
-
-
-cp wp-config-sample.php wp-config.php >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to rename wp-config.php"
+cp wp-config-sample.php wp-config.php
 # Set Path wp-Config
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
 
 #set database details - find and replace
-sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g"  ${WPCONFIGFILE} >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to sed db name"
-sed -i "s/username_here/${WORDPRESS_USER}/g"  ${WPCONFIGFILE} >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to sed user name"
-sed -i "s/password_here/${WORDPRESS_DB_PASS}/g"  ${WPCONFIGFILE} >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to sed db pass"
+sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g"  ${WPCONFIGFILE}
+sed -i "s/username_here/${WORDPRESS_USER}/g"  ${WPCONFIGFILE}
+sed -i "s/password_here/${WORDPRESS_DB_PASS}/g"  ${WPCONFIGFILE}
 
 # Get salts
 salts=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/) >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to get salt"
@@ -62,7 +54,7 @@ done <<< "$salts"
 mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to get creae folder uploads"
 
 cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
-chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME} >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chown"
+chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 find . -type f -exec chmod 644 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 644 files"
 find . -type d -exec chmod 755 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 755 directorys"
 
