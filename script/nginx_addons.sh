@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_nginx_addons() {
@@ -71,3 +71,6 @@ unzip v${NGINX_HEADER_MOD_VERSION} >>"${main_log}" 2>>"${err_log}"
       exit
     fi
 }
+
+cd ${SCRIPT_PATH}/sources
+git clone https://github.com/nbs-system/naxsi.git -q >>"${main_log}" 2>>"${err_log}"

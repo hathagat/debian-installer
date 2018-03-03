@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_nginx() {
@@ -70,6 +70,7 @@ NGINX_MODULES="--without-http_browser_module \
 --with-http_gunzip_module \
 --with-openssl-opt=enable-tls1_3 \
 --with-openssl=${SCRIPT_PATH}/sources/openssl-${OPENSSL_VERSION} \
+--add-module=${SCRIPT_PATH}/sources/naxsi/naxsi_src \
 --add-module=${SCRIPT_PATH}/sources/incubator-pagespeed-ngx-${NPS_VERSION} \
 --add-module=${SCRIPT_PATH}/sources/headers-more-nginx-module-${NGINX_HEADER_MOD_VERSION} \
 --add-module=${SCRIPT_PATH}/sources/ngx_brotli "
