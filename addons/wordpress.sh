@@ -4,6 +4,7 @@
 #-------------------------------------------------------------------------------------------------------------
 
 install_wordpress() {
+set -x
 
 touch ${SCRIPT_PATH}/logs/ADDON_WORDPRESS_log
 touch ${SCRIPT_PATH}/logs/ADDON_WORDPRESS_err_log
