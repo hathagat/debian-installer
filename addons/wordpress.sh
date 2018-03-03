@@ -28,7 +28,7 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cd /etc/nginx/html/${MYDOMAIN}/
 
-wget https://wordpress.org/latest.tar.gz
+wget --tries=42 https://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 
 cd wordpress
@@ -43,7 +43,7 @@ sed -i "s/username_here/${WORDPRESS_USER}/g"  ${WPCONFIGFILE}
 sed -i "s/password_here/${WORDPRESS_DB_PASS}/g"  ${WPCONFIGFILE}
 
 # Get salts
-salts=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/) >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to get salt"
+salts=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
 while read -r salt; do
   search="define('$(echo "$salt" | cut -d "'" -f 2)"
   replace=$(echo "$salt" | cut -d "'" -f 4)
@@ -51,27 +51,13 @@ while read -r salt; do
 done <<< "$salts"
 
 
-mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to get creae folder uploads"
+mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads
 
 cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
 chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
-find . -type f -exec chmod 644 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 644 files"
-find . -type d -exec chmod 755 {} \; >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to chmod 755 directorys"
+find . -type f -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
 
-# Install in Path
-if [ "${WORDPRESSPATHNAME}" != "wordpress" ]; then
-  cd ..
-  mv wordpress ${WORDPRESSPATHNAME}
-fi
-
-# Install to root
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-cp -rf . ..
-cd ..
-rm -R wordpress
-fi
-
-clear
 dialog --backtitle "NeXt Server Installation" --msgbox "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation" $HEIGHT $WIDTH
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
