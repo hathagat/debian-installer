@@ -12,56 +12,6 @@ touch ${SCRIPT_PATH}/logs/ADDON_WORDPRESS_err_log
   # --- MYDOMAIN ---
   source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
-# Ask for Domain
-  CHOICE_HEIGHT=2
-  MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
-  OPTIONS=(1 "Yes"
-  		     2 "No")
-  menu
-  clear
-  case $CHOICE in
-        1)
-  			MYDOMAIN=${DETECTED_DOMAIN}
-              ;;
-  		2)
-  			while true
-  				do
-  					MYDOMAIN=$(dialog --clear \
-  					--backtitle "$BACKTITLE" \
-  					--inputbox "Enter your Domain without http:// (exmaple.org):" \
-  					$HEIGHT $WIDTH \
-  					3>&1 1>&2 2>&3 3>&- \
-  					)
-  						if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
-  							break
-  						else
-  							dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
-  							dialog --clear
-  						fi
-  				done
-              ;;
-  esac
-
-# Ask for Path
-CHOICE_HEIGHT=2
-MENU="Under which URL should Wordpress be accessible?"
-OPTIONS=(1 "${MYDOMAIN}/wordpress"
-         2 "Custom EMPTY NOT WORING ATM")
-menu
-clear
-case $CHOICE in
-      1)
-      WORDPRESSPATHNAME="wordpress"
-            ;;
-    2)
-          WORDPRESSPATHNAME=$(dialog --clear \
-          --backtitle "$BACKTITLE" \
-          --inputbox "Enter your path like blog or site. Leave Empty for install in root path" \
-          $HEIGHT $WIDTH \
-          3>&1 1>&2 2>&3 3>&- \
-          )
-            ;;
-esac
 
 
 # Set vars
@@ -70,7 +20,11 @@ WORDPRESS_USER="NXTWORDPRESSUSER"
 WORDPRESS_DB_NAME="NXTWORDPRESSDB"
 WORDPRESS_DB_PASS=$(password)
 
+WORDPRESSPATHNAME="wordpress"
+
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
+
+echo ${MYSQL_ROOT_PASS}
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER ${WORDPRESS_USER}@localhost IDENTIFIED BY '${WORDPRESS_DB_PASS}';"
