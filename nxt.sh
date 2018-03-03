@@ -191,6 +191,7 @@ MENU="Choose one of the following options:"
 					fi
 					;;
 				18)
+					source ${SCRIPT_PATH}/configs/userconfig.cfg
 					if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 						#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
 							source ${SCRIPT_PATH}/configs/userconfig.cfg
