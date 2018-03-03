@@ -67,16 +67,11 @@ sed -i '1171s/, "/"/' /etc/arno-iptables-firewall/firewall.conf
 
 systemctl force-reload arno-iptables-firewall.service >>"${main_log}" 2>>"${err_log}"
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "TS3 Server Login:" >> ${SCRIPT_PATH}/login_information
-echo "Look at: ts3serverdata.txt in the NeXt-Server Folder" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
-
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "TS3 Server commands:" >> ${SCRIPT_PATH}/login_information
-echo "/etc/init.d/ts3server start and /etc/init.d/ts3server stop" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
+echo "Teamspeak 3" >> ${SCRIPT_PATH}/login_information
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
+echo "TS3 Server Login = Look at: ts3serverdata.txt in the NeXt-Server Folder" >> ${SCRIPT_PATH}/login_information
+echo "TS3 Server commands = /etc/init.d/ts3server start and /etc/init.d/ts3server stop" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
 dialog --backtitle "Addon-Installation" --infobox "Teamspeak 3 Installation finished! Credentials: ${SCRIPT_PATH}/login_information" $HEIGHT $WIDTH

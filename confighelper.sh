@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 confighelper_userconfig() {
@@ -69,35 +69,55 @@ esac
 
 # --- MYDOMAIN ---
 source ${SCRIPT_PATH}/script/functions.sh; get_domain
+CHECK_DOMAIN_LENGTH=`echo -n ${DETECTED_DOMAIN} | wc -m`
 
-CHOICE_HEIGHT=2
-MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
-OPTIONS=(1 "Yes"
-		     2 "No")
-menu
-clear
-case $CHOICE in
-      1)
-			MYDOMAIN=${DETECTED_DOMAIN}
-            ;;
-		2)
-			while true
-				do
-					MYDOMAIN=$(dialog --clear \
-					--backtitle "$BACKTITLE" \
-					--inputbox "Enter your Domain without http:// (exmaple.org):" \
-					$HEIGHT $WIDTH \
-					3>&1 1>&2 2>&3 3>&- \
-					)
-						if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
-							break
-						else
-							dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
-							dialog --clear
-						fi
-				done
-            ;;
-esac
+if [[ $CHECK_DOMAIN_LENGTH > 1 ]]; then
+	CHOICE_HEIGHT=2
+	MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
+	OPTIONS=(1 "Yes"
+			     2 "No")
+	menu
+	clear
+	case $CHOICE in
+	      1)
+				MYDOMAIN=${DETECTED_DOMAIN}
+	            ;;
+			2)
+				while true
+					do
+						MYDOMAIN=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter your Domain without http:// (exmaple.org):" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+						)
+							if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+								break
+							else
+								dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+								dialog --clear
+							fi
+					done
+	            ;;
+	esac
+else
+	dialog --backtitle "NeXt Server Installation" --msgbox "The Script wasn't able to recognize your Domain, please enter it manually!" $HEIGHT $WIDTH
+	while true
+		do
+			MYDOMAIN=$(dialog --clear \
+			--backtitle "$BACKTITLE" \
+			--inputbox "Enter your Domain without http:// (exmaple.org):" \
+			$HEIGHT $WIDTH \
+			3>&1 1>&2 2>&3 3>&- \
+			)
+				if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+					break
+				else
+					dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+					dialog --clear
+				fi
+		done
+fi
 
 # --- DNS Check ---
 
