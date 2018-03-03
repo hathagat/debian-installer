@@ -69,17 +69,12 @@ WORDPRESS_USER="NXTWORDPRESSUSER"
 WORDPRESS_DB_NAME="NXTWORDPRESSDB"
 WORDPRESS_DB_PASS=$(password)
 
-# Get root PW
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
-#echo "${MYSQL_ROOT_PASS}"
 
-
-#Ceate new DB User and DB
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"  >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to create db"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';"  >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to create user"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME} . * TO '${WORDPRESS_USER}'@'localhost';"  >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to set privileges"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"  >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to flush privileges"
-
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 #mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};CREATE USER '${WORDPRESS_USER}'@'localhost' IDENTIFIED BY '${WORDPRESS_DB_PASS}';GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_USER}'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${ADDON_WORDPRESS_log}" 2>>"${ADDON_WORDPRESS_err_log}" || error_exit "Failed to generate User or DB"
 
 cd /etc/nginx/html/${MYDOMAIN}/
