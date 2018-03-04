@@ -8,9 +8,8 @@ install_nginx_vhost() {
 rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf
 cat > /etc/nginx/sites-available/${MYDOMAIN}.conf <<END
 server {
-        listen 443;
-        server_name www.${MYDOMAIN};
-        return 301 https://${MYDOMAIN}$request_uri;
+	server_name ${MYDOMAIN} www.${MYDOMAIN};
+	return 301 https://${MYDOMAIN}$request_uri;
 }
 
 server {
