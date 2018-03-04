@@ -9,37 +9,38 @@ set -x
   # --- MYDOMAIN ---
   source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
-CHOICE_HEIGHT=2 	
-MENU="In wich path you want to install Wordpress?" 	
+CHOICE_HEIGHT=4
+MENU="In wich path you want to install Wordpress?"
 
-OPTIONS=(1 "${MYDOMAIN}/wordpress"			 
-2 "${MYDOMAIN}/blog" 
-3 "root of ${MYDOMAIN}" 
-4 "custom")	
+OPTIONS=(1 "${MYDOMAIN}/wordpress"
+2 "${MYDOMAIN}/blog"
+3 "root of ${MYDOMAIN}"
+4 "custom")
 
-menu	
-clear	
+menu
+clear
 
-case $CHOICE in	 
-1)				
-WORDPRESSPATHNAME="wordpress"	 
-;; 
+case $CHOICE in
+1)
+WORDPRESSPATHNAME="wordpress"
+;;
 
 2)
 WORDPRESSPATHNAME="blog"
-;;			
+;;
 
-3) WORDPRESSPATHNAME=""	 
+3)
+WORDPRESSPATHNAME=""
 ;;
 
 4)
-
-WORDPRESSPATHNAME=$(dialog --clear \						
---backtitle "$BACKTITLE" \						
---inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/" \						
-$HEIGHT $WIDTH \						
+WORDPRESSPATHNAME=$(dialog --clear \
+--backtitle "$BACKTITLE" \
+--inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/" \
+$HEIGHT $WIDTH \
 3>&1 1>&2 2>&3 3>&- \
-;;	
+)
+;;
 esac
 
 # Set vars
@@ -98,7 +99,7 @@ find . -type d -exec chmod 755 {} \;
 
 cat >> /etc/nginx/sites-custom/wordpress.conf << 'EOF1'
 location /${WORDPRESSPATHNAME}/ {
- try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args; 
+ try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args;
 }
 EOF1
 
