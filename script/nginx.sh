@@ -122,6 +122,6 @@ cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.htm
 
 #Make folder writeable
 chown -R www-data:www-data /etc/nginx/html/${MYDOMAIN}
-chmod og+x /etc/nginx/html/${MYDOMAIN}
+#chmod og+x /etc/nginx/html/${MYDOMAIN}
 
 }
