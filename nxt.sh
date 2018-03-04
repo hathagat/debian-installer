@@ -42,7 +42,7 @@ MENU="Choose one of the following options:"
 						 15 "Install Nextcloud"
 						 16 "Install phpmyadmin (WIP!)"
 						 17 "Install Munin (WIP!)"
-             18 "Install Wordpress (WIP!)"
+             18 "Install Wordpress"
 						 19 "Exit")
 
 		CHOICE=$(dialog --clear \

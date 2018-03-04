@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_munin() {
@@ -18,9 +18,9 @@ location /munin/static/ {
 }
 
 location /munin/ {
-        auth_basic            "Restricted";
+        #auth_basic            "Restricted";
         # Create the htpasswd file with the htpasswd tool.
-        auth_basic_user_file  /etc/nginx/htpasswd;
+        #auth_basic_user_file  /etc/nginx/htpasswd;
 
         alias /var/cache/munin/www/;
         expires modified +310s;
@@ -34,6 +34,8 @@ location ^~ /munin-cgi/munin-cgi-graph/ {
 }
 EOF1
 
+#sed -i "s/localhost.localdomain/mail.${MYDOMAIN}/g" /etc/munin/munin.conf
+
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "Munin Address: ${MYDOMAIN}/munin" >> ${SCRIPT_PATH}/login_information
 echo "MUNIN_HTTPAUTH_USER = ${MUNIN_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information
@@ -41,5 +43,6 @@ echo "MUNIN_HTTPAUTH_PASS = ${MUNIN_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_info
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
+service munin-node restart
 service nginx restart
 }
