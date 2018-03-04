@@ -101,7 +101,7 @@ if [[ $CHECK_DOMAIN_LENGTH > 1 ]]; then
 	            ;;
 	esac
 else
-	dialog --backtitle "NeXt Server Installation" --msgbox "The Script wasn't able to recognize your Domain (have you set the right DNS settings or multiple Domains directing to the server IP?), please enter it manually!" $HEIGHT $WIDTH
+	dialog --backtitle "NeXt Server Installation" --msgbox "The Script wasn't able to recognize your Domain (have you set the right DNS settings, or multiple Domains directing to the server IP?), please enter it manually!" $HEIGHT $WIDTH
 	while true
 		do
 			MYDOMAIN=$(dialog --clear \
