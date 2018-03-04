@@ -9,6 +9,39 @@ set -x
   # --- MYDOMAIN ---
   source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
+CHOICE_HEIGHT=2 	
+MENU="In wich path you want to install Wordpress?" 	
+
+OPTIONS=(1 "${MYDOMAIN}/wordpress"			 
+2 "${MYDOMAIN}/blog" 
+3 "root of ${MYDOMAIN}" 
+4 "custom")	
+
+menu	
+clear	
+
+case $CHOICE in	 
+1)				
+WORDPRESSPATHNAME="wordpress/"	 
+;; 
+
+2)
+WORDPRESSPATHNAME="blog/"
+;;			
+
+3) WORDPRESSPATHNAME=""	 
+;;
+
+4)
+
+WORDPRESSPATHNAME=$(dialog --clear \						
+--backtitle "$BACKTITLE" \						
+--inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/" \						
+$HEIGHT $WIDTH \						
+3>&1 1>&2 2>&3 3>&- \
+;;	
+esac
+
 # Set vars
 # Maybe the user should not shoose an user and db name....
 WORDPRESS_USER="NXTWORDPRESSUSER"
@@ -31,9 +64,12 @@ cd /etc/nginx/html/${MYDOMAIN}/
 wget --tries=42 https://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 
-cd wordpress
+mv /etc/nginx/html/${MYDOMAIN}/wordpress /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
+
+cd ${WORDPRESSPATHNAME}
 
 cp wp-config-sample.php wp-config.php
+
 # Set Path wp-Config
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
 
@@ -57,6 +93,7 @@ cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
 chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
+
 
 
 cat >> /etc/nginx/sites-custom/wordpress.conf << 'EOF1'
