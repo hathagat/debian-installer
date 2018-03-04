@@ -22,11 +22,11 @@ clear
 
 case $CHOICE in	 
 1)				
-WORDPRESSPATHNAME="wordpress/"	 
+WORDPRESSPATHNAME="wordpress"	 
 ;; 
 
 2)
-WORDPRESSPATHNAME="blog/"
+WORDPRESSPATHNAME="blog"
 ;;			
 
 3) WORDPRESSPATHNAME=""	 
