@@ -2,6 +2,7 @@
     "packages": {
         "phpmyadmin/phpmyadmin": {
 
+<<<<<<< HEAD
 
 
             "4.8.0-alpha1": {
@@ -19,6 +20,9 @@
 
 
             "4.7.8": {
+=======
+	    "4.7.8": {
+>>>>>>> 5f362b3c9a827e83cc6ecafbd3ec0c2e59583e07
                 "name": "phpmyadmin/phpmyadmin",
                 "version": "4.7.8",
                 "dist": {
