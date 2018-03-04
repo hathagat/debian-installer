@@ -6,41 +6,39 @@
 install_wordpress() {
 set -x
 
-  # --- MYDOMAIN ---
-  source ${SCRIPT_PATH}/script/functions.sh; get_domain
+# --- MYDOMAIN ---
+source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
 CHOICE_HEIGHT=4
 MENU="In wich path you want to install Wordpress?"
-
 OPTIONS=(1 "${MYDOMAIN}/wordpress"
 2 "${MYDOMAIN}/blog"
 3 "root of ${MYDOMAIN}"
 4 "custom")
-
 menu
 clear
 
 case $CHOICE in
-1)
-WORDPRESSPATHNAME="wordpress"
-;;
+  1)
+    WORDPRESSPATHNAME="wordpress"
+    ;;
 
-2)
-WORDPRESSPATHNAME="blog"
-;;
+  2)
+    WORDPRESSPATHNAME="blog"
+    ;;
 
-3)
-WORDPRESSPATHNAME=""
-;;
+  3)
+    WORDPRESSPATHNAME=""
+    ;;
 
-4)
-WORDPRESSPATHNAME=$(dialog --clear \
---backtitle "$BACKTITLE" \
---inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/" \
-$HEIGHT $WIDTH \
-3>&1 1>&2 2>&3 3>&- \
-)
-;;
+  4)
+    WORDPRESSPATHNAME=$(dialog --clear \
+    --backtitle "$BACKTITLE" \
+    --inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/" \
+    $HEIGHT $WIDTH \
+    3>&1 1>&2 2>&3 3>&- \
+    )
+    ;;
 esac
 
 # Set vars
@@ -66,7 +64,6 @@ tar -zxvf latest.tar.gz
 mv /etc/nginx/html/${MYDOMAIN}/wordpress /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 
 cd ${WORDPRESSPATHNAME}
-
 cp wp-config-sample.php wp-config.php
 
 # Set Path wp-Config
@@ -85,7 +82,6 @@ while read -r salt; do
     sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" ${WPCONFIGFILE}
 done <<< "$salts"
 
-
 mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads
 
 cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
@@ -93,20 +89,16 @@ chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
-
-
-cat >> /etc/nginx/sites-custom/wordpress.conf << 'EOF1'
+cat > /etc/nginx/sites-custom/wordpress.conf <<END
 location /${WORDPRESSPATHNAME}/ {
  try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args;
 }
-EOF1
-
-
+END
 
 dialog --backtitle "NeXt Server Installation" --msgbox "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation" $HEIGHT $WIDTH
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "-wordpress" >> ${SCRIPT_PATH}/login_information
+echo "Wordpress" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "https://${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/login_information
 echo "DBUsername = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/login_information
@@ -115,8 +107,6 @@ echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/login_inform
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
-service nginx reload
-
-
+service nginx restart
 
 }

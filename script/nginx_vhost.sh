@@ -162,7 +162,6 @@ server {
 		return 403;
 	}
 }
-
 END
 
 if [[ ${USE_PHP5} == '1' ]]; then
