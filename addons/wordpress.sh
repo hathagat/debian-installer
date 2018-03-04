@@ -60,7 +60,6 @@ find . -type d -exec chmod 755 {} \;
 
 
 cat >> /etc/nginx/sites-custom/wordpress.conf << 'EOF1'
-
 location /${WORDPRESSPATHNAME}/ {
  try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args; 
 }
@@ -80,11 +79,7 @@ echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/login_inform
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
-
-#location /${WORDPRESSPATHNAME}/ {
-#   alias /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/;
-#   index index.php;
-#}
+service nginx reload
 
 
 
