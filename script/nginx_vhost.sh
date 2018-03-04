@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_nginx_vhost() {
@@ -8,8 +8,9 @@ install_nginx_vhost() {
 rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf
 cat > /etc/nginx/sites-available/${MYDOMAIN}.conf <<END
 server {
-	server_name ${MYDOMAIN} www.${MYDOMAIN};
-	return 301 https://${MYDOMAIN}$request_uri;
+        listen 443;
+        server_name www.${MYDOMAIN};
+        return 301 https://${MYDOMAIN}$request_uri;
 }
 
 server {
