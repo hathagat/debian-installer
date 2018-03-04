@@ -8,19 +8,16 @@ install_phpmyadmin() {
 apt-get -y --assume-yes install apache2-utils >>"${main_log}" 2>>"${err_log}"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
-#PMA_HTTPAUTH_USER="httpauth"
-#MYSQL_PMADB_USER="phpmyadmin"
-#MYSQL_PMADB_NAME="phpmyadmin"
-PMA_HTTPAUTH_PASS=$(password)
-PMADB_PASS=$(password)
-PMA_USER_PASS=$(password)
-PMA_BFSECURE_PASS=$(password)
-
 
 PMA_HTTPAUTH_USER=$(username)
 MYSQL_PMADB_USER=$(username)
 MYSQL_PMADB_NAME=$(username)
 NXTPMAROOTUSER=$(username)
+
+PMA_HTTPAUTH_PASS=$(password)
+PMADB_PASS=$(password)
+PMA_USER_PASS=$(password)
+PMA_BFSECURE_PASS=$(password)
 
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
@@ -165,7 +162,7 @@ echo "" >> ${SCRIPT_PATH}/login_information
 echo "PMA_HTTPAUTH_USER = ${PMA_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information
 echo "PMA_HTTPAUTH_PASS = ${PMA_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
-echo "PMA_USER = prsphpmyadmin" >> ${SCRIPT_PATH}/login_information
+echo "PMA_USER = ${NXTPMAROOTUSER}" >> ${SCRIPT_PATH}/login_information
 echo "PMA_USER_PASS = ${PMA_USER_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "blowfish_secret = ${PMA_BFSECURE_PASS}" >> ${SCRIPT_PATH}/login_information
