@@ -9,6 +9,42 @@ set -x
   # --- MYDOMAIN ---
   source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
+
+CHOICE_HEIGHT=2
+
+	MENU="In wich path you want to install Wordpress?"
+
+	OPTIONS=(1 "${MYDOMAIN}/wordpress"
+			             2 "${MYDOMAIN}/blog"
+                         3 "root of ${MYDOMAIN}"
+                         4 "custom")
+	menu
+	clear
+	case $CHOICE in
+	 1)
+				WORDPRESSPATHNAME="wordpress/"
+	 ;;
+
+2)
+WORDPRESSPATHNAME="blog/"
+;;
+			3)
+
+WORDPRESSPATHNAME=""
+	 ;;
+4)
+# userinput
+WORDPRESSPATHNAMECUSTOM=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+WORDPRESSPATHNAME="${WORDPRESSPATHNAMECUSTOM}/"
+;;
+	esac
+
+
+
 # Set vars
 # Maybe the user should not shoose an user and db name....
 WORDPRESS_USER="NXTWORDPRESSUSER"
@@ -35,7 +71,7 @@ cd wordpress
 
 cp wp-config-sample.php wp-config.php
 # Set Path wp-Config
-WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
+WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}wp-config.php"
 
 #set database details - find and replace
 sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g"  ${WPCONFIGFILE}
@@ -51,17 +87,17 @@ while read -r salt; do
 done <<< "$salts"
 
 
-mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads
+mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}wp-content/uploads
 
-cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
+cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
 
 cat >> /etc/nginx/sites-custom/wordpress.conf << 'EOF1'
-location /${WORDPRESSPATHNAME}/ {
- try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args; 
+location /${WORDPRESSPATHNAME} {
+ try_files $uri $uri/ /${WORDPRESSPATHNAME}index.php?$args; 
 }
 EOF1
 
