@@ -9,7 +9,7 @@ password() {
 
 # bash generate random n character alphanumeric string (upper and lowercase) and
 username() {
-  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 6 | head -n 1
+  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1
 }
 
 setipaddrvars() {

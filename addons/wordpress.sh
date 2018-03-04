@@ -95,6 +95,8 @@ location /${WORDPRESSPATHNAME}/ {
 }
 END
 
+service nginx restart
+
 dialog --backtitle "NeXt Server Installation" --msgbox "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation" $HEIGHT $WIDTH
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
@@ -106,7 +108,5 @@ echo "DBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/login_information
 echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
-
-service nginx restart
 
 }

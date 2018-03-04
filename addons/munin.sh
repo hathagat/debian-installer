@@ -5,6 +5,8 @@
 
 install_munin() {
 
+set -x
+
 DEBIAN_FRONTEND=noninteractive apt-get -y install munin munin-node munin-plugins-extra apache2-utils >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install munin packages"
 
 MUNIN_HTTPAUTH_PASS=$(password)
