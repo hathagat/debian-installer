@@ -125,7 +125,7 @@ if [[ ${USE_PHP7_2} == '1' ]]; then
 	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-custom/nextcloud.conf >>"${main_log}" 2>>"${err_log}"
 fi
 
-ln -s /etc/nginx/sites-available/cloud.${MYDOMAIN}.conf /etc/nginx/sites-enabled/cloud.${MYDOMAIN}.conf
+#ln -s /etc/nginx/sites-available/cloud.${MYDOMAIN}.conf /etc/nginx/sites-enabled/cloud.${MYDOMAIN}.conf
 
 systemctl -q reload nginx.service
 
