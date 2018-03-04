@@ -18,9 +18,7 @@ location /munin/static/ {
 }
 
 location /munin/ {
-        #auth_basic            "Restricted";
-        # Create the htpasswd file with the htpasswd tool.
-        #auth_basic_user_file  /etc/nginx/htpasswd;
+        auth_basic            "Restricted";
 
         alias /var/cache/munin/www/;
         expires modified +310s;
