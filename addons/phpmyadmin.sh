@@ -8,13 +8,19 @@ install_phpmyadmin() {
 apt-get -y --assume-yes install apache2-utils >>"${main_log}" 2>>"${err_log}"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
-PMA_HTTPAUTH_USER="httpauth"
-MYSQL_PMADB_USER="phpmyadmin"
-MYSQL_PMADB_NAME="phpmyadmin"
+#PMA_HTTPAUTH_USER="httpauth"
+#MYSQL_PMADB_USER="phpmyadmin"
+#MYSQL_PMADB_NAME="phpmyadmin"
 PMA_HTTPAUTH_PASS=$(password)
 PMADB_PASS=$(password)
 PMA_USER_PASS=$(password)
 PMA_BFSECURE_PASS=$(password)
+
+
+PMA_HTTPAUTH_USER=$(username)
+MYSQL_PMADB_USER=$(username)
+MYSQL_PMADB_NAME=$(username)
+NXTPMAROOTUSER=$(username)
 
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
@@ -30,10 +36,19 @@ chmod g-s phpmyadmin/save
 chmod 0700 phpmyadmin/upload
 chmod g-s phpmyadmin/upload
 mysql -u root -p${MYSQL_ROOT_PASS} mysql < phpmyadmin/sql/create_tables.sql >>"${main_log}" 2>>"${err_log}"
+
+# Generate PMA USER
 mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT USAGE ON mysql.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}' IDENTIFIED BY '${PMADB_PASS}'; GRANT SELECT ( Host, User, Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv, Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv, Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv, Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv, Repl_slave_priv, Repl_client_priv ) ON mysql.user TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT ON mysql.db TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT (Host, Db, User, Table_name, Table_priv, Column_priv) ON mysql.tables_priv TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT, INSERT, DELETE, UPDATE, ALTER ON ${MYSQL_PMADB_NAME}.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
 
+
 # Add a new User to login into phpmyadmin
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER 'prsphpmyadmin'@'localhost' IDENTIFIED BY '${PMA_USER_PASS}';GRANT ALL PRIVILEGES ON *.* TO 'prsphpmyadmin'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
+#mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER 'prsphpmyadmin'@'localhost' IDENTIFIED BY '${PMA_USER_PASS}';GRANT ALL PRIVILEGES ON *.* TO 'prsphpmyadmin'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
+
+# Add a new User to login into phpmyadmin
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER ${NXTPMAROOTUSER}@localhost IDENTIFIED BY '${PMA_USER_PASS}';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON *.* TO '${NXTPMAROOTUSER}'@'localhost';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
+
 
 cat > phpmyadmin/config.inc.php <<END
 <?php
@@ -70,6 +85,7 @@ cat > phpmyadmin/config.inc.php <<END
 \$cfg['DefaultLang'] = 'en';
 \$cfg['ServerDefault'] = 1;
 \$cfg['Servers'][\$i]['auth_type'] = 'cookie';
+\$cfg['Servers'][$i]['AllowRoot'] = false;
 \$cfg['Servers'][\$i]['auth_http_realm'] = 'phpMyAdmin Login';
 \$cfg['Servers'][\$i]['host'] = '${MYSQL_HOSTNAME}';
 \$cfg['Servers'][\$i]['connect_type'] = 'tcp';
@@ -138,11 +154,12 @@ fi
 chown -R www-data:www-data phpmyadmin/
 systemctl -q reload nginx.service
 
+
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "phpmyadmin" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "MYSQL_PMADB_USER = phpmyadmin" >> ${SCRIPT_PATH}/login_information
-echo "MYSQL_PMADB_NAME = phpmyadmin" >> ${SCRIPT_PATH}/login_information
+echo "MYSQL_PMADB_USER = ${MYSQL_PMADB_USER}" >> ${SCRIPT_PATH}/login_information
+echo "MYSQL_PMADB_NAME = ${MYSQL_PMADB_NAME}" >> ${SCRIPT_PATH}/login_information
 echo "PMADB_PASS = ${PMADB_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "PMA_HTTPAUTH_USER = ${PMA_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information

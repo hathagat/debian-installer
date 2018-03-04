@@ -71,5 +71,11 @@ echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
 
+#location /${WORDPRESSPATHNAME}/ {
+#   alias /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/;
+#   index index.php;
+#}
+
+
 
 }

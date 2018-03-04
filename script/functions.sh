@@ -1,15 +1,18 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
-function password {
-
+password() {
   openssl rand -base64 40 | tr -d / | cut -c -32 | grep -P '(?=^.{8,255}$)(?=^[^\s]*$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])'
 }
 
-setipaddrvars() {
+# bash generate random n character alphanumeric string (upper and lowercase) and
+username() {
+  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 6 | head -n 1
+}
 
+setipaddrvars() {
 IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
 FQDNIP=$(dig @9.9.9.9 +short ${MYDOMAIN})
@@ -17,8 +20,7 @@ WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
-get_domain()
-{
+get_domain() {
   LOCAL_IP=$(hostname -I)
   POSSIBLE_DOMAIN=$(dig -x ${LOCAL_IP} +short)
   DETECTED_DOMAIN=$(echo "${POSSIBLE_DOMAIN}" | awk -v FS='.' '{print $2 "." $3}')
