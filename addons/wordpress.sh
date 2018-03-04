@@ -58,6 +58,16 @@ chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
+
+cat >> /etc/nginx/sites-custom/wordpress.conf << 'EOF1'
+
+location /${WORDPRESSPATHNAME}/ {
+ try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args; 
+}
+EOF1
+
+
+
 dialog --backtitle "NeXt Server Installation" --msgbox "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation" $HEIGHT $WIDTH
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
