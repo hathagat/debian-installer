@@ -1,6 +1,7 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
 #Please check the license provided with the script!
+# thx to https://gist.github.com/bgallagh3r
 #-------------------------------------------------------------------------------------------------------------
 
 install_wordpress() {
@@ -61,13 +62,43 @@ cd /etc/nginx/html/${MYDOMAIN}/
 wget --tries=42 https://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 
-mv /etc/nginx/html/${MYDOMAIN}/wordpress /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
+if [ -z "${WORDPRESSPATHNAME}" ]; then 
+#copy file to parent dir
+cp -rf . ..
 
+#move back to parent dir
+cd ..
+
+#remove files from wordpress folder
+rm -R wordpress
+
+
+
+else
+
+fi
+
+
+if [ -z "${WORDPRESSPATHNAME}" ]; then 
+# i hope some day im fixed.... ;(
+
+else
+mv /etc/nginx/html/${MYDOMAIN}/wordpress /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 cd ${WORDPRESSPATHNAME}
+fi
+
+
 cp wp-config-sample.php wp-config.php
 
+
+
 # Set Path wp-Config
+if [ -z "${WORDPRESSPATHNAME}" ]; then 
+WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
+else
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
+fi
+
 
 #set database details - find and replace
 sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g"  ${WPCONFIGFILE}
@@ -82,20 +113,37 @@ while read -r salt; do
     sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" ${WPCONFIGFILE}
 done <<< "$salts"
 
+if [ -z "${WORDPRESSPATHNAME}" ]; then 
+mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
+cd /etc/nginx/html/${MYDOMAIN}/
+chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}
+else
 mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads
-
 cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
 chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
+fi
+
+
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
+# Maybe better add in /etc/nginx/site-enabled/....
+if [ -z "${WORDPRESSPATHNAME}" ]; then
+cat > /etc/nginx/sites-custom/wordpress.conf <<END
+location / { 
+try_files $uri $uri/ /index.php?$args; 
+}
+END
+
+else
 cat > /etc/nginx/sites-custom/wordpress.conf <<END
 location /${WORDPRESSPATHNAME}/ {
  try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args;
 }
 END
+fi
 
-service nginx restart
+systemctl reload nginx
 
 dialog --backtitle "NeXt Server Installation" --msgbox "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation" $HEIGHT $WIDTH
 
