@@ -72,10 +72,6 @@ cd ..
 #remove files from wordpress folder
 rm -R wordpress
 
-
-
-else
-
 fi
 
 
