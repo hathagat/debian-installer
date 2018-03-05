@@ -167,8 +167,6 @@ echo "" >> ${SCRIPT_PATH}/login_information
 
 
 deinstall_wordpress() {
-rm -rf /etc/nginx/html/wordpress
-
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 WordpressDBName=$(grep -Pom 1 "(?<=^WordpressDBName = ).*$" /root/NeXt-Server/login_information)
 WordpressDBUser=$(grep -Pom 1 "(?<=^WordpressDBUser = ).*$" /root/NeXt-Server/login_information)
