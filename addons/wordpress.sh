@@ -167,6 +167,9 @@ echo "" >> ${SCRIPT_PATH}/login_information
 
 
 deinstall_wordpress() {
+set -x
+rm -rf /etc/nginx/html/wordpress
+
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 WordpressDBName=$(grep -Pom 1 "(?<=^WordpressDBName = ).*$" /root/NeXt-Server/login_information)
 WordpressDBUser=$(grep -Pom 1 "(?<=^WordpressDBUser = ).*$" /root/NeXt-Server/login_information)
@@ -174,7 +177,7 @@ WordpressScriptPath=$(grep -Pom 1 "(?<=^WordpressScriptPath = ).*$" /root/NeXt-S
 
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NAME};"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER '${WordpressDBUser}'@'localhost';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
 rm -rf /etc/nginx/html/${WordpressScriptPath}
 
 
