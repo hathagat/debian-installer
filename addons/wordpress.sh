@@ -152,9 +152,14 @@ echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_info
 echo "Wordpress" >> ${SCRIPT_PATH}/login_information
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
 echo "https://${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/login_information
-echo "DBUsername = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/login_information
-echo "DBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/login_information
+echo "WordpressDBUser = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/login_information
+echo "WordpressDBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/login_information
 echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/login_information
+if [ -z "${WORDPRESSPATHNAME}" ]; then
+echo "WordpressScriptPath = ${MYDOMAIN}" >> ${SCRIPT_PATH}/login_information
+else
+echo "WordpressScriptPath = ${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/login_information
+fi
 echo "" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
@@ -165,7 +170,14 @@ deinstall_wordpress() {
 rm -rf /etc/nginx/html/wordpress
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
+WordpressDBName=$(grep -Pom 1 "(?<=^WordpressDBName = ).*$" /root/NeXt-Server/login_information)
+WordpressDBUser=$(grep -Pom 1 "(?<=^WordpressDBUser = ).*$" /root/NeXt-Server/login_information)
+WordpressScriptPath=$(grep -Pom 1 "(?<=^WordpressScriptPath = ).*$" /root/NeXt-Server/login_information)
+
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NAME};"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER '${WordpressDBUser}'@'localhost';"
+rm -rf /etc/nginx/html/${WordpressScriptPath}
+
 
 }
