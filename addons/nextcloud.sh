@@ -139,3 +139,13 @@ echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_informat
 echo "" >> ${SCRIPT_PATH}/login_information
 
 }
+
+deinstall_nextcloud() {
+
+rm -r /srv/nextcloud/
+rm /etc/nginx/html/${MYDOMAIN}/nextcloud
+rm /etc/nginx/sites-custom/nextcloud.conf
+
+service nginx restart
+
+}
