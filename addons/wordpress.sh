@@ -77,7 +77,7 @@ fi
 
 if [ -z "${WORDPRESSPATHNAME}" ]; then 
 # i hope some day im fixed.... ;(
-
+echo "fix me please" > /dev/null 
 else
 mv /etc/nginx/html/${MYDOMAIN}/wordpress /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 cd ${WORDPRESSPATHNAME}
@@ -157,6 +157,8 @@ echo "" >> ${SCRIPT_PATH}/login_information
 
 
 deinstall_wordpress() {
+rm -rf /etc/nginx/html/wordpress
+
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NAME};"
