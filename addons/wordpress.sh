@@ -30,6 +30,9 @@ case $CHOICE in
 
   3)
     WORDPRESSPATHNAME=""
+
+#WORDPRESSPATHNAME="rootpath"
+
     ;;
 
   4)
@@ -63,6 +66,8 @@ wget --tries=42 https://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 
 if [ -z "${WORDPRESSPATHNAME}" ]; then 
+
+cd wordpress
 #copy file to parent dir
 cp -rf . ..
 
