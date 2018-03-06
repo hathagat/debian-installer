@@ -136,6 +136,7 @@ find . -type d -exec chmod 755 {} \;
 #}
 #END
 
+
 #else
 cat > /etc/nginx/sites-custom/wordpress.conf <<END
 location /${WORDPRESSPATHNAME}/ {
