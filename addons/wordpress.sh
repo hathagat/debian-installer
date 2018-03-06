@@ -129,22 +129,284 @@ find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
 # Maybe better add in /etc/nginx/site-enabled/....
-#if [ -z "${WORDPRESSPATHNAME}" ]; then
-#cat > /etc/nginx/sites-custom/wordpress.conf <<END
-#location / {
-#try_files $uri $uri/ /index.php?$args;
-#}
-#END
+if [ -z "${WORDPRESSPATHNAME}" ]; then
+  # Search for "option" then /a for new line and add "insert text here"
+  #sed '/option/a insert text here' /etc/nginx/sites-available/${MYDOMAIN}.conf
+  #try_files \$uri \$uri/ /index.php?\$args;
 
+  sed -i "s/#try_files/try_files/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+else
+  cat > /etc/nginx/sites-custom/wordpress.conf <<END
+  location /${WORDPRESSPATHNAME}/ {
+   try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args;
+  }
 
-#else
-cat > /etc/nginx/sites-custom/wordpress.conf <<END
-location /${WORDPRESSPATHNAME}/ {
- try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args;
+  # allow AJAX requests in themes and plugins
+location ~ ^/wp-admin/admin-ajax.php$ { allow all; include /usr/local/nginx/conf/php.conf; }
+
+#Deny access to wp-content folders for suspicious files
+location ~* ^/(wp-content)/(.*?)\.(zip|gz|tar|bzip2|7z)\$ { deny all; }
+location ~ ^/wp-content/uploads/sucuri { deny all; }
+location ~ ^/wp-content/updraft { deny all; }
+
+# Block nginx-help log from public viewing
+location ~* /wp-content/uploads/nginx-helper/ { deny all; }
+location ~ ^/(wp-includes/js/tinymce/wp-tinymce.php) {
+  include /usr/local/nginx/conf/php.conf;
+
 }
+# Deny access to any files with a .php extension in the uploads directory
+# Works in sub-directory installs and also in multisite network
+location ~* /(?:uploads|files)/.*\.php\$ { deny all; }
+
+# Deny access to uploads that aren’t images, videos, music, etc.
+location ~* ^/wp-content/uploads/.*.(html|htm|shtml|php|js|swf|css)$ {
+    deny all;
+}
+
+# Whitelist Exception for https://wordpress.org/plugins/onesignal-free-web-push-notifications//
+location ~ ^/wp-content/plugins/onesignal-free-web-push-notifications/ {
+  include /usr/local/nginx/conf/php.conf;
+}
+# Whitelist Exception for https://wordpress.org/plugins/sparkpost/
+location ~ ^/wp-content/plugins/sparkpost/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/sendgrid-email-delivery-simplified/
+location ~ ^/wp-content/plugins/sendgrid-email-delivery-simplified/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/mailgun/
+location ~ ^/wp-content/plugins/mailgun/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/mailjet-for-wordpress/
+location ~ ^/wp-content/plugins/mailjet-for-wordpress/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/easy-wp-smtp/
+location ~ ^/wp-content/plugins/easy-wp-smtp/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/postman-smtp/
+location ~ ^/wp-content/plugins/postman-smtp/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/sendpress/
+location ~ ^/wp-content/plugins/sendpress/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wp-mail-bank/
+location ~ ^/wp-content/plugins/wp-mail-bank/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/theme-check/
+location ~ ^/wp-content/plugins/theme-check/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/woocommerce/
+location ~ ^/wp-content/plugins/woocommerce/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/woocommerce-csvimport/
+location ~ ^/wp-content/plugins/woocommerce-csvimport/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/advanced-custom-fields/
+location ~ ^/wp-content/plugins/advanced-custom-fields/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/contact-form-7/
+location ~ ^/wp-content/plugins/contact-form-7/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/duplicator/
+location ~ ^/wp-content/plugins/duplicator/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/jetpack/
+location ~ ^/wp-content/plugins/jetpack/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/nextgen-gallery/
+location ~ ^/wp-content/plugins/nextgen-gallery/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/tinymce-advanced/
+location ~ ^/wp-content/plugins/tinymce-advanced/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/updraftplus/
+location ~ ^/wp-content/plugins/updraftplus/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wordpress-importer/
+location ~ ^/wp-content/plugins/wordpress-importer/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wordpress-seo/
+location ~ ^/wp-content/plugins/wordpress-seo/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wpclef/
+location ~ ^/wp-content/plugins/wpclef/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/mailchimp-for-wp/
+location ~ ^/wp-content/plugins/mailchimp-for-wp/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wp-optimize/
+location ~ ^/wp-content/plugins/wp-optimize/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/si-contact-form/
+location ~ ^/wp-content/plugins/si-contact-form/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/akismet/
+location ~ ^/wp-content/plugins/akismet/ {
+  location ~ ^/wp-content/plugins/akismet/(.+/)?(form|akismet)\.(css|js)\$ { allow all; }
+  location ~ ^/wp-content/plugins/akismet/(.+/)?(.+)\.(png|gif)\$ { allow all; }
+  location ~* /wp-content/plugins/akismet/akismet/.*\.php\$ {
+    include /usr/local/nginx/conf/php.conf;
+    allow 127.0.0.1;
+    deny all;
+  }
+}
+# Whitelist Exception for https://wordpress.org/plugins/bbpress/
+location ~ ^/wp-content/plugins/bbpress/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/buddypress/
+location ~ ^/wp-content/plugins/buddypress/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/all-in-one-seo-pack/
+location ~ ^/wp-content/plugins/all-in-one-seo-pack/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/google-analytics-for-wordpress/
+location ~ ^/wp-content/plugins/google-analytics-for-wordpress/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/regenerate-thumbnails/
+location ~ ^/wp-content/plugins/regenerate-thumbnails/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wp-pagenavi/
+location ~ ^/wp-content/plugins/wp-pagenavi/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wordfence/
+location ~ ^/wp-content/plugins/wordfence/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/really-simple-captcha/
+location ~ ^/wp-content/plugins/really-simple-captcha/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/wp-pagenavi/
+location ~ ^/wp-content/plugins/wp-pagenavi/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/ml-slider/
+location ~ ^/wp-content/plugins/ml-slider/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/black-studio-tinymce-widget/
+location ~ ^/wp-content/plugins/black-studio-tinymce-widget/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/disable-comments/
+location ~ ^/wp-content/plugins/disable-comments/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/better-wp-security/
+location ~ ^/wp-content/plugins/better-wp-security/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for http://wlmsocial.com/
+location ~ ^/wp-content/plugins/wlm-social/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for mediagrid timthumb
+location ~ ^/wp-content/plugins/media-grid/classes/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Whitelist Exception for https://wordpress.org/plugins/sparkpost/
+location ~ ^/wp-content/plugins/comet-cache/ {
+  include /usr/local/nginx/conf/php.conf;
+
+}
+# Block PHP files in content directory.
+location ~* /wp-content/.*\.php\$ {
+  deny all;
+}
+# Block PHP files in includes directory.
+location ~* /wp-includes/.*\.php\$ {
+  deny all;
+}
+# Block PHP files in uploads, content, and includes directory.
+location ~* /(?:uploads|files|wp-content|wp-includes)/.*\.php\$ {
+  deny all;
+}
+# Make sure files with the following extensions do not get loaded by nginx because nginx would display the source code, and these files can contain PASSWORDS!
+location ~* \.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)\$|^(\..*|Entries.*|Repository|Root|Tag|Template)\$|\.php_
+{
+return 444;
+}
+#nocgi
+location ~* \.(pl|cgi|py|sh|lua)\$ {
+return 444;
+}
+#disallow
+location ~* (w00tw00t) {
+return 444;
+}
+location ~* /(\.|wp-config\.php|wp-config\.txt|changelog\.txt|readme\.txt|readme\.html|license\.txt) { deny all; }
 END
-#fi
-### no need -> nginx already has / location
+
+fi
 
 systemctl reload nginx
 
