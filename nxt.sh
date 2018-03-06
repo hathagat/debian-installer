@@ -20,7 +20,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=19
+CHOICE_HEIGHT=14
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -37,13 +37,8 @@ MENU="Choose one of the following options:"
 						 10 "Lets Encrypt Options"
 						 11 "Firewall Options"
 						 12 "Update NeXt Server Script"
-						 13 "Install TS3 Server"
-						 14 "Install Minecraft"
-						 15 "Install Nextcloud"
-						 16 "Install phpmyadmin (WIP!)"
-						 17 "Install Munin (WIP!)"
-             18 "Install Wordpress"
-						 19 "Exit")
+						 13 "Addon Setup"
+						 14 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -148,60 +143,9 @@ MENU="Choose one of the following options:"
 					bash nxt.sh
 					;;
 				13)
-					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
+					source ${SCRIPT_PATH}/options/menu_addons.sh; menu_options_addons
 					;;
 				14)
-					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					source ${SCRIPT_PATH}/addons/minecraft.sh; install_minecraft
-					;;
-				15)
-					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					if [ ${USE_PHP7_1} == '1'  ] || [ ${USE_PHP7_2} == '1'  ]; then
-						if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-							dialog --backtitle "NeXt Server Installation" --infobox "Installing nextcloud" $HEIGHT $WIDTH
-							source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
-							dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing nextcloud" $HEIGHT $WIDTH
-						else
-							echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
-						fi
-					else
-						echo "Nextcloud 13 is only running on PHP 7.1 and 7.2!"
-					fi
-					;;
-				16)
-					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-						dialog --backtitle "NeXt Server Installation" --infobox "Installing phpmyadmin" $HEIGHT $WIDTH
-						source ${SCRIPT_PATH}/addons/composer.sh; install_composer
-						source ${SCRIPT_PATH}/addons/phpmyadmin.sh; install_phpmyadmin
-						dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing phpmyadmin" $HEIGHT $WIDTH
-					else
-						echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
-					fi
-					;;
-				17)
-					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-						dialog --backtitle "NeXt Server Installation" --infobox "Installing Munin" $HEIGHT $WIDTH
-						source ${SCRIPT_PATH}/addons/munin.sh; install_munin
-						dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Munin" $HEIGHT $WIDTH
-					else
-						echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
-					fi
-					;;
-				18)
-					source ${SCRIPT_PATH}/configs/userconfig.cfg
-					if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-						#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
-							source ${SCRIPT_PATH}/configs/userconfig.cfg
-							source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
-						#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
-					else
-						echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
-					fi
-					;;
-				19)
 					echo "Exit"
 					exit 1
 					;;

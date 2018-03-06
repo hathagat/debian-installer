@@ -65,7 +65,7 @@ cd /etc/nginx/html/${MYDOMAIN}/
 wget --tries=42 https://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 
-if [ -z "${WORDPRESSPATHNAME}" ]; then 
+if [ -z "${WORDPRESSPATHNAME}" ]; then
 
 cd wordpress
 #copy file to parent dir
@@ -80,9 +80,9 @@ rm -R wordpress
 fi
 
 
-if [ -z "${WORDPRESSPATHNAME}" ]; then 
+if [ -z "${WORDPRESSPATHNAME}" ]; then
 # i hope some day im fixed.... ;(
-echo "fix me please" > /dev/null 
+echo "fix me please" > /dev/null
 else
 mv /etc/nginx/html/${MYDOMAIN}/wordpress /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 cd ${WORDPRESSPATHNAME}
@@ -94,7 +94,7 @@ cp wp-config-sample.php wp-config.php
 
 
 # Set Path wp-Config
-if [ -z "${WORDPRESSPATHNAME}" ]; then 
+if [ -z "${WORDPRESSPATHNAME}" ]; then
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
 else
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
@@ -114,7 +114,7 @@ while read -r salt; do
     sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" ${WPCONFIGFILE}
 done <<< "$salts"
 
-if [ -z "${WORDPRESSPATHNAME}" ]; then 
+if [ -z "${WORDPRESSPATHNAME}" ]; then
 mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
 cd /etc/nginx/html/${MYDOMAIN}/
 chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}
@@ -129,20 +129,21 @@ find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
 # Maybe better add in /etc/nginx/site-enabled/....
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-cat > /etc/nginx/sites-custom/wordpress.conf <<END
-location / { 
-try_files $uri $uri/ /index.php?$args; 
-}
-END
+#if [ -z "${WORDPRESSPATHNAME}" ]; then
+#cat > /etc/nginx/sites-custom/wordpress.conf <<END
+#location / {
+#try_files $uri $uri/ /index.php?$args;
+#}
+#END
 
-else
+#else
 cat > /etc/nginx/sites-custom/wordpress.conf <<END
 location /${WORDPRESSPATHNAME}/ {
  try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args;
 }
 END
-fi
+#fi
+### no need -> nginx already has / location
 
 systemctl reload nginx
 

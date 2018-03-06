@@ -3,6 +3,8 @@
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
+menu_options_addons() {
+
 SCRIPT_PATH="/root/NeXt-Server"
 
 source ${SCRIPT_PATH}/configs/versions.cfg
@@ -83,3 +85,5 @@ MENU="Choose one of the following options:"
 	echo "Exit"
 	exit 1
 	;;
+
+}
