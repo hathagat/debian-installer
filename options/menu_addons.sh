@@ -14,7 +14,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=7
+CHOICE_HEIGHT=8
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -25,7 +25,21 @@ MENU="Choose one of the following options:"
 						 4 "Install phpmyadmin (WIP!)"
 						 5 "Install Munin (WIP!)"
              6 "Install Wordpress"
-						 7 "Exit")
+						 7 "Back"
+						 8 "Exit")
+
+						 CHOICE=$(dialog --clear \
+										 --nocancel \
+										 --no-cancel \
+										 --backtitle "$BACKTITLE" \
+										 --title "$TITLE" \
+										 --menu "$MENU" \
+										 $HEIGHT $WIDTH $CHOICE_HEIGHT \
+										 "${OPTIONS[@]}" \
+										 2>&1 >/dev/tty)
+
+						 clear
+						 case $CHOICE in
 
 1)
 	source ${SCRIPT_PATH}/configs/userconfig.cfg
@@ -37,7 +51,7 @@ MENU="Choose one of the following options:"
 	;;
 3)
 	source ${SCRIPT_PATH}/configs/userconfig.cfg
-	if [ ${USE_PHP7_1} == '1'  ] || [ ${USE_PHP7_2} == '1'  ]; then
+	if [[ ${USE_PHP7_1} == '1'  ]] || [[ ${USE_PHP7_2} == '1'  ]]; then
 		if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 			dialog --backtitle "NeXt Server Installation" --infobox "Installing nextcloud" $HEIGHT $WIDTH
 			source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
@@ -82,8 +96,12 @@ MENU="Choose one of the following options:"
 	fi
 	;;
 7)
+  bash ${SCRIPT_PATH}/nxt.sh;
+  ;;
+8)
 	echo "Exit"
 	exit 1
 	;;
+esac
 
 }

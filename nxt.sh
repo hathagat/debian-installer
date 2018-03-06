@@ -20,7 +20,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=30
 WIDTH=60
-CHOICE_HEIGHT=14
+CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -28,17 +28,10 @@ MENU="Choose one of the following options:"
 		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD}"
 						 2 "After Installation configuration"
 						 3 "Update all services"
-						 4 "Mailserver Options"
-				 		 5 "Openssh Options"
-						 6 "Openssl Options"
-						 7 "Fail2ban Options"
-						 8 "Nginx vHost Options"
-						 9 "PHP 7.x Options"
-						 10 "Lets Encrypt Options"
-						 11 "Firewall Options"
-						 12 "Update NeXt Server Script"
-						 13 "Addon Setup"
-						 14 "Exit")
+						 4 "Update NeXt Server Script"
+						 5 "Services Options"
+						 6 "Addon Setup"
+						 7 "Exit")
 
 		CHOICE=$(dialog --clear \
 						--nocancel \
@@ -113,39 +106,18 @@ MENU="Choose one of the following options:"
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
 					;;
 				4)
-					source ${SCRIPT_PATH}/options/menu_mailserver.sh; menu_options_mailserver
-					;;
-				5)
-					source ${SCRIPT_PATH}/options/menu_openssh.sh; menu_options_openssh
-					;;
-				6)
-					source ${SCRIPT_PATH}/options/menu_openssl.sh; menu_options_openssl
-					;;
-				7)
-					source ${SCRIPT_PATH}/options/menu_fail2ban.sh; menu_options_fail2ban
-					;;
-				8)
-					source ${SCRIPT_PATH}/options/menu_vhost.sh; menu_options_nginx_vhost
-					;;
-				9)
-					source ${SCRIPT_PATH}/options/menu_php_7_x.sh; php_7_x_config
-					;;
-				10)
-					source ${SCRIPT_PATH}/options/menu_lets_encrypt.sh; menu_options_lets_encrypt
-					;;
-				11)
-					source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
-					;;
-				12)
 					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
 					source ${SCRIPT_PATH}/update_script.sh; update_script
 					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}" $HEIGHT $WIDTH
 					bash nxt.sh
 					;;
-				13)
+				5)
+					source ${SCRIPT_PATH}/options/menu_services.sh; menu_options_services
+					;;
+				6)
 					source ${SCRIPT_PATH}/options/menu_addons.sh; menu_options_addons
 					;;
-				14)
+				7)
 					echo "Exit"
 					exit 1
 					;;
