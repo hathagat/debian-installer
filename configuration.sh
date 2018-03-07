@@ -11,13 +11,15 @@ show_ssh_key()
 dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
 Important: \n
 In Putty you have only mark the text. Do not Press STRG+C!" $HEIGHT $WIDTH
-dialog --title "Your SSH Privatekey" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/ssh_privatekey.txt 50 200
+#dialog --title "Your SSH Privatekey" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/ssh_privatekey.txt 50 200
+cat ${SCRIPT_PATH}/ssh_privatekey.txt
 }
 
 show_login_information.txt()
 {
 dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown login information on next page" $HEIGHT $WIDTH
-dialog --title "Your Server Logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt 50 200
+#dialog --title "Your Server Logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt 50 200
+cat ${SCRIPT_PATH}/login_information.txt
 }
 
 create_private_key()
@@ -35,5 +37,6 @@ show_dkim_key()
 dialog --backtitle "NeXt Server Configuration" --msgbox "Please enter the shown DKIM key on next page to you DNS settings \n\n
 remove all quote signs - so it looks like that:  \n\n
 v=DKIM1; k=rsa; p=MIIBIjANBgkqh[...] "$HEIGHT $WIDTH
-dialog --title "Your Server Logininformations" --tab-correct  --exit-label "ok"--textbox ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt 50 200
+#dialog --title "Your Server Logininformations" --tab-correct  --exit-label "ok"--textbox ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt 50 200
+cat ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt
 }
