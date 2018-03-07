@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 HEIGHT=30
@@ -9,7 +9,7 @@ WIDTH=60
 show_ssh_key()
 {
 dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
- \Zb\Z1Important: \n\n
+Important: \n
 In Putty you have only mark the text. Do not Press STRG+C!" $HEIGHT $WIDTH
 dialog --title "Your SSH Privatekey" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/ssh_privatekey.txt 50 200
 
@@ -18,7 +18,7 @@ dialog --title "Your SSH Privatekey" --tab-correct --exit-label "ok" --textbox $
 show_login_information.txt()
 {
 dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown login information on next page" $HEIGHT $WIDTH
-dialog --title "Your Server Logininformations" --tab-correct  --exit-label "ok"--textbox ${SCRIPT_PATH}/login_information.txt 50 200
+dialog --title "Your Server Logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt 50 200
 }
 
 create_private_key()
