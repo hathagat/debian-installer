@@ -8,10 +8,12 @@ WIDTH=60
 
 show_ssh_key()
 {
-dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
+#dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
+#Important: \n
+#In Putty you have only mark the text. Do not Press STRG+C!" $HEIGHT $WIDTH
+dialog --title "Your SSH Privatekey" --backtitle "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
 Important: \n
-In Putty you have only mark the text. Do not Press STRG+C!" $HEIGHT $WIDTH
-dialog --title "Your SSH Privatekey" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/ssh_privatekey.txt 50 200
+In Putty you have only mark the text. Do not Press STRG+C!" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/ssh_privatekey.txt 50 200
 
 }
 
