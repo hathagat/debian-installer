@@ -138,6 +138,17 @@ echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information
 echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information
 echo "" >> ${SCRIPT_PATH}/login_information
 
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "Nextcloud" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "" >> ${SCRIPT_PATH}/login_information_nextcloud
+
+
+dialog --title "Your Nextcloud logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information_nextcloud 50 200
 }
 
 deinstall_nextcloud() {
