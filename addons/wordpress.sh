@@ -47,9 +47,10 @@ esac
 
 # Set vars
 # Maybe the user should not shoose an user and db name....
-WORDPRESS_USER="NXTWORDPRESSUSER"
-WORDPRESS_DB_NAME="NXTWORDPRESSDB"
+WORDPRESS_USER=$(username)
+WORDPRESS_DB_NAME=$(username)
 WORDPRESS_DB_PASS=$(password)
+WORDPRESS_DB_PREFIX=$(username)
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
 
@@ -93,6 +94,7 @@ cp wp-config-sample.php wp-config.php
 
 
 
+
 # Set Path wp-Config
 if [ -z "${WORDPRESSPATHNAME}" ]; then
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
@@ -100,6 +102,8 @@ else
 WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
 fi
 
+# Change prefix random
+sed -i "s/wp_/${WORDPRESS_DB_PREFIX}/g"  ${WPCONFIGFILE}
 
 #set database details - find and replace
 sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g"  ${WPCONFIGFILE}
