@@ -124,7 +124,7 @@ fi
 server_ip=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 sed -i "s/server_ip/$server_ip/g" ${SCRIPT_PATH}/dns_settings.txt
 sed -i "s/yourdomain.com/$MYDOMAIN/g" ${SCRIPT_PATH}/dns_settings.txt
-dialog --title "DNS Settings" --tab-correct --textbox --ok-label "ok" ${SCRIPT_PATH}/dns_settings.txt 50 200
+dialog --title "DNS Settings" --tab-correct --textbox ${SCRIPT_PATH}/dns_settings.txt 50 200
 
 BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"
@@ -258,7 +258,7 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 #-----------------------------------------------------------#
 END
 
-dialog --title "Userconfig" --msgbox ${SCRIPT_PATH}/configs/userconfig.cfg 50 250
+dialog --title "Userconfig" --o-label "ok" --textbox ${SCRIPT_PATH}/configs/userconfig.cfg 50 250
 clear
 
 CHOICE_HEIGHT=2
