@@ -82,7 +82,7 @@ MENU="Choose one of the following options:"
 										source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 										;;
 									3)
-										source ${SCRIPT_PATH}/configuration.sh; show_login_information
+										source ${SCRIPT_PATH}/configuration.sh; show_login_information.txt
 										;;
 									4)
 										source ${SCRIPT_PATH}/configuration.sh; create_private_key

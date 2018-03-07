@@ -30,20 +30,20 @@ chown -R www-data:www-data .
 #RAINLOOP_ADMIN_PASSWORT=$(password)
 #sed -i "s/12345/${RAINLOOP_ADMIN_PASSWORT}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Rainloop Admin URL: https://${MYDOMAIN}/webmail/?admin" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "Rainloop Admin URL: https://${MYDOMAIN}/webmail/?admin" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Rainloop Admin Login: User: admin" >> ${SCRIPT_PATH}/login_information
-echo "Password please change immediately!: 12345" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "Rainloop Admin Login: User: admin" >> ${SCRIPT_PATH}/login_information.txt
+echo "Password please change immediately!: 12345" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Rainloop Webmail URL: https://${MYDOMAIN}/webmail/" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "Rainloop Webmail URL: https://${MYDOMAIN}/webmail/" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 }

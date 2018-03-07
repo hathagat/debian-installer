@@ -38,17 +38,17 @@ declare -A BLOCKED_PORTS='(
 
 sed -i "s/^Port 22/Port $SSH_PORT/g" /etc/ssh/sshd_config
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#SSH_PORT: ${SSH_PORT}" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "#SSH_PORT: ${SSH_PORT}" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 SSH_PASS=$(password)
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#SSH_PASS: ${SSH_PASS}" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "#SSH_PASS: ${SSH_PASS}" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N ${SSH_PASS} >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -96,10 +96,10 @@ change_openssh_port() {
 
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#NEW_SSH_PORT: $NEW_SSH_PORT" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "#NEW_SSH_PORT: $NEW_SSH_PORT" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 service sshd restart
 }
@@ -110,10 +110,10 @@ rm -rf ~/.ssh/*
 rm ${SCRIPT_PATH}/ssh_privatekey.txt
 
 NEW_SSH_PASS=$(password)
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "#NEW_SSH_PASS: $NEW_SSH_PASS" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "#NEW_SSH_PASS: $NEW_SSH_PASS" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 ssh-keygen -f ~/ssh.key -t ed25519 -N $NEW_SSH_PASS >>"${main_log}" 2>>"${err_log}"
 mkdir -p ~/.ssh && chmod 700 ~/.ssh

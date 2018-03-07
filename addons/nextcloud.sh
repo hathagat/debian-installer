@@ -7,7 +7,7 @@ install_nextcloud() {
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install unzip >>"${main_log}" 2>>"${err_log}"
 
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
 echo "${MYSQL_ROOT_PASS}"
 NEXTCLOUD_DB_PASS=$(password)
 
@@ -129,26 +129,26 @@ fi
 
 systemctl -q reload nginx.service
 
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "Nextcloud" >> ${SCRIPT_PATH}/login_information
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information
-echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information
-echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information
-echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
+echo "Nextcloud" >> ${SCRIPT_PATH}/login_information.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
+echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information.txt
+echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information.txt
+echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information.txt
+echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information_nextcloud
-echo "Nextcloud" >> ${SCRIPT_PATH}/login_information_nextcloud
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information_nextcloud
-echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information_nextcloud
-echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information_nextcloud
-echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information_nextcloud
-echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information_nextcloud
-echo "" >> ${SCRIPT_PATH}/login_information_nextcloud
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
+echo "Nextcloud" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
+echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
+echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
+echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
+echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
+echo "" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
 
 
-dialog --title "Your Nextcloud logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information_nextcloud 50 200
+dialog --title "Your Nextcloud logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt_nextcloud 50 200
 }
 
 deinstall_nextcloud() {

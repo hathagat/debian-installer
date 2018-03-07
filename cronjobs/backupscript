@@ -14,7 +14,7 @@ mkdir /etc/nginx/backups/
 
 # Variable deklarieren
 datum=$(date +"%d-%m-%Y_%H_%M_%S")
-PATH_TO_PASSWORDS="${SCRIPT_PATH}/login_information"
+PATH_TO_PASSWORDS="${SCRIPT_PATH}/login_information.txt"
 PATH_TO_WEBFOLDER="/etc/nginx/html"
 BACKUP_PATH="/etc/nginx/backups/$datum"
 MYSQL_USER="root"
@@ -24,8 +24,8 @@ USED_SPACE=$(df -Th /dev/sda3 | tail -1 | awk '{print $4}' | sed '$s/.$//')
 FREE_SPACE=$(df -Th /dev/sda3 | tail -1 | awk '{print $5}' | sed '$s/.$//')
 USED_HTML_SPACE=$(du -hs /etc/nginx/html/ | tail -1 | awk '{print $1}' | sed '$s/.$//')
 # --------------------------------------------------------------------------------------------------------------------------------------------------
-#Read MYSQL_ROOT_PASS from login_information
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" ${SCRIPT_PATH}/login_information)
+#Read MYSQL_ROOT_PASS from login_information.txt
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" ${SCRIPT_PATH}/login_information.txt)
 MYSQL=/usr/bin/mysql
 MYSQLDUMP=/usr/bin/mysqldump
 

@@ -58,14 +58,14 @@ sudo -u  minecraft /usr/local/minecraft/run-minecraft-server.sh >>"${main_log}" 
 
 sed -i 's|eula=false|eula=true|' /usr/local/minecraft/eula.txt
 
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "Minecraft" >> ${SCRIPT_PATH}/login_information
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information
-echo "Zum starten von Minecraft bitte folgenden Befehl verwenden: screen sudo -u  minecraft /usr/local/minecraft/run-minecraft-server.sh" >> ${SCRIPT_PATH}/login_information
-echo "Um die Screen Session zu verlassen: Ctrl + A dann Ctrl + D drücken" >> ${SCRIPT_PATH}/login_information
-echo "Zum zurück kehren in die Screen Session: screen -r in der Terminal eingeben" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
+echo "Minecraft" >> ${SCRIPT_PATH}/login_information.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
+echo "Zum starten von Minecraft bitte folgenden Befehl verwenden: screen sudo -u  minecraft /usr/local/minecraft/run-minecraft-server.sh" >> ${SCRIPT_PATH}/login_information.txt
+echo "Um die Screen Session zu verlassen: Ctrl + A dann Ctrl + D drücken" >> ${SCRIPT_PATH}/login_information.txt
+echo "Zum zurück kehren in die Screen Session: screen -r in der Terminal eingeben" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
-dialog --backtitle "Addon-Installation" --infobox "Minecraft Installation finished! Credentials: ${SCRIPT_PATH}/login_information" $HEIGHT $WIDTH
+dialog --backtitle "Addon-Installation" --infobox "Minecraft Installation finished! Credentials: ${SCRIPT_PATH}/login_information.txt" $HEIGHT $WIDTH
 }

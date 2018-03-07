@@ -15,10 +15,10 @@ dialog --title "Your SSH Privatekey" --tab-correct --exit-label "ok" --textbox $
 
 }
 
-show_login_information()
+show_login_information.txt()
 {
 dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown login information on next page" $HEIGHT $WIDTH
-dialog --title "Your Server Logininformations" --tab-correct  --exit-label "ok"--textbox ${SCRIPT_PATH}/login_information 50 200
+dialog --title "Your Server Logininformations" --tab-correct  --exit-label "ok"--textbox ${SCRIPT_PATH}/login_information.txt 50 200
 }
 
 create_private_key()

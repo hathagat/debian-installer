@@ -16,8 +16,8 @@ if ! git diff --quiet origin/master; then
     cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
   fi
 
-  if [ -e ${SCRIPT_PATH}/login_information ]; then
-    cp ${SCRIPT_PATH}/login_information /root/backup_next_server/
+  if [ -e ${SCRIPT_PATH}/login_information.txt ]; then
+    cp ${SCRIPT_PATH}/login_information.txt /root/backup_next_server/
   fi
 
   if [ -e ${SCRIPT_PATH}/ssh_privatekey.txt ]; then
@@ -50,8 +50,8 @@ if ! git diff --quiet origin/master; then
     cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
   fi
 
-  if [ -e /root/backup_next_server/login_information ]; then
-    cp /root/backup_next_server/login_information ${SCRIPT_PATH}/
+  if [ -e /root/backup_next_server/login_information.txt ]; then
+    cp /root/backup_next_server/login_information.txt ${SCRIPT_PATH}/
   fi
 
   if [ -e /root/backup_next_server/ssh_privatekey.txt ]; then

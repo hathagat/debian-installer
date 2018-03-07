@@ -46,7 +46,7 @@ start_after_install() {
 		exit 1
 	fi
 
-	source ${SCRIPT_PATH}/configuration.sh; show_login_information
+	source ${SCRIPT_PATH}/configuration.sh; show_login_information.txt
 	read -p "Continue (y/n)?" ANSW
 	if [ "$ANSW" = "n" ]; then
 		echo "Exit"
