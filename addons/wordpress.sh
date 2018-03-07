@@ -103,7 +103,7 @@ WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
 fi
 
 # Change prefix random
-sed -i "s/wp_/${WORDPRESS_DB_PREFIX}/g"  ${WPCONFIGFILE}
+sed -i "s/wp_/${WORDPRESS_DB_PREFIX}_/g"  ${WPCONFIGFILE}
 
 #set database details - find and replace
 sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g"  ${WPCONFIGFILE}
