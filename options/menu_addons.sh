@@ -22,11 +22,12 @@ MENU="Choose one of the following options:"
 		OPTIONS=(1 "Install TS3 Server"
 						 2 "Install Minecraft"
 						 3 "Install Nextcloud"
-						 4 "Install phpmyadmin (WIP!)"
+						 4 "Install phpmyadmin"
 						 5 "Install Munin (WIP!)"
              6 "Install Wordpress"
-						 7 "Back"
-						 8 "Exit")
+						 7 "Deinstall Wordpress"
+						 8 "Back"
+						 9 "Exit")
 
 						 CHOICE=$(dialog --clear \
 										 --nocancel \
@@ -96,9 +97,15 @@ MENU="Choose one of the following options:"
 	fi
 	;;
 7)
+	source ${SCRIPT_PATH}/configs/userconfig.cfg
+	#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
+		source ${SCRIPT_PATH}/addons/wordpress.sh; deinstall_wordpress
+	#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
+	;;
+8)
   bash ${SCRIPT_PATH}/nxt.sh;
   ;;
-8)
+9)
 	echo "Exit"
 	exit 1
 	;;
