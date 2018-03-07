@@ -258,7 +258,7 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 #-----------------------------------------------------------#
 END
 
-dialog --title "Userconfig" --ok-label "ok" --textbox ${SCRIPT_PATH}/configs/userconfig.cfg 50 250
+dialog --title "Userconfig" --exit-label "ok" --textbox ${SCRIPT_PATH}/configs/userconfig.cfg 50 250
 clear
 
 CHOICE_HEIGHT=2
