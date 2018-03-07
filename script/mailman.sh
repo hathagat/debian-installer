@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 
@@ -55,15 +55,9 @@ pm2 kill
 
 npm start
 
-# Starts Mailman at bootup
-#
-#@reboot root /root/NeXt-Server/cronjobs/startmailman.sh
-#
-#chmod +x /root/NeXt-Server/cronjobs/startmailman.sh
-#
-#/startmailman.sh:
-#cd /etc/mailman
-#npm start
+# Add Cronjob
+chmod ugo+x /root/NeXt-Server/cronjobs/startmailman.sh
+echo "@reboot /root/NeXt-Server/cronjobs/startmailman.sh" >> /etc/crontab
 # -------------------------------------------
 
 cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
