@@ -228,7 +228,9 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NA
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
 rm -rf /etc/nginx/html/${WordpressScriptPath}
 rm -rf /etc/nginx/sites-custom/wordpress.conf
+
 mkdir /etc/nginx/html/${MYDOMAIN}
+cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/
 cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.html
 
 
