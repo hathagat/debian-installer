@@ -36,12 +36,21 @@ case $CHOICE in
     ;;
 
   4)
-    WORDPRESSPATHNAME=$(dialog --clear \
-    --backtitle "$BACKTITLE" \
-    --inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/" \
-    $HEIGHT $WIDTH \
-    3>&1 1>&2 2>&3 3>&- \
-    )
+      while true
+        do
+          WORDPRESSPATHNAME=$(dialog --clear \
+          --backtitle "$BACKTITLE" \
+          --inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/ only A-Z and a-z letters" \
+          $HEIGHT $WIDTH \
+          3>&1 1>&2 2>&3 3>&- \
+          )
+            if [[ "$WORDPRESSPATHNAME" =~ [^0-9A-Za-z]+ ]];then
+              break
+            else
+              dialog --title "Your Wordpress path" --msgbox "[ERROR] You should read it properly!" $HEIGHT $WIDTH
+              dialog --clear
+            fi
+        done
     ;;
 esac
 
@@ -181,11 +190,79 @@ location ~* (w00tw00t) {
 return 444;
 }
 location ~* /(\.|wp-config\.php|wp-config\.txt|changelog\.txt|readme\.txt|readme\.html|license\.txt) { deny all; }
+
+# Hide sensitive files
+location ~* .(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(.php)?|xtmpl)$|^(..*|Entries.*|Repository|Root|Tag|Template)$|.php_
+{
+        return 444;
+}
+
+# Stop image hotlinking
+location ~ .(gif|png|jpe?g)$ {
+     valid_referers none blocked ${MYDOMAIN} *.${MYDOMAIN};
+     if ($invalid_referer) {
+        return   403;
+    }
+}
 END
 else # then is custom path
 cat > /etc/nginx/sites-custom/wordpress.conf <<END
   location /${WORDPRESSPATHNAME}/ {
    try_files $uri $uri/ /${WORDPRESSPATHNAME}/index.php?$args;
+  }
+  #Deny access to wp-content folders for suspicious files
+  location ~* ^/${WORDPRESSPATHNAME}/(wp-content)/(.*?)\.(zip|gz|tar|bzip2|7z)\$ { deny all; }
+  location ~ ^/${WORDPRESSPATHNAME}/wp-content/uploads/sucuri { deny all; }
+  location ~ ^/${WORDPRESSPATHNAME}/wp-content/updraft { deny all; }
+
+  # Deny access to any files with a .php extension in the uploads directory
+  # Works in sub-directory installs and also in multisite network
+  location ~*/${WORDPRESSPATHNAME} /(?:uploads|files)/.*\.php\$ { deny all; }
+
+  # Deny access to uploads that aren’t images, videos, music, etc.
+  location ~* ^/${WORDPRESSPATHNAME}/wp-content/uploads/.*.(html|htm|shtml|php|js|swf|css)$ {
+      deny all;
+  }
+
+  # Block PHP files in content directory.
+  location ~* /${WORDPRESSPATHNAME}/wp-content/.*\.php\$ {
+    deny all;
+  }
+  # Block PHP files in includes directory.
+  location ~* /${WORDPRESSPATHNAME}/wp-includes/.*\.php\$ {
+    deny all;
+  }
+  # Block PHP files in uploads, content, and includes directory.
+  location ~* /${WORDPRESSPATHNAME}/(?:uploads|files|wp-content|wp-includes)/.*\.php\$ {
+    deny all;
+  }
+  # Make sure files with the following extensions do not get loaded by nginx because nginx would display the source code, and these files can contain PASSWORDS!
+  location ~* /${WORDPRESSPATHNAME} \.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)\$|^(\..*|Entries.*|Repository|Root|Tag|Template)\$|\.php_
+  {
+  return 444;
+  }
+  #nocgi
+  location ~* /${WORDPRESSPATHNAME} \.(pl|cgi|py|sh|lua)\$ {
+  return 444;
+  }
+  #disallow
+  location ~* /${WORDPRESSPATHNAME} (w00tw00t) {
+  return 444;
+  }
+  location ~* /${WORDPRESSPATHNAME} /(\.|wp-config\.php|wp-config\.txt|changelog\.txt|readme\.txt|readme\.html|license\.txt) { deny all; }
+
+  # Hide sensitive files
+  location ~* /${WORDPRESSPATHNAME} .(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(.php)?|xtmpl)$|^(..*|Entries.*|Repository|Root|Tag|Template)$|.php_
+  {
+          return 444;
+  }
+
+  # Stop image hotlinking
+  location ~ /${WORDPRESSPATHNAME} .(gif|png|jpe?g)$ {
+       valid_referers none blocked ${MYDOMAIN} *.${MYDOMAIN};
+       if ($invalid_referer) {
+          return   403;
+      }
   }
 END
 
