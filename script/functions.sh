@@ -159,7 +159,7 @@ CHECK_PASSWORD="^[A-Za-z0-9]*$"
 
 # Check valid Domain
 ####not perfectly working!!!!
-CHECK_DOMAIN="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*.([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
+CHECK_DOMAIN="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*.([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z])?\$"
 
 # Date!
 CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
