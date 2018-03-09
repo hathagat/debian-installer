@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_firewall() {
@@ -128,10 +128,6 @@ fi
 if [[ ${USE_PHP7_2} == '1' ]]; then
 	systemctl -q restart {nginx,php7.2-fpm}
 fi
-}
-
-update_firewall() {
-	apt-get update
 }
 
 show_open_ports()
