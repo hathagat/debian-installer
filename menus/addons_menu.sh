@@ -12,8 +12,8 @@ source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 CHOICE_HEIGHT=8
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"

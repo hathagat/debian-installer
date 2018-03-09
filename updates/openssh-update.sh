@@ -15,8 +15,8 @@ if [[ ${LOCAL_OPENSSH_VERSION} != ${OPENSSH_VERSION} ]]; then
 	apt-get update >/dev/null 2>&1
 	apt-get -y --assume-yes install openssh-server openssh-client libpam-dev
 else
-	HEIGHT=10
-	WIDTH=70
+	HEIGHT=40
+	WIDTH=80
 	dialog --backtitle "NeXt Server installation!" --infobox "No Openssh Update needed! Local Openssh Version: ${LOCAL_OPENSSH_VERSION}. Version to be installed: ${OPENSSH_VERSION}" $HEIGHT $WIDTH
 	exit 1
 fi

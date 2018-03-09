@@ -5,8 +5,8 @@
 
 menu_options_mailserver() {
 
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 CHOICE_HEIGHT=3
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"

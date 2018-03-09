@@ -5,8 +5,8 @@
 
 menu_options_openssl() {
 
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 CHOICE_HEIGHT=4
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"

@@ -18,12 +18,12 @@ source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
-MENU="Choose one of the following options:"
+MENU="\n Choose one of the following options: \n \n"
 
 		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD}"
 						 2 "After Installation configuration"
@@ -49,8 +49,8 @@ MENU="Choose one of the following options:"
 					bash install.sh
 					;;
 				2)
-					HEIGHT=30
-					WIDTH=60
+					HEIGHT=40
+					WIDTH=80
 					CHOICE_HEIGHT=6
 					BACKTITLE="NeXt Server"
 					TITLE="NeXt Server"

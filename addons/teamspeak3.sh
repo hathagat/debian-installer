@@ -5,8 +5,8 @@
 
 install_teamspeak3() {
 
-HEIGHT=15
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 dialog --backtitle "Addon-Installation" --infobox "Installing Teamspeak 3..." $HEIGHT $WIDTH
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install sudo >>"${main_log}" 2>>"${err_log}"

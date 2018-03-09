@@ -28,8 +28,8 @@ case $CHOICE in
 			;;
 esac
 
-HEIGHT=15
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 dialog --backtitle "Addon-Installation" --infobox "Installing Minecraft..." $HEIGHT $WIDTH
 
 apt-get -y install screen openjdk-8-jre-headless >>"${main_log}" 2>>"${err_log}"

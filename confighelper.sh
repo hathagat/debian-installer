@@ -8,8 +8,8 @@ confighelper_userconfig() {
 # --- GLOBAL MENU VARIABLES ---
 BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 
 # --- TIMEZONE ---
 CHOICE_HEIGHT=12

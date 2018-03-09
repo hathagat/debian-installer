@@ -41,8 +41,8 @@ if [[ ${LOCAL_OPENSSL_VERSION} != ${OPENSSL_VERSION} ]]; then
 
 else
 
-	HEIGHT=10
-	WIDTH=70
+	HEIGHT=40
+	WIDTH=80
 	dialog --backtitle "NeXt Server installation!" --infobox "No Openssl Update needed! Local Openssl Version: ${LOCAL_OPENSSL_VERSION}. Version to be installed: ${OPENSSL_VERSION}" $HEIGHT $WIDTH
 	exit 1
 fi

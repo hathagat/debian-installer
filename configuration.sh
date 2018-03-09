@@ -3,8 +3,8 @@
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 
 show_ssh_key()
 {
