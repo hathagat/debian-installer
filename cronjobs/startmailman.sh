@@ -4,3 +4,5 @@
 #-------------------------------------------------------------------------------------------------------------
 cd /etc/mailman
 npm start 2>&1
+
+echo "hi, im a reboot echo, thax for nothing." > /root/reboot.txt 2>&1
