@@ -57,7 +57,7 @@ npm start
 
 # Add Cronjob
 chmod ugo+x /root/NeXt-Server/cronjobs/startmailman.sh
-echo "@reboot /root/NeXt-Server/cronjobs/startmailman.sh" >> /etc/crontab
+echo "@reboot root /root/NeXt-Server/cronjobs/startmailman.sh" >> /etc/crontab
 #(crontab -l && echo "@reboot /root/NeXt-Server/cronjobs/startmailman.sh") | crontab -
 
 
