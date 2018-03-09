@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_mariadb() {
@@ -11,6 +11,10 @@ add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirrors.n-ix.net/mariad
 apt-get update -y >/dev/null 2>&1
 
 MYSQL_ROOT_PASS=$(password)
+
+if [[ -z ${!MYSQL_ROOT_PASS} ]]; then
+  MYSQL_ROOT_PASS=$(password)
+fi
 
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password ${MYSQL_ROOT_PASS}"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password ${MYSQL_ROOT_PASS}"

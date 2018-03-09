@@ -45,6 +45,10 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 SSH_PASS=$(password)
 
+if [[ -z ${!SSH_PASS} ]]; then
+  SSH_PASS=$(password)
+fi
+
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "#SSH_PASS: ${SSH_PASS}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
