@@ -9,8 +9,9 @@ install_mailman() {
 mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; insert into domains (domain) values ('${MYDOMAIN}');"
 EMAIL_ACCOUNT_PASS=$(password)
 
-if [[ -z ${!EMAIL_ACCOUNT_PASS} ]]; then
-  EMAIL_ACCOUNT_PASS=$(password)
+if [ -z "${EMAIL_ACCOUNT_PASS}" ]; then
+    echo "EMAIL_ACCOUNT_PASS is unset or set to the empty string, creating new one!"
+    EMAIL_ACCOUNT_PASS=$(password)
 fi
 
 EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)

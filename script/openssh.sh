@@ -45,8 +45,9 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 SSH_PASS=$(password)
 
-if [[ -z ${!SSH_PASS} ]]; then
-  SSH_PASS=$(password)
+if [ -z "${SSH_PASS}" ]; then
+    echo "SSH_PASS is unset or set to the empty string, creating new one!"
+    SSH_PASS=$(password)
 fi
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt

@@ -12,8 +12,9 @@ apt-get update -y >/dev/null 2>&1
 
 MYSQL_ROOT_PASS=$(password)
 
-if [[ -z ${!MYSQL_ROOT_PASS} ]]; then
-  MYSQL_ROOT_PASS=$(password)
+if [ -z "${MYSQL_ROOT_PASS}" ]; then
+    echo "MYSQL_ROOT_PASS is unset or set to the empty string, creating new one!"
+    MYSQL_ROOT_PASS=$(password)
 fi
 
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password ${MYSQL_ROOT_PASS}"
