@@ -61,6 +61,23 @@ echo "@reboot root /root/NeXt-Server/cronjobs/startmailman.sh" >> /etc/crontab
 #(crontab -l && echo "@reboot /root/NeXt-Server/cronjobs/startmailman.sh") | crontab -
 
 
+# Start script after service mysql ist starts!
+#cat >> /etc/systemd/system/mailman_systemd.service  << 'EOF1'
+#[Unit] After=mysql.service 
+
+#[Service] 
+#ExecStart=/root/NeXt-Server/cronjobs/startmailman.sh 
+
+#[Install] 
+#WantedBy=default.target
+#EOF1
+
+#chmod 744 /root/NeXt-Server/cronjobs/startmailman.sh
+#chmod ogo+x /root/NeXt-Server/cronjobs/startmailman.sh
+
+#systemctl daemon-reload 
+#systemctl enable mailman_systemd.service 
+
 # -------------------------------------------
 
 cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
