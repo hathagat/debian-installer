@@ -9,18 +9,6 @@ install_mailman() {
 mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; insert into domains (domain) values ('${MYDOMAIN}');"
 EMAIL_ACCOUNT_PASS=$(password)
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "Your Email User Name: postmaster@${MYDOMAIN}" >> ${SCRIPT_PATH}/login_information.txt
-echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information.txt
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo ""
-
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "EMAIL_ACCOUNT_PASS: $EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information.txt
-echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information.txt
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo ""
-
 EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
 mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('postmaster', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
 
@@ -63,20 +51,20 @@ echo "@reboot root /root/NeXt-Server/cronjobs/startmailman.sh" >> /etc/crontab
 
 # Start script after service mysql ist starts!
 #cat >> /etc/systemd/system/mailman_systemd.service  << 'EOF1'
-#[Unit] After=mysql.service 
+#[Unit] After=mysql.service
 
-#[Service] 
-#ExecStart=/root/NeXt-Server/cronjobs/startmailman.sh 
+#[Service]
+#ExecStart=/root/NeXt-Server/cronjobs/startmailman.sh
 
-#[Install] 
+#[Install]
 #WantedBy=default.target
 #EOF1
 
 #chmod 744 /root/NeXt-Server/cronjobs/startmailman.sh
 #chmod ogo+x /root/NeXt-Server/cronjobs/startmailman.sh
 
-#systemctl daemon-reload 
-#systemctl enable mailman_systemd.service 
+#systemctl daemon-reload
+#systemctl enable mailman_systemd.service
 
 # -------------------------------------------
 
@@ -90,7 +78,10 @@ EOF1
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Mailman Address: ${MYDOMAIN}/mailman" >> ${SCRIPT_PATH}/login_information.txt
+echo "Your Email User Name: postmaster@${MYDOMAIN}" >> ${SCRIPT_PATH}/login_information.txt
+echo "EMAIL_ACCOUNT_PASS: $EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information.txt
+echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "" >> ${SCRIPT_PATH}/login_information.txt
+echo ""
 
 }
