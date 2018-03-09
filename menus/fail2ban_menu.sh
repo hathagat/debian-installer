@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 menu_options_fail2ban() {
@@ -43,9 +43,7 @@ MENU="Choose one of the following options:"
 				;;
 			3)
 			  dialog --backtitle "NeXt Server Installation" --infobox "Activating fail2ban jails" $HEIGHT $WIDTH
-
-				#placeholder! functions will be added later
-				source ${SCRIPT_PATH}/script/fail2ban.sh; activate_fail2ban_jails || error_exit
+				source ${SCRIPT_PATH}/service-options/fail2ban_options.sh; activate_fail2ban_jails || error_exit
 				dialog --backtitle "NeXt Server Installation" --msgbox "Finished activating fail2ban jails" $HEIGHT $WIDTH
 				;;
 			4)
