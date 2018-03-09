@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 menu_options_firewall() {
@@ -123,7 +123,7 @@ MENU="Choose one of the following options:"
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			7)
-				source ${SCRIPT_PATH}/script/firewall.sh; show_open_ports || error_exit
+				source ${SCRIPT_PATH}/service-options/firewall-options.sh; show_open_ports || error_exit
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			8)

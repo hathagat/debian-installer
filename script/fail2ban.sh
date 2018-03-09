@@ -38,8 +38,3 @@ service fail2ban start >>"${main_log}" 2>>"${err_log}"
 
 rm -R ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}
 }
-
-activate_fail2ban_jails() {
-	#placeholder! functions will be added later
-	apt-get update >/dev/null 2>&1
-}
