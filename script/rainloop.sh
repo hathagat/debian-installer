@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_rainloop() {
@@ -27,8 +27,11 @@ find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
-#RAINLOOP_ADMIN_PASSWORT=$(password)
-#sed -i "s/12345/${RAINLOOP_ADMIN_PASSWORT}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
+mkdir -p /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/
+cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
+
+RAINLOOP_ADMIN_PASSWORT=$(password)
+sed -i "s/12345/${RAINLOOP_ADMIN_PASSWORT}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Rainloop Admin URL: https://${MYDOMAIN}/webmail/?admin" >> ${SCRIPT_PATH}/login_information.txt
@@ -36,8 +39,8 @@ echo "#-------------------------------------------------------------------------
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "Rainloop Admin Login: User: admin" >> ${SCRIPT_PATH}/login_information.txt
-echo "Password please change immediately!: 12345" >> ${SCRIPT_PATH}/login_information.txt
+echo "Rainloop Admin - Login: admin" >> ${SCRIPT_PATH}/login_information.txt
+echo "Rainloop Admin - Password: ${RAINLOOP_ADMIN_PASSWORT}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
