@@ -27,11 +27,11 @@ find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
-mkdir -p /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/
-cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
-
 # For generate salts and files
-curl -d "admin:12345" https://${MYDOMAN}/webmail/?admin/
+curl https://${MYDOMAN}/webmail/?admin/
+
+# Now copy config application.ini :)
+cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
 RAINLOOP_ADMIN_PASSWORT=$(password)
 RAINLOOP_ADMIN_USER=$(username)
 sed -i "s/RAINLOOP_ADMIN_PASSWORT/${RAINLOOP_ADMIN_PASSWORT}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
