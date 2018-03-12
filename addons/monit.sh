@@ -12,7 +12,7 @@ systemctl enable monit
 sed -i "s/# set httpd port 2812 and/set httpd port 2812 and/g" /etc/monit/monitrc
 sed -i "s/# allow admin:monit/allow admin:monit/g" /etc/monit/monitrc
 
-systemctl restart monit
+
 
 cat >> /etc/nginx/sites-custom/monit.conf << END
 location /monit/ {
@@ -24,6 +24,13 @@ location /monit/ {
   }
 END
 
+ln -s /etc/monit/conf-available/openssh-server /etc/monit/conf-enabled/
+ln -s /etc/monit/conf-available/nginx /etc/monit/conf-enabled/
+ln -s /etc/monit/conf-available/mysql /etc/monit/conf-enabled/
+ln -s /etc/monit/conf-available/postfix /etc/monit/conf-enabled/
+ln -s /etc/monit/conf-available/cron /etc/monit/conf-enabled/
+
+systemctl restart monit
 service nginx reload
 
 }
