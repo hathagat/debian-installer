@@ -28,14 +28,22 @@ location ^~ /munin-cgi/munin-cgi-graph/ {
        access_log off;
        fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
        fastcgi_param PATH_INFO $fastcgi_path_info;
-       fastcgi_pass unix:/var/run/munin/fcgi-graph.sock;
-       include fastcgi_params;
+       #fastcgi_pass unix:/var/run/munin/fcgi-graph.sock;
+       fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;i
+       nclude fastcgi_params;
 }
 #EOF1
 END
 
+if [[ ${USE_PHP5} == '1' ]]; then
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php5-fpm.sock\;/g' /etc/nginx/sites-custom/munin.conf
+fi
 
-sed -i "s/INSERT_SERVER_IP/${IPADDR}/g" /etc/nginx/sites-custom/munin.conf
+if [[ ${USE_PHP7_2} == '1' ]]; then
+	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-custom/munin.conf
+fi
+
+#sed -i "s/INSERT_SERVER_IP/${IPADDR}/g" /etc/nginx/sites-custom/munin.conf
 #sed -i "s/localhost.localdomain/mail.${MYDOMAIN}/g" /etc/munin/munin.conf
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
