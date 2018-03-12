@@ -44,7 +44,7 @@ if [[ ${USE_PHP7_2} == '1' ]]; then
 fi
 
 #sed -i "s/INSERT_SERVER_IP/${IPADDR}/g" /etc/nginx/sites-custom/munin.conf
-#sed -i "s/localhost.localdomain/mail.${MYDOMAIN}/g" /etc/munin/munin.conf
+sed -i "s/localhost.localdomain/mail.${MYDOMAIN}/g" /etc/munin/munin.conf
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Munin Address: ${MYDOMAIN}/munin" >> ${SCRIPT_PATH}/login_information.txt
