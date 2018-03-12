@@ -888,3 +888,12 @@ backend = %(syslog_backend)s
 # Logs auth failures to apache2 error log
 port    = http,https
 logpath = %(apache_error_log)s
+
+[webserver-w00tw00t]
+enabled = true
+port = http,https
+filter = webserver-w00tw00t
+logpath = /var/log/w00tw00t.log
+maxretry = 1
+# ban one day:
+bantime = 86400

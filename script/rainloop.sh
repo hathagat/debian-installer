@@ -32,12 +32,10 @@ curl https://${MYDOMAN}/webmail/?admin/
 
 # Now copy config application.ini :)
 cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
-RAINLOOP_ADMIN_PASSWORT=$(password)
+RAINLOOP_ADMIN_PASSWORD=$(password)
 RAINLOOP_ADMIN_USER=$(username)
-sed -i "s/RAINLOOP_ADMIN_PASSWORT/${RAINLOOP_ADMIN_PASSWORT}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
+sed -i "s/RAINLOOP_ADMIN_PASSWORD/${RAINLOOP_ADMIN_PASSWORD}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
 sed -i "s/RAINLOOP_ADMIN_USER/${RAINLOOP_ADMIN_USER}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
-
-RAINLOOP_ADMIN_PASSWORT
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Rainloop Admin URL: https://${MYDOMAIN}/webmail/?admin" >> ${SCRIPT_PATH}/login_information.txt
@@ -45,7 +43,7 @@ echo "#-------------------------------------------------------------------------
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "Rainloop Admin - Login: admin" >> ${SCRIPT_PATH}/login_information.txt
+echo "Rainloop Admin - Login: ${RAINLOOP_ADMIN_USER}" >> ${SCRIPT_PATH}/login_information.txt
 echo "Rainloop Admin - Password: ${RAINLOOP_ADMIN_PASSWORT}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt

@@ -24,6 +24,18 @@ location /munin/ {
 
         alias /var/cache/munin/www/;
         expires modified +310s;
+        fastcgi_split_path_info ^(/munin)(.*);
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass unix:/var/run/munin/fastcgi-html.sock;
+        include fastcgi_params;
+
+        allow 127.0.0.1;
+        allow ${IPADR};
+        deny all;
+
+        index  index.php index.html index.htm;
+        location ~* \.(png|jpg|jpeg|gif|ico)$ {
+        }
 }
 location ^~ /munin-cgi/munin-cgi-graph/ {
        access_log off;
@@ -32,7 +44,8 @@ location ^~ /munin-cgi/munin-cgi-graph/ {
        fastcgi_pass unix:/var/run/munin/fcgi-graph.sock;
        include fastcgi_params;
 }
-EOF1
+'EOF1'
+
 
 #sed -i "s/localhost.localdomain/mail.${MYDOMAIN}/g" /etc/munin/munin.conf
 
