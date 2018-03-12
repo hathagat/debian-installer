@@ -29,6 +29,11 @@ ln -s /etc/monit/conf-available/nginx /etc/monit/conf-enabled/
 ln -s /etc/monit/conf-available/mysql /etc/monit/conf-enabled/
 ln -s /etc/monit/conf-available/postfix /etc/monit/conf-enabled/
 ln -s /etc/monit/conf-available/cron /etc/monit/conf-enabled/
+ln -s /etc/monit/conf-available/rsyslog /etc/monit/conf-enabled/
+ln -s /etc/monit/conf-available/smartmontools /etc/monit/conf-enabled/
+
+
+
 
 systemctl restart monit
 service nginx reload
