@@ -27,6 +27,8 @@ find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
+service nginx stop
+service nginx start
 # For generate salts and files
 curl https://${MYDOMAN}/webmail/?admin/
 

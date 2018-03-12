@@ -162,6 +162,7 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt
 echo "PMA_HTTPAUTH_USER = ${PMA_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information.txt
 echo "PMA_HTTPAUTH_PASS = ${PMA_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
+echo "Your Root User" >> ${SCRIPT_PATH}/login_information.txt
 echo "PMA_USER = ${NXTPMAROOTUSER}" >> ${SCRIPT_PATH}/login_information.txt
 echo "PMA_USER_PASS = ${PMA_USER_PASS}" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
