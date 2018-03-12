@@ -112,10 +112,10 @@ MENU="\n Choose one of the following options: \n \n"
 					bash nxt.sh
 					;;
 				5)
-					source ${SCRIPT_PATH}/options/services_menu.sh; menu_options_services
+					source ${SCRIPT_PATH}/menus/services_menu.sh; menu_options_services
 					;;
 				6)
-					source ${SCRIPT_PATH}/options/addons_menu.sh; menu_options_addons
+					source ${SCRIPT_PATH}/menus/addons_menu.sh; menu_options_addons
 					;;
 				7)
 					echo "Exit"
