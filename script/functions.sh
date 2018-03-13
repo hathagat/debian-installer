@@ -60,6 +60,13 @@ CHOICE=$(dialog --clear \
 }
 
 start_after_install() {
+  source ${SCRIPT_PATH}/checks/nginx-check.sh; check_nginx
+  read -p "Continue (y/n)?" ANSW
+	if [ "$ANSW" = "n" ]; then
+		echo "Exit"
+		exit 1
+	fi
+
   source ${SCRIPT_PATH}/configs/versions.cfg
 	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 	read -p "Continue (y/n)?" ANSW
