@@ -14,7 +14,7 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=40
 WIDTH=80
-CHOICE_HEIGHT=8
+CHOICE_HEIGHT=9
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"

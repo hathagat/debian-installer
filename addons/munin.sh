@@ -13,8 +13,7 @@ MUNIN_HTTPAUTH_PASS=$(password)
 
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${MUNIN_HTTPAUTH_USER} ${MUNIN_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
-cat >> /etc/nginx/sites-custom/munin.conf << END
-#cat >> /etc/nginx/sites-custom/munin.conf << 'EOF1'
+cat > /etc/nginx/sites-custom/munin.conf <<END
 location /munin/static/ {
         alias /etc/munin/static/;
         expires modified +1w;
@@ -29,10 +28,9 @@ location ^~ /munin-cgi/munin-cgi-graph/ {
        fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
        fastcgi_param PATH_INFO $fastcgi_path_info;
        #fastcgi_pass unix:/var/run/munin/fcgi-graph.sock;
-       fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;i
-       nclude fastcgi_params;
+       fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+       include fastcgi_params;
 }
-#EOF1
 END
 
 if [[ ${USE_PHP5} == '1' ]]; then
