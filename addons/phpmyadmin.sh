@@ -5,6 +5,8 @@
 
 install_phpmyadmin() {
 
+set -x
+
 apt-get -y --assume-yes install apache2-utils >>"${main_log}" 2>>"${err_log}"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
