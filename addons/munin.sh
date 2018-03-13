@@ -47,7 +47,7 @@ fi
 sed -i "s/localhost.localdomain/mail.${MYDOMAIN}/g" /etc/munin/munin.conf
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "Munin Address: ${MYDOMAIN}/munin" >> ${SCRIPT_PATH}/login_information.txt
+echo "Munin Address: ${MYDOMAIN}/munin/" >> ${SCRIPT_PATH}/login_information.txt
 echo "MUNIN_HTTPAUTH_USER = ${MUNIN_HTTPAUTH_USER}" >> ${SCRIPT_PATH}/login_information.txt
 echo "MUNIN_HTTPAUTH_PASS = ${MUNIN_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt

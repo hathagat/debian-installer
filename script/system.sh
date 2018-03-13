@@ -19,7 +19,6 @@ END
 sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
 
 echo $(hostname -f) > /etc/mailname
-#echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
 
 timedatectl set-timezone ${TIMEZONE}
 

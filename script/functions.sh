@@ -67,7 +67,6 @@ start_after_install() {
 	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
 }
 
-# ERROR HANDLING
 error_exit()
 {
 	echo "$1" 1>&2
@@ -93,7 +92,6 @@ error_exit()
 				dialog --title "We prepare the error reporting system" --infobox "We install required packages for error reporting. Please be patient." $HEIGHT $WIDTH
 				apt-get -y --assume-yes install mutt sendmail sendmail-bin sensible-mda >/dev/null 2>&1
 
-				#Get OS
 				USED_OS=$(lsb_release -is)
 
 				sed -i "s/${MYDOMAIN}/domain.tld/g" ${SCRIPT_PATH}/logs/main.log
@@ -136,7 +134,6 @@ error_exit()
 				echo -e "##----------The file has been anonymized!--------##" >> ${SCRIPT_PATH}/logs/error.log
 				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/logs/error.log
 
-				#PGP issue
 				echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server Installation. Error: $1" | mutt -a "${SCRIPT_PATH}/logs/main.log" "${SCRIPT_PATH}/logs/error.log" "${SCRIPT_PATH}/logs/make.log" "${SCRIPT_PATH}/logs/make_error.log" "${SCRIPT_PATH}/configs/userconfig.cfg" -s "FAILED INSTALLATION OF NeXt Server Installation" -- error@nxt.sh >/dev/null 2>&1
 
 				HEIGHT=40

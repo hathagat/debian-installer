@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_lets_encrypt() {
@@ -13,8 +13,7 @@ cd ${SCRIPT_PATH}/sources
 git clone https://github.com/Neilpang/acme.sh.git -q >>"${main_log}" 2>>"${err_log}"
 cd ./acme.sh
 sleep 1
-./acme.sh --install >>"${main_log}" 2>>"${err_log}"
-# --accountemail  "${SSLMAIL}"
+./acme.sh --install --accountemail "${NXT_SYSTEM_EMAIL}" >>"${main_log}" 2>>"${err_log}"
 
 . ~/.bashrc >>"${main_log}" 2>>"${err_log}"
 . ~/.profile >>"${main_log}" 2>>"${err_log}"
