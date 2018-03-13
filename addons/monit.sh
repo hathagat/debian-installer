@@ -19,16 +19,7 @@ MONIT_ADMIN_USER=$(username)
 
 sed -i "s/allow admin:monit/allow ${MONIT_ADMIN_USER}:${MONIT_ADMIN_PASSWORD}/g" /etc/monit/monitrc
 
-
-cat >> /etc/nginx/sites-custom/monit.conf << END
-location /monit/ {
-
-          proxy_pass http://127.0.0.1:2812;
-          proxy_set_header Host $host;
-          rewrite ^/monit/(.*) /$1 break;
-          proxy_ignore_client_abort on;
-  }
-END
+cp ${SCRIPT_PATH}/addons/vhosts/monit.conf /etc/nginx/sites-custom/monit.conf
 
 ln -s /etc/monit/conf-available/openssh-server /etc/monit/conf-enabled/
 ln -s /etc/monit/conf-available/nginx /etc/monit/conf-enabled/

@@ -118,30 +118,7 @@ cat > phpmyadmin/config.inc.php <<END
 ?>
 END
 
-cat > /etc/nginx/sites-custom/phpmyadmin.conf <<END
-location /pma {
-    auth_basic "Restricted";
-    alias /usr/local/phpmyadmin;
-    index index.php;
-    location ~ ^/pma/(.+\.php)$ {
-        alias /usr/local/phpmyadmin/\$1;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        include fastcgi_params;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME /usr/local/phpmyadmin/\$1;
-        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
-    }
-    location ~* ^/pma/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
-        alias /usr/local/phpmyadmin/\$1;
-    }
-    location ~ ^/pma/save/ {
-        deny all;
-    }
-    location ~ ^/pma/upload/ {
-        deny all;
-    }
-}
-END
+cp ${SCRIPT_PATH}/addons/vhosts/phpmyadmin.conf /etc/nginx/sites-custom/phpmyadmin.conf
 
 if [[ ${USE_PHP5} == '1' ]]; then
 	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php5-fpm.sock\;/g' /etc/nginx/sites-custom/phpmyadmin.conf
