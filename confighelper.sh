@@ -171,7 +171,7 @@ while true
 	do
 		NXT_SYSTEM_EMAIL=$(dialog --clear \
 		--backtitle "$BACKTITLE" \
-		--inputbox "Enter your Email adress for system services example: nextserver@gmail.com" \
+		--inputbox "Enter your Email adress for system services example (please use the domain, you use for the scirpt installation): admin@${MYDOMAIN}" \
 		$HEIGHT $WIDTH \
 		3>&1 1>&2 2>&3 3>&- \
 		)
