@@ -25,6 +25,7 @@ cd /usr/local
 git clone -b STABLE https://github.com/phpmyadmin/phpmyadmin.git -q >>"${main_log}" 2>>"${err_log}"
 cd /usr/local/phpmyadmin
 composer update --no-dev >>"${main_log}" 2>>"${err_log}"
+composer update
 cd /usr/local
 mkdir -p phpmyadmin/save
 mkdir -p phpmyadmin/upload

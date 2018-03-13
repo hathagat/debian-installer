@@ -26,7 +26,7 @@ location /munin/ {
 location ^~ /munin-cgi/munin-cgi-graph/ {
        access_log off;
        fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
-       fastcgi_param PATH_INFO $fastcgi_path_info;
+       fastcgi_param PATH_INFO \$fastcgi_path_info;
        #fastcgi_pass unix:/var/run/munin/fcgi-graph.sock;
        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
        include fastcgi_params;

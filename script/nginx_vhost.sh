@@ -9,7 +9,7 @@ rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf
 cat > /etc/nginx/sites-available/${MYDOMAIN}.conf <<END
 server {
 	server_name ${MYDOMAIN} www.${MYDOMAIN};
-	return 301 https://${MYDOMAIN}$request_uri;
+	return 301 https://${MYDOMAIN}\$request_uri;
 }
 
 server {
