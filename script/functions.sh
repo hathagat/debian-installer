@@ -4,12 +4,34 @@
 #-------------------------------------------------------------------------------------------------------------
 
 password() {
-  openssl rand -base64 40 | tr -d / | cut -c -32 | grep -P '(?=^.{8,255}$)(?=^[^\s]*$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])'
+
+  while true; do
+    random_password=$(openssl rand -base64 40 | tr -d / | cut -c -32 | grep -P '(?=^.{8,255}$)(?=^[^\s]*$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])')
+
+      if [ -z "$random_password" ]
+      then
+            echo "empty" > /dev/null 2>&1
+      else
+            echo "$random_password"
+            break;
+      fi
+  done
+
+
 }
 
 # bash generate random n character alphanumeric string (upper and lowercase) and
 username() {
-  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1
+  while true; do
+  random_username=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n )
+    if [ -z "$random_username" ]
+    then
+          echo "empty" > /dev/null 2>&1
+    else
+          echo "$random_username"
+          break;
+    fi
+done
 }
 
 setipaddrvars() {
