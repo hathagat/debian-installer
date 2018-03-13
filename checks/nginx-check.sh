@@ -5,12 +5,20 @@
 
 check_nginx() {
 
+greenb() { echo $(tput bold)$(tput setaf 2)${1}$(tput sgr0); }
+ok="$(greenb [OKAY] -)"
+redb() { echo $(tput bold)$(tput setaf 1)${1}$(tput sgr0); }
+error="$(redb [ERROR] -)"
+
+#check website
+curl ${MYDOMAIN} -s -f -o /dev/null && echo "${ok} Website ${MYDOMAIN} is up and running." || echo "${error} Website ${MYDOMAIN} is down."
+
 #check process
 if pgrep -x "nginx" > /dev/null
 then
-    echo "Nginx is running"
+    echo "${ok} Nginx is running"
 else
-    echo "Nginx STOPPED"
+    echo "${error} Nginx STOPPED"
 fi
 
 #check version
@@ -20,24 +28,24 @@ nginxvcut="echo ${nginxv:21}"
 nginxlocal=$( ${nginxvcut} 2>&1 )
 
 if [[ $nginxlocal != ${NGINX_VERSION} ]]; then
-  echo "The Nginx Version is DIFFERENT with the Nginx Version defined in the Userconfig!"
+  echo "${error} The installed Nginx Version $nginxlocal is DIFFERENT with the Nginx Version ${NGINX_VERSION} defined in the Userconfig!"
 else
-	echo "The Nginx Version is equal with the Nginx Version defined in the Userconfig!"
+	echo "${ok} The Nginx Version $nginxlocal is equal with the Nginx Version ${NGINX_VERSION} defined in the Userconfig!"
 fi
 
 #check vhost
 if [ -e /etc/nginx/sites-available/${MYDOMAIN}.conf ]; then
-  echo "Nginx vhost for ${MYDOMAIN} does exist"
+  echo "${ok} Nginx vhost for ${MYDOMAIN} does exist"
 else
-  echo "Nginx vhost for ${MYDOMAIN} does NOT exist"
+  echo "${error} Nginx vhost for ${MYDOMAIN} does NOT exist"
 fi
 
 #check config
 nginx -t >/dev/null 2>&1
 ERROR=$?
 if [ "$ERROR" = '0' ]; then
-  echo "The Nginx Config is working."
+  echo "${ok} The Nginx Config is working."
 else
-  echo "The Nginx Config is NOT working."
+  echo "${error} The Nginx Config is NOT working."
 fi
 }
