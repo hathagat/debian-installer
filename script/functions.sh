@@ -23,7 +23,7 @@ password() {
 # bash generate random n character alphanumeric string (upper and lowercase) and
 username() {
   while true; do
-  random_username=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n )
+  random_username=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n ))
     if [ -z "$random_username" ]
     then
           echo "empty" > /dev/null 2>&1
