@@ -192,9 +192,14 @@ CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
 
 # Check services and restart
 # How to use:
-# checkIt "nginx"
-# checkIt "php5-fpm"
-function checkIt() {
+# check_service "nginx"
+# check_service "php5-fpm"
+# if check_service "nginx"; then
+#	echo "unable to restart"
+#	else
+#	echo "service is running"
+#	fi
+function check_service() {
 z=0
  ps auxw | grep -P '\b'$1'(?!-)\b' > /dev/null 2>&1
  if [ $? != 0 ]; then
@@ -205,8 +210,7 @@ z=0
 		sleep 1
 		z=$(( z+1 ))
 	done
-	echo "unable to restart" $1
-	exit 1
+
  else
    echo $1"good"; > /dev/null 2>&1
  fi

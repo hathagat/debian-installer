@@ -31,7 +31,7 @@ COMPLETEDOMAIN="https://${MYDOMAN}/webmail/?admin"
 if curl -s --head  --request GET ${COMPLETEDOMAIN} | grep "HTTP/2 200" > /dev/null 2>&1; then
 	 echo "${MYDOMAN} is UP"
 else
-	checkIt "nginx"
+	check_service "nginx"
 fi
 
 # Now copy config application.ini :)
