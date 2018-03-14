@@ -194,13 +194,19 @@ CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
 # How to use:
 # checkIt "nginx"
 # checkIt "php5-fpm"
-function checkIt()
-{
+function checkIt() {
+z=0
  ps auxw | grep -P '\b'$1'(?!-)\b' > /dev/null 2>&1
- if [ $? != 0 ]
- then
-	service $1 restart > /dev/null 2>&1
-	sleep 1
+ if [ $? != 0 ]; then
+	# Try to restart Service
+	while [ $z -le 2 ];
+	do
+		service $1 restart > /dev/null 2>&1
+		sleep 1
+		z=$(( z+1 ))
+	done
+	echo "unable to restart" $1
+	exit 1
  else
    echo $1"good"; > /dev/null 2>&1
  fi

@@ -28,25 +28,11 @@ find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
 COMPLETEDOMAIN="https://${MYDOMAN}/webmail/?admin"
-z=0
-	if curl -s --head  --request GET ${COMPLETEDOMAIN} | grep "HTTP/2 200" > /dev/null 2>&1; then
-	   echo "${MYDOMAN} is UP" > /dev/null 2>&1
-	else
-	   echo "${MYDOMAN} seems to be DOWN! We try to restart nginx"
-		while [ $z -le 2 ];
-		do
-			if checkIt "nginx" = "bad"; then
-					echo "Try restart nginx" > /dev/null 2>&1
-				else
-					echo "nginx is working..." > /dev/null 2>&1
-					break
-			fi
-
-			z=$(( z+1 ))
-		done
-		echo "unable to restart Service"
-		exit 1
-	fi
+if curl -s --head  --request GET ${COMPLETEDOMAIN} | grep "HTTP/2 200" > /dev/null 2>&1; then
+	 echo "${MYDOMAN} is UP"
+else
+	checkIt "nginx"
+fi
 
 # Now copy config application.ini :)
 cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
