@@ -27,18 +27,27 @@ find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
-service nginx stop
-service nginx start
-sleep 5
+COMPLETEDOMAIN="https://${MYDOMAN}/webmail/?admin"
+z=0
+	if curl -s --head  --request GET ${COMPLETEDOMAIN} | grep "HTTP/2 200" > /dev/null 2>&1; then
+	   echo "${MYDOMAN} is UP"
+	else
+	   echo "${MYDOMAN} seems to be DOWN"
+		while [ $z -le 2 ];
+		do
+			if checkIt "nginx" = "bad" > /dev/null 2>&1; then
+					echo "Try restart nginx"
+					service nginx restart > /dev/null 2>&1
+					sleep 1
+				else
+					echo "nginx is working..."
+					break
+			fi
 
-if curl -s --head  --request GET https://${MYDOMAN}/webmail/?admin | grep "200 OK" > /dev/null; then
-   echo "${MYDOMAN} is UP"
-else
-   echo "${MYDOMAN} is DOWN"
-	 exit 1
-fi
-# For generate salts and files
-#curl https://${MYDOMAN}/webmail/?admin
+			z=$(( z+1 ))
+			echo $z
+		done
+	fi
 
 # Now copy config application.ini :)
 cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini

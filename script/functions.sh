@@ -189,3 +189,15 @@ CHECK_DOMAIN="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~
 
 # Date!
 CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
+
+# Check services
+function checkIt()
+{
+ ps auxw | grep -P '\b'$1'(?!-)\b' >/dev/null
+ if [ $? != 0 ]
+ then
+   echo $1"bad";
+ else
+   echo $1"good";
+ fi;
+}
