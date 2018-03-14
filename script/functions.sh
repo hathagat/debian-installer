@@ -190,14 +190,18 @@ CHECK_DOMAIN="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~
 # Date!
 CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
 
-# Check services
+# Check services and restart
+# How to use:
+# checkIt "nginx"
+# checkIt "php5-fpm"
 function checkIt()
 {
- ps auxw | grep -P '\b'$1'(?!-)\b' >/dev/null
+ ps auxw | grep -P '\b'$1'(?!-)\b' > /dev/null 2>&1
  if [ $? != 0 ]
  then
-   echo $1"bad";
+	service $1 restart > /dev/null 2>&1
+	sleep 1
  else
-   echo $1"good";
- fi;
+   echo $1"good"; > /dev/null 2>&1
+ fi
 }

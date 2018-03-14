@@ -30,23 +30,22 @@ chown -R www-data:www-data .
 COMPLETEDOMAIN="https://${MYDOMAN}/webmail/?admin"
 z=0
 	if curl -s --head  --request GET ${COMPLETEDOMAIN} | grep "HTTP/2 200" > /dev/null 2>&1; then
-	   echo "${MYDOMAN} is UP"
+	   echo "${MYDOMAN} is UP" > /dev/null 2>&1
 	else
-	   echo "${MYDOMAN} seems to be DOWN"
+	   echo "${MYDOMAN} seems to be DOWN! We try to restart nginx"
 		while [ $z -le 2 ];
 		do
-			if checkIt "nginx" = "bad" > /dev/null 2>&1; then
-					echo "Try restart nginx"
-					service nginx restart > /dev/null 2>&1
-					sleep 1
+			if checkIt "nginx" = "bad"; then
+					echo "Try restart nginx" > /dev/null 2>&1
 				else
-					echo "nginx is working..."
+					echo "nginx is working..." > /dev/null 2>&1
 					break
 			fi
 
 			z=$(( z+1 ))
-			echo $z
 		done
+		echo "unable to restart Service"
+		exit 1
 	fi
 
 # Now copy config application.ini :)
