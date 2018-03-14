@@ -29,8 +29,16 @@ chown -R www-data:www-data .
 
 service nginx stop
 service nginx start
+sleep 5
+
+if curl -s --head  --request GET https://${MYDOMAN}/webmail/?admin | grep "200 OK" > /dev/null; then
+   echo "${MYDOMAN} is UP"
+else
+   echo "${MYDOMAN} is DOWN"
+	 exit 1
+fi
 # For generate salts and files
-curl https://${MYDOMAN}/webmail/?admin/
+#curl https://${MYDOMAN}/webmail/?admin
 
 # Now copy config application.ini :)
 cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini

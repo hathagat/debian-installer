@@ -4,6 +4,9 @@
 #-------------------------------------------------------------------------------------------------------------
 
 install_monit() {
+  MONIT_ADMIN_PASSWORD=$(password)
+  MONIT_ADMIN_USER=$(username)
+
 apt-get install monit -y
 
 systemctl start monit
@@ -11,12 +14,6 @@ systemctl enable monit
 
 sed -i "s/# set httpd port 2812 and/set httpd port 2812 and/g" /etc/monit/monitrc
 sed -i "s/# allow admin:monit/allow admin:monit/g" /etc/monit/monitrc
-
-
-MONIT_ADMIN_PASSWORD=$(password)
-MONIT_ADMIN_USER=$(username)
-
-
 sed -i "s/allow admin:monit/allow ${MONIT_ADMIN_USER}:${MONIT_ADMIN_PASSWORD}/g" /etc/monit/monitrc
 
 cp ${SCRIPT_PATH}/addons/vhosts/monit.conf /etc/nginx/sites-custom/monit.conf

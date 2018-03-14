@@ -13,7 +13,7 @@ password() {
             echo "empty" > /dev/null 2>&1
       else
             echo "$random_password"
-            break;
+            break
       fi
   done
 

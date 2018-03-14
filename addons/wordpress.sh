@@ -191,7 +191,14 @@ WordpressScriptPath=$(grep -Pom 1 "(?<=^WordpressScriptPath = ).*$" /root/NeXt-S
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
 rm -rf /etc/nginx/html/${WordpressScriptPath}
-rm -rf /etc/nginx/sites-custom/wordpress.conf
+
+if [ -z "$WordpressScriptPath" ]
+then
+      rm -rf /etc/nginx/sites-custom/wordpress-normal.conf
+else
+      rm -rf /etc/nginx/sites-custom/wordpress-custom.conf
+fi
+
 
 mkdir /etc/nginx/html/${MYDOMAIN}
 cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/
