@@ -26,7 +26,7 @@ systemctl -q stop nginx.service
 
 cd ${SCRIPT_PATH}/sources/acme.sh/
 #bash acme.sh --issue --standalone -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to get let's encrypt cert"
-bash acme.sh --issue --standalone -d *.${MYDOMAIN} --log --dns  dns_cf --keylength ec-384 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to get let's encrypt cert"
+bash acme.sh --issue --standalone -d *.${MYDOMAIN} --log --keylength ec-384 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to get let's encrypt cert"
 
 
 ln -s /root/.acme.sh/${MYDOMAIN}_ecc/fullchain.cer /etc/nginx/ssl/${MYDOMAIN}-ecc.cer >>"${main_log}" 2>>"${err_log}"
