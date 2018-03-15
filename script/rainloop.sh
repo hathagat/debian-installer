@@ -28,14 +28,17 @@ find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
 COMPLETEDOMAIN="https://${MYDOMAN}/webmail/?admin"
+# Maybe request GET is enough
 if curl -s --head  --request GET ${COMPLETEDOMAIN} | grep "HTTP/2 200" > /dev/null 2>&1; then
-	 echo "${MYDOMAN} is UP"
+	 #echo "${MYDOMAN} is UP"
+	 # make the config for rainloop
+	 curl -s ${COMPLETEDOMAIN} > /dev/null 2>&1
 else
 	check_service "nginx"
 fi
 
 # Now copy config application.ini :)
-cp /root/NeXt-Server/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
+cp ${SCRIPT_PATH}/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
 RAINLOOP_ADMIN_PASSWORD=$(password)
 RAINLOOP_ADMIN_USER=$(username)
 sed -i "s/RAINLOOP_ADMIN_PASSWORD/${RAINLOOP_ADMIN_PASSWORD}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
