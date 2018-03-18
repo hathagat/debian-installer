@@ -10,7 +10,9 @@ mkdir -p /etc/nginx/ssl/
 
 apt-get -y --assume-yes install cron netcat-openbsd curl socat >>"${main_log}" 2>>"${err_log}"
 cd ${SCRIPT_PATH}/sources
-git clone https://github.com/Neilpang/acme.sh.git -q >>"${main_log}" 2>>"${err_log}"
+#git clone https://github.com/Neilpang/acme.sh.git -q >>"${main_log}" 2>>"${err_log}"
+# Get dev Brunch
+git clone -b dev https://github.com/Neilpang/acme.sh.git
 cd ./acme.sh
 sleep 1
 ./acme.sh --install --accountemail "${NXT_SYSTEM_EMAIL}" >>"${main_log}" 2>>"${err_log}"
@@ -25,7 +27,7 @@ create_nginx_cert() {
 systemctl -q stop nginx.service
 
 cd ${SCRIPT_PATH}/sources/acme.sh/
-bash acme.sh --issue --standalone --log -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to get let's encrypt cert"
+bash acme.sh --issue --standalone --debug 2 --log -d ${MYDOMAIN} -d www.${MYDOMAIN} --keylength ec-384 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to get let's encrypt cert"
 #bash acme.sh --issue --standalone -d *.${MYDOMAIN} --log --dns  dns_cf --keylength ec-384 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to get let's encrypt cert"
 
 
