@@ -12,7 +12,7 @@ apt-get -y --assume-yes install cron netcat-openbsd curl socat >>"${main_log}" 2
 cd ${SCRIPT_PATH}/sources
 #git clone https://github.com/Neilpang/acme.sh.git -q >>"${main_log}" 2>>"${err_log}"
 # Get dev Brunch
-git clone -b dev https://github.com/Neilpang/acme.sh.git
+git clone -b dev https://github.com/Neilpang/acme.sh.git -q
 cd ./acme.sh
 sleep 1
 ./acme.sh --install --accountemail "${NXT_SYSTEM_EMAIL}" >>"${main_log}" 2>>"${err_log}"
