@@ -61,7 +61,6 @@ else
 	echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 fi
 ;;
-	;;
 4)
 	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${USE_PHP7_1} == '1'  ]] || [[ ${USE_PHP7_2} == '1'  ]]; then
