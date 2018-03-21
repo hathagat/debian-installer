@@ -36,11 +36,11 @@ if curl -s --head  --request GET ${COMPLETEDOMAIN} | grep "HTTP/2 200" > /dev/nu
 else
 	check_service "nginx"
 fi
-
+wget ${MYDOMAIN}/webmail/?admin
 #curl --user admin:12345 ${COMPLETEDOMAIN} -v 
-if [ ! -f /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini ]; then 
-curl ${COMPLETEDOMAIN}
-fi
+#if [ ! -f /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini ]; then 
+#curl ${COMPLETEDOMAIN}
+#fi
 
 if [ ! -f /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini ]; then 
 echo "Rainloop default login...." >> /root/rainloop.txt
