@@ -37,6 +37,16 @@ else
 	check_service "nginx"
 fi
 
+curl --user admin:12345 ${COMPLETEDOMAIN} -v 
+if [ ! -f /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini ]; then 
+curl ${COMPLETEDOMAIN}
+fi
+
+if [ ! -f /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini ]; then 
+echo "Rainloop default login...." >> /root/rainloop.txt
+fi
+
+
 # Now copy config application.ini :)
 cp ${SCRIPT_PATH}/configs/rainloop/application.ini /etc/nginx/html/${MYDOMAN}/webmail/data/_data_/_default_/configs/application.ini
 RAINLOOP_ADMIN_PASSWORD=$(password)
