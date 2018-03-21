@@ -10,7 +10,8 @@ mkdir -p ${SCRIPT_PATH}/sources/
 apt-get install -y libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install openssl packages"
 
 cd ${SCRIPT_PATH}/sources
-wget --no-check-certificate https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+#wget --no-check-certificate https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
+wget https://github.com/openssl/openssl/archive/OpenSSL_${OPENSSL_VERSION}.tar.gz --tries=3" >>${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: openssl-${OPENSSL_VERSION}.tar.gz download failed."
