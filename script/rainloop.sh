@@ -21,7 +21,7 @@ wget --no-check-certificate https://www.rainloop.net/repository/webmail/${RAINLO
       exit
     fi
 
-unzip rainloop-latest.zip -d /etc/nginx/html/${MYDOMAIN}/webmail >>"${main_log}" 2>>"${err_log}"
+unzip ${RAINLOOP_VERSION}.zip -d /etc/nginx/html/${MYDOMAIN}/webmail >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: ${RAINLOOP_VERSION}.zip is corrupted."
@@ -37,8 +37,8 @@ chown -R www-data:www-data .
 
 RAINLOOP_ADMIN_PASSWORD=$(password)
 RAINLOOP_ADMIN_USER=$(username)
-sed -i "s/RAINLOOP_ADMIN_PASSWORD/${RAINLOOP_ADMIN_PASSWORD}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
-sed -i "s/RAINLOOP_ADMIN_USER/${RAINLOOP_ADMIN_USER}/g" /etc/nginx/html/${MYDOMAIN}/webmail/data/_data_/_default_/configs/application.ini
+find /etc/nginx/html/${MYDOMAIN}/ -name 'Application.php' -exec sed -i "s/array('12345')/array('${RAINLOOP_ADMIN_PASSWORD}')/" {} \;
+find /etc/nginx/html/${MYDOMAIN}/ -name 'Application.php' -exec sed -i "s/array('admin', 'Login and password for web admin panel')/array('${RAINLOOP_ADMIN_USER}', 'Login and password for web admin panel')/" {} \;
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Rainloop Admin URL: https://${MYDOMAIN}/webmail/?admin" >> ${SCRIPT_PATH}/login_information.txt
