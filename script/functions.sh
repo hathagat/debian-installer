@@ -67,6 +67,13 @@ start_after_install() {
 		exit 1
 	fi
 
+  source ${SCRIPT_PATH}/checks/php-check.sh; check_php
+  read -p "Continue (y/n)?" ANSW
+  if [ "$ANSW" = "n" ]; then
+    echo "Exit"
+    exit 1
+  fi
+
   source ${SCRIPT_PATH}/configs/versions.cfg
 	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 	read -p "Continue (y/n)?" ANSW
@@ -212,6 +219,6 @@ z=0
 	done
 
  else
-   echo $1"good"; > /dev/null 2>&1
+   echo $1 "is running"; > /dev/null 2>&1
  fi
 }
