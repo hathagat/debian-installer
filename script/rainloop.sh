@@ -47,7 +47,7 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Rainloop Admin - Login: ${RAINLOOP_ADMIN_USER}" >> ${SCRIPT_PATH}/login_information.txt
-echo "Rainloop Admin - Password: ${RAINLOOP_ADMIN_PASSWORT}" >> ${SCRIPT_PATH}/login_information.txt
+echo "Rainloop Admin - Password: ${RAINLOOP_ADMIN_PASSWORD}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
