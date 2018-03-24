@@ -27,7 +27,7 @@ nginxv=$( ${command} 2>&1 )
 nginxvcut="echo ${nginxv:21}"
 nginxlocal=$( ${nginxvcut} 2>&1 )
 
-if [[ $nginxlocal != ${NGINX_VERSION} ]]; then
+if [ $nginxlocal != ${NGINX_VERSION} ]; then
   echo "${error} The installed Nginx Version $nginxlocal is DIFFERENT with the Nginx Version ${NGINX_VERSION} defined in the Userconfig!"
 else
 	echo "${ok} The Nginx Version $nginxlocal is equal with the Nginx Version ${NGINX_VERSION} defined in the Userconfig!"

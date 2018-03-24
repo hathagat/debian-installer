@@ -26,8 +26,7 @@ htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PA
 cd /usr/local
 git clone -b STABLE https://github.com/phpmyadmin/phpmyadmin.git -q >>"${main_log}" 2>>"${err_log}"
 cd /usr/local/phpmyadmin
-composer update --no-dev >>"${main_log}" 2>>"${err_log}"
-composer update
+composer update >>"${main_log}" 2>>"${err_log}"
 cd /usr/local
 mkdir -p phpmyadmin/save
 mkdir -p phpmyadmin/upload
@@ -40,15 +39,10 @@ mysql -u root -p${MYSQL_ROOT_PASS} mysql < phpmyadmin/sql/create_tables.sql >>"$
 # Generate PMA USER
 mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT USAGE ON mysql.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}' IDENTIFIED BY '${PMADB_PASS}'; GRANT SELECT ( Host, User, Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv, Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv, Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv, Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv, Repl_slave_priv, Repl_client_priv ) ON mysql.user TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT ON mysql.db TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT (Host, Db, User, Table_name, Table_priv, Column_priv) ON mysql.tables_priv TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT, INSERT, DELETE, UPDATE, ALTER ON ${MYSQL_PMADB_NAME}.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
 
-
-# Add a new User to login into phpmyadmin
-#mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER 'prsphpmyadmin'@'localhost' IDENTIFIED BY '${PMA_USER_PASS}';GRANT ALL PRIVILEGES ON *.* TO 'prsphpmyadmin'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
-
 # Add a new User to login into phpmyadmin
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER ${NXTPMAROOTUSER}@localhost IDENTIFIED BY '${PMA_USER_PASS}';"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON *.* TO '${NXTPMAROOTUSER}'@'localhost';"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
-
 
 cat > phpmyadmin/config.inc.php <<END
 <?php
@@ -92,8 +86,8 @@ cat > phpmyadmin/config.inc.php <<END
 \$cfg['Servers'][\$i]['compress'] = false;
 \$cfg['Servers'][\$i]['extension'] = 'mysqli';
 \$cfg['Servers'][\$i]['AllowNoPassword'] = false;
-\$cfg['Servers'][\$i]['controluser'] = '$MYSQL_PMADB_USER';
-\$cfg['Servers'][\$i]['controlpass'] = '$PMADB_PASS';
+\$cfg['Servers'][\$i]['controluser'] = '$NXTPMAROOTUSER';
+\$cfg['Servers'][\$i]['controlpass'] = '$PMA_USER_PASS';
 \$cfg['Servers'][\$i]['pmadb'] = '$MYSQL_PMADB_NAME';
 \$cfg['Servers'][\$i]['bookmarktable'] = 'pma__bookmark';
 \$cfg['Servers'][\$i]['relation'] = 'pma__relation';
@@ -130,7 +124,6 @@ fi
 
 chown -R www-data:www-data phpmyadmin/
 systemctl -q reload nginx.service
-
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
 echo "phpmyadmin" >> ${SCRIPT_PATH}/login_information.txt
