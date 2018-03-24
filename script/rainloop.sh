@@ -35,10 +35,14 @@ find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
 
-RAINLOOP_ADMIN_PASSWORD=$(password)
-RAINLOOP_ADMIN_USER=$(username)
-find /etc/nginx/html/${MYDOMAIN}/ -name 'Application.php' -exec sed -i "s/array('12345')/array('${RAINLOOP_ADMIN_PASSWORD}')/" {} \;
-find /etc/nginx/html/${MYDOMAIN}/ -name 'Application.php' -exec sed -i "s/array('admin', 'Login and password for web admin panel')/array('${RAINLOOP_ADMIN_USER}', 'Login and password for web admin panel')/" {} \;
+RAINLOOP_ADMIN_USER="admin"
+RAINLOOP_ADMIN_PASSWORD="12345"
+
+
+#RAINLOOP_ADMIN_PASSWORD=$(password)
+#RAINLOOP_ADMIN_USER=$(username)
+#find /etc/nginx/html/${MYDOMAIN}/ -name 'Application.php' -exec sed -i "s/array('12345')/array('${RAINLOOP_ADMIN_PASSWORD}')/" {} \;
+#find /etc/nginx/html/${MYDOMAIN}/ -name 'Application.php' -exec sed -i "s/array('admin', 'Login and password for web admin panel')/array('${RAINLOOP_ADMIN_USER}', 'Login and password for web admin panel')/" {} \;
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Rainloop Admin URL: https://${MYDOMAIN}/webmail/?admin" >> ${SCRIPT_PATH}/login_information.txt
