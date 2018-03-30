@@ -4,7 +4,6 @@
 #-------------------------------------------------------------------------------------------------------------
 
 password() {
-
   while true; do
     random_password=$(openssl rand -base64 40 | tr -d / | cut -c -32 | grep -P '(?=^.{8,255}$)(?=^[^\s]*$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])')
 
@@ -16,8 +15,6 @@ password() {
             break
       fi
   done
-
-
 }
 
 # bash generate random n character alphanumeric string (upper and lowercase) and
@@ -244,6 +241,17 @@ tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
       exit
     fi
 rm $1
+}
+
+function unzip_file() {
+echo "Tar File in function $1"
+
+unzip $1 >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 is corrupted."
+      exit
+    fi   
 }
 
 function install_packages() {

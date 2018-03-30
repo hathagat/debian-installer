@@ -15,13 +15,7 @@ mkdir -p /etc/nginx/html/${MYDOMAIN}/webmail
 cd /etc/nginx/html/${MYDOMAIN}/
 #wget --no-check-certificate https://www.rainloop.net/repository/webmail/${RAINLOOP_VERSION}.zip --tries=3 >>"${main_log}" 2>>"${err_log}"
 wget_tar "https://www.rainloop.net/repository/webmail/${RAINLOOP_VERSION}.zip"
-
-unzip ${RAINLOOP_VERSION}.zip -d /etc/nginx/html/${MYDOMAIN}/webmail >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: ${RAINLOOP_VERSION}.zip is corrupted."
-      exit
-    fi
+unzip_file "${RAINLOOP_VERSION}.zip -d /etc/nginx/html/${MYDOMAIN}/webmail"
 rm ${RAINLOOP_VERSION}.zip
 
 cd /etc/nginx/html/${MYDOMAIN}/webmail
@@ -29,10 +23,8 @@ find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 chown -R www-data:www-data .
 
-
 RAINLOOP_ADMIN_USER="admin"
 RAINLOOP_ADMIN_PASSWORD="12345"
-
 
 #RAINLOOP_ADMIN_PASSWORD=$(password)
 #RAINLOOP_ADMIN_USER=$(username)

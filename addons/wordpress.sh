@@ -89,7 +89,6 @@ rm -R wordpress
 
 fi
 
-
 if [ -z "${WORDPRESSPATHNAME}" ]; then
 # i hope some day im fixed.... ;(
 echo "fix me please" > /dev/null
@@ -100,9 +99,6 @@ fi
 
 
 cp wp-config-sample.php wp-config.php
-
-
-
 
 # Set Path wp-Config
 if [ -z "${WORDPRESSPATHNAME}" ]; then
@@ -136,7 +132,6 @@ mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads
 cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
 chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
 fi
-
 
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
@@ -177,7 +172,6 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 }
 
-
 deinstall_wordpress() {
 set -x
 rm -rf /etc/nginx/html/wordpress
@@ -192,8 +186,6 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NA
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
 rm -rf /etc/nginx/html/${WordpressScriptPath}
 rm -rf /etc/nginx/sites-custom/wordpress.conf
-
-
 
 mkdir /etc/nginx/html/${MYDOMAIN}
 cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/

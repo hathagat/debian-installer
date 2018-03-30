@@ -9,12 +9,7 @@ install_packages "autoconf automake libtool git unzip zlib1g-dev libpcre3 libpcr
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}"
-unzip v${NPS_VERSION} >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NPS_VERSION} is corrupted."
-      exit
-    fi
+unzip_file "v${NPS_VERSION}"
 cd incubator-pagespeed-ngx-${NPS_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
 
@@ -39,13 +34,8 @@ git submodule update --init >>"${main_log}" 2>>"${err_log}"
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://codeload.github.com/openresty/headers-more-nginx-module/zip/v${NGINX_HEADER_MOD_VERSION}"
-unzip v${NGINX_HEADER_MOD_VERSION} >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NGINX_HEADER_MOD_VERSION} is corrupted."
-      exit
-    fi
-}
+unzip_file "v${NGINX_HEADER_MOD_VERSION}"
 
 cd ${SCRIPT_PATH}/sources
 git clone https://github.com/nbs-system/naxsi.git -q >>"${main_log}" 2>>"${err_log}"
+}

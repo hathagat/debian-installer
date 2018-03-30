@@ -12,7 +12,6 @@ fi
 
 git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q || error_exit "Failed to clone arno-ip-tables package"
 
-# Create folders and copy files
 cd ${SCRIPT_PATH}/sources/aif
 
 mkdir -p /usr/local/share/arno-iptables-firewall/plugins

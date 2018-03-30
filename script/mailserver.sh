@@ -34,5 +34,4 @@ mkdir -p /var/vmail/sieve/global
 chown -R vmail /var/vmail
 chgrp -R vmail /var/vmail
 chmod -R 770 /var/vmail
-
 }
