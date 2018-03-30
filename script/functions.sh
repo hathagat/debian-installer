@@ -245,3 +245,14 @@ tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
     fi
 rm $1
 }
+
+function install_packages() {
+echo "Packages in function $1"
+
+DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 had an error during installation."
+      exit
+    fi
+}

@@ -5,7 +5,7 @@
 
 install_fail2ban() {
 
-apt-get -y --assume-yes install python >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install python package"
+install_packages "python"
 
 mkdir -p ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 cd ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"

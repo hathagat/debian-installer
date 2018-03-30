@@ -1,11 +1,11 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_dovecot() {
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install dovecot packages"
+install_packages "dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved"
 
 systemctl stop dovecot
 
