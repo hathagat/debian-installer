@@ -15,10 +15,16 @@ check_system() {
 		exit 1
 	fi
 
+	HOSTNAME_LENGTH=$(hostname)
+	HOSTNAME_LENGTH_CHARS=$(echo -n $HOSTNAME_LENGTH | wc -m)
+	CUT_LENGTH_MIN=$(($HOSTNAME_LENGTH_CHARS + 12))
+	CUT_LENGTH_MAX=$(($HOSTNAME_LENGTH_CHARS + 18))
+
 	LOCAL_KERNEL_VERSION_STRING=$(uname -a 2>&1)
-	LOCAL_KERNEL_VERSION=$(echo $LOCAL_KERNEL_VERSION_STRING | cut -c12-18)
+	LOCAL_KERNEL_VERSION=$(echo $LOCAL_KERNEL_VERSION_STRING | cut -c${CUT_LENGTH_MIN}-${CUT_LENGTH_MAX})
+
 	if [ $LOCAL_KERNEL_VERSION != ${KERNEL_VERSION} ]; then
-        echo " Please upgrade your Linux Version with apt-get update && apt-get dist-upgrade"
+        echo "Please upgrade your Linux Version ($LOCAL_KERNEL_VERSION) with apt-get update && apt-get dist-upgrade to match the script required Version ${KERNEL_VERSION}"
 		exit 1
 	fi
 
