@@ -7,9 +7,9 @@ install_teamspeak3() {
 
 HEIGHT=40
 WIDTH=80
-dialog --backtitle "Addon-Installation" --infobox "Installing Teamspeak 3..." $HEIGHT $WIDTH
+dialog_info "Installing Teamspeak 3..."
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install sudo >>"${main_log}" 2>>"${err_log}"
+install_packages "sudo"
 
 adduser ts3user --gecos "" --no-create-home --disabled-password >>"${main_log}" 2>>"${err_log}"
 mkdir -p /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
@@ -74,5 +74,5 @@ echo "TS3 Server Login = Look at: ts3serverdata.txt in the NeXt-Server Folder" >
 echo "TS3 Server commands = /etc/init.d/ts3server start and /etc/init.d/ts3server stop" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
-dialog --backtitle "Addon-Installation" --infobox "Teamspeak 3 Installation finished! Credentials: ${SCRIPT_PATH}/login_information.txt" $HEIGHT $WIDTH
+dialog_msg "Teamspeak 3 Installation finished! Credentials: ${SCRIPT_PATH}/login_information.txt"
 }

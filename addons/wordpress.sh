@@ -7,53 +7,6 @@
 install_wordpress() {
 set -x
 
-# --- MYDOMAIN ---
-source ${SCRIPT_PATH}/script/functions.sh; get_domain
-
-CHOICE_HEIGHT=4
-MENU="In wich path you want to install Wordpress?"
-OPTIONS=(1 "${MYDOMAIN}/wordpress"
-2 "${MYDOMAIN}/blog"
-3 "root of ${MYDOMAIN}"
-4 "custom")
-menu
-clear
-
-case $CHOICE in
-  1)
-    WORDPRESSPATHNAME="wordpress"
-    ;;
-
-  2)
-    WORDPRESSPATHNAME="blog"
-    ;;
-
-  3)
-    WORDPRESSPATHNAME=""
-
-#WORDPRESSPATHNAME="rootpath"
-
-    ;;
-
-  4)
-      while true
-        do
-          WORDPRESSPATHNAME=$(dialog --clear \
-          --backtitle "$BACKTITLE" \
-          --inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/ only A-Z and a-z letters" \
-          $HEIGHT $WIDTH \
-          3>&1 1>&2 2>&3 3>&- \
-          )
-            if [[ "$WORDPRESSPATHNAME" =~ [^0-9A-Za-z]+ ]];then
-              break
-            else
-              dialog --title "Your Wordpress path" --msgbox "[ERROR] You should read it properly!" $HEIGHT $WIDTH
-              dialog --clear
-            fi
-        done
-    ;;
-esac
-
 # Set vars
 # Maybe the user should not shoose an user and db name....
 WORDPRESS_USER=$(username)
@@ -153,7 +106,7 @@ fi
 
 systemctl reload nginx
 
-dialog --backtitle "NeXt Server Installation" --msgbox "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation" $HEIGHT $WIDTH
+dialog_msg "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation"
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
 echo "Wordpress" >> ${SCRIPT_PATH}/login_information.txt
@@ -169,26 +122,5 @@ echo "WordpressScriptPath = ${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/
 fi
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
-
-}
-
-deinstall_wordpress() {
-set -x
-rm -rf /etc/nginx/html/wordpress
-
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
-WORDPRESS_DB_NAME=$(grep -Pom 1 "(?<=^WordpressDBName = ).*$" /root/NeXt-Server/login_information.txt)
-WordpressDBUser=$(grep -Pom 1 "(?<=^WordpressDBUser = ).*$" /root/NeXt-Server/login_information.txt)
-WordpressScriptPath=$(grep -Pom 1 "(?<=^WordpressScriptPath = ).*$" /root/NeXt-Server/login_information.txt)
-
-
-mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NAME};"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
-rm -rf /etc/nginx/html/${WordpressScriptPath}
-rm -rf /etc/nginx/sites-custom/wordpress.conf
-
-mkdir /etc/nginx/html/${MYDOMAIN}
-cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/
-cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.html
 
 }

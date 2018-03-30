@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 menu_options_lets_encrypt() {
@@ -31,19 +31,19 @@ MENU="Choose one of the following options:"
 	clear
 	case $CHOICE in
 			1)
-        dialog --backtitle "NeXt Server Installation" --infobox "Updating Lets Encrypt" $HEIGHT $WIDTH
-		source ${SCRIPT_PATH}/script/lets_encrypt.sh; update_lets_encrypt || error_exit
-        dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Lets Encrypt" $HEIGHT $WIDTH
+        dialog_info "Updating Lets Encrypt"
+				source ${SCRIPT_PATH}/script/lets_encrypt.sh; update_lets_encrypt || error_exit
+        dialog_msg "Finished updating Lets Encrypt"
 				;;
 			2)
-        dialog --backtitle "NeXt Server Installation" --infobox "Renew Lets Encrypt Certs" $HEIGHT $WIDTH
-		source ${SCRIPT_PATH}/script/lets_encrypt.sh; renew_lets_encrypt_certs || error_exit
-        dialog --backtitle "NeXt Server Installation" --msgbox "Finished renewing Lets Encrypt Certs" $HEIGHT $WIDTH
+        dialog_info "Renew Lets Encrypt Certs"
+				source ${SCRIPT_PATH}/script/lets_encrypt.sh; renew_lets_encrypt_certs || error_exit
+        dialog_msg "Finished renewing Lets Encrypt Certs"
 				;;
 			3)
-				dialog --backtitle "NeXt Server Installation" --infobox "Update Lets Encrypt" $HEIGHT $WIDTH
+				dialog_info "Update Lets Encrypt"
 				source ${SCRIPT_PATH}/script/lets_encrypt.sh; update_lets_encrypt || error_exit
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished update Lets Encrypt" $HEIGHT $WIDTH
+				dialog_msg "Finished update Lets Encrypt"
 				;;
 			4)
 				bash ${SCRIPT_PATH}/nxt.sh;

@@ -12,7 +12,6 @@ wget_tar "https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION
 unzip_file "v${NPS_VERSION}"
 cd incubator-pagespeed-ngx-${NPS_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
-
 wget_tar "https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz"
 tar_file "${PSOL_VERSION}-x64.tar.gz"
 cd ${SCRIPT_PATH}/sources

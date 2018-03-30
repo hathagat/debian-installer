@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 menu_options_mailserver() {
@@ -29,10 +29,10 @@ MENU="Choose one of the following options:"
 	clear
 	case $CHOICE in
 			1)
-				dialog --backtitle "NeXt Server Installation" --infobox "Updating Mailserver" $HEIGHT $WIDTH
+				dialog_info "Updating Mailserver"
 				apt-get update >/dev/null 2>&1
 				apt-get -y upgrade >>"${main_log}" 2>>"${err_log}"
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Mailserver" $HEIGHT $WIDTH
+				dialog_msg "Finished updating Mailserver"
 				;;
 			2)
 				bash ${SCRIPT_PATH}/nxt.sh;

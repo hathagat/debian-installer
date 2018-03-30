@@ -5,7 +5,7 @@
 
 install_nextcloud() {
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install unzip >>"${main_log}" 2>>"${err_log}"
+install_packages "unzip"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
 NEXTCLOUD_DB_PASS=$(password)
@@ -55,14 +55,4 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
 
 
 dialog --title "Your Nextcloud logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt_nextcloud 50 200
-}
-
-deinstall_nextcloud() {
-
-rm -r /srv/nextcloud/
-rm /etc/nginx/html/${MYDOMAIN}/nextcloud
-rm /etc/nginx/sites-custom/nextcloud.conf
-
-service nginx restart
-
 }

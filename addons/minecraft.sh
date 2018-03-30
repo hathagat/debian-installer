@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_minecraft() {
@@ -28,11 +28,9 @@ case $CHOICE in
 			;;
 esac
 
-HEIGHT=40
-WIDTH=80
-dialog --backtitle "Addon-Installation" --infobox "Installing Minecraft..." $HEIGHT $WIDTH
+dialog_info "Installing Minecraft..."
 
-apt-get -y install screen openjdk-8-jre-headless >>"${main_log}" 2>>"${err_log}"
+install_packages "openjdk-8-jre-headless"
 
 adduser minecraft --gecos "" --no-create-home --disabled-password >>"${main_log}" 2>>"${err_log}"
 
@@ -67,5 +65,5 @@ echo "Zum zurück kehren in die Screen Session: screen -r in der Terminal eingeb
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
-dialog --backtitle "Addon-Installation" --infobox "Minecraft Installation finished! Credentials: ${SCRIPT_PATH}/login_information.txt" $HEIGHT $WIDTH
+dialog_info "Minecraft Installation finished! Credentials: ${SCRIPT_PATH}/login_information.txt"
 }

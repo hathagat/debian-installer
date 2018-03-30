@@ -99,17 +99,16 @@ MENU="\n Choose one of the following options: \n \n"
 					;;
 				3)
 					#check if installed, otherwise skip single services
-					dialog --backtitle "NeXt Server Installation" --infobox "Updating all services" $HEIGHT $WIDTH
+					dialog_info "Updating all services"
 					source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
-
 					source ${SCRIPT_PATH}/script/openssh.sh; update_openssh
 					source ${SCRIPT_PATH}/script/openssl.sh; update_openssl
-					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating all services" $HEIGHT $WIDTH
+					dialog_msg "Finished updating all services"
 					;;
 				4)
-					dialog --backtitle "NeXt Server Installation" --infobox "Updating NeXt Server Script" $HEIGHT $WIDTH
+					dialog_info "Updating NeXt Server Script"
 					source ${SCRIPT_PATH}/update_script.sh; update_script
-					dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}" $HEIGHT $WIDTH
+					dialog_msg "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}"
 					bash nxt.sh
 					;;
 				5)

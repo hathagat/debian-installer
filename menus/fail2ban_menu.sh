@@ -31,20 +31,20 @@ MENU="Choose one of the following options:"
 	clear
 	case $CHOICE in
 			1)
-				dialog --backtitle "NeXt Server Installation" --infobox "Installing fail2ban" $HEIGHT $WIDTH
+				dialog_info "Installing fail2ban"
 				source ${SCRIPT_PATH}/script/fail2ban.sh; install_fail2ban || error_exit
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing fail2ban" $HEIGHT $WIDTH
+				dialog_msg "Finished installing fail2ban"
 				exit 1
 				;;
 			2)
-			  dialog --backtitle "NeXt Server Installation" --infobox "Updating fail2ban" $HEIGHT $WIDTH
+				dialog_info "Updating fail2ban"
 			  source ${SCRIPT_PATH}/script/fail2ban.sh; update_fail2ban || error_exit
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating fail2ban" $HEIGHT $WIDTH
+				dialog_msg "Finished updating fail2ban"
 				;;
 			3)
-			  dialog --backtitle "NeXt Server Installation" --infobox "Activating fail2ban jails" $HEIGHT $WIDTH
+				dialog_info "Activating fail2ban jails"
 				source ${SCRIPT_PATH}/service-options/fail2ban_options.sh; activate_fail2ban_jails || error_exit
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished activating fail2ban jails" $HEIGHT $WIDTH
+				dialog_msg "Finished activating fail2ban jails"
 				;;
 			4)
 				bash ${SCRIPT_PATH}/nxt.sh;

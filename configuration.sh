@@ -17,7 +17,7 @@ cat ${SCRIPT_PATH}/ssh_privatekey.txt
 
 show_login_information.txt()
 {
-dialog --backtitle "NeXt Server Configuration" --msgbox "Please save the shown login information on next page" $HEIGHT $WIDTH
+dialog_msg "Please save the shown login information on next page"
 #dialog --title "Your Server Logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt 50 200
 cat ${SCRIPT_PATH}/login_information.txt
 }

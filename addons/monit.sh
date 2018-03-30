@@ -7,7 +7,7 @@ install_monit() {
   MONIT_ADMIN_PASSWORD=$(password)
   MONIT_ADMIN_USER=$(username)
 
-apt-get install monit -y
+install_packages "monit"
 
 systemctl start monit
 systemctl enable monit

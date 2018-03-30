@@ -12,7 +12,7 @@ echo "deb http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" > /etc/apt/so
 echo "deb-src http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" >> /etc/apt/sources.list.d/rspamd.list
 
 apt-get update -y >/dev/null 2>&1
-DEBIAN_FRONTEND=noninteractive apt-get -y install rspamd >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install rspamd package"
+install_packages "rspamd"
 systemctl stop rspamd
 
 cp ${SCRIPT_PATH}/configs/rspamd/options.inc /etc/rspamd/local.d/options.inc
@@ -60,7 +60,7 @@ sed -i "s/placeholder/${CURRENT_YEAR}/g" /etc/rspamd/local.d/dkim_signing.conf
 
 cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server >>"${main_log}" 2>>"${err_log}"
+install_packages "redis-server"
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
 mkdir -p /etc/nginx/sites-custom

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 update_script() {
@@ -83,7 +83,7 @@ if ! git diff --quiet origin/master; then
   GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 else
   GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
-  dialog --backtitle "NeXt Server Installation" --msgbox "The local Version ${GIT_LOCAL_FILES_HEAD} is equal with Github, no update needed!" $HEIGHT $WIDTH
+  dialog_msg "The local Version ${GIT_LOCAL_FILES_HEAD} is equal with Github, no update needed!"
   exit 1
 fi
 }

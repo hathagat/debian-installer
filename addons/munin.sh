@@ -7,10 +7,9 @@ install_munin() {
 
 set -x
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install munin munin-node munin-plugins-extra apache2-utils >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install munin packages"
+install_packages "munin munin-node munin-plugins-extra apache2-utils"
 
 MUNIN_HTTPAUTH_PASS=$(password)
-
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${MUNIN_HTTPAUTH_USER} ${MUNIN_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
 cp ${SCRIPT_PATH}/addons/vhosts/munin.conf /etc/nginx/sites-custom/munin.conf

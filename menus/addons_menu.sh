@@ -54,9 +54,9 @@ MENU="Choose one of the following options:"
 3)
 source ${SCRIPT_PATH}/configs/userconfig.cfg
 if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-	dialog --backtitle "NeXt Server Installation" --infobox "Installing Composer" $HEIGHT $WIDTH
+	dialog_info "Installing Composer"
 	source ${SCRIPT_PATH}/addons/composer.sh; install_composer
-	dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Composer" $HEIGHT $WIDTH
+	dialog_msg "Finished installing Composer"
 else
 	echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 fi
@@ -65,9 +65,9 @@ fi
 	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${USE_PHP7_1} == '1'  ]] || [[ ${USE_PHP7_2} == '1'  ]]; then
 		if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-			dialog --backtitle "NeXt Server Installation" --infobox "Installing nextcloud" $HEIGHT $WIDTH
+			dialog_info "Installing Nextcloud"
 			source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
-			dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing nextcloud" $HEIGHT $WIDTH
+			dialog_msg "Finished installing Nextcloud"
 		else
 			echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 		fi
@@ -78,10 +78,10 @@ fi
 5)
 	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-		dialog --backtitle "NeXt Server Installation" --infobox "Installing phpmyadmin" $HEIGHT $WIDTH
+		dialog_info "Installing PHPmyadmin"
 		source ${SCRIPT_PATH}/addons/composer.sh; install_composer
 		source ${SCRIPT_PATH}/addons/phpmyadmin.sh; install_phpmyadmin
-		dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing phpmyadmin" $HEIGHT $WIDTH
+		dialog_msg "Finished installing PHPmyadmin"
 	else
 		echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	fi
@@ -89,7 +89,7 @@ fi
 6)
 	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-		dialog --backtitle "NeXt Server Installation" --infobox "Installing Munin" $HEIGHT $WIDTH
+		dialog_info "Installing Munin"
 		source ${SCRIPT_PATH}/addons/munin.sh; install_munin
 		dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Munin" $HEIGHT $WIDTH
 	else
@@ -101,6 +101,7 @@ fi
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 		#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
 			source ${SCRIPT_PATH}/configs/userconfig.cfg
+			source ${SCRIPT_PATH}/menus/menu_options_wordpress.sh; menu_options_wordpress
 			source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
 		#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
 	else
@@ -110,7 +111,7 @@ fi
 8)
 	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
-		source ${SCRIPT_PATH}/addons/wordpress.sh; deinstall_wordpress
+		source ${SCRIPT_PATH}/addons/wordpress_deinstall.sh; deinstall_wordpress
 	#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
 	;;
 9)

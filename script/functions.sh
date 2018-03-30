@@ -56,6 +56,18 @@ CHOICE=$(dialog --clear \
                 2>&1 >/dev/tty)
 }
 
+dialog_info() {
+
+dialog --backtitle "NeXt Server Installation" --infobox $1 40 80
+
+}
+
+dialog_msg() {
+
+dialog --backtitle "NeXt Server Installation" --msgbox $1 40 80  
+
+}
+
 start_after_install() {
   source ${SCRIPT_PATH}/checks/nginx-check.sh; check_nginx
   read -p "Continue (y/n)?" ANSW
@@ -251,7 +263,7 @@ unzip $1 >>"${main_log}" 2>>"${err_log}"
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: $1 is corrupted."
       exit
-    fi   
+    fi
 }
 
 function install_packages() {
