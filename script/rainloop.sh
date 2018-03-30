@@ -14,12 +14,7 @@ RAINLOOP_VERSION="rainloop-community-latest"
 mkdir -p /etc/nginx/html/${MYDOMAIN}/webmail
 cd /etc/nginx/html/${MYDOMAIN}/
 #wget --no-check-certificate https://www.rainloop.net/repository/webmail/${RAINLOOP_VERSION}.zip --tries=3 >>"${main_log}" 2>>"${err_log}"
-wget --no-check-certificate https://www.rainloop.net/repository/webmail/${RAINLOOP_VERSION}.zip --tries=3 >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: ${RAINLOOP_VERSION}.zip download failed."
-      exit
-    fi
+wget_tar "https://www.rainloop.net/repository/webmail/${RAINLOOP_VERSION}.zip"
 
 unzip ${RAINLOOP_VERSION}.zip -d /etc/nginx/html/${MYDOMAIN}/webmail >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?

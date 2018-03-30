@@ -16,7 +16,7 @@ mkdir -p /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
 chown ts3user /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
 
 cd /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
-wget -q http://dl.4players.de/ts/releases/${TEAMSPEAK_VERSION}/teamspeak3-server_linux_amd64-${TEAMSPEAK_VERSION}.tar.bz2 >>"${main_log}" 2>>"${err_log}"
+wget_tar "http://dl.4players.de/ts/releases/${TEAMSPEAK_VERSION}/teamspeak3-server_linux_amd64-${TEAMSPEAK_VERSION}.tar.bz2"
 tar -xjf teamspeak3-server_linux*.tar.bz2 >>"${main_log}" 2>>"${err_log}" >>"${main_log}" 2>>"${err_log}"
 mkdir -p /usr/local/ts3user/ts3server/ >>"${main_log}" 2>>"${err_log}"
 cp -r -u /usr/local/ts3user/teamspeak3-server_linux_amd64/* /usr/local/ts3user/ts3server/ >>"${main_log}" 2>>"${err_log}"

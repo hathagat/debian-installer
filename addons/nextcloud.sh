@@ -16,7 +16,7 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON nextclouddb.* TO 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cd /srv/
-wget https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.zip >>"${main_log}" 2>>"${err_log}"
+wget_tar "https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.zip"
 unzip nextcloud-${NEXTCLOUD_VERSION}.zip
 rm nextcloud-${NEXTCLOUD_VERSION}.zip
 

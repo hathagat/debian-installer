@@ -12,7 +12,6 @@ apt-get install -y libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxm
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
 
-
 tar -xzf openssl-${OPENSSL_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then

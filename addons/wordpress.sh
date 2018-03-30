@@ -72,7 +72,7 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cd /etc/nginx/html/${MYDOMAIN}/
 
-wget --tries=42 https://wordpress.org/latest.tar.gz
+wget_tar "https://wordpress.org/latest.tar.gz"
 tar -zxvf latest.tar.gz
 
 if [ -z "${WORDPRESSPATHNAME}" ]; then

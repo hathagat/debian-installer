@@ -8,12 +8,7 @@ install_nginx_addons() {
 apt-get -y --assume-yes install autoconf automake libtool git unzip zlib1g-dev libpcre3 libpcre3-dev uuid-dev >>"${main_log}" 2>>"${err_log}"
 
 cd ${SCRIPT_PATH}/sources
-wget --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NPS_VERSION} download failed."
-      exit
-    fi
+wget_tar "https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}"
 
 unzip v${NPS_VERSION} >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
