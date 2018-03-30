@@ -233,3 +233,15 @@ wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
       exit
     fi
 }
+
+function tar_file() {
+echo "Tar File in function $1"
+
+tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 is corrupted."
+      exit
+    fi
+rm $1
+}

@@ -29,7 +29,6 @@ ln -s /etc/monit/conf-available/smartmontools /etc/monit/conf-enabled/
 systemctl restart monit
 service nginx reload
 
-
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 
 echo "Monit Address: ${MYDOMAIN}/monit/" >> ${SCRIPT_PATH}/login_information.txt
@@ -41,6 +40,4 @@ echo "MONIT_ADMIN_PASSWORD = ${MONIT_ADMIN_PASSWORD}" >> ${SCRIPT_PATH}/login_in
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 
 echo "" >> ${SCRIPT_PATH}/login_information.txt
-
-
 }

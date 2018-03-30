@@ -10,13 +10,7 @@ apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
 
-tar -xzf nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: nginx-${NGINX_VERSION}.tar.gz is corrupted."
-      exit
-    fi
-rm nginx-${NGINX_VERSION}.tar.gz
+tar_file "nginx-${NGINX_VERSION}.tar.gz"
 
 cd nginx-${NGINX_VERSION} >>"${main_log}" 2>>"${err_log}"
 
