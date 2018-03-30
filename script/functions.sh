@@ -222,3 +222,14 @@ z=0
    echo $1 "is running"; > /dev/null 2>&1
  fi
 }
+
+function wget_tar() {
+echo "Download Link in function $1"
+
+wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 download failed."
+      exit
+    fi
+}
