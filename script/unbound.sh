@@ -1,11 +1,11 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_unbound() {
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install unbound dnsutils >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install unbound package"
+install_packages "unbound dnsutils"
 
 #IPv4 workaround
 rm /etc/unbound/unbound.conf

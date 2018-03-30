@@ -1,17 +1,24 @@
 #!/bin/bash
 # Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
-#Please check the license provided with the script! 
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 check_system() {
 
 	if [ $USER != 'root' ]; then
-        echo " Please run the script as root"
+        echo "Please run the script as root"
 		exit 1
 	fi
 
 	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -is) != 'Ubuntu' ]; then
 		echo "The script only works on Ubuntu 16.04 Xenial and Debian 9.x"
+		exit 1
+	fi
+
+	LOCAL_KERNEL_VERSION_STRING=$(uname -a 2>&1)
+	LOCAL_KERNEL_VERSION=$(echo $LOCAL_KERNEL_VERSION_STRING | cut -c12-18)
+	if [ $LOCAL_KERNEL_VERSION != ${KERNEL_VERSION} ]; then
+        echo " Please upgrade your Linux Version with apt-get update && apt-get dist-upgrade"
 		exit 1
 	fi
 
@@ -47,7 +54,7 @@ check_system() {
 		echo > /dev/null
 	else
 		if [ $(dpkg-query -l | grep facter | wc -l) -ne 1 ]; then
-			apt-get -y --assume-yes install facter >>"${main_log}" 2>>"${err_log}"
+			install_packages "facter"
 		fi
 
 		if	[ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then

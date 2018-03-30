@@ -5,7 +5,7 @@
 
 install_openssh() {
 
-apt-get -y --assume-yes install openssh-server openssh-client libpam-dev >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install openssh packages"
+install_packages "openssh-server openssh-client libpam-dev"
 
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
 cp ${SCRIPT_PATH}/includes/issue /etc/issue

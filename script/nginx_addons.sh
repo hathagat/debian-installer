@@ -5,25 +5,21 @@
 
 install_nginx_addons() {
 
-apt-get -y --assume-yes install autoconf automake libtool git unzip zlib1g-dev libpcre3 libpcre3-dev uuid-dev >>"${main_log}" 2>>"${err_log}"
+install_packages "autoconf automake libtool git unzip zlib1g-dev libpcre3 libpcre3-dev uuid-dev"
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}"
-
 unzip v${NPS_VERSION} >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
       echo "Error: v${NPS_VERSION} is corrupted."
       exit
     fi
-
 cd incubator-pagespeed-ngx-${NPS_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
 
 wget_tar "https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz"
-
 tar_file "${PSOL_VERSION}-x64.tar.gz"
-
 cd ${SCRIPT_PATH}/sources
 git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone libbrotli"
 cd libbrotli
@@ -43,8 +39,6 @@ git submodule update --init >>"${main_log}" 2>>"${err_log}"
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://codeload.github.com/openresty/headers-more-nginx-module/zip/v${NGINX_HEADER_MOD_VERSION}"
-
-
 unzip v${NGINX_HEADER_MOD_VERSION} >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then

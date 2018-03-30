@@ -8,7 +8,7 @@ install_lets_encrypt() {
 systemctl -q stop nginx.service
 mkdir -p /etc/nginx/ssl/
 
-apt-get -y --assume-yes install cron netcat-openbsd curl socat >>"${main_log}" 2>>"${err_log}"
+install_packages "cron netcat-openbsd curl socat"
 cd ${SCRIPT_PATH}/sources
 #git clone https://github.com/Neilpang/acme.sh.git -q >>"${main_log}" 2>>"${err_log}"
 # Get dev Brunch

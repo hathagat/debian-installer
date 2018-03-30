@@ -5,13 +5,11 @@
 
 install_nginx() {
 
-apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install nginx packages"
+install_packages "psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall"
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
-
 tar_file "nginx-${NGINX_VERSION}.tar.gz"
-
 cd nginx-${NGINX_VERSION} >>"${main_log}" 2>>"${err_log}"
 
 #Thanks to https://github.com/Angristan/nginx-autoinstall/

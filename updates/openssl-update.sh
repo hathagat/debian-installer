@@ -17,21 +17,8 @@ if [[ ${LOCAL_OPENSSL_VERSION} != ${OPENSSL_VERSION} ]]; then
 	mkdir -p ${SCRIPT_PATH}/sources/
 
 	cd ${SCRIPT_PATH}/sources
-	wget --no-check-certificate https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
-		ERROR=$?
-		if [[ "$ERROR" != '0' ]]; then
-		  echo "Error: openssl-${OPENSSL_VERSION}.tar.gz download failed."
-		  exit
-		fi
-
-	tar -xzf openssl-${OPENSSL_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
-		ERROR=$?
-		if [[ "$ERROR" != '0' ]]; then
-		  echo "Error: openssl-${OPENSSL_VERSION}.tar.gz is corrupted."
-		  exit
-		fi
-	rm openssl-${OPENSSL_VERSION}.tar.gz
-
+	wget_tar "https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
+	tar_file "openssl-${OPENSSL_VERSION}.tar.gz"
 	cd openssl-${OPENSSL_VERSION}
 
 	./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic >>"${make_log}" 2>>"${make_err_log}"
