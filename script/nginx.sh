@@ -70,7 +70,6 @@ checkinstall --install=no -y >>"${main_log}" 2>>"${err_log}"
 dpkg -i nginx_${NGINX_VERSION}-1_amd64.deb >>"${main_log}" 2>>"${err_log}"
 mv nginx_${NGINX_VERSION}-1_amd64.deb ../ >>"${main_log}" 2>>"${err_log}"
 
-#cleanup
 rm -R ${SCRIPT_PATH}/sources/nginx-${NGINX_VERSION}
 rm -R ${SCRIPT_PATH}/sources/libbrotli
 rm -R ${SCRIPT_PATH}/sources/ngx_brotli

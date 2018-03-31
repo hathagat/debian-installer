@@ -94,14 +94,14 @@ if [[ $CHECK_DOMAIN_LENGTH > 1 ]]; then
 							if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
 								break
 							else
-								dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+								dialog_msg "[ERROR] Should we again practice how a Domain address looks?"
 								dialog --clear
 							fi
 					done
 	            ;;
 	esac
 else
-	dialog --backtitle "NeXt Server Installation" --msgbox "The Script wasn't able to recognize your Domain! \n \n Have you set the right DNS settings, or multiple Domains directing to the server IP? \n \n Please enter it manually!" $HEIGHT $WIDTH
+	dialog_msg "The Script wasn't able to recognize your Domain! \n \n Have you set the right DNS settings, or multiple Domains directing to the server IP? \n \n Please enter it manually!"
 	while true
 		do
 			MYDOMAIN=$(dialog --clear \
@@ -113,7 +113,7 @@ else
 				if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
 					break
 				else
-					dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
+					dialog_msg "[ERROR] Should we again practice how a Domain address looks?"
 					dialog --clear
 				fi
 		done
@@ -150,7 +150,7 @@ case $CHOICE in
 	1)
 		;;
 	2)
-		dialog --backtitle "NeXt Server Installation" --msgbox "Sorry, you have to wait 24 - 48 hours, until the DNS system knows your settings!" $HEIGHT $WIDTH
+		dialog_msg "Sorry, you have to wait 24 - 48 hours, until the DNS system knows your settings!"
 		exit 1
 		;;
 esac
@@ -178,7 +178,7 @@ while true
 			if [[ "$NXT_SYSTEM_EMAIL" =~ $CHECK_E_MAIL ]];then
 				break
 			else
-				dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Email address looks?" $HEIGHT $WIDTH
+				dialog_msg "[ERROR] Should we again practice how a Email address looks?"
 				dialog --clear
 			fi
 	done
