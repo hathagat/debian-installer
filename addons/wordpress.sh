@@ -7,16 +7,11 @@
 install_wordpress() {
 set -x
 
-# Set vars
-# Maybe the user should not shoose an user and db name....
 WORDPRESS_USER=$(username)
 WORDPRESS_DB_NAME=$(username)
 WORDPRESS_DB_PASS=$(password)
 WORDPRESS_DB_PREFIX=$(username)
-
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
-
-#echo ${MYSQL_ROOT_PASS}
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER ${WORDPRESS_USER}@localhost IDENTIFIED BY '${WORDPRESS_DB_PASS}';"
@@ -28,29 +23,7 @@ cd /etc/nginx/html/${MYDOMAIN}/
 wget_tar "https://wordpress.org/latest.tar.gz"
 tar -zxvf latest.tar.gz
 
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-
 cd wordpress
-#copy file to parent dir
-cp -rf . ..
-
-#move back to parent dir
-cd ..
-
-#remove files from wordpress folder
-rm -R wordpress
-
-fi
-
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-# i hope some day im fixed.... ;(
-echo "fix me please" > /dev/null
-else
-mv /etc/nginx/html/${MYDOMAIN}/wordpress /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
-cd ${WORDPRESSPATHNAME}
-fi
-
-
 cp wp-config-sample.php wp-config.php
 
 # Set Path wp-Config
@@ -103,8 +76,8 @@ else # then is custom path
   cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
-  
-  
+
+
   # Add harding for custom path
 fi
 
