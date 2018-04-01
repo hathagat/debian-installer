@@ -13,8 +13,6 @@ source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 source ${SCRIPT_PATH}/configs/userconfig.cfg
 
-HEIGHT=40
-WIDTH=80
 CHOICE_HEIGHT=10
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
@@ -37,7 +35,7 @@ MENU="Choose one of the following options:"
 										 --backtitle "$BACKTITLE" \
 										 --title "$TITLE" \
 										 --menu "$MENU" \
-										 $HEIGHT $WIDTH $CHOICE_HEIGHT \
+										 40 80 $CHOICE_HEIGHT \
 										 "${OPTIONS[@]}" \
 										 2>&1 >/dev/tty)
 
