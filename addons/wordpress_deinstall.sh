@@ -5,8 +5,9 @@
 #-------------------------------------------------------------------------------------------------------------
 
 deinstall_wordpress() {
+source ${SCRIPT_PATH}/configs/userconfig.cfg
 set -x
-rm -rf /etc/nginx/html/wordpress
+
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
 WORDPRESS_DB_NAME=$(grep -Pom 1 "(?<=^WordpressDBName = ).*$" /root/NeXt-Server/login_information.txt)
@@ -16,9 +17,17 @@ WordpressScriptPath=$(grep -Pom 1 "(?<=^WordpressScriptPath = ).*$" /root/NeXt-S
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
+
 #rm -rf /etc/nginx/html/${WordpressScriptPath}
 #deactivated https://github.com/shoujii/NeXt-Server/issues/47
 #in root /, only delete single wordpress files - folders to prevent this
+
+# Add here Folder to SAVEFOLDERS
+# Put into Function
+SAVEFOLDERS="nextcloud|webmail" # Folder1|Folder2|Folder3|....
+rm -rf /etc/nginx/html/${WordpressScriptPath}/!(${SAVEFOLDERS})
+
+rm -rf /etc/nginx/html/wordpress
 rm -rf /etc/nginx/sites-custom/wordpress.conf
 
 mkdir /etc/nginx/html/${MYDOMAIN}
