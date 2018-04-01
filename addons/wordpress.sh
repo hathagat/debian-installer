@@ -27,11 +27,7 @@ cd wordpress
 cp wp-config-sample.php wp-config.php
 
 # Set Path wp-Config
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wp-config.php"
-else
-WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-config.php"
-fi
+WPCONFIGFILE="/etc/nginx/html/${MYDOMAIN}/wordpress/wp-config.php"
 
 # Change prefix random
 sed -i "s/wp_/${WORDPRESS_DB_PREFIX}_/g"  ${WPCONFIGFILE}
@@ -49,15 +45,9 @@ while read -r salt; do
     sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" ${WPCONFIGFILE}
 done <<< "$salts"
 
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-mkdir /etc/nginx/html/${MYDOMAIN}/wp-content/uploads
-cd /etc/nginx/html/${MYDOMAIN}/
-chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}
-else
-mkdir /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/wp-content/uploads
-cd /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}/
-chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/${WORDPRESSPATHNAME}
-fi
+mkdir /etc/nginx/html/${MYDOMAIN}/wordpress/wp-content/uploads
+cd /etc/nginx/html/${MYDOMAIN}/wordpress/
+chown www-data:www-data -R /etc/nginx/html/${MYDOMAIN}/wordpress
 
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
@@ -76,7 +66,6 @@ else # then is custom path
   cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
-
 
   # Add harding for custom path
 fi
