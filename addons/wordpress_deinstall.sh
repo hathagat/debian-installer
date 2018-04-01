@@ -16,7 +16,9 @@ WordpressScriptPath=$(grep -Pom 1 "(?<=^WordpressScriptPath = ).*$" /root/NeXt-S
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
-rm -rf /etc/nginx/html/${WordpressScriptPath}
+#rm -rf /etc/nginx/html/${WordpressScriptPath}
+#deactivated https://github.com/shoujii/NeXt-Server/issues/47
+#in root /, only delete single wordpress files - folders to prevent this
 rm -rf /etc/nginx/sites-custom/wordpress.conf
 
 mkdir /etc/nginx/html/${MYDOMAIN}
