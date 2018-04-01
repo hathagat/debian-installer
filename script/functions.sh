@@ -56,13 +56,13 @@ CHOICE=$(dialog --clear \
                 2>&1 >/dev/tty)
 }
 
-dialog_info() {
+function dialog_info() {
 clear
 dialog --backtitle "NeXt Server Installation" --infobox $1 40 80
 
 }
 
-dialog_msg() {
+function dialog_msg() {
 clear
 dialog --backtitle "NeXt Server Installation" --msgbox $1 40 80
 
