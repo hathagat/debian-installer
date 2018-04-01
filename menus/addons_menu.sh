@@ -105,7 +105,7 @@ fi
 	;;
 7)
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-		source ${SCRIPT_PATH}/menus/wordpress_emnu.sh; menu_options_wordpress
+		source ${SCRIPT_PATH}/menus/wordpress_menu.sh; menu_options_wordpress
 		source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
 		dialog_msg "Finished installing Wordpress"
 	else
