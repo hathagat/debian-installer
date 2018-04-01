@@ -256,7 +256,7 @@ rm $1
 }
 
 function unzip_file() {
-echo "Tar File in function $1"
+echo "ZIP File in function $1"
 
 unzip $1 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
