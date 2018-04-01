@@ -57,14 +57,12 @@ CHOICE=$(dialog --clear \
 }
 
 function dialog_info() {
-clear
-dialog --backtitle "NeXt Server Installation" --infobox $1 40 80
+dialog --backtitle "NeXt Server Installation" --infobox "$1" 40 80
 
 }
 
 function dialog_msg() {
-clear
-dialog --backtitle "NeXt Server Installation" --msgbox $1 40 80
+dialog --backtitle "NeXt Server Installation" --msgbox "$1" 40 80
 
 }
 
