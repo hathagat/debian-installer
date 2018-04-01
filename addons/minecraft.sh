@@ -28,8 +28,6 @@ case $CHOICE in
 			;;
 esac
 
-dialog_info "Installing Minecraft..."
-
 install_packages "openjdk-8-jre-headless"
 
 adduser minecraft --gecos "" --no-create-home --disabled-password >>"${main_log}" 2>>"${err_log}"
@@ -64,6 +62,4 @@ echo "Um die Screen Session zu verlassen: Ctrl + A dann Ctrl + D drücken" >> ${
 echo "Zum zurück kehren in die Screen Session: screen -r in der Terminal eingeben" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
-
-dialog_info "Minecraft Installation finished! Credentials: ${SCRIPT_PATH}/login_information.txt"
 }

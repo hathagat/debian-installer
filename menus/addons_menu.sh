@@ -11,6 +11,7 @@ source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 HEIGHT=40
 WIDTH=80
@@ -44,15 +45,24 @@ MENU="Choose one of the following options:"
 						 case $CHOICE in
 
 1)
-	source ${SCRIPT_PATH}/configs/userconfig.cfg
-	source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
+	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+		dialog_info "Installing Teamspeak 3"
+		source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
+		dialog_msg "Finished installing Teamspeak 3! Credentials: ${SCRIPT_PATH}/login_information.txt"
+	else
+		echo "You have to install the NeXt Server to run this Addon!"
+	fi
 	;;
 2)
-	source ${SCRIPT_PATH}/configs/userconfig.cfg
-	source ${SCRIPT_PATH}/addons/minecraft.sh; install_minecraft
+	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+		dialog_info "Installing Minecraft"
+		source ${SCRIPT_PATH}/addons/minecraft.sh; install_minecraft
+		dialog_msg "Finished installing Minecraft! Credentials: ${SCRIPT_PATH}/login_information.txt"
+	else
+		echo "You have to install the NeXt Server to run this Addon!"
+	fi
 	;;
 3)
-source ${SCRIPT_PATH}/configs/userconfig.cfg
 if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 	dialog_info "Installing Composer"
 	source ${SCRIPT_PATH}/addons/composer.sh; install_composer
@@ -62,7 +72,6 @@ else
 fi
 ;;
 4)
-	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${USE_PHP7_1} == '1'  ]] || [[ ${USE_PHP7_2} == '1'  ]]; then
 		if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 			dialog_info "Installing Nextcloud"
@@ -76,7 +85,6 @@ fi
 	fi
 	;;
 5)
-	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 		dialog_info "Installing PHPmyadmin"
 		source ${SCRIPT_PATH}/addons/composer.sh; install_composer
@@ -87,32 +95,28 @@ fi
 	fi
 	;;
 6)
-	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
 		dialog_info "Installing Munin"
 		source ${SCRIPT_PATH}/addons/munin.sh; install_munin
-		dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Munin" $HEIGHT $WIDTH
+		dialog_msg "Finished installing Munin"
 	else
 		echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	fi
 	;;
 7)
-	source ${SCRIPT_PATH}/configs/userconfig.cfg
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-		#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
-			source ${SCRIPT_PATH}/configs/userconfig.cfg
+		#dialog_info "Installing Wordpress"
 			source ${SCRIPT_PATH}/menus/menu_options_wordpress.sh; menu_options_wordpress
 			source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
-		#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
+		#dialog_msg "Finished installing Wordpress"
 	else
 		echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	fi
 	;;
 8)
-	source ${SCRIPT_PATH}/configs/userconfig.cfg
-	#dialog --backtitle "NeXt Server Installation" --infobox "Installing Wordpress" $HEIGHT $WIDTH
+	#dialog_info "Installing Wordpress"
 		source ${SCRIPT_PATH}/addons/wordpress_deinstall.sh; deinstall_wordpress
-	#dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Wordpress" $HEIGHT $WIDTH
+	#dialog_msg "Finished installing Wordpress"
 	;;
 9)
   bash ${SCRIPT_PATH}/nxt.sh;
@@ -122,5 +126,4 @@ fi
 	exit 1
 	;;
 esac
-
 }

@@ -5,10 +5,6 @@
 
 install_teamspeak3() {
 
-HEIGHT=40
-WIDTH=80
-dialog_info "Installing Teamspeak 3..."
-
 install_packages "sudo"
 
 adduser ts3user --gecos "" --no-create-home --disabled-password >>"${main_log}" 2>>"${err_log}"
@@ -73,6 +69,4 @@ echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_info
 echo "TS3 Server Login = Look at: ts3serverdata.txt in the NeXt-Server Folder" >> ${SCRIPT_PATH}/login_information.txt
 echo "TS3 Server commands = /etc/init.d/ts3server start and /etc/init.d/ts3server stop" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
-
-dialog_msg "Teamspeak 3 Installation finished! Credentials: ${SCRIPT_PATH}/login_information.txt"
 }
