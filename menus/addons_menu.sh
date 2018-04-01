@@ -105,18 +105,17 @@ fi
 	;;
 7)
 	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
-		#dialog_info "Installing Wordpress"
-			source ${SCRIPT_PATH}/menus/menu_options_wordpress.sh; menu_options_wordpress
-			source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
-		#dialog_msg "Finished installing Wordpress"
+		source ${SCRIPT_PATH}/menus/wordpress_emnu.sh; menu_options_wordpress
+		source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
+		dialog_msg "Finished installing Wordpress"
 	else
 		echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	fi
 	;;
 8)
-	#dialog_info "Installing Wordpress"
+	dialog_info "Deinstalling Wordpress"
 		source ${SCRIPT_PATH}/addons/wordpress_deinstall.sh; deinstall_wordpress
-	#dialog_msg "Finished installing Wordpress"
+	dialog_msg "Finished Deinstalling Wordpress"
 	;;
 9)
   bash ${SCRIPT_PATH}/nxt.sh;
