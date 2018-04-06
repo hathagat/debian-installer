@@ -49,6 +49,9 @@ done <<< "$salts"
 mkdir -p /wp-content/uploads
 chown www-data:www-data -R *
 
+chgrp -R www-data *
+
+chmod -R g+w *
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
