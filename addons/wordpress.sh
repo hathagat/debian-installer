@@ -102,11 +102,13 @@ chown www-data:www-data -R *
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
+cp ${SCRIPT_PATH}/addons/vhosts/wordpress-new-vhost.conf /etc/nginx/sites-custom/wordpress.conf
+
 
 if [ -z "${WORDPRESSPATHNAME}" ]; then # then is root path
   
   sed -i "s/#try_files/try_files/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-normal.conf /etc/nginx/sites-custom/wordpress.conf
+#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-normal.conf /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
   
   sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g"  /etc/nginx/sites-available/${MYDOMAIN}.conf
@@ -114,7 +116,7 @@ if [ -z "${WORDPRESSPATHNAME}" ]; then # then is root path
 
 else # then is custom path
 
-  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
+#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
 
