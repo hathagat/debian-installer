@@ -6,6 +6,59 @@
 
 install_wordpress() {
 
+# --- MYDOMAIN ---
+source ${SCRIPT_PATH}/script/functions.sh; get_domain
+
+# Check loction for istall
+CHOICE_HEIGHT=4
+MENU="In wich path you want to install Wordpress?"
+OPTIONS=(1 "${MYDOMAIN}/wordpress"
+2 "${MYDOMAIN}/blog"
+3 "root of ${MYDOMAIN}"
+4 "custom")
+
+menu
+clear
+case $CHOICE in
+
+1)
+WORDPRESSPATHNAME="wordpress"
+;;
+
+2)
+WORDPRESSPATHNAME="blog"
+;;
+
+3)
+WORDPRESSPATHNAME=""
+#WORDPRESSPATHNAME="rootpath"
+;;
+
+4)
+while true
+do
+WORDPRESSPATHNAME=$(dialog --clear \
+--backtitle "$BACKTITLE" \
+--inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/ only A-Z and a-z letters" \
+$HEIGHT $WIDTH \
+3>&1 1>&2 2>&3 3>&- \
+
+)
+
+if [[ "$WORDPRESSPATHNAME" =~ [^0-9A-Za-z]+ ]];then
+break
+else
+dialog --title "Your Wordpress path" --msgbox "[ERROR] You should read it properly!" $HEIGHT $WIDTH
+dialog --clear
+fi
+done
+;;
+esac
+
+
+echo "ende debug"
+exit 1
+
 WORDPRESS_USER=$(username)
 WORDPRESS_DB_NAME=$(username)
 WORDPRESS_DB_PASS=$(password)
