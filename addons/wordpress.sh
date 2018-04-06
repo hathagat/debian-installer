@@ -9,11 +9,6 @@ install_wordpress() {
 # --- MYDOMAIN ---
 source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
-
-
-echo "ende debug"
-exit 1
-
 WORDPRESS_USER=$(username)
 WORDPRESS_DB_NAME=$(username)
 WORDPRESS_DB_PASS=$(password)
