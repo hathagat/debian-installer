@@ -9,6 +9,26 @@ install_wordpress() {
 # --- MYDOMAIN ---
 source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
+
+# Begin Debug
+if [ -z "${MYDOMAIN}" ]; then
+echo "Domain is Empty!"
+else
+echo "Domain name is: ${MYDOMAIN}"
+fi
+
+if [ -z "${WORDPRESSPATHNAME}" ]; then
+echo "WORDPRESSPATHNAME is Empty!"
+else
+echo "Choose WORDPRESSPATHNAME is: ${WORDPRESSPATHNAME}"
+fi
+
+
+
+# End Debug
+exit 1
+
+
 WORDPRESS_USER=$(username)
 WORDPRESS_DB_NAME=$(username)
 WORDPRESS_DB_PASS=$(password)
@@ -66,10 +86,15 @@ if [ -z "${WORDPRESSPATHNAME}" ]; then # then is root path
   sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
 
 # remove WORDPRESSPATHNAME/ from vhost
+# Working
 sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
 
 # Not working atm
-sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g"  /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+
+#Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
+sed -i '9d' /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i '9i9 root	/etc/nginx/html/${MYDOMAIN}/wordpress;' /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 
 else # then is custom path
