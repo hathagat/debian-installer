@@ -66,7 +66,7 @@ adduser ${LOGIN_USER} --gecos "" --disabled-password --no-create-home --home /ro
 usermod -a -G sshusers ${LOGIN_USER} >>"${main_log}" 2>>"${err_log}"
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "#LOGIN_USER: ${LOGIN_USER}" >> ${SCRIPT_PATH}/login_information
+echo "#LOGIN_USER: ${LOGIN_USER}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
