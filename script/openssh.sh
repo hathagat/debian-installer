@@ -19,6 +19,8 @@ declare -A BLOCKED_PORTS='(
     [587]="1"
     [993]="1"
     [995]="1"
+    [1000]="1"
+    [1001]="1"
     [4000]="1")'
 
 if [ "$FIX_SSH_PORT" == "1" ] && ! [ -v BLOCKED_PORTS[$FIXED_SSH_PORT] ]; then
