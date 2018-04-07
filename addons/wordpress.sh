@@ -49,6 +49,7 @@ done <<< "$salts"
 mkdir -p /wp-content/uploads
 chown www-data:www-data -R *
 
+# Set Group to www-data
 chgrp -R www-data *
 
 chmod -R g+w *
@@ -67,8 +68,9 @@ if [ -z "${WORDPRESSPATHNAME}" ]; then # then is root path
 # remove WORDPRESSPATHNAME/ from vhost
 sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
 
-  sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g"  /etc/nginx/sites-available/${MYDOMAIN}.conf
-  root	/etc/nginx/html/${MYDOMAIN};
+# Not working atm
+sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g"  /etc/nginx/sites-available/${MYDOMAIN}.conf
+
 
 else # then is custom path
 
