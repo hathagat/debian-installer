@@ -1,8 +1,7 @@
 #!/bin/bash
+# thanks to https://thomas-leister.de/mailserver-debian-stretch/
 
 install_mailserver() {
-# Thanks to Thomas Leister for his awesome mailserver setup!
-# see https://thomas-leister.de/mailserver-debian-stretch/
 
 systemctl -q stop nginx.service
 
