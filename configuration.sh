@@ -12,7 +12,7 @@ In Putty you have only mark the text. Do not Press STRG+C!" $HEIGHT $WIDTH
 cat ${SCRIPT_PATH}/ssh_privatekey.txt
 }
 
-show_login_information.txt()
+show_login_information()
 {
 dialog_msg "Please save the shown login information on next page"
 #dialog --title "Your Server Logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt 50 200

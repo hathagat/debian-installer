@@ -65,10 +65,10 @@ groupadd --system -g ${SSH_PORT} sshusers >>"${main_log}" 2>>"${err_log}"
 adduser ${LOGIN_USER} --gecos "" --disabled-password --no-create-home --home /root/ --shell /bin/sh -u ${SSH_PORT} --ingroup sshusers >>"${main_log}" 2>>"${err_log}"
 usermod -a -G sshusers ${LOGIN_USER} >>"${main_log}" 2>>"${err_log}"
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "#LOGIN_USER: ${LOGIN_USER}" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog

@@ -90,7 +90,7 @@ fi
 		exit 1
 	fi
 
-	source ${SCRIPT_PATH}/configuration.sh; show_login_information.txt
+	source ${SCRIPT_PATH}/configuration.sh; show_login_information
 	read -p "Continue (y/n)?" ANSW
 	if [ "$ANSW" = "n" ]; then
 		echo "Exit"
