@@ -262,7 +262,7 @@ unzip $1 >>"${main_log}" 2>>"${err_log}"
 }
 
 function install_packages() {
-echo "Packages in function $1"
+echo "Installing packages for $1"
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
         ERROR=$?
