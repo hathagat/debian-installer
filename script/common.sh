@@ -38,4 +38,22 @@ if [ -f ~/.bashrc ]; then
 fi
 END
 
+# Updates
+apt-get -y install unattended-upgrades >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install unattended-upgrades"
+
+sed -i 's_//      "o=Debian,n=jessie";_      "o=Debian,n=stretch";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//      "o=Debian,n=jessie-updates";_      "o=Debian,n=stretch-updates";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//      "o=Debian,n=jessie-proposed-updates";_      "o=Debian,n=stretch-proposed-updates";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//      "o=Debian,n=jessie,l=Debian-Security";_      "o=Debian Backports,n=stretch-backports";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//Unattended-Upgrade::MailOnlyOnError "true";_Unattended-Upgrade::MailOnlyOnError "true";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//Unattended-Upgrade::Remove-Unused-Dependencies "false";_Unattended-Upgrade::Remove-Unused-Dependencies "true";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//Unattended-Upgrade::Automatic-Reboot "false";_Unattended-Upgrade::Automatic-Reboot "true";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//Unattended-Upgrade::Automatic-Reboot-Time "02:00";_Unattended-Upgrade::Automatic-Reboot-Time "05:00";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+
+cat > /etc/apt/apt.conf.d/20auto-upgrades <<END
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::Unattended-Upgrade "1";
+END
+
 }
