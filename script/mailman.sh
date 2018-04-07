@@ -5,22 +5,15 @@ install_mailman() {
 mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; insert into domains (domain) values ('${MYDOMAIN}');"
 EMAIL_ACCOUNT_PASS=$(password)
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Your Email User Name: postmaster@${MYDOMAIN}" >> ${SCRIPT_PATH}/login_information
-echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
-
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "EMAIL_ACCOUNT_PASS: $EMAIL_ACCOUNT_PASS" >> ${SCRIPT_PATH}/login_information
-echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo ""
+if [ -z "${EMAIL_ACCOUNT_PASS}" ]; then
+    echo "EMAIL_ACCOUNT_PASS is unset or set to the empty string, creating new one!"
+    EMAIL_ACCOUNT_PASS=$(password)
+fi
 
 EMAIL_ACCOUNT_PASS_HASH=$(doveadm pw -p ${EMAIL_ACCOUNT_PASS} -s SHA512-CRYPT)
 mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; insert into accounts (username, domain, password, quota, enabled, sendonly) values ('postmaster', '${MYDOMAIN}', '${EMAIL_ACCOUNT_PASS_HASH}', 2048, true, false);"
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential python curl >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install build-essential python curl packages"
+install_packages "build-essential python curl"
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
 
@@ -51,17 +44,6 @@ pm2 kill
 
 npm start
 
-# Starts Mailman at bootup
-#
-#@reboot root /root/NeXt-Server/cronjobs/startmailman.sh
-#
-#chmod +x /root/NeXt-Server/cronjobs/startmailman.sh
-#
-#/startmailman.sh:
-#cd /etc/mailman
-#npm start
-# -------------------------------------------
-
 cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
 location /mailman {
   proxy_pass       http://localhost:4000;
@@ -70,9 +52,13 @@ location /mailman {
 }
 EOF1
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "Mailman Address: ${MYDOMAIN}/mailman" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+pm2 startup
 
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "Mailman Address: ${MYDOMAIN}/mailman" >> ${SCRIPT_PATH}/login_information.txt
+echo "Your Email User Name: postmaster@${MYDOMAIN}" >> ${SCRIPT_PATH}/login_information.txt
+echo "EMAIL_ACCOUNT_PASS: ${EMAIL_ACCOUNT_PASS}" >> ${SCRIPT_PATH}/login_information.txt
+echo "This is also the Mailman Login" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo ""
 }

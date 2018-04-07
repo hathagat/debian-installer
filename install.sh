@@ -1,6 +1,8 @@
 #!/bin/bash
 
 SCRIPT_PATH="/root/NeXt-Server"
+
+source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 install() {
@@ -77,10 +79,12 @@ install() {
 	php_start=`date +%s`
 	if [[ ${INSTALL_PHP} = "1" ]]; then
 	    echo "80" | dialog --gauge "Installing PHP..." 10 70 0
-        if [[ ${USE_PHP7_1} = "1" ]]; then
+        if [[ ${USE_PHP5="1"} = "1" ]]; then
+		    source ${SCRIPT_PATH}/script/php5_6.sh; install_php_5
+	    fi
+		if [[ ${USE_PHP7_1} = "1" ]]; then
 		    source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1
 	    fi
-
 	    if [[ ${USE_PHP7_2} = "1" ]]; then
 		    source ${SCRIPT_PATH}/script/php7_2.sh; install_php_7_2
 	    fi

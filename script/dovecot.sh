@@ -2,7 +2,7 @@
 
 install_dovecot() {
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install dovecot packages"
+install_packages "dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved"
 
 systemctl stop dovecot
 

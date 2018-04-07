@@ -2,18 +2,14 @@
 
 install_teamspeak3() {
 
-HEIGHT=15
-WIDTH=60
-dialog --backtitle "Addon-Installation" --infobox "Installing Teamspeak 3..." $HEIGHT $WIDTH
-
-DEBIAN_FRONTEND=noninteractive apt-get -y install sudo >>"${main_log}" 2>>"${err_log}"
+install_packages "sudo"
 
 adduser ts3user --gecos "" --no-create-home --disabled-password >>"${main_log}" 2>>"${err_log}"
 mkdir -p /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
 chown ts3user /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
 
 cd /usr/local/ts3user >>"${main_log}" 2>>"${err_log}"
-wget -q http://dl.4players.de/ts/releases/${TEAMSPEAK_VERSION}/teamspeak3-server_linux_amd64-${TEAMSPEAK_VERSION}.tar.bz2 >>"${main_log}" 2>>"${err_log}"
+wget_tar "http://dl.4players.de/ts/releases/${TEAMSPEAK_VERSION}/teamspeak3-server_linux_amd64-${TEAMSPEAK_VERSION}.tar.bz2"
 tar -xjf teamspeak3-server_linux*.tar.bz2 >>"${main_log}" 2>>"${err_log}" >>"${main_log}" 2>>"${err_log}"
 mkdir -p /usr/local/ts3user/ts3server/ >>"${main_log}" 2>>"${err_log}"
 cp -r -u /usr/local/ts3user/teamspeak3-server_linux_amd64/* /usr/local/ts3user/ts3server/ >>"${main_log}" 2>>"${err_log}"
@@ -22,6 +18,7 @@ rm -r /usr/local/ts3user/teamspeak3-server_linux_amd64/ >>"${main_log}" 2>>"${er
 chown -R ts3user /usr/local/ts3user/ts3server >>"${main_log}" 2>>"${err_log}"
 
 touch ${SCRIPT_PATH}/ts3serverdata.txt
+touch /usr/local/ts3user/ts3server/.ts3server_license_accepted
 timeout 10 sudo -u  ts3user /usr/local/ts3user/ts3server/ts3server_minimal_runscript.sh > ${SCRIPT_PATH}/ts3serverdata.txt
 
 echo "#! /bin/sh
@@ -63,17 +60,10 @@ sed -i '1171s/, "/"/' /etc/arno-iptables-firewall/firewall.conf
 
 systemctl force-reload arno-iptables-firewall.service >>"${main_log}" 2>>"${err_log}"
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "TS3 Server Login:" >> ${SCRIPT_PATH}/login_information
-echo "Look at: ts3serverdata.txt in the NeXt-Server Folder" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
-
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "TS3 Server commands:" >> ${SCRIPT_PATH}/login_information
-echo "/etc/init.d/ts3server start and /etc/init.d/ts3server stop" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
-
-dialog --backtitle "Addon-Installation" --infobox "Teamspeak 3 Installation finished! Credentials: ${SCRIPT_PATH}/login_information" $HEIGHT $WIDTH
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
+echo "Teamspeak 3" >> ${SCRIPT_PATH}/login_information.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
+echo "TS3 Server Login = Look at: ts3serverdata.txt in the NeXt-Server Folder" >> ${SCRIPT_PATH}/login_information.txt
+echo "TS3 Server commands = /etc/init.d/ts3server start and /etc/init.d/ts3server stop" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 }

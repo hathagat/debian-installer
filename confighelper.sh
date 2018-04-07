@@ -5,8 +5,8 @@ confighelper_userconfig() {
 # --- GLOBAL MENU VARIABLES ---
 BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 
 # --- TIMEZONE ---
 CHOICE_HEIGHT=12
@@ -66,42 +66,62 @@ esac
 
 # --- MYDOMAIN ---
 source ${SCRIPT_PATH}/script/functions.sh; get_domain
+CHECK_DOMAIN_LENGTH=`echo -n ${DETECTED_DOMAIN} | wc -m`
 
-CHOICE_HEIGHT=2
-MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
-OPTIONS=(1 "Yes"
-		     2 "No")
-menu
-clear
-case $CHOICE in
-      1)
-			MYDOMAIN=${DETECTED_DOMAIN}
-            ;;
-		2)
-			while true
-				do
-					MYDOMAIN=$(dialog --clear \
-					--backtitle "$BACKTITLE" \
-					--inputbox "Enter your Domain without http:// (exmaple.org):" \
-					$HEIGHT $WIDTH \
-					3>&1 1>&2 2>&3 3>&- \
-					)
-						if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
-							break
-						else
-							dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Domain address looks?" $HEIGHT $WIDTH
-							dialog --clear
-						fi
-				done
-            ;;
-esac
+if [[ $CHECK_DOMAIN_LENGTH > 1 ]]; then
+	CHOICE_HEIGHT=2
+	MENU="Is this the domain, you want to use? ${DETECTED_DOMAIN}:"
+	OPTIONS=(1 "Yes"
+			     2 "No")
+	menu
+	clear
+	case $CHOICE in
+	      1)
+				MYDOMAIN=${DETECTED_DOMAIN}
+	            ;;
+			2)
+				while true
+					do
+						MYDOMAIN=$(dialog --clear \
+						--backtitle "$BACKTITLE" \
+						--inputbox "Enter your Domain without http:// (exmaple.org):" \
+						$HEIGHT $WIDTH \
+						3>&1 1>&2 2>&3 3>&- \
+						)
+							if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+								break
+							else
+								dialog_msg "[ERROR] Should we again practice how a Domain address looks?"
+								dialog --clear
+							fi
+					done
+	            ;;
+	esac
+else
+	dialog_msg "The Script wasn't able to recognize your Domain! \n \n Have you set the right DNS settings, or multiple Domains directing to the server IP? \n \n Please enter it manually!"
+	while true
+		do
+			MYDOMAIN=$(dialog --clear \
+			--backtitle "$BACKTITLE" \
+			--inputbox "Enter your Domain without http:// (exmaple.org):" \
+			$HEIGHT $WIDTH \
+			3>&1 1>&2 2>&3 3>&- \
+			)
+				if [[ "$MYDOMAIN" =~ $CHECK_DOMAIN ]];then
+					break
+				else
+					dialog_msg "[ERROR] Should we again practice how a Domain address looks?"
+					dialog --clear
+				fi
+		done
+fi
 
 # --- DNS Check ---
 
 server_ip=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 sed -i "s/server_ip/$server_ip/g" ${SCRIPT_PATH}/dns_settings.txt
 sed -i "s/yourdomain.com/$MYDOMAIN/g" ${SCRIPT_PATH}/dns_settings.txt
-dialog --title "DNS Settings" --tab-correct --textbox ${SCRIPT_PATH}/dns_settings.txt 50 200
+dialog --title "DNS Settings" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/dns_settings.txt 50 200
 
 BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"
@@ -127,7 +147,7 @@ case $CHOICE in
 	1)
 		;;
 	2)
-		dialog --backtitle "NeXt Server Installation" --msgbox "Sorry, you have to wait 24 - 48 hours, until the DNS system knows your settings!" $HEIGHT $WIDTH
+		dialog_msg "Sorry, you have to wait 24 - 48 hours, until the DNS system knows your settings!"
 		exit 1
 		;;
 esac
@@ -148,14 +168,14 @@ while true
 	do
 		NXT_SYSTEM_EMAIL=$(dialog --clear \
 		--backtitle "$BACKTITLE" \
-		--inputbox "Enter your Email adress for system services example: nextserver@gmail.com" \
+		--inputbox "Enter your Email adress for system services example (please use the domain, you use for the script installation): admin@${MYDOMAIN}" \
 		$HEIGHT $WIDTH \
 		3>&1 1>&2 2>&3 3>&- \
 		)
 			if [[ "$NXT_SYSTEM_EMAIL" =~ $CHECK_E_MAIL ]];then
 				break
 			else
-				dialog --title "NeXt Server Confighelper" --msgbox "[ERROR] Should we again practice how a Email address looks?" $HEIGHT $WIDTH
+				dialog_msg "[ERROR] Should we again practice how a Email address looks?"
 				dialog --clear
 			fi
 	done
@@ -235,7 +255,7 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 #-----------------------------------------------------------#
 END
 
-dialog --title "Userconfig" --textbox ${SCRIPT_PATH}/configs/userconfig.cfg 50 250
+dialog --title "Userconfig" --exit-label "ok" --textbox ${SCRIPT_PATH}/configs/userconfig.cfg 50 250
 clear
 
 CHOICE_HEIGHT=2

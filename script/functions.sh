@@ -2,6 +2,32 @@
 
 function password {
   openssl rand -base64 40 | tr -d / | cut -c -32 | grep -P '(?=^.{8,255}$)(?=^[^\s]*$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])'
+password() {
+  while true; do
+    random_password=$(openssl rand -base64 40 | tr -d / | cut -c -32 | grep -P '(?=^.{8,255}$)(?=^[^\s]*$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])')
+
+      if [ -z "$random_password" ]
+      then
+            echo "empty" > /dev/null 2>&1
+      else
+            echo "$random_password"
+            break
+      fi
+  done
+}
+
+# bash generate random n character alphanumeric string (upper and lowercase) and
+username() {
+  while true; do
+  random_username=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+    if [ -z "$random_username" ]
+    then
+          echo "empty" > /dev/null 2>&1
+    else
+          echo "$random_username"
+          break;
+    fi
+done
 }
 
 setipaddrvars() {
@@ -29,7 +55,31 @@ CHOICE=$(dialog --clear \
                 2>&1 >/dev/tty)
 }
 
+function dialog_info() {
+dialog --backtitle "NeXt Server Installation" --infobox "$1" 40 80
+
+}
+
+function dialog_msg() {
+dialog --backtitle "NeXt Server Installation" --msgbox "$1" 40 80
+
+}
+
 start_after_install() {
+  source ${SCRIPT_PATH}/checks/nginx-check.sh; check_nginx
+  read -p "Continue (y/n)?" ANSW
+	if [ "$ANSW" = "n" ]; then
+		echo "Exit"
+		exit 1
+	fi
+
+  source ${SCRIPT_PATH}/checks/php-check.sh; check_php
+  read -p "Continue (y/n)?" ANSW
+  if [ "$ANSW" = "n" ]; then
+    echo "Exit"
+    exit 1
+  fi
+
   source ${SCRIPT_PATH}/configs/versions.cfg
 	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 	read -p "Continue (y/n)?" ANSW
@@ -38,7 +88,7 @@ start_after_install() {
 		exit 1
 	fi
 
-	source ${SCRIPT_PATH}/configuration.sh; show_login_information
+	source ${SCRIPT_PATH}/configuration.sh; show_login_information.txt
 	read -p "Continue (y/n)?" ANSW
 	if [ "$ANSW" = "n" ]; then
 		echo "Exit"
@@ -59,8 +109,8 @@ start_after_install() {
 	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
 }
 
-# ERROR HANDLING
-error_exit() {
+error_exit()
+{
 	echo "$1" 1>&2
 
 	CHOICE_HEIGHT=2
@@ -84,7 +134,6 @@ error_exit() {
 				dialog --title "We prepare the error reporting system" --infobox "We install required packages for error reporting. Please be patient." $HEIGHT $WIDTH
 				apt-get -y --assume-yes install mutt sendmail sendmail-bin sensible-mda >/dev/null 2>&1
 
-				#Get OS
 				USED_OS=$(lsb_release -is)
 
 				sed -i "s/${MYDOMAIN}/domain.tld/g" ${SCRIPT_PATH}/logs/main.log
@@ -127,11 +176,10 @@ error_exit() {
 				echo -e "##----------The file has been anonymized!--------##" >> ${SCRIPT_PATH}/logs/error.log
 				echo -e "##-----------------------------------------------##" >> ${SCRIPT_PATH}/logs/error.log
 
-				#PGP issue
-				#echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server Installation. Error: $1" | mutt -a "${SCRIPT_PATH}/logs/main.log" "${SCRIPT_PATH}/logs/error.log" "${SCRIPT_PATH}/logs/make.log" "${SCRIPT_PATH}/logs/make_error.log" "${SCRIPT_PATH}/configs/userconfig.cfg" -s "FAILED INSTALLATION OF NeXt Server Installation" -- error@nxt.sh >/dev/null 2>&1
+				echo "Here are the error Logs from failed installation ( $USED_OS ) of NeXt Server Installation. Error: $1" | mutt -a "${SCRIPT_PATH}/logs/main.log" "${SCRIPT_PATH}/logs/error.log" "${SCRIPT_PATH}/logs/make.log" "${SCRIPT_PATH}/logs/make_error.log" "${SCRIPT_PATH}/configs/userconfig.cfg" -s "FAILED INSTALLATION OF NeXt Server Installation" -- error@nxt.sh >/dev/null 2>&1
 
-				HEIGHT=15
-				WIDTH=70
+				HEIGHT=40
+				WIDTH=80
 				dialog --backtitle "NeXt Server Installation" --msgbox "Thank you for the Bug Report! Error: $1" $HEIGHT $WIDTH
 				clear
 				exit 1
@@ -144,13 +192,84 @@ error_exit() {
 }
 
 # Check valid E-Mail
-CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
+CHECK_E_MAIL="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\$"
 
 CHECK_PASSWORD="^[A-Za-z0-9]*$"
 
 # Check valid Domain
 ####not perfectly working!!!!
-CHECK_DOMAIN="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*.([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
+CHECK_DOMAIN="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*.([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z])?\$"
 
 # Date!
 CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
+
+# Check services and restart
+# How to use:
+# check_service "nginx"
+# check_service "php5-fpm"
+# if check_service "nginx"; then
+#	echo "unable to restart"
+#	else
+#	echo "service is running"
+#	fi
+function check_service() {
+z=0
+ ps auxw | grep -P '\b'$1'(?!-)\b' > /dev/null 2>&1
+ if [ $? != 0 ]; then
+	# Try to restart Service
+	while [ $z -le 2 ];
+	do
+		service $1 restart > /dev/null 2>&1
+		sleep 1
+		z=$(( z+1 ))
+	done
+
+ else
+   echo $1 "is running"; > /dev/null 2>&1
+ fi
+}
+
+function wget_tar() {
+echo "Download Link in function $1"
+
+wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 download failed."
+      exit
+    fi
+}
+
+function tar_file() {
+echo "Tar File in function $1"
+
+tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 is corrupted."
+      exit
+    fi
+rm $1
+}
+
+function unzip_file() {
+echo "ZIP File in function $1"
+
+unzip $1 >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 is corrupted."
+      exit
+    fi
+}
+
+function install_packages() {
+echo "Packages in function $1"
+
+DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 had an error during installation."
+      exit
+    fi
+}

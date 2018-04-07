@@ -2,24 +2,11 @@
 
 install_nginx() {
 
-apt-get -y --assume-yes install psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install nginx packages"
+install_packages "psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall"
 
 cd ${SCRIPT_PATH}/sources
-wget --no-check-certificate http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: nginx-${NGINX_VERSION}.tar.gz download failed."
-      exit
-    fi
-
-tar -xzf nginx-${NGINX_VERSION}.tar.gz >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: nginx-${NGINX_VERSION}.tar.gz is corrupted."
-      exit
-    fi
-rm nginx-${NGINX_VERSION}.tar.gz
-
+wget_tar "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
+tar_file "nginx-${NGINX_VERSION}.tar.gz"
 cd nginx-${NGINX_VERSION} >>"${main_log}" 2>>"${err_log}"
 
 #Thanks to https://github.com/Angristan/nginx-autoinstall/
@@ -67,6 +54,7 @@ NGINX_MODULES="--without-http_browser_module \
 --with-http_gunzip_module \
 --with-openssl-opt=enable-tls1_3 \
 --with-openssl=${SCRIPT_PATH}/sources/openssl-${OPENSSL_VERSION} \
+--add-module=${SCRIPT_PATH}/sources/naxsi/naxsi_src \
 --add-module=${SCRIPT_PATH}/sources/incubator-pagespeed-ngx-${NPS_VERSION} \
 --add-module=${SCRIPT_PATH}/sources/headers-more-nginx-module-${NGINX_HEADER_MOD_VERSION} \
 --add-module=${SCRIPT_PATH}/sources/ngx_brotli "
@@ -79,7 +67,6 @@ checkinstall --install=no -y >>"${main_log}" 2>>"${err_log}"
 dpkg -i nginx_${NGINX_VERSION}-1_amd64.deb >>"${main_log}" 2>>"${err_log}"
 mv nginx_${NGINX_VERSION}-1_amd64.deb ../ >>"${main_log}" 2>>"${err_log}"
 
-#cleanup
 rm -R ${SCRIPT_PATH}/sources/nginx-${NGINX_VERSION}
 rm -R ${SCRIPT_PATH}/sources/libbrotli
 rm -R ${SCRIPT_PATH}/sources/ngx_brotli
@@ -118,5 +105,6 @@ cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.htm
 
 #Make folder writeable
 chown -R www-data:www-data /etc/nginx/html/${MYDOMAIN}
+#chmod og+x /etc/nginx/html/${MYDOMAIN}
 
 }

@@ -2,40 +2,15 @@
 
 install_nginx_addons() {
 
-apt-get -y --assume-yes install autoconf automake libtool git unzip zlib1g-dev libpcre3 libpcre3-dev uuid-dev >>"${main_log}" 2>>"${err_log}"
+install_packages "autoconf automake libtool git unzip zlib1g-dev libpcre3 libpcre3-dev uuid-dev"
 
 cd ${SCRIPT_PATH}/sources
-wget --no-check-certificate https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NPS_VERSION} download failed."
-      exit
-    fi
-
-unzip v${NPS_VERSION} >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NPS_VERSION} is corrupted."
-      exit
-    fi
-
+wget_tar "https://codeload.github.com/pagespeed/ngx_pagespeed/zip/v${NPS_VERSION}"
+unzip_file "v${NPS_VERSION}"
 cd incubator-pagespeed-ngx-${NPS_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 
-wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz --tries=3 >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: ${PSOL_VERSION}-x64.tar.gz download failed."
-      exit
-    fi
-
-tar -xzf ${PSOL_VERSION}-x64.tar.gz >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: ${PSOL_VERSION}-x64.tar.gz is corrupted."
-      exit
-    fi
-rm ${PSOL_VERSION}-x64.tar.gz
-
+wget_tar "https://dl.google.com/dl/page-speed/psol/${PSOL_VERSION}-x64.tar.gz"
+tar_file "${PSOL_VERSION}-x64.tar.gz"
 cd ${SCRIPT_PATH}/sources
 git clone --recursive https://github.com/bagder/libbrotli >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone libbrotli"
 cd libbrotli
@@ -54,17 +29,9 @@ git submodule update --init >>"${main_log}" 2>>"${err_log}"
 
 
 cd ${SCRIPT_PATH}/sources
-wget --no-check-certificate https://codeload.github.com/openresty/headers-more-nginx-module/zip/v${NGINX_HEADER_MOD_VERSION} --tries=3 >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NGINX_HEADER_MOD_VERSION} download failed."
-      exit
-    fi
+wget_tar "https://codeload.github.com/openresty/headers-more-nginx-module/zip/v${NGINX_HEADER_MOD_VERSION}"
+unzip_file "v${NGINX_HEADER_MOD_VERSION}"
 
-unzip v${NGINX_HEADER_MOD_VERSION} >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: v${NGINX_HEADER_MOD_VERSION} is corrupted."
-      exit
-    fi
+cd ${SCRIPT_PATH}/sources
+git clone https://github.com/nbs-system/naxsi.git -q >>"${main_log}" 2>>"${err_log}"
 }

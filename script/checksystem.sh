@@ -3,12 +3,25 @@
 check_system() {
 
 	if [ $USER != 'root' ]; then
-        echo " Please run the script as root"
+        echo "Please run the script as root"
 		exit 1
 	fi
 
 	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -is) != 'Ubuntu' ]; then
 		echo "The script only works on Ubuntu 16.04 Xenial and Debian 9.x"
+		exit 1
+	fi
+
+	HOSTNAME_LENGTH=$(hostname)
+	HOSTNAME_LENGTH_CHARS=$(echo -n $HOSTNAME_LENGTH | wc -m)
+	CUT_LENGTH_MIN=$(($HOSTNAME_LENGTH_CHARS + 8))
+	CUT_LENGTH_MAX=$(($HOSTNAME_LENGTH_CHARS + 14))
+
+	LOCAL_KERNEL_VERSION_STRING=$(uname -a 2>&1)
+	LOCAL_KERNEL_VERSION=$(echo $LOCAL_KERNEL_VERSION_STRING | cut -c${CUT_LENGTH_MIN}-${CUT_LENGTH_MAX})
+
+	if [ $LOCAL_KERNEL_VERSION != ${KERNEL_VERSION} ]; then
+        echo "Please upgrade your Linux Version ($LOCAL_KERNEL_VERSION) with apt-get update && apt-get dist-upgrade to match the script required Version ${KERNEL_VERSION}"
 		exit 1
 	fi
 
@@ -44,7 +57,7 @@ check_system() {
 		echo > /dev/null
 	else
 		if [ $(dpkg-query -l | grep facter | wc -l) -ne 1 ]; then
-			apt-get -y --assume-yes install facter >>"${main_log}" 2>>"${err_log}"
+			install_packages "facter"
 		fi
 
 		if	[ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then

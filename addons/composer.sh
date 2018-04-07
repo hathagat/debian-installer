@@ -2,8 +2,6 @@
 
 install_composer() {
 
-  set -x
-
 cd ${SCRIPT_PATH}/sources/ >>"${main_log}" 2>>"${err_log}"
 
 EXPECTED_SIGNATURE=$(wget -q -O - https://composer.github.io/installer.sig)

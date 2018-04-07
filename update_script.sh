@@ -13,8 +13,8 @@ if ! git diff --quiet origin/master; then
     cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
   fi
 
-  if [ -e ${SCRIPT_PATH}/login_information ]; then
-    cp ${SCRIPT_PATH}/login_information /root/backup_next_server/
+  if [ -e ${SCRIPT_PATH}/login_information.txt ]; then
+    cp ${SCRIPT_PATH}/login_information.txt /root/backup_next_server/
   fi
 
   if [ -e ${SCRIPT_PATH}/ssh_privatekey.txt ]; then
@@ -47,8 +47,8 @@ if ! git diff --quiet origin/master; then
     cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
   fi
 
-  if [ -e /root/backup_next_server/login_information ]; then
-    cp /root/backup_next_server/login_information ${SCRIPT_PATH}/
+  if [ -e /root/backup_next_server/login_information.txt ]; then
+    cp /root/backup_next_server/login_information.txt ${SCRIPT_PATH}/
   fi
 
   if [ -e /root/backup_next_server/ssh_privatekey.txt ]; then
@@ -80,7 +80,7 @@ if ! git diff --quiet origin/master; then
   GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 else
   GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
-  dialog --backtitle "NeXt Server Installation" --msgbox "The local Version ${GIT_LOCAL_FILES_HEAD} is equal with Github, no update needed!" $HEIGHT $WIDTH
+  dialog_msg "The local Version ${GIT_LOCAL_FILES_HEAD} is equal with Github, no update needed!"
   exit 1
 fi
 }

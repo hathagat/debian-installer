@@ -2,14 +2,14 @@
 
 install_rspamd() {
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install lsb-release wget >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install lsb-release wget packages"
+install_packages "lsb-release wget"
 
 wget -q -O- https://rspamd.com/apt-stable/gpg.key | apt-key add - >>"${main_log}" 2>>"${err_log}"
 echo "deb http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" > /etc/apt/sources.list.d/rspamd.list
 echo "deb-src http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" >> /etc/apt/sources.list.d/rspamd.list
 
 apt-get update -y >/dev/null 2>&1
-DEBIAN_FRONTEND=noninteractive apt-get -y install rspamd >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install rspamd package"
+install_packages "rspamd"
 systemctl stop rspamd
 
 cp ${SCRIPT_PATH}/configs/rspamd/options.inc /etc/rspamd/local.d/options.inc
@@ -18,15 +18,20 @@ cp ${SCRIPT_PATH}/configs/rspamd/classifier-bayes.conf /etc/rspamd/local.d/class
 
 RSPAMADM_PASSWORT=$(password)
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "RSPAMADM URL: https://${MYDOMAIN}/rspamd/" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+if [ -z "${RSPAMADM_PASSWORT}" ]; then
+    echo "RSPAMADM_PASSWORT is unset or set to the empty string, creating new one!"
+    RSPAMADM_PASSWORT=$(password)
+fi
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "RSPAMADM_PASSWORT: $RSPAMADM_PASSWORT" >> ${SCRIPT_PATH}/login_information
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information
-echo "" >> ${SCRIPT_PATH}/login_information
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "RSPAMADM URL: https://${MYDOMAIN}/rspamd/" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
+
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "RSPAMADM_PASSWORT: $RSPAMADM_PASSWORT" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 RSPAMADM_PASSWORT_HASH=$(rspamadm pw -p ${RSPAMADM_PASSWORT})
 
@@ -52,7 +57,7 @@ sed -i "s/placeholder/${CURRENT_YEAR}/g" /etc/rspamd/local.d/dkim_signing.conf
 
 cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server >>"${main_log}" 2>>"${err_log}"
+install_packages "redis-server"
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
 mkdir -p /etc/nginx/sites-custom

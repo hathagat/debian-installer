@@ -19,7 +19,6 @@ END
     sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
 
     echo $(hostname -f) > /etc/mailname
-    #echo -e "${IPADR} ${MYDOMAIN} $(echo ${MYDOMAIN} | cut -f 1 -d '.')" >> /etc/hosts
 fi
 
 timedatectl set-timezone ${TIMEZONE}
@@ -71,7 +70,7 @@ END
 fi
 
 apt-get clean
-apt-get update >/dev/null 2>&1
+apt-get update -y >/dev/null 2>&1
 apt-get -y upgrade >/dev/null 2>&1
 
 #thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1

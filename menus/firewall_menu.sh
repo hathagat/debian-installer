@@ -2,8 +2,8 @@
 
 menu_options_firewall() {
 
-HEIGHT=30
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 CHOICE_HEIGHT=9
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
@@ -32,16 +32,16 @@ MENU="Choose one of the following options:"
 	clear
 	case $CHOICE in
 			1)
-				dialog --backtitle "NeXt Server Installation" --infobox "Installing Firewall" $HEIGHT $WIDTH
+				dialog_info "Installing Firewall"
 				source ${SCRIPT_PATH}/script/firewall.sh; install_firewall || error_exit
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished installing Firewall" $HEIGHT $WIDTH
+				dialog_msg "Finished installing Firewall"
 				;;
 			2)
-				dialog --backtitle "NeXt Server Installation" --infobox "Updating Firewall" $HEIGHT $WIDTH
+				dialog_info "Updating Firewall"
 				rm -R ${SCRIPT_PATH}/sources/aif
 				rm -R ${SCRIPT_PATH}/sources/blacklist
 				source ${SCRIPT_PATH}/script/firewall.sh; update_firewall || error_exit
-				dialog --backtitle "NeXt Server Installation" --msgbox "Finished updating Firewall" $HEIGHT $WIDTH
+				dialog_msg "Finished updating Firewall"
 				;;
 			3)
 			while true
@@ -56,7 +56,7 @@ MENU="Choose one of the following options:"
 								TCP_PORT="$CHOOSE_TCP_PORT"
 								sed -i "/\<$TCP_PORT\>/ "\!"s/^OPEN_TCP=\"/&$TCP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
 								systemctl force-reload arno-iptables-firewall.service
-								dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The new TCP Port ${TCP_PORT} is opened!" $HEIGHT $WIDTH
+								dialog_msg "You are done. The new TCP Port ${TCP_PORT} is opened!"
 								break
 						fi
 					done
@@ -75,7 +75,7 @@ MENU="Choose one of the following options:"
 							UDP_PORT="$CHOOSE_UDP_PORT"
 							sed -i "/\<$UDP_PORT\>/ "\!"s/^OPEN_UDP=\"/&$UDP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
 							systemctl force-reload arno-iptables-firewall.service
-							dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The new UDP Port ${UDP_PORT} is opened!" $HEIGHT $WIDTH
+							dialog_msg "You are done. The new UDP Port ${UDP_PORT} is opened!"
 							break
 					fi
 				done
@@ -94,7 +94,7 @@ MENU="Choose one of the following options:"
 							TCP_PORT_CLOSE="$CHOOSE_TCP_PORT_CLOSE"
 							sed -i "s/$TCP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
 							systemctl force-reload arno-iptables-firewall.service
-							dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The TCP Port ${TCP_PORT_CLOSE} is closed!" $HEIGHT $WIDTH
+							dialog_msg "You are done. The TCP Port ${TCP_PORT_CLOSE} is closed!"
 							break
 					fi
 				done
@@ -113,14 +113,14 @@ MENU="Choose one of the following options:"
 							UDP_PORT_CLOSE="$CHOOSE_UDP_PORT_CLOSE"
 							sed -i "s/$UDP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
 							systemctl force-reload arno-iptables-firewall.service
-							dialog --backtitle "NeXt Server Installation Configuration" --msgbox "You are done. The UDP Port ${UDP_PORT_CLOSE} is closed!" $HEIGHT $WIDTH
+							dialog_msg "You are done. The UDP Port ${UDP_PORT_CLOSE} is closed!"
 							break
 					fi
 				done
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			7)
-				source ${SCRIPT_PATH}/script/firewall.sh; show_open_ports || error_exit
+				source ${SCRIPT_PATH}/service-options/firewall-options.sh; show_open_ports || error_exit
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			8)
