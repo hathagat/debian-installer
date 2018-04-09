@@ -6,10 +6,14 @@ A vServer with at least:
 - 1 GB RAM
 - The latest "clean" Debian 9.x minimal installed on the server
 - rDNS set to the desired Domain
+- root user access
 
 - IPv4 Adress
 - A Domain and the ability to change the DNS Settings
 - DNS Settings described in the dns_settings.txt
+- Time... the DNS system may needs 24 to 48 hours to recognize the changes you made!
+
+- The will to learn something about Linux ;)
 ```
 
 #Short instructions:
