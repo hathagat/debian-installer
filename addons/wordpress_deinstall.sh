@@ -8,6 +8,19 @@ deinstall_wordpress() {
 source ${SCRIPT_PATH}/configs/userconfig.cfg
 set -x
 
+# --- MYDOMAIN ---
+source ${SCRIPT_PATH}/script/functions.sh; get_domain
+
+
+# Begin Debug
+if [ -z "${MYDOMAIN}" ]; then
+echo "Domain is Empty!"
+# End Debug
+exit 1
+else
+echo "Domain name is: ${MYDOMAIN}"
+fi
+
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
 WORDPRESS_DB_NAME=$(grep -Pom 1 "(?<=^WordpressDBName = ).*$" /root/NeXt-Server/login_information.txt)
@@ -30,6 +43,10 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
 rm -rf /etc/nginx/html/wordpress
 rm -rf /etc/nginx/sites-custom/wordpress.conf
 
+sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/" /etc/nginx/sites-available/${MYDOMAIN}.conf
+
+service nginx restart
 #mkdir /etc/nginx/html/${MYDOMAIN}
 #cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/
 #cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.html
