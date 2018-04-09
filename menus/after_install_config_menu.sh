@@ -51,5 +51,4 @@ MENU="Choose one of the following options:"
           exit 1
           ;;
     esac
-;;
 }
