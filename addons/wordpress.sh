@@ -83,7 +83,7 @@ if [ -z "${WORDPRESSPATHNAME}" ]; then # ---------------------------------------
 	# Insert to line 9
 	sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
 	
-	# If root Path it is not allowd to have 2 / locations
+	# If root Path: it is not allowed to have 2 / locations
 	# Delete line 1 to 6
 	sed -e "1,6d" /etc/nginx/sites-custom/wordpress.conf
 	
@@ -91,6 +91,9 @@ else # -------------------------------------------------------------------------
 	#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
 	sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
 	sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
+	
+	# Rename folder
+	mv wordpress ${WORDPRESSPATHNAME}
 	
 
 	# Add harding for custom path
