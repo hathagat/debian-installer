@@ -14,21 +14,19 @@ source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 
 HEIGHT=40
 WIDTH=80
-CHOICE_HEIGHT=10
+CHOICE_HEIGHT=8
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-		OPTIONS=(1 "Mailserver Options"
-             2 "Openssh Options"
-             3 "Openssl Options"
-             4 "Fail2ban Options"
-             5 "Nginx vHost Options"
-             6 "PHP 7.x Options"
-             7 "Lets Encrypt Options"
-             8 "Firewall Options"
-             9 "Back"
-						10 "Exit")
+		OPTIONS=(1 "Openssh Options"
+             2 "Fail2ban Options"
+             3 "Nginx vHost Options"
+             4 "PHP 7.x Options"
+             5 "Lets Encrypt Options"
+             6 "Firewall Options"
+             7 "Back"
+						 8 "Exit")
 
 						 CHOICE=$(dialog --clear \
 										 --nocancel \
@@ -44,33 +42,27 @@ MENU="Choose one of the following options:"
 						 case $CHOICE in
 
 1)
-	source ${SCRIPT_PATH}/menus/mailserver_menu.sh; menu_options_mailserver
-	;;
-2)
 	source ${SCRIPT_PATH}/menus/openssh_menu.sh; menu_options_openssh
 	;;
-3)
-	source ${SCRIPT_PATH}/menus/openssl_menu.sh; menu_options_openssl
-	;;
-4)
+2)
 	source ${SCRIPT_PATH}/menus/fail2ban_menu.sh; menu_options_fail2ban
 	;;
-5)
+3)
 	source ${SCRIPT_PATH}/menus/vhost_menu.sh; menu_options_nginx_vhost
 	;;
-6)
+4)
 	source ${SCRIPT_PATH}/menus/php_7_x_menu.sh; php_7_x_config
 	;;
-7)
+5)
 	source ${SCRIPT_PATH}/menus/lets_encrypt_menu.sh; menu_options_lets_encrypt
 	;;
-8)
+6)
 	source ${SCRIPT_PATH}/menus/firewall_menu.sh; menu_options_firewall
 	;;
-9)
+7)
   bash ${SCRIPT_PATH}/nxt.sh;
   ;;
-10)
+8)
 	echo "Exit"
 	exit 1
 	;;

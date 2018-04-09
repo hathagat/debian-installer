@@ -38,6 +38,4 @@ if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' 
 else
 	echo "The NeXt Server Script is not installed, nothing to update..."
 fi
-
-
 }
