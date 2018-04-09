@@ -44,7 +44,7 @@ rm -rf /etc/nginx/html/wordpress
 rm -rf /etc/nginx/sites-custom/wordpress.conf
 
 sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
-sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/" /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN};" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 service nginx restart
 #mkdir /etc/nginx/html/${MYDOMAIN}
