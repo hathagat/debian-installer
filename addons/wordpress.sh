@@ -71,35 +71,29 @@ chmod -R g+w *
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
-
-
-if [ -z "${WORDPRESSPATHNAME}" ]; then # then is root path
-  
-  sed -i "s/#try_files/try_files/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-normal.conf /etc/nginx/sites-custom/wordpress.conf
-  sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
-
-# remove WORDPRESSPATHNAME/ from vhost
-# Working
-sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
-
-# Not working atm
-sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-
-#Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
-# Works - Delete line 9
-sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
-sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
-
-
-else # then is custom path
-
-#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
-  sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
-  sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
 cp ${SCRIPT_PATH}/addons/vhosts/wordpress-new-vhost.conf /etc/nginx/sites-custom/wordpress.conf
 
-  # Add harding for custom path
+if [ -z "${WORDPRESSPATHNAME}" ]; then # ------------------------------------------------------ then is root path -------------------------------#
+  
+	sed -i "s/#try_files/try_files/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
+	sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
+	#Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
+	sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	# Insert to line 9
+	sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	
+	# If root Path it is not allowd to have 2 / locations
+	# Delete line 1 to 6
+	sed -e "1,6d" /etc/nginx/sites-custom/wordpress.conf
+	
+else # --------------------------------------------------------------------------------------- then is custom path -------------------------------#
+	#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
+	sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
+	sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
+	
+
+	# Add harding for custom path
 fi
 
 
