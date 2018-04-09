@@ -21,7 +21,7 @@ install_packages "build-essential python curl"
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; grant select, insert, update, delete on vmail.* to 'vmail'@'localhost' identified by '${MAILSERVER_DB_PASS}';"
 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to curl nvm"
+curl -s -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash || error_exit "Failed to curl nvm"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -45,7 +45,7 @@ sed -i "s/^MAILMAN_ADMIN=florian@example.org/MAILMAN_ADMIN=postmaster@${MYDOMAIN
 npm install >>"${main_log}" 2>>"${err_log}"
 cd client
 npm install >>"${main_log}" 2>>"${err_log}"
-cd -
+cd - >>"${main_log}" 2>>"${err_log}"
 npm run build >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to build mailman"
 
 pm2 kill >>"${main_log}" 2>>"${err_log}"
