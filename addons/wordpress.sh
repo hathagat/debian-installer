@@ -107,7 +107,7 @@ systemctl reload nginx
 
 dialog_msg "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation"
 
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.tx/t
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
 echo "Wordpress" >> ${SCRIPT_PATH}/login_information.txt
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
 echo "https://${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/login_information.txt
