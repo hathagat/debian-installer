@@ -27,7 +27,7 @@ Follow the instructions!
 
 
 #Used software and credits:
-
+```
 #Thanks to Thomas Leister and his awesome Mailserver Setup, we're using in this Script!
 https://thomas-leister.de/mailserver-debian-stretch/
 
@@ -54,3 +54,4 @@ https://github.com/fail2ban/fail2ban
 
 #Arno's iptables firewall
 https://github.com/arno-iptables-firewall/aif
+```
