@@ -90,7 +90,7 @@ sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wor
 #Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
 # Works - Delete line 9
 sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
-sed -i "9i \t\t root \t\t\t /etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 
 else # then is custom path
