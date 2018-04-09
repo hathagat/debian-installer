@@ -58,12 +58,10 @@ CHOICE=$(dialog --clear \
 
 function dialog_info() {
 dialog --backtitle "NeXt Server Installation" --infobox "$1" 40 80
-
 }
 
 function dialog_msg() {
 dialog --backtitle "NeXt Server Installation" --msgbox "$1" 40 80
-
 }
 
 start_after_install() {
@@ -231,8 +229,6 @@ z=0
 }
 
 function wget_tar() {
-echo "Download Link in function $1"
-
 wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then
@@ -242,8 +238,6 @@ wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
 }
 
 function tar_file() {
-echo "Tar File in function $1"
-
 tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then
@@ -254,8 +248,6 @@ rm $1
 }
 
 function unzip_file() {
-echo "ZIP File in function $1"
-
 unzip $1 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
@@ -265,8 +257,6 @@ unzip $1 >>"${main_log}" 2>>"${err_log}"
 }
 
 function install_packages() {
-echo "Packages in function $1"
-
 DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then

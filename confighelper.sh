@@ -101,7 +101,7 @@ if [[ $CHECK_DOMAIN_LENGTH > 1 ]]; then
 	            ;;
 	esac
 else
-	dialog_msg "The Script wasn't able to recognize your Domain! \n \n Have you set the right DNS settings, or multiple Domains directing to the server IP? \n \n Please enter it manually!"
+	dialog_msg "The Script wasn't able to recognize your Domain! \n \nHave you set the right DNS settings, or multiple Domains directing to the server IP? \n \nPlease enter it manually!"
 	while true
 		do
 			MYDOMAIN=$(dialog --clear \

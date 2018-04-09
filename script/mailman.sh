@@ -31,7 +31,7 @@ nvm install 9.1.0 >>"${main_log}" 2>>"${err_log}"
 npm i -g pm2 >>"${main_log}" 2>>"${err_log}"
 
 cd /etc/
-git clone https://github.com/phiilu/mailman.git || error_exit "Failed to clone mailman"
+git clone https://github.com/phiilu/mailman.git >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone mailman"
 cd mailman/
 cp sample.env .env
 
@@ -42,11 +42,15 @@ sed -i "s/^MAILMAN_DB_PASSWORD=vmail/MAILMAN_DB_PASSWORD=${MAILSERVER_DB_PASS}/g
 sed -i "s/^MAILMAN_BASENAME=\//MAILMAN_BASENAME=\/mailman/g" /etc/mailman/.env
 sed -i "s/^MAILMAN_ADMIN=florian@example.org/MAILMAN_ADMIN=postmaster@${MYDOMAIN}/g" /etc/mailman/.env
 
-npm install && cd client && npm install && cd - && npm run build >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to build mailman"
+npm install >>"${main_log}" 2>>"${err_log}"
+cd client
+npm install >>"${main_log}" 2>>"${err_log}"
+cd -
+npm run build >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to build mailman"
 
-pm2 kill
+pm2 kill >>"${main_log}" 2>>"${err_log}"
 
-npm start
+npm start >>"${main_log}" 2>>"${err_log}"
 
 cat >> /etc/nginx/sites-custom/mailman.conf << 'EOF1'
 location /mailman {
@@ -56,7 +60,7 @@ location /mailman {
 }
 EOF1
 
-pm2 startup
+pm2 startup >>"${main_log}" 2>>"${err_log}"
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "Mailman Address: ${MYDOMAIN}/mailman" >> ${SCRIPT_PATH}/login_information.txt
