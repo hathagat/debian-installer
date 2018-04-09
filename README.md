@@ -1,3 +1,17 @@
+#What you need:
+
+A vServer with at least:
+```
+- 1 CPU Core
+- 1 GB RAM
+- The latest "clean" Debian 9.x minimal installed on the server
+- rDNS set to the desired Domain
+
+- IPv4 Adress
+- A Domain and the ability to change the DNS Settings
+- DNS Settings described in the dns_settings.txt
+```
+
 #Short instructions:
 
 ```
