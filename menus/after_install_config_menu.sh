@@ -32,7 +32,7 @@ MENU="Choose one of the following options:"
     clear
     case $CHOICE in
         1)
-          source ${SCRIPT_PATH}/script/functions.sh; start_after_install
+          source ${SCRIPT_PATH}/script/configuration.sh; start_after_install
           ;;
         2)
           source ${SCRIPT_PATH}/script/configuration.sh; show_ssh_key
