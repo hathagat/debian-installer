@@ -93,8 +93,9 @@ sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
 sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 #Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
-sed -i '9d' /etc/nginx/sites-available/${MYDOMAIN}.conf
-sed -i '9i9 root	/etc/nginx/html/${MYDOMAIN}/wordpress;' /etc/nginx/sites-available/${MYDOMAIN}.conf
+# Works - Delete line 9
+sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i "9i \t\t root \t\t\t /etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 
 else # then is custom path

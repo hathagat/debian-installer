@@ -24,14 +24,14 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${WordpressDBUser}@localhost;"
 
 # Add here Folder to SAVEFOLDERS
 # Put into Function
-SAVEFOLDERS="nextcloud|webmail" # Folder1|Folder2|Folder3|....
-rm -rf /etc/nginx/html/${WordpressScriptPath}/!(${SAVEFOLDERS})
+#SAVEFOLDERS="nextcloud|webmail" # Folder1|Folder2|Folder3|....
+#rm -rf /etc/nginx/html/${WordpressScriptPath}/!(${SAVEFOLDERS})
 
 rm -rf /etc/nginx/html/wordpress
 rm -rf /etc/nginx/sites-custom/wordpress.conf
 
-mkdir /etc/nginx/html/${MYDOMAIN}
-cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/
-cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.html
+#mkdir /etc/nginx/html/${MYDOMAIN}
+#cp ${SCRIPT_PATH}/NeXt-logo.jpg /etc/nginx/html/${MYDOMAIN}/
+#cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.html
 
 }
