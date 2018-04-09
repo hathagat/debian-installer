@@ -13,20 +13,15 @@ source ${SCRIPT_PATH}/script/functions.sh; get_domain
 # Begin Debug
 if [ -z "${MYDOMAIN}" ]; then
 echo "Domain is Empty!"
+# End Debug
+exit 1
 else
 echo "Domain name is: ${MYDOMAIN}"
 fi
 
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-echo "WORDPRESSPATHNAME is Empty!"
-else
-echo "Choose WORDPRESSPATHNAME is: ${WORDPRESSPATHNAME}"
-fi
 
 
 
-# End Debug
-exit 1
 
 
 WORDPRESS_USER=$(username)
