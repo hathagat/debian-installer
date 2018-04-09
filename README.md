@@ -4,6 +4,7 @@ A vServer with at least:
 ```
 - 1 CPU Core
 - 1 GB RAM
+- KVM virtualized server (Openvz [...] will not work!)
 - The latest "clean" Debian 9.x minimal installed on the server
 - rDNS set to the desired Domain
 - root user access
@@ -23,6 +24,9 @@ cd /root/; apt-get update; apt-get install git -y; git clone https://github.com/
 ```
 
 Follow the instructions!
+
+
+
 
 
 
