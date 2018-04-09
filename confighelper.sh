@@ -251,7 +251,7 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 
 	NXT_SYSTEM_EMAIL="${NXT_SYSTEM_EMAIL}"
 	NXT_IS_INSTALLED="0"
-	NXT_IS_INSTALLED_MAILSERVER_STANDALONE="0"
+	NXT_IS_INSTALLED_MAILSERVER="0"
 	NXT_INSTALL_DATE="0"
 #-----------------------------------------------------------#
 ############### Config File from Confighelper ###############

@@ -122,7 +122,12 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
 
-	sed -i 's/NXT_IS_INSTALLED="0"/NXT_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	if [[ ${USE_MAILSERVER} = "1" ]]; then
+		sed -i 's/NXT_IS_INSTALLED_MAILSERVER="0"/NXT_IS_INSTALLED_MAILSERVER="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	else
+		sed -i 's/NXT_IS_INSTALLED="0"/NXT_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	fi
+
 	date=$(date +"%d-%m-%Y")
 	sed -i 's/NXT_INSTALL_DATE="0"/NXT_INSTALL_DATE="'${date}'"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 
