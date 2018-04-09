@@ -71,7 +71,6 @@ chmod -R g+w *
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
-cp ${SCRIPT_PATH}/addons/vhosts/wordpress-new-vhost.conf /etc/nginx/sites-custom/wordpress.conf
 
 
 if [ -z "${WORDPRESSPATHNAME}" ]; then # then is root path
@@ -98,6 +97,7 @@ else # then is custom path
 #  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
   sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
+cp ${SCRIPT_PATH}/addons/vhosts/wordpress-new-vhost.conf /etc/nginx/sites-custom/wordpress.conf
 
   # Add harding for custom path
 fi
