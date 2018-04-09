@@ -44,28 +44,28 @@ MENU="Choose one of the following options:"
 						 case $CHOICE in
 
 1)
-	source ${SCRIPT_PATH}/options/mailserver_menu.sh; menu_options_mailserver
+	source ${SCRIPT_PATH}/mailserver_menu.sh; menu_options_mailserver
 	;;
 2)
-	source ${SCRIPT_PATH}/options/openssh_menu.sh; menu_options_openssh
+	source ${SCRIPT_PATH}/openssh_menu.sh; menu_options_openssh
 	;;
 3)
-	source ${SCRIPT_PATH}/options/openssl_menu.sh; menu_options_openssl
+	source ${SCRIPT_PATH}/openssl_menu.sh; menu_options_openssl
 	;;
 4)
-	source ${SCRIPT_PATH}/options/fail2ban_menu.sh; menu_options_fail2ban
+	source ${SCRIPT_PATH}/fail2ban_menu.sh; menu_options_fail2ban
 	;;
 5)
-	source ${SCRIPT_PATH}/options/vhost_menu.sh; menu_options_nginx_vhost
+	source ${SCRIPT_PATH}/vhost_menu.sh; menu_options_nginx_vhost
 	;;
 6)
-	source ${SCRIPT_PATH}/options/php_7_x_menu.sh; php_7_x_config
+	source ${SCRIPT_PATH}/php_7_x_menu.sh; php_7_x_config
 	;;
 7)
-	source ${SCRIPT_PATH}/options/lets_encrypt_menu.sh; menu_options_lets_encrypt
+	source ${SCRIPT_PATH}/lets_encrypt_menu.sh; menu_options_lets_encrypt
 	;;
 8)
-	source ${SCRIPT_PATH}/options/firewall_menu.sh; menu_options_firewall
+	source ${SCRIPT_PATH}/firewall_menu.sh; menu_options_firewall
 	;;
 9)
   bash ${SCRIPT_PATH}/nxt.sh;
