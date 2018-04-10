@@ -38,7 +38,6 @@ case $CHOICE in
 		;;
 esac
 
-#check if installed, otherwise skip single services
 if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
   echo "0" | dialog --gauge "Updating package lists..." 10 70 0
   apt-get update
@@ -56,7 +55,7 @@ if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' 
   #source ${SCRIPT_PATH}/updates/firewall-update.sh; update_firewall
 
   echo "25" | dialog --gauge "Updating Openssh..." 10 70 0
-  #source ${SCRIPT_PATH}/updates/openssh-update.sh; update_openssh
+  source ${SCRIPT_PATH}/updates/openssh-update.sh; update_openssh
 
   echo "30" | dialog --gauge "Updating Openssl..." 10 70 0
   source ${SCRIPT_PATH}/updates/openssl-update.sh; update_openssl
