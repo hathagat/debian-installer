@@ -8,7 +8,7 @@ update_fail2ban() {
 source ${SCRIPT_PATH}/configs/versions.cfg
 
 LOCAL_FAIL2BAN_VERSION_STRING=$(fail2ban-client --version)
-LOCAL_FAIL2BAN_VERSION=$(echo $LOCAL_FAIL2BAN_VERSION_STRING | cut -c10-16)
+LOCAL_FAIL2BAN_VERSION=$(echo $LOCAL_FAIL2BAN_VERSION_STRING | cut -c11-16)
 
 if [[ ${LOCAL_FAIL2BAN_VERSION} != ${FAIL2BAN_VERSION} ]]; then
   install_packages "python"
