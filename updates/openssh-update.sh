@@ -5,7 +5,7 @@
 
 update_openssh() {
 
-source configs/versions.cfg
+source ${SCRIPT_PATH}/configs/versions.cfg
 
 LOCAL_OPENSSH_VERSION_STRING=$(ssh -V 2>&1)
 LOCAL_OPENSSH_VERSION=$(echo $LOCAL_OPENSSH_VERSION_STRING | cut -c9-13)

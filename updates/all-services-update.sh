@@ -49,7 +49,7 @@ if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' 
   apt-get -y dist-upgrade >/dev/null 2>&1
 
   echo "12" | dialog --gauge "Updating fail2ban..." 10 70 0
-  #source ${SCRIPT_PATH}/updates/fail2ban-update.sh; update_fail2ban
+  source ${SCRIPT_PATH}/updates/fail2ban-update.sh; update_fail2ban
 
   echo "15" | dialog --gauge "Updating firewall..." 10 70 0
   #source ${SCRIPT_PATH}/updates/firewall-update.sh; update_firewall
