@@ -5,7 +5,38 @@
 
 update_all_services() {
 
-source ${SCRIPT_PATH}/configs/userconfig.cfg
+source ${SCRIPT_PATH}/configs/userconfig.cfg  
+
+BACKTITLE="NeXt Server Installation"
+TITLE="NeXt Server Installation"
+HEIGHT=15
+WIDTH=70
+
+CHOICE_HEIGHT=2
+MENU="Do you want to update the NeXt Server Code Base before updating all services?:"
+OPTIONS=(1 "Yes (recommended)"
+		 2 "No")
+
+CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+				--no-cancel \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+	1)
+    dialog_info "Updating NeXt Server Script"
+    source ${SCRIPT_PATH}/update_script.sh; update_script
+    dialog_msg "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}"
+		;;
+	2)
+		dialog_msg "Okay, skipping updating the NeXt Server Code Base and starting the update process!"
+		;;
+esac
 
 #check if installed, otherwise skip single services
 if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
@@ -19,13 +50,13 @@ if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' 
   apt-get dist-upgrade
 
   echo "12" | dialog --gauge "Updating fail2ban..." 10 70 0
-  source ${SCRIPT_PATH}/updates/fail2ban-update.sh; update_fail2ban
+  #source ${SCRIPT_PATH}/updates/fail2ban-update.sh; update_fail2ban
 
   echo "15" | dialog --gauge "Updating firewall..." 10 70 0
-  source ${SCRIPT_PATH}/updates/firewall-update.sh; update_firewall
+  #source ${SCRIPT_PATH}/updates/firewall-update.sh; update_firewall
 
   echo "25" | dialog --gauge "Updating Openssh..." 10 70 0
-  source ${SCRIPT_PATH}/updates/openssh-update.sh; update_openssh
+  #source ${SCRIPT_PATH}/updates/openssh-update.sh; update_openssh
 
   echo "30" | dialog --gauge "Updating Openssl..." 10 70 0
   source ${SCRIPT_PATH}/updates/openssl-update.sh; update_openssl
