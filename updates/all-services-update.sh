@@ -60,6 +60,9 @@ if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' 
   echo "30" | dialog --gauge "Updating Openssl..." 10 70 0
   source ${SCRIPT_PATH}/updates/openssl-update.sh; update_openssl
 
+	echo "60" | dialog --gauge "Updating Nginx..." 10 70 0
+	#source ${SCRIPT_PATH}/updates/nginx-update.sh; update_nginx
+
   if [[ ${NXT_IS_INSTALLED_MAILSERVER} = "1" ]]; then
     echo "Here will be updates for the mailserver later"
   fi
