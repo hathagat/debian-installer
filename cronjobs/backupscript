@@ -66,11 +66,13 @@ mkdir -p /root/logs/
 touch /root/logs/stdoutBACKUP.log
 touch /root/logs/stderrorBACKUP.log
 
+# Error: The database is in a .tgz archive. Unpack this, you get a .tar. However, this must be renamed to .sql.
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 databases=`$MYSQL --user=$MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW DATABASES;" | grep -Ev "(Database|mysql|information_schema|performance_schema)"`
 for db in $databases; do
 #echo "${info} Backup Database $db" | awk '{ print strftime("[%H:%M:%S] |"), $0 }'
-  $MYSQLDUMP --force --opt --user=$MYSQL_USER -p$MYSQL_PASSWORD --databases $db | gzip > "$BACKUP_PATH/DATABESES/$db-$datum.tgz"
+  #$MYSQLDUMP --force --opt --user=$MYSQL_USER -p$MYSQL_PASSWORD --databases $db | gzip > "$BACKUP_PATH/DATABESES/$db-$datum.sql.tgz"
+  $MYSQLDUMP --force --opt --user=$MYSQL_USER -p$MYSQL_PASSWORD --databases $db | gzip -c > "$BACKUP_PATH/DATABESES/$db-$datum.sql.gz"
 done
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 cd $PATH_TO_WEBFOLDER
