@@ -1,31 +1,11 @@
 #!/bin/bash
-# The perfect rootserver - Your Webserverinstallation Script!
-# by shoujii | BoBBer446 > 2017
-#####
-# https://github.com/shoujii/perfectrootserver
-# Compatible with Ubuntu 16.04 Xenial and Debian Stretch
-# Special thanks to Zypr!
-#
-	# This program is free software; you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation; either version 2 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License along
-    # with this program; if not, write to the Free Software Foundation, Inc.,
-    # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+#Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 OLD_BACKUP_FILES=3
 
-##########################################################################
 ###################### DO NOT EDIT ANYTHING BELOW! #######################
-##########################################################################
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -53,7 +33,7 @@ MYSQLDUMP=/usr/bin/mysqldump
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 #if [ "$USED_SPACE" -gt "$FREE_SPACE" ]; then
 	# Todo:
-	# Sent mail 
+	# Sent mail
 #	exit 0
 #fi
 # --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,4 +73,3 @@ apt-get upgrade -y >>/root/logs/stderrorBACKUP.log 2>&1 >>/root/logs/stdoutBACKU
 find /etc/nginx/backups/* -type d -ctime +${OLD_BACKUP_FILES} | xargs rm -rf
 
 reboot
-

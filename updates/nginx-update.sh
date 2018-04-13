@@ -125,6 +125,7 @@ if [[ ${LOCAL_NGINX_VERSION} != ${NGINX_VERSION} ]]; then
   mv nginx_${NGINX_VERSION}-1_amd64.deb ../ >>"${main_log}" 2>>"${err_log}"
 
   ###cp back folders with vhost, html folder etc -> user permissions changed? start service
+  ##autostart script working?
   cp -R /root/backup/$date/nginx/* /etc/nginx/
   systemctl -q start nginx.service
 else
