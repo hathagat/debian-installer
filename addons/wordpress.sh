@@ -85,7 +85,7 @@ if [ -z "${WORDPRESSPATHNAME}" ]; then # ---------------------------------------
 	
 	# If root Path: it is not allowed to have 2 / locations
 	# Delete line 1 to 6
-	sed -e "1,6d" /etc/nginx/sites-custom/wordpress.conf
+	sed -i "1,6d" /etc/nginx/sites-custom/wordpress.conf
 	
 else # --------------------------------------------------------------------------------------- then is custom path -------------------------------#
 	#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
@@ -100,7 +100,7 @@ else # -------------------------------------------------------------------------
 fi
 
 
-systemctl reload nginx
+systemctl restart nginx
 
 dialog_msg "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation"
 
