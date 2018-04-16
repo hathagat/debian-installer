@@ -122,5 +122,5 @@ Subsystem	sftp	sftp /usr/lib/openssh/sftp-server
 #	PermitTTY no
 #	ForceCommand cvs server
 
-AllowGroups ssh-users
+AllowGroups sshusers
 AcceptEnv LANG LC_* TZ
