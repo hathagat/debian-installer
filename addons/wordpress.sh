@@ -10,20 +10,15 @@ source ${SCRIPT_PATH}/script/functions.sh; get_domain
 # Begin Debug
 if [ -z "${MYDOMAIN}" ]; then
 echo "Domain is Empty!"
+# End Debug
+exit 1
 else
 echo "Domain name is: ${MYDOMAIN}"
 fi
 
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-echo "WORDPRESSPATHNAME is Empty!"
-else
-echo "Choose WORDPRESSPATHNAME is: ${WORDPRESSPATHNAME}"
-fi
 
 
 
-# End Debug
-exit 1
 
 
 WORDPRESS_USER=$(username)
@@ -75,40 +70,38 @@ find . -type d -exec chmod 755 {} \;
 
 cp ${SCRIPT_PATH}/addons/vhosts/wordpress-new-vhost.conf /etc/nginx/sites-custom/wordpress.conf
 
-
-if [ -z "${WORDPRESSPATHNAME}" ]; then # then is root path
+if [ -z "${WORDPRESSPATHNAME}" ]; then # ------------------------------------------------------ then is root path -------------------------------#
   
-  sed -i "s/#try_files/try_files/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-normal.conf /etc/nginx/sites-custom/wordpress.conf
-  sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
+	sed -i "s/#try_files/try_files/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
+	sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
+	#Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
+	sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	# Insert to line 9
+	sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	
+	# If root Path: it is not allowed to have 2 / locations
+	# Delete line 1 to 6
+	sed -i "1,6d" /etc/nginx/sites-custom/wordpress.conf
+	
+else # --------------------------------------------------------------------------------------- then is custom path -------------------------------#
+	#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
+	sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
+	sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
+	
+	# Rename folder
+	mv wordpress ${WORDPRESSPATHNAME}
+	
 
-# remove WORDPRESSPATHNAME/ from vhost
-# Working
-sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
-
-# Not working atm
-sed -i "s/root	/etc/nginx/html/${MYDOMAIN};/root	/etc/nginx/html/${MYDOMAIN}/wordpress;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-
-#Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
-sed -i '9d' /etc/nginx/sites-available/${MYDOMAIN}.conf
-sed -i '9i9 root	/etc/nginx/html/${MYDOMAIN}/wordpress;' /etc/nginx/sites-available/${MYDOMAIN}.conf
-
-
-else # then is custom path
-
-#  cp ${SCRIPT_PATH}/addons/vhosts/wordpress-custom.conf /etc/nginx/sites-custom/wordpress.conf
-  sed -i "s/WORDPRESSPATHNAME/${WORDPRESSPATHNAME}/g"  /etc/nginx/sites-custom/wordpress.conf
-  sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
-
-  # Add harding for custom path
+	# Add harding for custom path
 fi
 
 
-systemctl reload nginx
+systemctl restart nginx
 
 dialog_msg "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation"
 
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.tx/t
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
 echo "Wordpress" >> ${SCRIPT_PATH}/login_information.txt
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
 echo "https://${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/login_information.txt

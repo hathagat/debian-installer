@@ -55,60 +55,10 @@ CHOICE=$(dialog --clear \
 
 function dialog_info() {
 dialog --backtitle "NeXt Server Installation" --infobox "$1" 40 80
-
 }
 
 function dialog_msg() {
 dialog --backtitle "NeXt Server Installation" --msgbox "$1" 40 80
-
-}
-
-start_after_install() {
-if [[ ${INSTALL_NGINX} = "1" ]]; then
-  source ${SCRIPT_PATH}/checks/nginx-check.sh; check_nginx
-  read -p "Continue (y/n)?" ANSW
-	if [ "$ANSW" = "n" ]; then
-		echo "Exit"
-		exit 1
-	fi
-fi
-
-if [[ ${INSTALL_PHP} = "1" ]]; then
-  source ${SCRIPT_PATH}/checks/php-check.sh; check_php
-  read -p "Continue (y/n)?" ANSW
-  if [ "$ANSW" = "n" ]; then
-    echo "Exit"
-    exit 1
-  fi
-fi
-
-  source ${SCRIPT_PATH}/configs/versions.cfg
-	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
-	read -p "Continue (y/n)?" ANSW
-	if [ "$ANSW" = "n" ]; then
-		echo "Exit"
-		exit 1
-	fi
-
-	source ${SCRIPT_PATH}/configuration.sh; show_login_information
-	read -p "Continue (y/n)?" ANSW
-	if [ "$ANSW" = "n" ]; then
-		echo "Exit"
-		exit 1
-	fi
-
-	source ${SCRIPT_PATH}/configuration.sh; create_private_key
-
-  if [[ ${USE_MAILSERVER} = "1" ]]; then
-  read -p "Continue (y/n)?" ANSW
-	if [ "$ANSW" = "n" ]; then
-		echo "Exit"
-		exit 1
-	fi
-  source ${SCRIPT_PATH}/configuration.sh; show_dkim_key
-  fi
-
-	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
 }
 
 error_exit()
@@ -232,8 +182,6 @@ z=0
 }
 
 function wget_tar() {
-echo "Download Link in function $1"
-
 wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then
@@ -243,8 +191,6 @@ wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
 }
 
 function tar_file() {
-echo "Tar File in function $1"
-
 tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then
@@ -255,8 +201,6 @@ rm $1
 }
 
 function unzip_file() {
-echo "ZIP File in function $1"
-
 unzip $1 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
@@ -266,8 +210,6 @@ unzip $1 >>"${main_log}" 2>>"${err_log}"
 }
 
 function install_packages() {
-echo "Installing packages for $1"
-
 DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then

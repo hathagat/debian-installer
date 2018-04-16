@@ -42,7 +42,7 @@ MENU="Choose one of the following options:"
 						 case $CHOICE in
 
 1)
-	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 		dialog_info "Installing Teamspeak 3"
 		source ${SCRIPT_PATH}/addons/teamspeak3.sh; install_teamspeak3
 		dialog_msg "Finished installing Teamspeak 3! Credentials: ${SCRIPT_PATH}/login_information.txt"
@@ -51,7 +51,7 @@ MENU="Choose one of the following options:"
 	fi
 	;;
 2)
-	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 		dialog_info "Installing Minecraft"
 		source ${SCRIPT_PATH}/addons/minecraft.sh; install_minecraft
 		dialog_msg "Finished installing Minecraft! Credentials: ${SCRIPT_PATH}/login_information.txt"
@@ -60,7 +60,7 @@ MENU="Choose one of the following options:"
 	fi
 	;;
 3)
-if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 	dialog_info "Installing Composer"
 	source ${SCRIPT_PATH}/addons/composer.sh; install_composer
 	dialog_msg "Finished installing Composer"
@@ -70,7 +70,7 @@ fi
 ;;
 4)
 	if [[ ${USE_PHP7_1} == '1'  ]] || [[ ${USE_PHP7_2} == '1'  ]]; then
-		if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+		if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 			dialog_info "Installing Nextcloud"
 			source ${SCRIPT_PATH}/addons/nextcloud.sh; install_nextcloud
 			dialog_msg "Finished installing Nextcloud"
@@ -82,7 +82,7 @@ fi
 	fi
 	;;
 5)
-	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 		dialog_info "Installing PHPmyadmin"
 		source ${SCRIPT_PATH}/addons/composer.sh; install_composer
 		source ${SCRIPT_PATH}/addons/phpmyadmin.sh; install_phpmyadmin
@@ -92,7 +92,7 @@ fi
 	fi
 	;;
 6)
-	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 		dialog_info "Installing Munin"
 		source ${SCRIPT_PATH}/addons/munin.sh; install_munin
 		dialog_msg "Finished installing Munin"
@@ -101,7 +101,7 @@ fi
 	fi
 	;;
 7)
-	if [[ ${NXT_IS_INSTALLED} == '1' ]]; then
+	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 		source ${SCRIPT_PATH}/menus/wordpress_menu.sh; menu_options_wordpress
 		source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
 		dialog_msg "Finished installing Wordpress"

@@ -4,20 +4,18 @@ menu_options_firewall() {
 
 HEIGHT=40
 WIDTH=80
-CHOICE_HEIGHT=9
+CHOICE_HEIGHT=7
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
 
-	OPTIONS=(1 "Install Firewall"
-			 		2 "Update Firewall (not working yet)"
-			 		3 "Open TCP Port"
-			 		4 "Open UDP Port"
-					5 "Close TCP Port"
-					6 "Close UDP Port"
-					7 "Show open Ports"
-			 		8 "Back"
-			 		9 "Exit")
+	OPTIONS=(1 "Open TCP Port"
+			 		2 "Open UDP Port"
+					3 "Close TCP Port"
+					4 "Close UDP Port"
+					5 "Show open Ports"
+			 		6 "Back"
+			 		7 "Exit")
 
 	CHOICE=$(dialog --clear \
 					--nocancel \
@@ -32,18 +30,6 @@ MENU="Choose one of the following options:"
 	clear
 	case $CHOICE in
 			1)
-				dialog_info "Installing Firewall"
-				source ${SCRIPT_PATH}/script/firewall.sh; install_firewall || error_exit
-				dialog_msg "Finished installing Firewall"
-				;;
-			2)
-				dialog_info "Updating Firewall"
-				rm -R ${SCRIPT_PATH}/sources/aif
-				rm -R ${SCRIPT_PATH}/sources/blacklist
-				source ${SCRIPT_PATH}/script/firewall.sh; update_firewall || error_exit
-				dialog_msg "Finished updating Firewall"
-				;;
-			3)
 			while true
 					do
 						CHOOSE_TCP_PORT=$(dialog --clear \
@@ -62,7 +48,7 @@ MENU="Choose one of the following options:"
 					done
 					source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
-			4)
+			2)
 			while true
 				do
 					CHOOSE_UDP_PORT=$(dialog --clear \
@@ -81,7 +67,7 @@ MENU="Choose one of the following options:"
 				done
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
-			5)
+			3)
 			while true
 				do
 					CHOOSE_TCP_PORT_CLOSE=$(dialog --clear \
@@ -100,7 +86,7 @@ MENU="Choose one of the following options:"
 				done
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
-			6)
+			4)
 			while true
 				do
 					CHOOSE_UDP_PORT_CLOSE=$(dialog --clear \
@@ -119,14 +105,14 @@ MENU="Choose one of the following options:"
 				done
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
-			7)
-				source ${SCRIPT_PATH}/service-options/firewall-options.sh; show_open_ports || error_exit
+			5)
+				source ${SCRIPT_PATH}/script/firewall_options.sh; show_open_ports || error_exit
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
-			8)
+			6)
 				bash ${SCRIPT_PATH}/nxt.sh;
 				;;
-			9)
+			7)
 				echo "Exit"
 				exit 1
 				;;

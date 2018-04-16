@@ -66,9 +66,9 @@ install() {
 	    echo "65" | dialog --gauge "Installing Nginx..." 10 70 0
 	    source ${SCRIPT_PATH}/script/nginx.sh; install_nginx
 
-	    echo "70" | dialog --gauge "Installing Lets Encrypt..." 10 70 0
-	    source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
-	    source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert
+	echo "50" | dialog --gauge "Installing LE..." 10 70 0
+	source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
+	source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert
 
 	    echo "75" | dialog --gauge "Installing Nginx vHost..." 10 70 0
 	    source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
@@ -138,12 +138,16 @@ install() {
 	echo "----------------------------------------------------------------------------------------" >> ${SCRIPT_PATH}/installation_times.txt
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
 
-	sed -i 's/NXT_IS_INSTALLED="0"/NXT_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	if [[ ${USE_MAILSERVER} = "1" ]]; then
+		sed -i 's/NXT_IS_INSTALLED_MAILSERVER="0"/NXT_IS_INSTALLED_MAILSERVER="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	else
+		sed -i 's/NXT_IS_INSTALLED="0"/NXT_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	fi
+
 	date=$(date +"%d-%m-%Y")
 	sed -i 's/NXT_INSTALL_DATE="0"/NXT_INSTALL_DATE="'${date}'"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 
 	echo "100" | dialog --gauge "NeXt Server Installation finished!" 10 70 0
 
 	# Start Full Config after installation
-	source ${SCRIPT_PATH}/script/functions.sh; start_after_install
-}
+	source ${SCRIPT_PATH}/script/configuration.sh; start_after_install
