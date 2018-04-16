@@ -1,36 +1,40 @@
 #!/bin/bash
 
 start_after_install() {
+if [[ ${INSTALL_NGINX} = "1" ]]; then
   source ${SCRIPT_PATH}/checks/nginx-check.sh; check_nginx
   read -p "Continue (y/n)?" ANSW
 	if [ "$ANSW" = "n" ]; then
 		echo "Exit"
 		exit 1
 	fi
+fi
 
+if [[ ${INSTALL_PHP} = "1" ]]; then
   source ${SCRIPT_PATH}/checks/php-check.sh; check_php
   read -p "Continue (y/n)?" ANSW
   if [ "$ANSW" = "n" ]; then
     echo "Exit"
     exit 1
   fi
+fi
 
   source ${SCRIPT_PATH}/configs/versions.cfg
-	source ${SCRIPT_PATH}/script/configuration.sh; show_ssh_key
+	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 	read -p "Continue (y/n)?" ANSW
 	if [ "$ANSW" = "n" ]; then
 		echo "Exit"
 		exit 1
 	fi
 
-	source ${SCRIPT_PATH}/script/configuration.sh; show_login_information.txt
+	source ${SCRIPT_PATH}/configuration.sh; show_login_information
 	read -p "Continue (y/n)?" ANSW
 	if [ "$ANSW" = "n" ]; then
 		echo "Exit"
 		exit 1
 	fi
 
-	source ${SCRIPT_PATH}/script/configuration.sh; create_private_key
+	source ${SCRIPT_PATH}/configuration.sh; create_private_key
 
   if [[ ${USE_MAILSERVER} = "1" ]]; then
   read -p "Continue (y/n)?" ANSW
@@ -38,7 +42,7 @@ start_after_install() {
 		echo "Exit"
 		exit 1
 	fi
-  source ${SCRIPT_PATH}/script/configuration.sh; show_dkim_key
+  source ${SCRIPT_PATH}/configuration.sh; show_dkim_key
   fi
 
 	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH

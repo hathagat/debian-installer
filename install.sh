@@ -151,3 +151,4 @@ install() {
 
 	# Start Full Config after installation
 	source ${SCRIPT_PATH}/script/configuration.sh; start_after_install
+}
