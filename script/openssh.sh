@@ -57,20 +57,20 @@ echo "#SSH_PASS: ${SSH_PASS}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
-ssh-keygen -f ~/ssh.key -t ed25519 -N ${SSH_PASS} >>"${main_log}" 2>>"${err_log}"
-mkdir -p ~/.ssh && chmod 700 ~/.ssh
-cat ~/ssh.key.pub > ~/.ssh/authorized_keys2 && rm ~/ssh.key.pub
-chmod 600 ~/.ssh/authorized_keys2
-mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
-
-groupadd --system -g ${SSH_PORT} sshusers >>"${main_log}" 2>>"${err_log}"
-adduser ${LOGIN_USER} --gecos "" --disabled-password --no-create-home --home /root/ --shell /bin/sh -u ${SSH_PORT} --ingroup sshusers >>"${main_log}" 2>>"${err_log}"
-usermod -a -G sshusers ${LOGIN_USER} >>"${main_log}" 2>>"${err_log}"
+groupadd --system -g ${SSH_PORT} sshuser >>"${main_log}" 2>>"${err_log}"
+adduser ${LOGIN_USER} --gecos "" --disabled-password --no-create-home --home / --shell /bin/sh -u ${SSH_PORT} --ingroup sshuser >>"${main_log}" 2>>"${err_log}"
+usermod -a -G sshuser ${LOGIN_USER} >>"${main_log}" 2>>"${err_log}"
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "#LOGIN_USER: ${LOGIN_USER}" >> ${SCRIPT_PATH}/login_information.txt
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
+
+ssh-keygen -f ~/ssh.key -t ed25519 -N ${SSH_PASS} -C "" >>"${main_log}" 2>>"${err_log}"
+cat ~/ssh.key.pub > /etc/ssh/.authorized_keys && rm ~/ssh.key.pub
+chmod 600 /etc/ssh/.authorized_keys
+chown sshuser:sshuser /etc/ssh/.authorized_keys
+mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
 
 truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog

@@ -43,7 +43,7 @@ MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@op
 
 # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
 # but this is overridden so installations will only check .ssh/authorized_keys
-#AuthorizedKeysFile	.ssh/authorized_keys
+AuthorizedKeysFile /etc/ssh/.authorized_keys
 
 #AuthorizedPrincipalsFile none
 
@@ -122,5 +122,5 @@ Subsystem	sftp	sftp /usr/lib/openssh/sftp-server
 #	PermitTTY no
 #	ForceCommand cvs server
 
-AllowGroups sshusers
+AllowGroups sshuser
 AcceptEnv LANG LC_* TZ
