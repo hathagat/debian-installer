@@ -29,8 +29,11 @@ done
 }
 
 setipaddrvars() {
-IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
-INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
+IPADR=$(ip route list | awk '/src/ {print $9}')
+INTERFACE=$(ip route list | awk '/default/ {print $5}')
+BROADCAST=$(ip -o -f inet addr show ${INTERFACE} | awk '{print $6}')
+GATEWAY=$(ip route list | awk '/default/ {print $3}')
+NETMASK=$(route | awk '/'${GATEWAY: : -3}'/ { print $3}')
 FQDNIP=$(dig @9.9.9.9 +short ${MYDOMAIN})
 WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
 CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
