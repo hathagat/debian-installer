@@ -25,6 +25,20 @@ timedatectl set-timezone ${TIMEZONE}
 
 rm /etc/apt/sources.list
 
+# DNS
+## CCC       - dns.as250.net
+## OpenNIC   - ns3.cz.dns.opennic.glue
+## DNS.WATCH - resolver2.dns.watch
+cat > /etc/resolv.conf <<END
+domain ${MYDOMAIN}
+search ${MYDOMAIN}
+options rotate
+options timeout:1
+nameserver 194.150.168.168
+nameserver 81.2.241.148
+nameserver 84.200.70.40
+END
+
 if [[ ${DISTOS} == 'DEBIAN' ]]; then
     cat > /etc/apt/sources.list <<END
 #------------------------------------------------------------------------------#

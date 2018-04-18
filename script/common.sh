@@ -8,20 +8,6 @@ apt-get -y install curl htop vim >>"${main_log}" 2>>"${err_log}" || error_exit "
 git clone --depth=1 git://github.com/amix/vimrc.git ~/.vim_runtime >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone vimrx"
 bash ~/.vim_runtime/install_basic_vimrc.sh >>"${main_log}" 2>>"${err_log}"
 
-# DNS
-## CCC       - dns.as250.net
-## OpenNIC   - ns3.cz.dns.opennic.glue
-## DNS.WATCH - resolver2.dns.watch
-cat > /etc/resolv.conf <<END
-domain ${MYDOMAIN}
-search ${MYDOMAIN}
-options rotate
-options timeout:1
-nameserver 194.150.168.168
-nameserver 81.2.241.148
-nameserver 84.200.70.40
-END
-
 # Bash
 git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone bash-it"
 ~/.bash_it/install.sh --silent >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install bash-it"
