@@ -23,9 +23,29 @@ fi
 
 timedatectl set-timezone ${TIMEZONE}
 
-rm /etc/apt/sources.list
+if [[ ${STATIC_IP} = "1" ]]; then
+    cat > /etc/network/interfaces <<END
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
 
-# DNS
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto ${INTERFACE}
+iface ${INTERFACE} inet static
+    address ${IPADR}
+    netmask ${NETMASK}
+    broadcast ${BROADCAST}
+    gateway ${GATEWAY}
+
+END
+    update-rc.d dhcpcd remove
+fi
+
 ## CCC       - dns.as250.net
 ## OpenNIC   - ns3.cz.dns.opennic.glue
 ## DNS.WATCH - resolver2.dns.watch
@@ -38,6 +58,10 @@ nameserver 194.150.168.168
 nameserver 81.2.241.148
 nameserver 84.200.70.40
 END
+
+ifdown ${INTERFACE} && ifup ${INTERFACE}
+
+rm /etc/apt/sources.list
 
 if [[ ${DISTOS} == 'DEBIAN' ]]; then
     cat > /etc/apt/sources.list <<END
