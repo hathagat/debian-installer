@@ -11,8 +11,8 @@ install() {
 	source ${SCRIPT_PATH}/script/logs.sh; set_logs
 	source ${SCRIPT_PATH}/script/functions.sh
 	source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
-	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
 	source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
+	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
 
 	if [[ ${USE_CONFIGHELPER} = "1" ]]; then
 		source ${SCRIPT_PATH}/confighelper.sh; confighelper_userconfig

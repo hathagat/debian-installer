@@ -29,6 +29,7 @@ done
 }
 
 setipaddrvars() {
+install_packages "net-tools"
 IPADR=$(ip route list | awk '/src/ {print $9}')
 INTERFACE=$(ip route list | awk '/default/ {print $5}')
 BROADCAST=$(ip -o -f inet addr show ${INTERFACE} | awk '{print $6}')
