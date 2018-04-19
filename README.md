@@ -2,7 +2,7 @@
 
 ## Usage
 ```
-cd /root/; apt-get update; apt-get install git -y; git clone https://github.com/hathagat/debian-installer /root/NeXt-Server; cd NeXt-Server; bash nxt.sh
+apt update; apt install -y --no-install-recommends git ca-certificates; git clone --depth=1 https://github.com/hathagat/debian-installer /root/NeXt-Server; cd /root/NeXt-Server; bash nxt.sh
 ```
 
 ##
