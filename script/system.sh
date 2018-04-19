@@ -41,7 +41,8 @@ iface ${INTERFACE} inet static
     netmask ${NETMASK}
     broadcast ${BROADCAST}
     gateway ${GATEWAY}
-
+    dns-nameservers 194.150.168.168 81.2.241.148 4.200.70.40
+    dns-search ${MYDOMAIN}
 END
     update-rc.d dhcpcd remove
 fi
@@ -65,23 +66,18 @@ rm /etc/apt/sources.list
 
 if [[ ${DISTOS} == 'DEBIAN' ]]; then
     cat > /etc/apt/sources.list <<END
-#------------------------------------------------------------------------------#
-#                   OFFICIAL DEBIAN REPOS                                      #
-#------------------------------------------------------------------------------#
-
-###### Debian Main Repos
+###### Debian Repos
 deb http://deb.debian.org/debian/ stretch main contrib non-free
-deb-src http://deb.debian.org/debian/ stretch main contrib non-free
+#deb-src http://deb.debian.org/debian/ stretch main contrib non-free
 
 deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
-deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+#deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
 
 deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
-deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
+#deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
 
-###### Backports
 deb http://ftp.debian.org/debian stretch-backports main
-deb-src http://ftp.debian.org/debian stretch-backports main
+#deb-src http://ftp.debian.org/debian stretch-backports main
 
 ###### Custom Repos
 END
@@ -89,10 +85,6 @@ fi
 
 if [[ ${DISTOS} == 'UBUNTU' ]]; then
 cat > /etc/apt/sources.list <<END
-#------------------------------------------------------------------------------#
-#                            OFFICIAL UBUNTU REPOS                             #
-#------------------------------------------------------------------------------#
-
 ###### Ubuntu Main Repos
 deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
