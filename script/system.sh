@@ -37,8 +37,7 @@ iface lo inet loopback
 # The primary network interface
 auto ${INTERFACE}
 iface ${INTERFACE} inet static
-    address ${IPADR}
-    netmask ${NETMASK}
+    address ${CIDR}
     broadcast ${BROADCAST}
     gateway ${GATEWAY}
     dns-nameservers 194.150.168.168 81.2.241.148 4.200.70.40
