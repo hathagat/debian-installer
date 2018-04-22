@@ -46,8 +46,8 @@ check_system() {
 	fi
 
 	FREE=`df -k --output=avail "$PWD" | tail -n1`
-	if [[ $FREE -lt 8388608 ]]; then
-		echo "This script needs at least 8 GB free disk space"
+	if [[ $FREE -lt 9437184 ]]; then
+		echo "This script needs at least 9 GB free disk space"
 		exit 1
 	fi
 

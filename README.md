@@ -8,6 +8,7 @@ A vServer with at least:
 - The latest "clean" Debian 9.x minimal installed on the server
 - rDNS set to the desired Domain
 - root user access
+- 9 GB free disk space
 
 - IPv4 Adress
 - A Domain and the ability to change the DNS Settings
