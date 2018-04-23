@@ -68,10 +68,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	nginxtime=$((nginx_end-nginx_start))
 
 	echo "75" | dialog --gauge "Installing PHP..." 10 70 0
-	if [[ ${USE_PHP5="1"} = "1" ]]; then
-		source ${SCRIPT_PATH}/script/php5_6.sh; install_php_5
-	fi
-
 	php_start=`date +%s`
 	if [[ ${USE_PHP7_1} = "1" ]]; then
 		source ${SCRIPT_PATH}/script/php7_1.sh; install_php_7_1

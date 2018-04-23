@@ -14,10 +14,6 @@ htpasswd -b /etc/nginx/htpasswd/.htpasswd ${MUNIN_HTTPAUTH_USER} ${MUNIN_HTTPAUT
 
 cp ${SCRIPT_PATH}/addons/vhosts/munin.conf /etc/nginx/sites-custom/munin.conf
 
-if [[ ${USE_PHP5} == '1' ]]; then
-	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php5-fpm.sock\;/g' /etc/nginx/sites-custom/munin.conf
-fi
-
 if [[ ${USE_PHP7_2} == '1' ]]; then
 	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-custom/munin.conf
 fi

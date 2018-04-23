@@ -200,28 +200,19 @@ case $CHOICE in
 esac
 
 # --- PHP ---
-CHOICE_HEIGHT=3
-MENU="Do you want to Use PHP 5.6, 7.1 or PHP 7.2?:"
-OPTIONS=(1 "PHP 5"
-				 2 "PHP 7.1"
-		     3 "PHP 7.2")
+CHOICE_HEIGHT=2
+MENU="Do you want to Use PHP 7.1 or PHP 7.2?:"
+OPTIONS=(1 "PHP 7.1"
+		     2 "PHP 7.2")
 menu
 clear
 case $CHOICE in
     1)
-		USE_PHP5="1"
-		USE_PHP7_1="0"
-		USE_PHP7_2="0"
-		PHPVERSION7="5"
-          ;;
-		2)
-		USE_PHP5="0"
 		USE_PHP7_1="1"
 		USE_PHP7_2="0"
 		PHPVERSION7="7.1"
           ;;
-		3)
-		USE_PHP5="0"
+		2)
 		USE_PHP7_1="0"
 		USE_PHP7_2="1"
 		PHPVERSION7="7.2"
@@ -242,7 +233,6 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	TIMEZONE="${TIMEZONE}"
 	MYDOMAIN="${MYDOMAIN}"
 	USE_MAILSERVER="${USE_MAILSERVER}"
-	USE_PHP5="${USE_PHP5}"
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"
