@@ -13,7 +13,6 @@ RAINLOOP_VERSION="rainloop-community-latest"
 
 mkdir -p /etc/nginx/html/${MYDOMAIN}/webmail
 cd /etc/nginx/html/${MYDOMAIN}/
-#wget --no-check-certificate https://www.rainloop.net/repository/webmail/${RAINLOOP_VERSION}.zip --tries=3 >>"${main_log}" 2>>"${err_log}"
 wget_tar "https://www.rainloop.net/repository/webmail/${RAINLOOP_VERSION}.zip"
 unzip_file "${RAINLOOP_VERSION}.zip -d /etc/nginx/html/${MYDOMAIN}/webmail"
 rm ${RAINLOOP_VERSION}.zip

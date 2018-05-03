@@ -7,7 +7,7 @@ install_openssl() {
 
 mkdir -p ${SCRIPT_PATH}/sources/
 
-install_packages "libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev"
+install_packages "libtool zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libxml2-dev libgd-dev libgeoip-dev libgoogle-perftools-dev libperl-dev"
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
