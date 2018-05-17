@@ -27,7 +27,7 @@ MENU="Choose one of the following options:"
 						 5 "Install phpmyadmin"
 						 6 "Install Munin (WIP!)"
              7 "DISABLED! Install Wordpress"
-						 8 "Deinstall Wordpress"
+						 8 "DISABLED! Deinstall Wordpress"
 						 9 "Back"
 						 10 "Exit")
 
@@ -111,12 +111,13 @@ fi
 	#else
 	#	echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	#fi
-			dialog_msg "Disabled, we have encountered critical bugs. Will be enabled in the future, after fixing the bugs."
+	dialog_msg "Disabled, we have encountered critical bugs. Will be enabled in the future, after fixing the bugs."
 	;;
 8)
-	dialog_info "Deinstalling Wordpress"
-		source ${SCRIPT_PATH}/addons/wordpress_deinstall.sh; deinstall_wordpress
-	dialog_msg "Finished Deinstalling Wordpress"
+	#dialog_info "Deinstalling Wordpress"
+	#	source ${SCRIPT_PATH}/addons/wordpress_deinstall.sh; deinstall_wordpress
+	#dialog_msg "Finished Deinstalling Wordpress"
+	dialog_msg "Disabled, we have encountered critical bugs. Will be enabled in the future, after fixing the bugs."
 	;;
 9)
   bash ${SCRIPT_PATH}/nxt.sh;
