@@ -141,9 +141,6 @@ server {
 		access_log off;
 		log_not_found off;
 	}
-	location ^~ /data {
-  deny all;
-	}
 	location ~* (?:\.(?:bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$ {
 		deny all;
 		access_log off;
@@ -161,7 +158,17 @@ server {
 	if (\$http_user_agent ~* "FeedDemon|JikeSpider|Indy Library|Alexa Toolbar|AskTbFXTV|AhrefsBot|CrawlDaddy|CoolpadWebkit|Java|Feedly|UniversalFeedParser|ApacheBench|Microsoft URL Control|Swiftbot|ZmEu|oBot|jaunty|Python-urllib|lightDeckReports Bot|YYSpider|DigExt|YisouSpider|HttpClient|MJ12bot|heritrix|EasouSpider|Ezooms|Scrapy") {
 		return 403;
 	}
+
+	#Rainloop
+	location ^~ /data {
+	  deny all;
+	}
+
+
+#END Server
 }
+
+
 END
 
 if [[ ${USE_PHP7_2} == '1' ]]; then

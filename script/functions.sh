@@ -141,6 +141,8 @@ error_exit()
 				;;
 			2)
 				echo "Please post the following Error at https://nxt.sh/ to get help. Error: $1"
+        echo "Visit https://github.com/shoujii/NeXt-Server/issues/new to add the Issue on Github!!"
+        echo "Your Issue is: $1"
 				exit 1
 				;;
 	esac
