@@ -1,13 +1,15 @@
+############### Welche NeXt Server Version wurde installiert?
+
 ############### Welche Module wurden installiert?
 
 
 ############### In welcher Reinfolge wurden die Module installiert?
 
 
-############### Welche PHP Version wurde isntalliert?
+############### Welche PHP Version wurde installiert?
 
 
-############### Mit oder Ohne Mailserver?
+############### Mit oder ohne Mailserver?
 
 
 ############### Welche Fehlermeldung kommt?
