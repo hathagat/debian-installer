@@ -81,7 +81,7 @@ if [ -z "${WORDPRESSPATHNAME}" ]; then # ---------------------------------------
 	#Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
 	sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
 	# Insert to line 9
-	sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	#sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
 	
 	# If root Path: it is not allowed to have 2 / locations
 	# Delete line 1 to 6
