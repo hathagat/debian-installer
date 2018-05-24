@@ -41,43 +41,7 @@ mysql -u root -p${MYSQL_ROOT_PASS} mysql < phpmyadmin/sql/create_tables.sql >>"$
 # Generate PMA USER
 mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT USAGE ON mysql.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}' IDENTIFIED BY '${PMADB_PASS}'; GRANT SELECT ( Host, User, Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv, Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv, Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv, Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv, Repl_slave_priv, Repl_client_priv ) ON mysql.user TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT ON mysql.db TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT (Host, Db, User, Table_name, Table_priv, Column_priv) ON mysql.tables_priv TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT, INSERT, DELETE, UPDATE, ALTER ON ${MYSQL_PMADB_NAME}.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
 
-# Add a new User to login into phpmyadmin
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER ${NXTPMAROOTUSER}@localhost IDENTIFIED BY '${PMA_USER_PASS}';"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON *.* TO '${NXTPMAROOTUSER}'@'localhost';"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
-
-cat > phpmyadmin/config.inc.php <<END
-<?php
-
-\$cfg['NavigationTreeEnableGrouping'] = false;
-\$cfg['AllowArbitraryServer'] = true;
-\$cfg['AllowThirdPartyFraming'] = true;
-
-\$cfg['ShowDbStructureCreation'] = true;
-\$cfg['ShowDbStructureLastUpdate'] = true;
-\$cfg['ShowDbStructureLastCheck'] = true;
-\$cfg['UserprefsDisallow'] = array(
-    'ShowServerInfo',
-    'ShowDbStructureCreation',
-    'ShowDbStructureLastUpdate',
-    'ShowDbStructureLastCheck',
-    'Export/quick_export_onserver',
-    'Export/quick_export_onserver_overwrite',
-    'Export/onserver');
-
-\$cfg['Export']['quick_export_onserver'] = true;
-\$cfg['Export']['quick_export_onserver_overwrite'] = true;
-\$cfg['Export']['compression'] = 'gzip';
-
-\$cfg['Export']['onserver'] = true;
-\$cfg['Export']['sql_drop_database'] = true;
-\$cfg['ServerDefault'] = 1;
-
-\$cfg['Servers'][\$i]['auth_http_realm'] = 'phpMyAdmin Login';
-
-\$cfg['Servers'][\$i]['hide_db'] = 'information_schema';
-?>
-END
+cp ${SCRIPT_PATH}/configs/pma/config.inc.php /usr/local/phpmyadmin/config.inc.php
 
 cp ${SCRIPT_PATH}/addons/vhosts/phpmyadmin.conf /etc/nginx/sites-custom/phpmyadmin.conf
 

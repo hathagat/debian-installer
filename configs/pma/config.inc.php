@@ -40,8 +40,8 @@ $cfg['Servers'][$i]['AllowNoPassword'] = false;
 // $cfg['Servers'][$i]['controlhost'] = '';
 // $cfg['Servers'][$i]['controlport'] = '';
 ?????????????????????????????????????????
-$cfg['Servers'][$i]['controluser'] = '$NXTPMAROOTUSER';
-$cfg['Servers'][$i]['controlpass'] = '$PMA_USER_PASS';
+$cfg['Servers'][$i]['controluser'] = '$MYSQL_PMADB_USER';
+$cfg['Servers'][$i]['controlpass'] = '$PMADB_PASS';
 ?????????????????????????????????????????
 
 /* Storage database and tables */
@@ -190,9 +190,31 @@ $cfg['Servers'][$i]['AllowRoot'] = 'false';
 * Whether to allow root access.
 * This is just a shortcut for the $cfg['Servers'][$i]['AllowDeny']['rules'] below.
 */
-$cfg['Servers'][$i]['AllowRoot'] = 'false';
+$cfg['Servers'][$i]['AllowRoot'] = 'true';
 
 
+$cfg['NavigationTreeEnableGrouping'] = false;
+$cfg['AllowArbitraryServer'] = true;
+$cfg['AllowThirdPartyFraming'] = true;
+$cfg['ShowDbStructureCreation'] = true;
+$cfg['ShowDbStructureLastUpdate'] = true;
+$cfg['ShowDbStructureLastCheck'] = true;
+$cfg['UserprefsDisallow'] = array(
+    'ShowServerInfo',
+    'ShowDbStructureCreation',
+    'ShowDbStructureLastUpdate',
+    'ShowDbStructureLastCheck',
+    'Export/quick_export_onserver',
+    'Export/quick_export_onserver_overwrite',
+    'Export/onserver');
+$cfg['Export']['quick_export_onserver'] = true;
+$cfg['Export']['quick_export_onserver_overwrite'] = true;
+$cfg['Export']['compression'] = 'gzip';
+$cfg['Export']['onserver'] = true;
+$cfg['Export']['sql_drop_database'] = true;
+$cfg['ServerDefault'] = 1;
+$cfg['Servers'][\$i]['auth_http_realm'] = 'phpMyAdmin Login';
+$cfg['Servers'][\$i]['hide_db'] = 'information_schema';
 
 /**
  * You can find more configuration options in the documentation
