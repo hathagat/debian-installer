@@ -74,14 +74,14 @@ find . -type d -exec chmod 755 {} \;
 cp ${SCRIPT_PATH}/addons/vhosts/wordpress-new-vhost.conf /etc/nginx/sites-custom/wordpress.conf
 
 if [ -z "${WORDPRESSPATHNAME}" ]; then # ------------------------------------------------------ then is root path -------------------------------#
-  
+
 	sed -i "s/#try_files/try_files/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 	sed -i "s/REPLACEDOMAIN/${MYDOAMIN}/g"  /etc/nginx/sites-custom/wordpress.conf
 	sed -i "s/WORDPRESSPATHNAME\///g"  /etc/nginx/sites-custom/wordpress.conf
 	#Remove Line 9 > root	/etc/nginx/html/${MYDOMAIN};
 	sed -i "9d" /etc/nginx/sites-available/${MYDOMAIN}.conf
 	# Insert to line 9
-	sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
+	#sed -i "9i           root\t\t\t/etc/nginx/html/${MYDOMAIN}/wordpress;" /etc/nginx/sites-available/${MYDOMAIN}.conf
 	
 	# If root Path: it is not allowed to have 2 / locations
 	# Delete line 1 to 6

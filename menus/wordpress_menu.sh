@@ -17,7 +17,7 @@ CHOICE_HEIGHT=4
 MENU="In which path do you want to install Wordpress?"
 OPTIONS=(1 "${MYDOMAIN}/wordpress"
 2 "${MYDOMAIN}/blog"
-3 "root of ${MYDOMAIN}"
+3 "root of ${MYDOMAIN} DISABLED! would be ${MYDOMAIN}/blog"
 4 "custom")
 menu
 clear
@@ -30,7 +30,8 @@ case $CHOICE in
     WORDPRESSPATHNAME="blog"
     ;;
   3)
-    WORDPRESSPATHNAME=""
+    #WORDPRESSPATHNAME=""
+    WORDPRESSPATHNAME="blog"
     #WORDPRESSPATHNAME="rootpath"
     ;;
   4)
