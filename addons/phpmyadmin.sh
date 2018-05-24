@@ -24,9 +24,11 @@ PMA_BFSECURE_PASS=$(password)
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
 cd /usr/local
-git clone -b STABLE https://github.com/phpmyadmin/phpmyadmin.git -q >>"${main_log}" 2>>"${err_log}"
-cd /usr/local/phpmyadmin
-composer update >>"${main_log}" 2>>"${err_log}"
+wget_tar "https://codeload.github.com/phpmyadmin/phpmyadmin/tar.gz/RELEASE_${PMA_VERSION}"
+tar_file "RELEASE_${PMA_VERSION}"
+cp -r -u /usr/local/phpmyadmin-RELEASE_${PMA_VERSION}/* /usr/local/phpmyadmin/
+rm RELEASE_${PMA_VERSION}
+
 cd /usr/local
 mkdir -p phpmyadmin/save
 mkdir -p phpmyadmin/upload
@@ -46,18 +48,11 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cat > phpmyadmin/config.inc.php <<END
 <?php
-\$cfg['blowfish_secret'] = '$PMA_BFSECURE_PASS';
-\$i = 0;
-\$i++;
-\$cfg['UploadDir'] = 'upload';
-\$cfg['SaveDir'] = 'save';
-\$cfg['ForceSSL'] = true;
-\$cfg['ExecTimeLimit'] = 300;
-\$cfg['VersionCheck'] = false;
+
 \$cfg['NavigationTreeEnableGrouping'] = false;
 \$cfg['AllowArbitraryServer'] = true;
 \$cfg['AllowThirdPartyFraming'] = true;
-\$cfg['ShowServerInfo'] = false;
+
 \$cfg['ShowDbStructureCreation'] = true;
 \$cfg['ShowDbStructureLastUpdate'] = true;
 \$cfg['ShowDbStructureLastCheck'] = true;
@@ -69,45 +64,17 @@ cat > phpmyadmin/config.inc.php <<END
     'Export/quick_export_onserver',
     'Export/quick_export_onserver_overwrite',
     'Export/onserver');
-\$cfg['Import']['charset'] = 'utf-8';
+
 \$cfg['Export']['quick_export_onserver'] = true;
 \$cfg['Export']['quick_export_onserver_overwrite'] = true;
 \$cfg['Export']['compression'] = 'gzip';
-\$cfg['Export']['charset'] = 'utf-8';
+
 \$cfg['Export']['onserver'] = true;
 \$cfg['Export']['sql_drop_database'] = true;
-\$cfg['DefaultLang'] = 'en';
 \$cfg['ServerDefault'] = 1;
-\$cfg['Servers'][\$i]['auth_type'] = 'cookie';
-\$cfg['Servers'][$i]['AllowRoot'] = false;
+
 \$cfg['Servers'][\$i]['auth_http_realm'] = 'phpMyAdmin Login';
-\$cfg['Servers'][\$i]['host'] = '${MYSQL_HOSTNAME}';
-\$cfg['Servers'][\$i]['connect_type'] = 'tcp';
-\$cfg['Servers'][\$i]['compress'] = false;
-\$cfg['Servers'][\$i]['extension'] = 'mysqli';
-\$cfg['Servers'][\$i]['AllowNoPassword'] = false;
-\$cfg['Servers'][\$i]['controluser'] = '$NXTPMAROOTUSER';
-\$cfg['Servers'][\$i]['controlpass'] = '$PMA_USER_PASS';
-\$cfg['Servers'][\$i]['pmadb'] = '$MYSQL_PMADB_NAME';
-\$cfg['Servers'][\$i]['bookmarktable'] = 'pma__bookmark';
-\$cfg['Servers'][\$i]['relation'] = 'pma__relation';
-\$cfg['Servers'][\$i]['table_info'] = 'pma__table_info';
-\$cfg['Servers'][\$i]['table_coords'] = 'pma__table_coords';
-\$cfg['Servers'][\$i]['pdf_pages'] = 'pma__pdf_pages';
-\$cfg['Servers'][\$i]['column_info'] = 'pma__column_info';
-\$cfg['Servers'][\$i]['history'] = 'pma__history';
-\$cfg['Servers'][\$i]['table_uiprefs'] = 'pma__table_uiprefs';
-\$cfg['Servers'][\$i]['tracking'] = 'pma__tracking';
-\$cfg['Servers'][\$i]['userconfig'] = 'pma__userconfig';
-\$cfg['Servers'][\$i]['recent'] = 'pma__recent';
-\$cfg['Servers'][\$i]['favorite'] = 'pma__favorite';
-\$cfg['Servers'][\$i]['users'] = 'pma__users';
-\$cfg['Servers'][\$i]['usergroups'] = 'pma__usergroups';
-\$cfg['Servers'][\$i]['navigationhiding'] = 'pma__navigationhiding';
-\$cfg['Servers'][\$i]['savedsearches'] = 'pma__savedsearches';
-\$cfg['Servers'][\$i]['central_columns'] = 'pma__central_columns';
-\$cfg['Servers'][\$i]['designer_settings'] = 'pma__designer_settings';
-\$cfg['Servers'][\$i]['export_templates'] = 'pma__export_templates';
+
 \$cfg['Servers'][\$i]['hide_db'] = 'information_schema';
 ?>
 END
