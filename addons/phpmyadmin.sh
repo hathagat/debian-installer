@@ -7,7 +7,7 @@ install_phpmyadmin() {
 
 set -x
 
-mkdir -p phpmyadmin/
+mkdir -p /usr/local/phpmyadmin/
 
 install_packages "apache2-utils"
 
@@ -33,24 +33,23 @@ cp -R /usr/local/phpmyadmin-RELEASE_${PMA_VERSION}/* /usr/local/phpmyadmin/
 cd /usr/local/phpmyadmin/
 composer update >>"${main_log}" 2>>"${err_log}"
 
-cd /usr/local
-mkdir -p phpmyadmin/save
-mkdir -p phpmyadmin/upload
-chmod 0700 phpmyadmin/save
-chmod g-s phpmyadmin/save
-chmod 0700 phpmyadmin/upload
-chmod g-s phpmyadmin/upload
+mkdir -p /usr/local/phpmyadmin/save
+mkdir -p /usr/local/phpmyadmin/upload
+chmod 0700 /usr/local/phpmyadmin/save
+chmod g-s /usr/local/phpmyadmin/save
+chmod 0700 /usr/local/phpmyadmin/upload
+chmod g-s /usr/local/phpmyadmin/upload
 mysql -u root -p${MYSQL_ROOT_PASS} mysql < phpmyadmin/sql/create_tables.sql >>"${main_log}" 2>>"${err_log}"
 
 # Generate PMA USER
 mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT USAGE ON mysql.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}' IDENTIFIED BY '${PMADB_PASS}'; GRANT SELECT ( Host, User, Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv, Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv, Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv, Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv, Repl_slave_priv, Repl_client_priv ) ON mysql.user TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT ON mysql.db TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT (Host, Db, User, Table_name, Table_priv, Column_priv) ON mysql.tables_priv TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; GRANT SELECT, INSERT, DELETE, UPDATE, ALTER ON ${MYSQL_PMADB_NAME}.* TO '${MYSQL_PMADB_USER}'@'${MYSQL_HOSTNAME}'; FLUSH PRIVILEGES;" >>"${main_log}" 2>>"${err_log}"
 
 cp ${SCRIPT_PATH}/configs/pma/config.inc.php /usr/local/phpmyadmin/config.inc.php
-sed -i "s/^MYSQL_HOSTNAME/${MYSQL_HOSTNAME}/g" /usr/local/phpmyadmin/config.inc.php
-sed -i "s/^PMA_BFSECURE_PASSE/${PMA_BFSECURE_PASS}/g" /usr/local/phpmyadmin/config.inc.php
-sed -i "s/^MYSQL_PMADB_USER/${MYSQL_PMADB_USER}/g" /usr/local/phpmyadmin/config.inc.php
-sed -i "s/^PMADB_PASS/${PMADB_PASS}/g" /usr/local/phpmyadmin/config.inc.php
-sed -i "s/^MYSQL_PMADB_NAME/${MYSQL_PMADB_NAME}/g" /usr/local/phpmyadmin/config.inc.php
+sed -i "s/MYSQL_HOSTNAME/${MYSQL_HOSTNAME}/g" /usr/local/phpmyadmin/config.inc.php
+sed -i "s/PMA_BFSECURE_PASSE/${PMA_BFSECURE_PASS}/g" /usr/local/phpmyadmin/config.inc.php
+sed -i "s/MYSQL_PMADB_USER/${MYSQL_PMADB_USER}/g" /usr/local/phpmyadmin/config.inc.php
+sed -i "s/PMADB_PASS/${PMADB_PASS}/g" /usr/local/phpmyadmin/config.inc.php
+sed -i "s/MYSQL_PMADB_NAME/${MYSQL_PMADB_NAME}/g" /usr/local/phpmyadmin/config.inc.php
 
 cp ${SCRIPT_PATH}/addons/vhosts/phpmyadmin.conf /etc/nginx/sites-custom/phpmyadmin.conf
 
@@ -58,7 +57,7 @@ if [[ ${USE_PHP7_2} == '1' ]]; then
 	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-custom/phpmyadmin.conf
 fi
 
-chown -R www-data:www-data phpmyadmin/
+chown -R www-data:www-data /usr/local/phpmyadmin/
 systemctl -q reload nginx.service
 
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt

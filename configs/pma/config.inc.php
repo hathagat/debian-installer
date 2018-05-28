@@ -43,7 +43,7 @@ $cfg['Servers'][$i]['controluser'] = 'MYSQL_PMADB_USER';
 $cfg['Servers'][$i]['controlpass'] = 'PMADB_PASS';
 
 /* Storage database and tables */
-$cfg['Servers'][$i]['pmadb'] = '$MYSQL_PMADB_NAME';
+$cfg['Servers'][$i]['pmadb'] = 'MYSQL_PMADB_NAME';
 $cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
 $cfg['Servers'][$i]['relation'] = 'pma__relation';
 $cfg['Servers'][$i]['table_info'] = 'pma__table_info';
