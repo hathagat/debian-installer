@@ -9,12 +9,13 @@
  *
  * @package PhpMyAdmin
  */
+declare(strict_types=1);
 
 /**
  * This is needed for cookie based authentication to encrypt password in
  * cookie. Needs to be 32 chars long.
  */
-$cfg['blowfish_secret'] = 'PMA_BFSECURE_PASS'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
+$cfg['blowfish_secret'] = ''; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
 
 /**
  * Servers configuration
@@ -28,7 +29,7 @@ $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = 'MYSQL_HOSTNAME';
+$cfg['Servers'][$i]['host'] = 'localhost';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
 
@@ -39,30 +40,30 @@ $cfg['Servers'][$i]['AllowNoPassword'] = false;
 /* User used to manipulate with storage */
 // $cfg['Servers'][$i]['controlhost'] = '';
 // $cfg['Servers'][$i]['controlport'] = '';
-$cfg['Servers'][$i]['controluser'] = 'MYSQL_PMADB_USER';
-$cfg['Servers'][$i]['controlpass'] = 'PMADB_PASS';
+// $cfg['Servers'][$i]['controluser'] = 'pma';
+// $cfg['Servers'][$i]['controlpass'] = 'pmapass';
 
 /* Storage database and tables */
-$cfg['Servers'][$i]['pmadb'] = 'MYSQL_PMADB_NAME';
-$cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
-$cfg['Servers'][$i]['relation'] = 'pma__relation';
-$cfg['Servers'][$i]['table_info'] = 'pma__table_info';
-$cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
-$cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
-$cfg['Servers'][$i]['column_info'] = 'pma__column_info';
-$cfg['Servers'][$i]['history'] = 'pma__history';
-$cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
-$cfg['Servers'][$i]['tracking'] = 'pma__tracking';
-$cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
-$cfg['Servers'][$i]['recent'] = 'pma__recent';
-$cfg['Servers'][$i]['favorite'] = 'pma__favorite';
-$cfg['Servers'][$i]['users'] = 'pma__users';
-$cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
-$cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
-$cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
-$cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
-$cfg['Servers'][$i]['designer_settings'] = 'pma__designer_settings';
-$cfg['Servers'][$i]['export_templates'] = 'pma__export_templates';
+// $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
+// $cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
+// $cfg['Servers'][$i]['relation'] = 'pma__relation';
+// $cfg['Servers'][$i]['table_info'] = 'pma__table_info';
+// $cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
+// $cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
+// $cfg['Servers'][$i]['column_info'] = 'pma__column_info';
+// $cfg['Servers'][$i]['history'] = 'pma__history';
+// $cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
+// $cfg['Servers'][$i]['tracking'] = 'pma__tracking';
+// $cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
+// $cfg['Servers'][$i]['recent'] = 'pma__recent';
+// $cfg['Servers'][$i]['favorite'] = 'pma__favorite';
+// $cfg['Servers'][$i]['users'] = 'pma__users';
+// $cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
+// $cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
+// $cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
+// $cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
+// $cfg['Servers'][$i]['designer_settings'] = 'pma__designer_settings';
+// $cfg['Servers'][$i]['export_templates'] = 'pma__export_templates';
 
 /**
  * End of servers configuration
@@ -71,7 +72,7 @@ $cfg['Servers'][$i]['export_templates'] = 'pma__export_templates';
 /**
  * Directories for saving/loading files from server
  */
-$cfg['UploadDir'] = 'upload';
+$cfg['UploadDir'] = 'upload;
 $cfg['SaveDir'] = 'save';
 
 /**
@@ -113,7 +114,7 @@ $cfg['SaveDir'] = 'save';
  * uncomment the desired line:
  * default = 'en'
  */
-$cfg['DefaultLang'] = 'en';
+//$cfg['DefaultLang'] = 'en';
 //$cfg['DefaultLang'] = 'de';
 
 /**
@@ -147,68 +148,3 @@ $cfg['DefaultLang'] = 'en';
  * default = 'ask'
  */
 //$cfg['SendErrorReports'] = 'always';
-
-/**
- * Set the number of seconds a script is allowed to run.
- * If seconds is set to zero, no time limit is imposed.
- * This setting is used while importing/exporting dump files but has no effect when PHP is running in safe mode.
- */
- $cfg['ExecTimeLimit'] = '300';
-
-/**
- * Enables check for latest versions using JavaScript on the main phpMyAdmin page or by directly accessing version_check.php.
- */
- $cfg['VersionCheck'] = 'false';
-
-/**
- * Defines whether to display detailed server information on main page.
- * You can additionally hide more information by using $cfg['Servers'][$i]['verbose'].
- */
- $cfg['ShowServerInfo'] = 'false';
-
-/**
- * Defines charset for generated export.
- * By default no charset conversion is done assuming UTF-8.
- */
- $cfg['Export']['charset'] = 'utf-8';
-
-/**
-* Defines charset for import.
-* By default no charset conversion is done assuming UTF-8.
-*/
-$cfg['Import']['charset'] = 'utf-8';
-
-/**
-* Whether to allow root access.
-* This is just a shortcut for the $cfg['Servers'][$i]['AllowDeny']['rules'] below.
-*/
-$cfg['Servers'][$i]['AllowRoot'] = 'false';
-
-
-$cfg['NavigationTreeEnableGrouping'] = false;
-$cfg['AllowArbitraryServer'] = true;
-$cfg['AllowThirdPartyFraming'] = true;
-$cfg['ShowDbStructureCreation'] = true;
-$cfg['ShowDbStructureLastUpdate'] = true;
-$cfg['ShowDbStructureLastCheck'] = true;
-$cfg['UserprefsDisallow'] = array(
-    'ShowServerInfo',
-    'ShowDbStructureCreation',
-    'ShowDbStructureLastUpdate',
-    'ShowDbStructureLastCheck',
-    'Export/quick_export_onserver',
-    'Export/quick_export_onserver_overwrite',
-    'Export/onserver');
-$cfg['Export']['quick_export_onserver'] = true;
-$cfg['Export']['quick_export_onserver_overwrite'] = true;
-$cfg['Export']['compression'] = 'gzip';
-$cfg['Export']['onserver'] = true;
-$cfg['Export']['sql_drop_database'] = true;
-$cfg['ServerDefault'] = 1;
-$cfg['Servers'][\$i]['auth_http_realm'] = 'phpMyAdmin Login';
-$cfg['Servers'][\$i]['hide_db'] = 'information_schema';
-
-/**
- * You can find more configuration options in the documentation
- * in the doc/ folder or at <https://docs.phpmyadmin.net/>.
- */
