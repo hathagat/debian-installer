@@ -14,7 +14,7 @@
  * This is needed for cookie based authentication to encrypt password in
  * cookie. Needs to be 32 chars long.
  */
-$cfg['blowfish_secret'] = '$PMA_BFSECURE_PASS'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
+$cfg['blowfish_secret'] = 'PMA_BFSECURE_PASS'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
 
 /**
  * Servers configuration
@@ -28,7 +28,7 @@ $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = '${MYSQL_HOSTNAME}';
+$cfg['Servers'][$i]['host'] = 'MYSQL_HOSTNAME';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
 
@@ -39,10 +39,8 @@ $cfg['Servers'][$i]['AllowNoPassword'] = false;
 /* User used to manipulate with storage */
 // $cfg['Servers'][$i]['controlhost'] = '';
 // $cfg['Servers'][$i]['controlport'] = '';
-?????????????????????????????????????????
-$cfg['Servers'][$i]['controluser'] = '$MYSQL_PMADB_USER';
-$cfg['Servers'][$i]['controlpass'] = '$PMADB_PASS';
-?????????????????????????????????????????
+$cfg['Servers'][$i]['controluser'] = 'MYSQL_PMADB_USER';
+$cfg['Servers'][$i]['controlpass'] = 'PMADB_PASS';
 
 /* Storage database and tables */
 $cfg['Servers'][$i]['pmadb'] = '$MYSQL_PMADB_NAME';
@@ -185,12 +183,6 @@ $cfg['Import']['charset'] = 'utf-8';
 * This is just a shortcut for the $cfg['Servers'][$i]['AllowDeny']['rules'] below.
 */
 $cfg['Servers'][$i]['AllowRoot'] = 'false';
-
-/**
-* Whether to allow root access.
-* This is just a shortcut for the $cfg['Servers'][$i]['AllowDeny']['rules'] below.
-*/
-$cfg['Servers'][$i]['AllowRoot'] = 'true';
 
 
 $cfg['NavigationTreeEnableGrouping'] = false;
