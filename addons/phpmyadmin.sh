@@ -40,11 +40,7 @@ chmod g-s /usr/local/phpmyadmin/upload
 mysql -u root -p${MYSQL_ROOT_PASS} mysql < phpmyadmin/sql/create_tables.sql >>"${main_log}" 2>>"${err_log}"
 
 cp ${SCRIPT_PATH}/configs/pma/config.inc.php /usr/local/phpmyadmin/config.inc.php
-sed -i "s/MYSQL_HOSTNAME/${MYSQL_HOSTNAME}/g" /usr/local/phpmyadmin/config.inc.php
 sed -i "s/PMA_BFSECURE_PASS/${PMA_BFSECURE_PASS}/g" /usr/local/phpmyadmin/config.inc.php
-sed -i "s/MYSQL_PMADB_USER/${MYSQL_PMADB_USER}/g" /usr/local/phpmyadmin/config.inc.php
-sed -i "s/PMADB_PASS/${PMADB_PASS}/g" /usr/local/phpmyadmin/config.inc.php
-sed -i "s/MYSQL_PMADB_NAME/${MYSQL_PMADB_NAME}/g" /usr/local/phpmyadmin/config.inc.php
 
 cp ${SCRIPT_PATH}/addons/vhosts/phpmyadmin.conf /etc/nginx/sites-custom/phpmyadmin.conf
 
