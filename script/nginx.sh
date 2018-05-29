@@ -110,4 +110,13 @@ cp ${SCRIPT_PATH}/configs/nginx/index.html /etc/nginx/html/${MYDOMAIN}/index.htm
 chown -R www-data:www-data /etc/nginx/html/${MYDOMAIN}
 #chmod og+x /etc/nginx/html/${MYDOMAIN}
 
+
+#########################
+#sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+#if [[ ${USE_PHP7_2} == '1' ]]; then
+#	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
+#fi
+
+#ln -s /etc/nginx/sites-available/${MYDOMAIN}.conf /etc/nginx/sites-enabled/${MYDOMAIN}.conf
+
 }
