@@ -1,21 +1,44 @@
 user www-data;
-pid /run/nginx.pid;
+pid /var/run/nginx.pid;
 worker_processes auto;
 worker_rlimit_nofile 409600;
 
 events {
 	worker_connections 4096;
 	multi_accept on;
+	aio threads;
 	use epoll;
 }
 
 http {
 	charset utf-8;
 	sendfile on;
+	sendfile_max_chunk 512k;
 	tcp_nopush on;
 	tcp_nodelay on;
+	server_tokens off;
 	types_hash_max_size 2048;
-	client_max_body_size 16M;
+	client_body_buffer_size 256k;
+	client_body_in_file_only off;
+	client_body_timeout 60s;
+	client_max_body_size 1024m;
+	client_header_buffer_size 64k;
+	client_header_timeout  10s;
+	large_client_header_buffers 8 64k;
+
+	# keepalive
+	keepalive_timeout  6;
+	keepalive_requests 500;
+	lingering_time 20s;
+	lingering_timeout 5s;
+	keepalive_disable msie6;
+
+	# open file cache
+	open_file_cache max=50000 inactive=60s;
+	open_file_cache_valid 120s;
+	open_file_cache_min_uses 2;
+	open_file_cache_errors off;
+	open_log_file_cache max=10000 inactive=30s min_uses=2;
 
 	# MIME
 	include mime.types;
@@ -35,8 +58,8 @@ http {
 	ssl_trusted_certificate ssl/${MYDOMAIN}-ecc.cer;
 
 	# SSL
-	ssl_session_timeout 1d;
-	ssl_session_cache shared:SSL:50m;
+	ssl_session_timeout 10m;
+	ssl_session_cache shared:SSL:10m;
 	ssl_session_tickets off;
 
 	# modern configuration
