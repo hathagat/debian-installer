@@ -5,8 +5,6 @@
 
 install_phpmyadmin() {
 
-set -x
-
 mkdir -p /usr/local/phpmyadmin/
 
 install_packages "apache2-utils"
