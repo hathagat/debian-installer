@@ -62,10 +62,12 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; install_lets_encrypt
 	source ${SCRIPT_PATH}/script/lets_encrypt.sh; create_nginx_cert
 
-	echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
-	source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
-	nginx_end=`date +%s`
-	nginxtime=$((nginx_end-nginx_start))
+	if [[ ${USE_NGINX_TEST} = "0" ]]; then
+		echo "70" | dialog --gauge "Installing Nginx Vhost..." 10 70 0
+		source ${SCRIPT_PATH}/script/nginx_vhost.sh; install_nginx_vhost
+		nginx_end=`date +%s`
+		nginxtime=$((nginx_end-nginx_start))
+	fi
 
 	echo "75" | dialog --gauge "Installing PHP..." 10 70 0
 	php_start=`date +%s`
