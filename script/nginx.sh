@@ -121,8 +121,8 @@ if [[ ${USE_NGINX_TEST} = "1" ]]; then
 	cp ${SCRIPT_PATH}/configs/nginx/_pagespeed.conf /etc/nginx/_pagespeed.conf
 	cp ${SCRIPT_PATH}/configs/nginx/_php_fastcgi.conf /etc/nginx/_php_fastcgi.conf
 	cp ${SCRIPT_PATH}/configs/nginx/_php.conf /etc/nginx/_php.conf
-	cp ${SCRIPT_PATH}/configs/nginx/_nginx.conf_new /etc/nginx/nginx.conf
-	cp ${SCRIPT_PATH}/configs/nginx/_vhost_new.conf /etc/nginx/sites-available/${MYDOMAIN}.conf
+	cp ${SCRIPT_PATH}/configs/nginx/nginx.conf_new /etc/nginx/nginx.conf
+	cp ${SCRIPT_PATH}/configs/nginx/vhost_new /etc/nginx/sites-available/${MYDOMAIN}.conf
 	sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 	if [[ ${USE_PHP7_2} == '1' ]]; then
