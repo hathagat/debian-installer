@@ -24,7 +24,7 @@ server {
   }
 
 	include _general.conf;
-	include _wordpress.conf;
+	#include _wordpress.conf;
 	include _php.conf;
   include _pagespeed.conf;
   include _brotli.conf;

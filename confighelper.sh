@@ -166,22 +166,38 @@ if [ ${CHECKRDNS} != mail.${MYDOMAIN} ] | [ ${CHECKRDNS} != mail.${MYDOMAIN}. ];
 	exit 1
 fi
 
-CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
-while true
-	do
-		NXT_SYSTEM_EMAIL=$(dialog --clear \
-		--backtitle "$BACKTITLE" \
-		--inputbox "Enter your Email adress for system services example (please use the domain, you use for the script installation): admin@${MYDOMAIN}" \
-		$HEIGHT $WIDTH \
-		3>&1 1>&2 2>&3 3>&- \
-		)
-			if [[ "$NXT_SYSTEM_EMAIL" =~ $CHECK_E_MAIL ]];then
-				break
-			else
-				dialog_msg "[ERROR] Should we again practice how a Email address looks?"
-				dialog --clear
-			fi
-	done
+#CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
+#while true
+#	do
+#		NXT_SYSTEM_EMAIL=$(dialog --clear \
+#		--backtitle "$BACKTITLE" \
+#		--inputbox "Enter your Email adress for system services example (please use the domain, you use for the script installation): admin@${MYDOMAIN}" \
+#		$HEIGHT $WIDTH \
+#		3>&1 1>&2 2>&3 3>&- \
+#		)
+#			if [[ "$NXT_SYSTEM_EMAIL" =~ $CHECK_E_MAIL ]];then
+#				break
+#			else
+#				dialog_msg "[ERROR] Should we again practice how a Email address looks?"
+#				dialog --clear
+#			fi
+#	done
+
+# --- Nginx new config test mode ---
+CHOICE_HEIGHT=2
+MENU="Do you want to use the Nginx new config mode? (unstable!):"
+OPTIONS=(1 "Yes"
+		     2 "No")
+menu
+clear
+case $CHOICE in
+      1)
+			USE_NGINX_TEST="1"
+            ;;
+		2)
+			USE_NGINX_TEST="0"
+            ;;
+esac
 
 # --- Mailserver ---
 CHOICE_HEIGHT=2
@@ -236,10 +252,11 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"
+	USE_NGINX_TEST="${USE_NGINX_TEST}"
 
 	MYSQL_HOSTNAME="localhost"
 
-	NXT_SYSTEM_EMAIL="${NXT_SYSTEM_EMAIL}"
+	#NXT_SYSTEM_EMAIL="${NXT_SYSTEM_EMAIL}"
 	NXT_IS_INSTALLED="0"
 	NXT_IS_INSTALLED_MAILSERVER="0"
 	NXT_INSTALL_DATE="0"

@@ -111,12 +111,25 @@ chown -R www-data:www-data /etc/nginx/html/${MYDOMAIN}
 #chmod og+x /etc/nginx/html/${MYDOMAIN}
 
 
-#########################
-#sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-#if [[ ${USE_PHP7_2} == '1' ]]; then
-#	sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
-#fi
+if [[ ${USE_NGINX_TEST} = "1" ]]; then
+	rm -rf /etc/nginx/nginx.conf
+	rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf
 
-#ln -s /etc/nginx/sites-available/${MYDOMAIN}.conf /etc/nginx/sites-enabled/${MYDOMAIN}.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_brotli.conf /etc/nginx/_brotli.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_general.conf /etc/nginx/_general.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_letsencrypt.conf /etc/nginx/_letsencrypt.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_pagespeed.conf /etc/nginx/_pagespeed.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_php_fastcgi.conf /etc/nginx/_php_fastcgi.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_php.conf /etc/nginx/_php.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_nginx.conf_new /etc/nginx/nginx.conf
+	cp ${SCRIPT_PATH}/configs/nginx/_vhost_new.conf /etc/nginx/sites-available/${MYDOMAIN}.conf
+	sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+
+	if [[ ${USE_PHP7_2} == '1' ]]; then
+		sed -i 's/fastcgi_pass unix:\/var\/run\/php\/php7.1-fpm.sock\;/fastcgi_pass unix:\/var\/run\/php\/php7.2-fpm.sock\;/g' /etc/nginx/sites-available/${MYDOMAIN}.conf >>"${main_log}" 2>>"${err_log}"
+	fi
+fi
+
+ln -s /etc/nginx/sites-available/${MYDOMAIN}.conf /etc/nginx/sites-enabled/${MYDOMAIN}.conf
 
 }
