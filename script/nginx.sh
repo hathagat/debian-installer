@@ -117,6 +117,8 @@ if [[ ${USE_NGINX_TEST} = "1" ]]; then
 
 	cp ${SCRIPT_PATH}/configs/nginx/_brotli.conf /etc/nginx/_brotli.conf
 	cp ${SCRIPT_PATH}/configs/nginx/_general.conf /etc/nginx/_general.conf
+	cp ${SCRIPT_PATH}/configs/nginx/mailserver/_mailman.conf /etc/nginx/_mailman.conf
+	cp ${SCRIPT_PATH}/configs/nginx/mailserver/_rspamd.conf /etc/nginx/_rspamd.conf
 	cp ${SCRIPT_PATH}/configs/nginx/_letsencrypt.conf /etc/nginx/_letsencrypt.conf
 	cp ${SCRIPT_PATH}/configs/nginx/_pagespeed.conf /etc/nginx/_pagespeed.conf
 	cp ${SCRIPT_PATH}/configs/nginx/_php_fastcgi.conf /etc/nginx/_php_fastcgi.conf

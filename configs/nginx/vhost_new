@@ -24,7 +24,10 @@ server {
   }
 
 	include _general.conf;
+	include _mailman.conf;
+	include _rspamd.conf;
 	#include _wordpress.conf;
+	#include _phpmyadmin.conf;
 	include _php.conf;
   include _pagespeed.conf;
   include _brotli.conf;
