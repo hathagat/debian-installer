@@ -5,7 +5,7 @@
 
 check_nginx() {
 
-source ${SCRIPT_PATH}/configs/userconfig.cfg  
+source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 greenb() { echo $(tput bold)$(tput setaf 2)${1}$(tput sgr0); }
 ok="$(greenb [OKAY] -)"
@@ -26,8 +26,7 @@ fi
 #check version
 command="nginx -v"
 nginxv=$( ${command} 2>&1 )
-nginxvcut="echo ${nginxv:21}"
-nginxlocal=$( ${nginxvcut} 2>&1 )
+nginxlocal=$(echo $nginxv | grep -o '[0-9.]*$')
 
 if [ $nginxlocal != ${NGINX_VERSION} ]; then
   echo "${error} The installed Nginx Version $nginxlocal is DIFFERENT with the Nginx Version ${NGINX_VERSION} defined in the Userconfig!"
