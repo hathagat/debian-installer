@@ -42,6 +42,7 @@ MENU="Choose one of the following options:"
 								TCP_PORT="$CHOOSE_TCP_PORT"
 								sed -i "/\<$TCP_PORT\>/ "\!"s/^OPEN_TCP=\"/&$TCP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
 								systemctl force-reload arno-iptables-firewall.service
+								systemctl restart arno-iptables-firewall.service
 								dialog_msg "You are done. The new TCP Port ${TCP_PORT} is opened!"
 								break
 						fi
@@ -61,6 +62,7 @@ MENU="Choose one of the following options:"
 							UDP_PORT="$CHOOSE_UDP_PORT"
 							sed -i "/\<$UDP_PORT\>/ "\!"s/^OPEN_UDP=\"/&$UDP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
 							systemctl force-reload arno-iptables-firewall.service
+							systemctl restart arno-iptables-firewall.service
 							dialog_msg "You are done. The new UDP Port ${UDP_PORT} is opened!"
 							break
 					fi
@@ -80,6 +82,7 @@ MENU="Choose one of the following options:"
 							TCP_PORT_CLOSE="$CHOOSE_TCP_PORT_CLOSE"
 							sed -i "s/$TCP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
 							systemctl force-reload arno-iptables-firewall.service
+							systemctl restart arno-iptables-firewall.service
 							dialog_msg "You are done. The TCP Port ${TCP_PORT_CLOSE} is closed!"
 							break
 					fi
@@ -99,6 +102,7 @@ MENU="Choose one of the following options:"
 							UDP_PORT_CLOSE="$CHOOSE_UDP_PORT_CLOSE"
 							sed -i "s/$UDP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
 							systemctl force-reload arno-iptables-firewall.service
+							systemctl restart arno-iptables-firewall.service
 							dialog_msg "You are done. The UDP Port ${UDP_PORT_CLOSE} is closed!"
 							break
 					fi
