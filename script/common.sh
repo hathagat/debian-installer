@@ -43,3 +43,31 @@ APT::Periodic::Unattended-Upgrade "1";
 END
 
 }
+
+install_docker() {
+    if command_exists docker; then
+        echo "Docker already installed!"
+    else
+        apt-get -y install apt-transport-https ca-certificates curl gnupg2 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install docker"
+        curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | apt-key add -
+        cat >> /etc/apt/sources.list <<END
+# Docker
+deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+#deb-src [arch=amd64] https://download.docker.com/linux/debian stretch stable
+
+END
+        apt-get update
+        apt-get -y install docker-ce
+    fi
+    mkdir -p ${DOCKER_DATA_PATH}
+    echo
+    docker --version
+}
+
+install_docker_compose() {
+    curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    curl -L https://raw.githubusercontent.com/docker/compose/${DOCKER_COMPOSE_VERSION}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+    echo
+    docker-compose --version
+}

@@ -28,6 +28,8 @@ install() {
 	if [[ ${INSTALL_COMMON} = "1" ]]; then
 	    echo "10" | dialog --gauge "Installing common stuff..." 10 70 0
 	    source ${SCRIPT_PATH}/script/common.sh; install_common
+	    source ${SCRIPT_PATH}/script/common.sh; install_docker
+	    source ${SCRIPT_PATH}/script/common.sh; install_docker_compose
 	fi
 	common_end=`date +%s`
 	commontime=$((common_end-common_start))
