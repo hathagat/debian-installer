@@ -75,8 +75,8 @@ deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
 deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
 #deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
 
-deb http://ftp.debian.org/debian stretch-backports main
-#deb-src http://ftp.debian.org/debian stretch-backports main
+deb http://deb.debian.org/debian stretch-backports main contrib non-free
+#deb-src http://deb.debian.org/debian stretch-backports main contrib non-free
 
 ###### Custom Repos
 END
@@ -84,15 +84,15 @@ fi
 
 if [[ ${DISTOS} == 'UBUNTU' ]]; then
 cat > /etc/apt/sources.list <<END
-###### Ubuntu Main Repos
+###### Ubuntu Repos
 deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 
-###### Ubuntu Update Repos
-deb http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
 deb http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
-deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
+
+deb http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
 
 ###### Custom Repos
 END
