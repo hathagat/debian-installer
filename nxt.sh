@@ -15,6 +15,7 @@ SCRIPT_PATH="/root/NeXt-Server"
 GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 GIT_LOCAL_FILES_HEAD_LAST_COMMIT=$(git log -1 --date=short --pretty=format:%cd)
 source ${SCRIPT_PATH}/configs/versions.cfg
+source ${SCRIPT_PATH}/configs/userconfig.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
