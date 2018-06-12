@@ -50,7 +50,11 @@ MENU="\n Choose one of the following options: \n \n"
 					bash install.sh
 					;;
 				2)
-					source ${SCRIPT_PATH}/menus/after_install_config_menu.sh; menu_options_after_install
+					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
+						source ${SCRIPT_PATH}/menus/after_install_config_menu.sh; menu_options_after_install
+					else
+						echo "You have to install the NeXt Server to run the configuration!"
+					fi
 					;;
 				3)
 					source ${SCRIPT_PATH}/updates/all-services-update.sh; update_all_services

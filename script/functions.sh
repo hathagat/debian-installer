@@ -64,6 +64,18 @@ function dialog_msg() {
 dialog --backtitle "NeXt Server Installation" --msgbox "$1" 40 80
 }
 
+function dialog_yesno_configuration() {
+dialog --backtitle "NeXt Server Installation" \
+--yesno "Continue with NeXt Server Configuration?" 7 60
+
+CHOICE=$?
+case $CHOICE in
+   1)
+        echo "Skipped the NeXt Server Configuration!"
+        exit 1;;
+esac
+}
+
 error_exit()
 {
 	echo "$1" 1>&2
