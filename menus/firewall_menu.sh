@@ -43,9 +43,14 @@ MENU="Choose one of the following options:"
 							)
 						if [[ ${CHOOSE_TCP_PORT} =~ ^-?[0-9]+$ ]]; then
 								TCP_PORT="$CHOOSE_TCP_PORT"
-								sed -i "/\<$TCP_PORT\>/ "\!"s/^OPEN_TCP=\"/&$TCP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
-								systemctl force-reload arno-iptables-firewall.service
-								dialog_msg "You are done. The new TCP Port ${TCP_PORT} is opened!"
+								if [ ${#TCP_PORT} -ge 4 ]; then
+										dialog_msg "Your Input has more than 3 numbers, please try again"
+										source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
+                else
+                    sed -i "/\<$TCP_PORT\>/ "\!"s/^OPEN_TCP=\"/&$TCP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
+										systemctl force-reload arno-iptables-firewall.service
+										dialog_msg "You are done. The new TCP Port ${TCP_PORT} is opened!"
+                fi
 								break
 						fi
 					done
@@ -62,9 +67,14 @@ MENU="Choose one of the following options:"
 						)
 					if [[ ${CHOOSE_UDP_PORT} =~ ^-?[0-9]+$ ]]; then
 							UDP_PORT="$CHOOSE_UDP_PORT"
-							sed -i "/\<$UDP_PORT\>/ "\!"s/^OPEN_UDP=\"/&$UDP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
-							systemctl force-reload arno-iptables-firewall.service
-							dialog_msg "You are done. The new UDP Port ${UDP_PORT} is opened!"
+							if [ ${#UDP_PORT} -ge 4 ]; then
+									dialog_msg "Your Input has more than 3 numbers, please try again"
+									source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
+							else
+									sed -i "/\<$UDP_PORT\>/ "\!"s/^OPEN_UDP=\"/&$UDP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
+									systemctl force-reload arno-iptables-firewall.service
+									dialog_msg "You are done. The new UDP Port ${UDP_PORT} is opened!"
+							fi
 							break
 					fi
 				done
@@ -81,9 +91,14 @@ MENU="Choose one of the following options:"
 						)
 					if [[ ${CHOOSE_TCP_PORT_CLOSE} =~ ^-?[0-9]+$ ]]; then
 							TCP_PORT_CLOSE="$CHOOSE_TCP_PORT_CLOSE"
-							sed -i "s/$TCP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
-							systemctl force-reload arno-iptables-firewall.service
-							dialog_msg "You are done. The TCP Port ${TCP_PORT_CLOSE} is closed!"
+							if [ ${#TCP_PORT_CLOSE} -ge 4 ]; then
+									dialog_msg "Your Input has more than 3 numbers, please try again"
+									source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
+							else
+									sed -i "s/$TCP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
+									systemctl force-reload arno-iptables-firewall.service
+									dialog_msg "You are done. The TCP Port ${TCP_PORT_CLOSE} is closed!"
+							fi
 							break
 					fi
 				done
@@ -100,9 +115,14 @@ MENU="Choose one of the following options:"
 						)
 					if [[ ${CHOOSE_UDP_PORT_CLOSE} =~ ^-?[0-9]+$ ]]; then
 							UDP_PORT_CLOSE="$CHOOSE_UDP_PORT_CLOSE"
-							sed -i "s/$UDP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
-							systemctl force-reload arno-iptables-firewall.service
-							dialog_msg "You are done. The UDP Port ${UDP_PORT_CLOSE} is closed!"
+							if [ ${#UDP_PORT_CLOSE} -ge 4 ]; then
+									dialog_msg "Your Input has more than 3 numbers, please try again"
+									source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
+							else
+									sed -i "s/$UDP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
+									systemctl force-reload arno-iptables-firewall.service
+									dialog_msg "You are done. The UDP Port ${UDP_PORT_CLOSE} is closed!"
+							fi
 							break
 					fi
 				done
