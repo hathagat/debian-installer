@@ -57,7 +57,11 @@ MENU="\n Choose one of the following options: \n \n"
 					fi
 					;;
 				3)
-					source ${SCRIPT_PATH}/updates/all-services-update.sh; update_all_services
+					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
+						source ${SCRIPT_PATH}/updates/all-services-update.sh; update_all_services
+					else
+						echo "You have to install the NeXt Server to run the services update!"
+					fi
 					;;
 				4)
 					dialog_info "Updating NeXt Server Script"
@@ -66,10 +70,18 @@ MENU="\n Choose one of the following options: \n \n"
 					bash nxt.sh
 					;;
 				5)
-					source ${SCRIPT_PATH}/menus/services_menu.sh; menu_options_services
+					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
+						source ${SCRIPT_PATH}/menus/services_menu.sh; menu_options_services
+					else
+						echo "You have to install the NeXt Server to run the services options!"
+					fi
 					;;
 				6)
-					source ${SCRIPT_PATH}/menus/addons_menu.sh; menu_options_addons
+					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
+						source ${SCRIPT_PATH}/menus/addons_menu.sh; menu_options_addons
+					else
+						echo "You have to install the NeXt Server to install addons!"
+					fi
 					;;
 				7)
 					echo "Exit"
