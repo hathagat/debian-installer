@@ -1,4 +1,4 @@
-#	$OpenBSD: sshd_config,v 1.101 2017/03/14 07:19:07 djm Exp $
+# $OpenBSD: sshd_config,v 1.101 2017/03/14 07:19:07 djm Exp $
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -27,10 +27,11 @@ RekeyLimit 256m
 SyslogFacility AUTH
 LogLevel VERBOSE
 
-# Authentication:
-
+# Authentication
 LoginGraceTime 30
 PermitRootLogin no
+DenyUsers root
+
 StrictModes yes
 MaxAuthTries 2
 MaxSessions 2
