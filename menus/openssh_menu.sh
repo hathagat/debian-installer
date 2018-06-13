@@ -50,7 +50,7 @@ MENU="Choose one of the following options:"
 							3>&1 1>&2 2>&3 3>&- \
 							)
 					if [[ $INPUT_NEW_SSH_PORT =~ ^-?[0-9]+$ ]]; then
-						if [ ${#UDP_PORT_CLOSE} -ge 4 ]; then
+						if [ ${#INPUT_NEW_SSH_PORT} -ge 4 ]; then
 								dialog_msg "Your Input has more than 3 numbers, please try again"
 								dialog --clear
 						else
