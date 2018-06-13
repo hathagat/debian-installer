@@ -37,14 +37,14 @@ MENU="Choose one of the following options:"
 					do
 						CHOOSE_TCP_PORT=$(dialog --clear \
 							--backtitle "$BACKTITLE" \
-							--inputbox "Enter your TCP Port (only max. 3 numbers!):" \
+							--inputbox "Enter your TCP Port (only max. 6 numbers!):" \
 							$HEIGHT $WIDTH \
 							3>&1 1>&2 2>&3 3>&- \
 							)
 						if [[ ${CHOOSE_TCP_PORT} =~ ^-?[0-9]+$ ]]; then
 								TCP_PORT="$CHOOSE_TCP_PORT"
-								if [ ${#TCP_PORT} -ge 4 ]; then
-										dialog_msg "Your Input has more than 3 numbers, please try again"
+								if [ ${#TCP_PORT} -ge 7 ]; then
+										dialog_msg "Your Input has more than 6 numbers, please try again"
 										source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
                 else
                     sed -i "/\<$TCP_PORT\>/ "\!"s/^OPEN_TCP=\"/&$TCP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
@@ -61,14 +61,14 @@ MENU="Choose one of the following options:"
 				do
 					CHOOSE_UDP_PORT=$(dialog --clear \
 						--backtitle "$BACKTITLE" \
-						--inputbox "Enter your UDP Port (only max. 3 numbers!):" \
+						--inputbox "Enter your UDP Port (only max. 6 numbers!):" \
 						$HEIGHT $WIDTH \
 						3>&1 1>&2 2>&3 3>&- \
 						)
 					if [[ ${CHOOSE_UDP_PORT} =~ ^-?[0-9]+$ ]]; then
 							UDP_PORT="$CHOOSE_UDP_PORT"
-							if [ ${#UDP_PORT} -ge 4 ]; then
-									dialog_msg "Your Input has more than 3 numbers, please try again"
+							if [ ${#UDP_PORT} -ge 7 ]; then
+									dialog_msg "Your Input has more than 6 numbers, please try again"
 									source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 							else
 									sed -i "/\<$UDP_PORT\>/ "\!"s/^OPEN_UDP=\"/&$UDP_PORT, /" /etc/arno-iptables-firewall/firewall.conf
@@ -85,14 +85,14 @@ MENU="Choose one of the following options:"
 				do
 					CHOOSE_TCP_PORT_CLOSE=$(dialog --clear \
 						--backtitle "$BACKTITLE" \
-						--inputbox "Enter your TCP Port (only max. 3 numbers!):" \
+						--inputbox "Enter your TCP Port (only max. 6 numbers!):" \
 						$HEIGHT $WIDTH \
 						3>&1 1>&2 2>&3 3>&- \
 						)
 					if [[ ${CHOOSE_TCP_PORT_CLOSE} =~ ^-?[0-9]+$ ]]; then
 							TCP_PORT_CLOSE="$CHOOSE_TCP_PORT_CLOSE"
-							if [ ${#TCP_PORT_CLOSE} -ge 4 ]; then
-									dialog_msg "Your Input has more than 3 numbers, please try again"
+							if [ ${#TCP_PORT_CLOSE} -ge 7 ]; then
+									dialog_msg "Your Input has more than 6 numbers, please try again"
 									source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 							else
 									sed -i "s/$TCP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
@@ -109,14 +109,14 @@ MENU="Choose one of the following options:"
 				do
 					CHOOSE_UDP_PORT_CLOSE=$(dialog --clear \
 						--backtitle "$BACKTITLE" \
-						--inputbox "Enter your UDP Port (only max. 3 numbers!):" \
+						--inputbox "Enter your UDP Port (only max. 6 numbers!):" \
 						$HEIGHT $WIDTH \
 						3>&1 1>&2 2>&3 3>&- \
 						)
 					if [[ ${CHOOSE_UDP_PORT_CLOSE} =~ ^-?[0-9]+$ ]]; then
 							UDP_PORT_CLOSE="$CHOOSE_UDP_PORT_CLOSE"
-							if [ ${#UDP_PORT_CLOSE} -ge 4 ]; then
-									dialog_msg "Your Input has more than 3 numbers, please try again"
+							if [ ${#UDP_PORT_CLOSE} -ge 7 ]; then
+									dialog_msg "Your Input has more than 6 numbers, please try again"
 									source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 							else
 									sed -i "s/$UDP_PORT_CLOSE, //g" /etc/arno-iptables-firewall/firewall.conf
