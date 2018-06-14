@@ -15,14 +15,12 @@ check_system() {
 		exit 1
 	fi
 
-uname -r
-https://www.ibm.com/developerworks/community/blogs/58e72888-6340-46ac-b488-d31aa4058e9c/entry/know_about_your_linux_system_using_uname_command77?lang=en
 	#HOSTNAME_LENGTH=$(hostname)
 	#HOSTNAME_LENGTH_CHARS=$(echo -n $HOSTNAME_LENGTH | wc -m)
 	#CUT_LENGTH_MIN=$(($HOSTNAME_LENGTH_CHARS + 8))
 	#CUT_LENGTH_MAX=$(($HOSTNAME_LENGTH_CHARS + 14))
 
-	#LOCAL_KERNEL_VERSION_STRING=$(uname -a 2>&1)
+	#LOCAL_KERNEL_VERSION_STRING=$(uname -r 2>&1)
 	#LOCAL_KERNEL_VERSION=$(echo $LOCAL_KERNEL_VERSION_STRING | cut -c${CUT_LENGTH_MIN}-${CUT_LENGTH_MAX})
 
 	#if [ $LOCAL_KERNEL_VERSION != ${KERNEL_VERSION} ]; then
