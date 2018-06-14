@@ -183,22 +183,6 @@ fi
 #			fi
 #	done
 
-# --- Nginx new config test mode ---
-CHOICE_HEIGHT=2
-MENU="Do you want to use the Nginx new config mode? (unstable!):"
-OPTIONS=(1 "Yes"
-		     2 "No")
-menu
-clear
-case $CHOICE in
-      1)
-			USE_NGINX_TEST="1"
-            ;;
-		2)
-			USE_NGINX_TEST="0"
-            ;;
-esac
-
 # --- Mailserver ---
 CHOICE_HEIGHT=2
 MENU="Do you want to use the Mailserver?:"
@@ -252,7 +236,6 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"
-	USE_NGINX_TEST="${USE_NGINX_TEST}"
 
 	MYSQL_HOSTNAME="localhost"
 
