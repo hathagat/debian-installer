@@ -75,6 +75,7 @@ server {
 					image/svg+xml;
 
 	pagespeed 			on;
+	pagespeed 			XHeaderValue "Powered By ngx_pagespeed";
 	pagespeed 			EnableFilters collapse_whitespace;
 	pagespeed 			EnableFilters canonicalize_javascript_libraries;
 	pagespeed 			EnableFilters combine_css;
