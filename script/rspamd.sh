@@ -41,6 +41,14 @@ RSPAMADM_PASSWORT_HASH=$(rspamadm pw -p ${RSPAMADM_PASSWORT})
 cat > /etc/rspamd/local.d/worker-controller.inc <<END
 password = "${RSPAMADM_PASSWORT_HASH}";
 END
+sed -i '1d' /etc/rspamd/local.d/worker-controller.inc
+hash_temp=$(</etc/rspamd/local.d/worker-controller.inc)
+
+new_file='password = "'
+rm /etc/rspamd/local.d/worker-controller.inc
+cat > /etc/rspamd/local.d/worker-controller.inc <<END
+$new_file$hash_temp
+END
 
 cp ${SCRIPT_PATH}/configs/rspamd/worker-proxy.inc /etc/rspamd/local.d/worker-proxy.inc
 cp ${SCRIPT_PATH}/configs/rspamd/logging.inc /etc/rspamd/local.d/logging.inc
