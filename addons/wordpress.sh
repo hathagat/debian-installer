@@ -6,8 +6,6 @@
 
 install_wordpress() {
 
-set -x
-
 source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
 WORDPRESS_USER=$(username)
