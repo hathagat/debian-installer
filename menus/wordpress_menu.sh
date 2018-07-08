@@ -30,22 +30,22 @@ case $CHOICE in
   3)
       while true
         do
-          WORDPRESSPATHNAME=$(dialog --clear \
+          WORDPRESS_PATH_NAME=$(dialog --clear \
           --backtitle "$BACKTITLE" \
-          --inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/ only A-Z and a-z letters" \
+          --inputbox "Enter the name of Wordpress installation path. Link after ${MYDOMAIN}/ only A-Z and a-z letters \
+          \n\nYour Input should have at least 2 characters or numbers!" \
           $HEIGHT $WIDTH \
           3>&1 1>&2 2>&3 3>&- \
           )
-            if [[ "$WORDPRESS_PATH_NAME" =~ [^0-9A-Za-z]+ ]];then
-              if [ ${#WORDPRESS_PATH_NAME} -gt 2 ]; then
-                  dialog_msg "Your Input has more than 6 numbers, please try again"
+            if [[ "$WORDPRESS_PATH_NAME" =~ ^[a-zA-Z0-9]+$ ]]; then
+              if [ ${#WORDPRESS_PATH_NAME} -ge 1 ]; then
                   break
               else
-                dialog_msg "[ERROR] You should read it properly!"
+                dialog_msg "[ERROR] Your Input should have at least 2 characters or numbers!"
                 dialog --clear
               fi
             else
-              dialog_msg "[ERROR] You should read it properly!"
+              dialog_msg "[ERROR] Your Input should contain characters or numbers!!"
               dialog --clear
             fi
         done
