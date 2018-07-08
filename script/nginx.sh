@@ -93,7 +93,6 @@ cp ${SCRIPT_PATH}/configs/nginx/_general.conf /etc/nginx/_general.conf
 cp ${SCRIPT_PATH}/configs/nginx/_pagespeed.conf /etc/nginx/_pagespeed.conf
 cp ${SCRIPT_PATH}/configs/nginx/_php_fastcgi.conf /etc/nginx/_php_fastcgi.conf
 cp ${SCRIPT_PATH}/configs/nginx/_brotli.conf /etc/nginx/_brotli.conf
-cp ${SCRIPT_PATH}/configs/nginx/_wordpress.conf /etc/nginx/_wordpress.conf
 
 rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf
 cp ${SCRIPT_PATH}/configs/nginx/vhost /etc/nginx/sites-available/${MYDOMAIN}.conf
