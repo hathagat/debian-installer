@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -10,35 +10,15 @@ check_system() {
 		exit 1
 	fi
 
-	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -is) != 'Ubuntu' ]; then
-		echo "The script only works on Ubuntu 16.04 Xenial and Debian 9.x"
+	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -cs) != 'stretch' ]; then
+		echo "The script only works on Debian 9.x"
 		exit 1
 	fi
 
-	#HOSTNAME_LENGTH=$(hostname)
-	#HOSTNAME_LENGTH_CHARS=$(echo -n $HOSTNAME_LENGTH | wc -m)
-	#CUT_LENGTH_MIN=$(($HOSTNAME_LENGTH_CHARS + 8))
-	#CUT_LENGTH_MAX=$(($HOSTNAME_LENGTH_CHARS + 14))
-
-	#LOCAL_KERNEL_VERSION_STRING=$(uname -r 2>&1)
-	#LOCAL_KERNEL_VERSION=$(echo $LOCAL_KERNEL_VERSION_STRING | cut -c${CUT_LENGTH_MIN}-${CUT_LENGTH_MAX})
-
-	#if [ $LOCAL_KERNEL_VERSION != ${KERNEL_VERSION} ]; then
-  #      echo "Please upgrade your Linux Version ($LOCAL_KERNEL_VERSION) with apt-get update && apt-get dist-upgrade to match the script required Version ${KERNEL_VERSION}"
-	#	exit 1
-	#fi
-
-	if [ $(lsb_release -cs) != 'xenial' ] && [ $(lsb_release -cs) != 'stretch' ]; then
-		echo "The script only works on Ubuntu 16.04 Xenial and Debian 9.x"
-		exit 1
-	fi
-
-	if [ $(lsb_release -cs) == 'xenial' ] && [ $(lsb_release -is) == 'Ubuntu' ]; then
-		DISTOS="UBUNTU"
-	fi
-
-	if [ $(lsb_release -cs) == 'stretch' ] && [ $(lsb_release -is) == 'Debian' ]; then
-		DISTOS="DEBIAN"
+	LOCAL_KERNEL_VERSION=$(uname -a | awk '/Linux/ {print $(NF-7)}')
+	if [ $LOCAL_KERNEL_VERSION != ${KERNEL_VERSION} ]; then
+      echo "Please upgrade your Linux Version ($LOCAL_KERNEL_VERSION) with apt-get update && apt-get dist-upgrade to match the script required Version ${KERNEL_VERSION}"
+			exit 1
 	fi
 
 	if [ $(grep MemTotal /proc/meminfo | awk '{print $2}') -lt 1000000 ]; then

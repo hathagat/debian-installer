@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ rm master.cf main.cf.proto master.cf.proto
 
 cp ${SCRIPT_PATH}/configs/postfix/main.cf /etc/postfix/main.cf
 sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/postfix/main.cf
-IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
+IPADR=$(ip route get 1.1.1.1 | awk '/1.1.1.1/ {print $(NF-2)}')
 sed -i "s/changeme/${IPADR}/g" /etc/postfix/main.cf
 
 cp ${SCRIPT_PATH}/configs/postfix/master.cf /etc/postfix/master.cf

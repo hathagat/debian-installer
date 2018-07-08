@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -7,8 +7,9 @@ clear
 echo "NeXt Server"
 echo "Preparing menu..."
 
-#-------------dialog
-apt-get -qq install dialog >/dev/null 2>&1
+if [ $(dpkg-query -l | grep dialog | wc -l) -ne 3 ]; then
+	apt-get -qq install dialog >/dev/null 2>&1
+fi
 
 SCRIPT_PATH="/root/NeXt-Server"
 
@@ -48,7 +49,11 @@ MENU="\n Choose one of the following options: \n \n"
 		clear
 		case $CHOICE in
 				1)
-					bash install.sh
+					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
+						echo "The NeXt-Server Script is already installed!"
+					else
+						bash install.sh
+					fi
 					;;
 				2)
 					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then

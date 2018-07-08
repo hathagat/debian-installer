@@ -1,26 +1,97 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 check_nginx() {
 
-source ${SCRIPT_PATH}/configs/userconfig.cfg
+failed_nginx_checks=0
+passed_nginx_checks=0
 
-greenb() { echo $(tput bold)$(tput setaf 2)${1}$(tput sgr0); }
-ok="$(greenb [OKAY] -)"
-redb() { echo $(tput bold)$(tput setaf 1)${1}$(tput sgr0); }
-error="$(redb [ERROR] -)"
-
-#check website
-curl ${MYDOMAIN} -s -f -o /dev/null && echo "${ok} Website ${MYDOMAIN} is up and running." || echo "${error} Website ${MYDOMAIN} is down."
-
-#check process
-if pgrep -x "nginx" > /dev/null
-then
-    echo "${ok} Nginx is running"
+if [ -e /etc/init.d/nginx ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
 else
-    echo "${error} Nginx STOPPED"
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} nginx init does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /etc/nginx/nginx.conf ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} nginx.conf does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /etc/nginx/_general.conf ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} _general.conf does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /etc/nginx/_pagespeed.conf ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} _pagespeed.conf does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /etc/nginx/_php_fastcgi.conf ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} _php_fastcgi.conf does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /etc/nginx/_brotli.conf ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} _brotli.conf does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /var/www/${MYDOMAIN}/public/NeXt-logo.jpg ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} NeXt-logo.jpg does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /var/www/${MYDOMAIN}/public/index.html ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} index.html does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /etc/nginx/sites-enabled/${MYDOMAIN}.conf ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} /sites-enabled/${MYDOMAIN}.conf does NOT exist" >>"${failed_checks_log}"
+fi
+
+if [ -e /etc/nginx/sites-available/${MYDOMAIN}.conf ]; then
+  passed_nginx_checks=$((passed_nginx_checks + 1))
+else
+  failed_nginx_checks=$((failed_nginx_checks + 1))
+  echo "${error} /sites-available/${MYDOMAIN}.conf does NOT exist" >>"${failed_checks_log}"
+fi
+
+echo "Nginx:"
+echo "${ok} ${passed_nginx_checks} checks passed!"
+
+if [[ "${failed_nginx_checks}" != "0" ]]; then
+  echo "${error} ${failed_nginx_checks} check/s failed! Please check ${SCRIPT_PATH}/logs/failed_checks.log or consider a new installation!"
+fi
+
+#check config
+nginx -t >/dev/null 2>&1
+ERROR=$?
+if [ "$ERROR" = '0' ]; then
+  echo "${ok} The Nginx Config is working."
+else
+  echo "${error} The Nginx Config is NOT working."
 fi
 
 #check version
@@ -34,19 +105,9 @@ else
 	echo "${ok} The Nginx Version $nginxlocal is equal with the Nginx Version ${NGINX_VERSION} defined in the Userconfig!"
 fi
 
-#check vhost
-if [ -e /etc/nginx/sites-available/${MYDOMAIN}.conf ]; then
-  echo "${ok} Nginx vhost for ${MYDOMAIN} does exist"
-else
-  echo "${error} Nginx vhost for ${MYDOMAIN} does NOT exist"
-fi
+#check website
+curl ${MYDOMAIN} -s -f -o /dev/null && echo "${ok} Website ${MYDOMAIN} is up and running." || echo "${error} Website ${MYDOMAIN} is down."
 
-#check config
-nginx -t >/dev/null 2>&1
-ERROR=$?
-if [ "$ERROR" = '0' ]; then
-  echo "${ok} The Nginx Config is working."
-else
-  echo "${error} The Nginx Config is NOT working."
-fi
+#check process
+check_service "nginx"
 }

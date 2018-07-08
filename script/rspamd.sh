@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -71,19 +71,20 @@ cp -R /etc/rspamd/local.d/dkim_signing.conf /etc/rspamd/local.d/arc.conf
 install_packages "redis-server"
 cp ${SCRIPT_PATH}/configs/rspamd/redis.conf /etc/rspamd/local.d/redis.conf
 
-mkdir -p /etc/nginx/sites-custom
+REDIS_PASSWORT=$(password)
+sed -i "s/# rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52/rename-command CONFIG ${REDIS_PASSWORT}/g" /etc/redis/redis.conf
 
-cat >> /etc/nginx/sites-custom/rspamd.conf << 'EOF1'
-location /rspamd/ {
-  proxy_pass http://localhost:11334/;
-	proxy_set_header Host $host;
-	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-}
-EOF1
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "Redis Password: ${REDIS_PASSWORT}" >> ${SCRIPT_PATH}/login_information.txt
+echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
+echo "" >> ${SCRIPT_PATH}/login_information.txt
 
+cp ${SCRIPT_PATH}/configs/mailserver/_rspamd.conf /etc/nginx/_rspamd.conf
+sed -i "s/#include _rspamd.conf;/include _rspamd.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+
+systemctl restart redis-server
 systemctl restart nginx
 systemctl start rspamd
 systemctl start dovecot
 systemctl start postfix
-
 }

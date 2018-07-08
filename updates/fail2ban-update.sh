@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -31,7 +31,5 @@ if [[ ${LOCAL_FAIL2BAN_VERSION} != ${FAIL2BAN_VERSION} ]]; then
   service fail2ban start >>"${main_log}" 2>>"${err_log}"
 
   rm -R ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}
-else
-	dialog_info "No fail2ban Update needed! Local fail2ban Version: ${LOCAL_FAIL2BAN_VERSION}. Version to be installed: ${FAIL2BAN_VERSION}"
 fi
 }

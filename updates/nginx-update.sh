@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -7,9 +7,9 @@ update_nginx() {
 
 source ${SCRIPT_PATH}/configs/versions.cfg
 
-LOCAL_NGINX_VERSION_STRING=$(nginx -v)
-LOCAL_NGINX_VERSION=$(echo $LOCAL_NGINX_VERSION_STRING | cut -c9-14)
-#check if cut 9-14 is correct
+command="nginx -v"
+nginxv=$( ${command} 2>&1 )
+LOCAL_NGINX_VERSION=$(echo $nginxv | grep -o '[0-9.]*$')
 
 if [[ ${LOCAL_NGINX_VERSION} != ${NGINX_VERSION} ]]; then
   systemctl -q stop nginx.service
@@ -128,7 +128,5 @@ if [[ ${LOCAL_NGINX_VERSION} != ${NGINX_VERSION} ]]; then
   ##autostart script working?
   cp -R /root/backup/$date/nginx/* /etc/nginx/
   systemctl -q start nginx.service
-else
-  dialog_info "No Nginx Update needed! Local Nginx Version: ${LOCAL_NGINX_VERSION}. Version to be installed: ${NGINX_VERSION}"
 fi
 }

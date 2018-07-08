@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -10,6 +10,24 @@ BACKTITLE="NeXt Server Installation"
 TITLE="NeXt Server Installation"
 HEIGHT=40
 WIDTH=80
+
+if	[ "$(nproc)" == '1' ]; then
+dialog_msg "Your installation will take a minimum of 48 minutes and use 1 CPU core! \
+\n\nThe installation can take a longer time, depending on the CPU you're using!"
+else
+	if	[ "$(nproc)" == '2' ]; then
+		dialog_msg "Your installation will take a minimum of 36 minutes and use 2 CPU cores! \
+		\n\nThe installation can take a longer time, depending on the CPU you're using!"
+	else
+		if	[ "$(nproc)" == '3' ]; then
+			dialog_msg "Your installation will take a minimum of 32 minutes and use 3 CPU cores! \
+			\n\nThe installation can take a longer time, depending on the CPU you're using!"
+		else
+			dialog_msg "Your installation will take a minimum of 30 minutes and use 4 or more CPU cores! \
+			\n\nThe installation can take a longer time, depending on the CPU you're using!"
+		fi
+	fi
+fi
 
 # --- TIMEZONE ---
 CHOICE_HEIGHT=12
@@ -120,7 +138,6 @@ else
 fi
 
 # --- DNS Check ---
-
 server_ip=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
 sed -i "s/server_ip/$server_ip/g" ${SCRIPT_PATH}/dns_settings.txt
 sed -i "s/yourdomain.com/$MYDOMAIN/g" ${SCRIPT_PATH}/dns_settings.txt

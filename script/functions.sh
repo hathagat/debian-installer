@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Ubuntu 16.04 Xenial and Debian 9.x Stretch
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,6 @@ password() {
   done
 }
 
-# bash generate random n character alphanumeric string (upper and lowercase) and
 username() {
   while true; do
   random_username=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
@@ -32,11 +31,12 @@ done
 }
 
 setipaddrvars() {
-IPADR=$(ip route get 9.9.9.9 | awk '/9.9.9.9/ {print $NF}')
-INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
-FQDNIP=$(dig @9.9.9.9 +short ${MYDOMAIN})
-WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
-CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
+IPADR=$(ip route get 1.1.1.1 | awk '/1.1.1.1/ {print $(NF-2)}')
+IPADRV6=$(ip -6 route get 1.1.1.1 | awk '/1.1.1.1/ {print $(NF-2)}')
+INTERFACE=$(ip route get 1.1.1.1 | head -1 | cut -d' ' -f5)
+FQDNIP=$(dig @1.1.1.1 +short ${MYDOMAIN})
+WWWIP=$(dig @1.1.1.1 +short www.${MYDOMAIN})
+CHECKRDNS=$(dig @1.1.1.1 -x ${IPADR} +short)
 }
 
 get_domain() {
@@ -74,6 +74,86 @@ case $CHOICE in
         echo "Skipped the NeXt Server Configuration!"
         exit 1;;
 esac
+}
+
+CHECK_E_MAIL="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\$"
+
+CHECK_PASSWORD="^[A-Za-z0-9]*$"
+
+####not perfectly working!!!!
+CHECK_DOMAIN="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*.([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z])?\$"
+
+CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
+
+# Check services and restart
+# check_service "nginx"
+# check_service "php5-fpm"
+# if check_service "nginx"; then
+#	echo "unable to restart"
+#	else
+#	echo "service is running"
+#	fi
+#function check_service1() {
+#z=0
+# ps auxw | grep -P '\b'$1'(?!-)\b' > /dev/null 2>&1
+# if [ $? != 0 ]; then
+#	# Try to restart Service
+#	while [ $z -le 2 ];
+#	do
+#		service $1 restart > /dev/null 2>&1
+#		sleep 1
+#		z=$(( z+1 ))
+#	done
+#
+# else
+#   echo $1 "is running"; > /dev/null 2>&1
+# fi
+#}
+
+function check_service() {
+if systemctl is-active --quiet $1
+then
+    echo "${ok} $1 is running!"
+else
+    echo "${error} $1 is not running!"
+fi
+}
+
+function wget_tar() {
+wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 download failed."
+      exit
+    fi
+}
+
+function tar_file() {
+tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 is corrupted."
+      exit
+    fi
+rm $1
+}
+
+function unzip_file() {
+unzip $1 >>"${main_log}" 2>>"${err_log}"
+	ERROR=$?
+	if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 is corrupted."
+      exit
+    fi
+}
+
+function install_packages() {
+DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+        ERROR=$?
+        if [[ "$ERROR" != '0' ]]; then
+      echo "Error: $1 had an error during installation."
+      exit
+    fi
 }
 
 error_exit()
@@ -158,79 +238,4 @@ error_exit()
 				exit 1
 				;;
 	esac
-}
-
-# Check valid E-Mail
-CHECK_E_MAIL="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\$"
-
-CHECK_PASSWORD="^[A-Za-z0-9]*$"
-
-# Check valid Domain
-####not perfectly working!!!!
-CHECK_DOMAIN="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*.([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z])?\$"
-
-# Date!
-CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
-
-# Check services and restart
-# How to use:
-# check_service "nginx"
-# check_service "php5-fpm"
-# if check_service "nginx"; then
-#	echo "unable to restart"
-#	else
-#	echo "service is running"
-#	fi
-function check_service() {
-z=0
- ps auxw | grep -P '\b'$1'(?!-)\b' > /dev/null 2>&1
- if [ $? != 0 ]; then
-	# Try to restart Service
-	while [ $z -le 2 ];
-	do
-		service $1 restart > /dev/null 2>&1
-		sleep 1
-		z=$(( z+1 ))
-	done
-
- else
-   echo $1 "is running"; > /dev/null 2>&1
- fi
-}
-
-function wget_tar() {
-wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
-        ERROR=$?
-        if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 download failed."
-      exit
-    fi
-}
-
-function tar_file() {
-tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
-        ERROR=$?
-        if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 is corrupted."
-      exit
-    fi
-rm $1
-}
-
-function unzip_file() {
-unzip $1 >>"${main_log}" 2>>"${err_log}"
-	ERROR=$?
-	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 is corrupted."
-      exit
-    fi
-}
-
-function install_packages() {
-DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
-        ERROR=$?
-        if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 had an error during installation."
-      exit
-    fi
 }
