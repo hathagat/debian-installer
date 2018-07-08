@@ -64,7 +64,7 @@ echo "https://${MYDOMAIN}/${WORDPRESS_PATH_NAME}" >> ${SCRIPT_PATH}/wordpress_lo
 echo "WordpressDBUser = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 echo "WordpressDBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
-echo "WordpressScriptPath = ${MYDOMAIN}/${WORDPRESS_PATH_NAME}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "WordpressScriptPath = ${WORDPRESS_PATH_NAME}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 echo "" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 echo "" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 }
