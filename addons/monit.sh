@@ -16,7 +16,8 @@ sed -i "s/# set httpd port 2812 and/set httpd port 2812 and/g" /etc/monit/monitr
 sed -i "s/# allow admin:monit/allow admin:monit/g" /etc/monit/monitrc
 sed -i "s/allow admin:monit/allow ${MONIT_ADMIN_USER}:${MONIT_ADMIN_PASSWORD}/g" /etc/monit/monitrc
 
-cp ${SCRIPT_PATH}/addons/vhosts/monit.conf /etc/nginx/sites-custom/monit.conf
+cp ${SCRIPT_PATH}/addons/vhosts/munin.conf /etc/nginx/_monit.conf
+sed -i "s/#include _monit;/include _monit.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 ln -s /etc/monit/conf-available/openssh-server /etc/monit/conf-enabled/
 ln -s /etc/monit/conf-available/nginx /etc/monit/conf-enabled/

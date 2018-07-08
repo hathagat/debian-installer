@@ -12,7 +12,7 @@ WORDPRESS_USER=$(username)
 WORDPRESS_DB_NAME=$(username)
 WORDPRESS_DB_PASS=$(password)
 WORDPRESS_DB_PREFIX=$(username)
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" ${SCRIPT_PATH}/login_information.txt)
 
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${WORDPRESS_DB_NAME};"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER ${WORDPRESS_USER}@localhost IDENTIFIED BY '${WORDPRESS_DB_PASS}';"
@@ -25,7 +25,8 @@ wget_tar "https://wordpress.org/latest.tar.gz"
 tar -zxvf latest.tar.gz
 rm latest.tar.gz
 
-cd wordpress
+mv wordpress ${WORDPRESS_PATH_NAME}
+cd ${WORDPRESS_PATH_NAME}
 cp wp-config-sample.php wp-config.php
 
 # Change prefix random
@@ -53,20 +54,17 @@ cp ${SCRIPT_PATH}/configs/nginx/_wordpress.conf /etc/nginx/_wordpress.conf
 
 systemctl restart nginx
 
-dialog_msg "Visit ${MYDOMAIN}/${WORDPRESSPATHNAME} to finish the installation"
+dialog_msg "Visit ${MYDOMAIN}/${WORDPRESS_PATH_NAME} to finish the installation"
 
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
-echo "Wordpress" >> ${SCRIPT_PATH}/login_information.txt
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
-echo "https://${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/login_information.txt
-echo "WordpressDBUser = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/login_information.txt
-echo "WordpressDBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/login_information.txt
-echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/login_information.txt
-if [ -z "${WORDPRESSPATHNAME}" ]; then
-echo "WordpressScriptPath = ${MYDOMAIN}" >> ${SCRIPT_PATH}/login_information.txt
-else
-echo "WordpressScriptPath = ${MYDOMAIN}/${WORDPRESSPATHNAME}" >> ${SCRIPT_PATH}/login_information.txt
-fi
-echo "" >> ${SCRIPT_PATH}/login_information.txt
-echo "" >> ${SCRIPT_PATH}/login_information.txt
+touch ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "Wordpress" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "https://${MYDOMAIN}/${WORDPRESS_PATH_NAME}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "WordpressDBUser = ${WORDPRESS_USER}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "WordpressDBName = ${WORDPRESS_DB_NAME}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "WordpressScriptPath = ${MYDOMAIN}/${WORDPRESS_PATH_NAME}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+echo "" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 }
