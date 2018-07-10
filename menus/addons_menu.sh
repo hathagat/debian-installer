@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Debian 10.x Buster
+# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 HEIGHT=40
 WIDTH=80
-CHOICE_HEIGHT=11
+CHOICE_HEIGHT=12
 BACKTITLE="NeXt Server"
 TITLE="NeXt Server"
 MENU="Choose one of the following options:"
@@ -26,11 +26,12 @@ MENU="Choose one of the following options:"
 						 4 "Install Nextcloud"
 						 5 "Deinstall Nextcloud"
 						 6 "Install phpmyadmin"
-						 7 "Install Munin"
-             8 "Install Wordpress"
-						 9 "Deinstall Wordpress"
-						 10 "Back"
-						 11 "Exit")
+						 7 "Deinstall phpmyadmin"
+						 8 "Install Munin"
+             9 "Install Wordpress"
+						 10 "Deinstall Wordpress"
+						 11 "Back"
+						 12 "Exit")
 
 						 CHOICE=$(dialog --clear \
 										 --nocancel \
@@ -101,6 +102,11 @@ fi
 	fi
 	;;
 7)
+	dialog_info "Deinstalling PHPmyadmin"
+		source ${SCRIPT_PATH}/addons/phpmyadmin_deinstall.sh; deinstall_phpmyadmin
+	dialog_msg "Finished Deinstalling PHPmyadmin"
+	;;
+8)
 	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 		dialog_info "Installing Munin"
 		source ${SCRIPT_PATH}/addons/munin.sh; install_munin
@@ -109,7 +115,7 @@ fi
 		echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	fi
 	;;
-8)
+9)
 	if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 		source ${SCRIPT_PATH}/menus/wordpress_menu.sh; menu_options_wordpress
 		source ${SCRIPT_PATH}/addons/wordpress.sh; install_wordpress
@@ -118,15 +124,15 @@ fi
 		echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	fi
 	;;
-9)
+10)
 	dialog_info "Deinstalling Wordpress"
 		source ${SCRIPT_PATH}/addons/wordpress_deinstall.sh; deinstall_wordpress
 	dialog_msg "Finished Deinstalling Wordpress"
 	;;
-10)
+11)
   bash ${SCRIPT_PATH}/nxt.sh;
   ;;
-11)
+12)
 	echo "Exit"
 	exit 1
 	;;

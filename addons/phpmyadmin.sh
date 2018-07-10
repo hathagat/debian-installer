@@ -34,7 +34,7 @@ chmod 0700 /usr/local/phpmyadmin/save
 chmod g-s /usr/local/phpmyadmin/save
 chmod 0700 /usr/local/phpmyadmin/upload
 chmod g-s /usr/local/phpmyadmin/upload
-mysql -u root -p${MYSQL_ROOT_PASS} mysql < phpmyadmin/sql/create_tables.sql >>"${main_log}" 2>>"${err_log}"
+mysql -u root -p${MYSQL_ROOT_PASS} mysql < /usr/local/phpmyadmin/sql/create_tables.sql >>"${main_log}" 2>>"${err_log}"
 
 cp ${SCRIPT_PATH}/configs/pma/config.inc.php /usr/local/phpmyadmin/config.inc.php
 sed -i "s/PMA_BFSECURE_PASS/${PMA_BFSECURE_PASS}/g" /usr/local/phpmyadmin/config.inc.php
