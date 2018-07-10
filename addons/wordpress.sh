@@ -1,7 +1,6 @@
 #!/bin/bash
 # # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
-# thx to https://gist.github.com/bgallagh3r
 #-------------------------------------------------------------------------------------------------------------
 
 install_wordpress() {
@@ -20,7 +19,6 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NA
 mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cd /var/www/${MYDOMAIN}/public/
-
 wget_tar "https://wordpress.org/latest.tar.gz"
 tar -zxvf latest.tar.gz
 rm latest.tar.gz
@@ -29,15 +27,11 @@ mv wordpress ${WORDPRESS_PATH_NAME}
 cd ${WORDPRESS_PATH_NAME}
 cp wp-config-sample.php wp-config.php
 
-# Change prefix random
 sed -i "s/wp_/${WORDPRESS_DB_PREFIX}_/g" wp-config.php
-
-#set database details - find and replace
 sed -i "s/database_name_here/${WORDPRESS_DB_NAME}/g" wp-config.php
 sed -i "s/username_here/${WORDPRESS_USER}/g" wp-config.php
 sed -i "s/password_here/${WORDPRESS_DB_PASS}/g" wp-config.php
 
-# Get salts
 salts=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
 while read -r salt; do
   search="define('$(echo "$salt" | cut -d "'" -f 2)"
@@ -46,15 +40,13 @@ while read -r salt; do
 done <<< "$salts"
 
 mkdir -p /wp-content/uploads
-
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
-cp ${SCRIPT_PATH}/configs/nginx/_wordpress.conf /etc/nginx/_wordpress.conf
+cp ${SCRIPT_PATH}/addons/vhosts/_wordpress.conf /etc/nginx/_wordpress.conf
+sed -i "s/#include _wordpress.conf;/include _wordpress.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 systemctl restart nginx
-
-dialog_msg "Visit ${MYDOMAIN}/${WORDPRESS_PATH_NAME} to finish the installation"
 
 touch ${SCRIPT_PATH}/wordpress_login_data.txt
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/wordpress_login_data.txt

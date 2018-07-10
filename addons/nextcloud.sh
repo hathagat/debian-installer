@@ -7,12 +7,14 @@ install_nextcloud() {
 
 install_packages "unzip"
 
-MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" /root/NeXt-Server/login_information.txt)
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" ${SCRIPT_PATH}/login_information.txt)
+NEXTCLOUD_USER=$(username)
 NEXTCLOUD_DB_PASS=$(password)
+NEXTCLOUD_DB_NAME=$(username)
 
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE nextclouddb;"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY '${NEXTCLOUD_DB_PASS}';"
-mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON nextclouddb.* TO 'nextcloud'@'localhost';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE ${NEXTCLOUD_DB_NAME};"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE USER '${NEXTCLOUD_USER}'@'localhost' IDENTIFIED BY '${NEXTCLOUD_DB_PASS}';"
+mysql -u root -p${MYSQL_ROOT_PASS} -e "GRANT ALL PRIVILEGES ON ${NEXTCLOUD_DB_NAME}.* TO '${NEXTCLOUD_USER}'@'localhost';"
 mysql -u root -p${MYSQL_ROOT_PASS} -e "FLUSH PRIVILEGES;"
 
 cd /srv/
@@ -33,24 +35,13 @@ fi
 systemctl -q restart php$PHPVERSION7-fpm.service
 systemctl -q reload nginx.service
 
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
-echo "Nextcloud" >> ${SCRIPT_PATH}/login_information.txt
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt
-echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information.txt
-echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information.txt
-echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information.txt
-echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information.txt
-echo "" >> ${SCRIPT_PATH}/login_information.txt
-
+touch ${SCRIPT_PATH}/nextcloud_login_data.txt
 echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-echo "Nextcloud" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-echo "--------------------------------------------" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-echo "https://${MYDOMAIN}/nextcloud" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-echo "Database name = nextclouddb" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-echo "Database User: nextcloud" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-echo "" >> ${SCRIPT_PATH}/login_information.txt_nextcloud
-
-
-dialog --title "Your Nextcloud logininformations" --tab-correct --exit-label "ok" --textbox ${SCRIPT_PATH}/login_information.txt_nextcloud 50 200
+echo "Nextcloud" >> ${SCRIPT_PATH}/nextcloud_login_data.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/nextcloud_login_data.txt
+echo "https://${MYDOMAIN}/${NEXTCLOUD_PATH_NAME}" >> ${SCRIPT_PATH}/nextcloud_login_data.txt
+echo "NextcloudDBName = ${NEXTCLOUD_DB_NAME}" >> ${SCRIPT_PATH}/nextcloud_login_data.txt
+echo "NextcloudDBUser = ${NEXTCLOUD_USER}" >> ${SCRIPT_PATH}/nextcloud_login_data.txt
+echo "Database password = ${NEXTCLOUD_DB_PASS}" >> ${SCRIPT_PATH}/nextcloud_login_data.txt
+echo "" >> ${SCRIPT_PATH}/nextcloud_login_data.txt
 }
