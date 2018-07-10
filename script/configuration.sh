@@ -118,15 +118,24 @@ start_after_install() {
 
   source ${SCRIPT_PATH}/configs/versions.cfg
 	source ${SCRIPT_PATH}/script/configuration.sh; show_ssh_key
-  dialog_yesno_configuration
+  read -p "Continue (y/n)?" ANSW
+  if [ "$ANSW" = "n" ]; then
+  echo "Exit"
+  exit 1
 
 	source ${SCRIPT_PATH}/script/configuration.sh; show_login_information.txt
-  dialog_yesno_configuration
+  read -p "Continue (y/n)?" ANSW
+  if [ "$ANSW" = "n" ]; then
+  echo "Exit"
+  exit 1
 
 	source ${SCRIPT_PATH}/script/configuration.sh; create_private_key
 
   if [[ ${USE_MAILSERVER} = "1" ]]; then
-  dialog_yesno_configuration
+  read -p "Continue (y/n)?" ANSW
+  if [ "$ANSW" = "n" ]; then
+  echo "Exit"
+  exit 1
   source ${SCRIPT_PATH}/script/configuration.sh; show_dkim_key
   fi
 
