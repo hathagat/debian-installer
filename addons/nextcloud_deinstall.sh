@@ -16,6 +16,7 @@ mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP USER ${NextcloudDBName}@localhost;"
 rm -rf /var/www/${MYDOMAIN}/public/nextcloud
 #https://github.com/shoujii/NeXt-Server/issues/47
 rm ${SCRIPT_PATH}/nextcloud_login_data.txt
+rm /etc/nginx/_nextcloud.conf
 sed -i "s/include _nextcloud.conf;/#include _nextcloud.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
 service nginx restart
