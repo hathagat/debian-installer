@@ -4,8 +4,9 @@
 #-------------------------------------------------------------------------------------------------------------
 
 deinstall_phpmyadmin() {
-
-mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS phpmyadmin;"  
+  
+MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" ${SCRIPT_PATH}/login_information.txt)
+mysql -u root -p${MYSQL_ROOT_PASS} -e "DROP DATABASE IF EXISTS phpmyadmin;"
 
 rm -rf /usr/local/phpmyadmin/
 rm ${SCRIPT_PATH}/phpmyadmin_login_data.txt
