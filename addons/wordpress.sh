@@ -39,7 +39,9 @@ while read -r salt; do
     sed -i "/^$search/s/put your unique phrase here/$(echo $replace | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/" wp-config.php
 done <<< "$salts"
 
-mkdir -p /wp-content/uploads
+mkdir -p /var/www/${MYDOMAIN}/public/${WORDPRESS_PATH_NAME}/wp-content/uploads
+
+chown www-data:www-data -R *
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
