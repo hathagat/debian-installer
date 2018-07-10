@@ -47,6 +47,7 @@ if [[ ${USE_PHP7_2} == '1' ]]; then
 fi
 
 chown -R www-data:www-data /usr/local/phpmyadmin/
+
 systemctl -q restart php$PHPVERSION7-fpm.service
 systemctl -q reload nginx.service
 
