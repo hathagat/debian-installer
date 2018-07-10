@@ -19,5 +19,6 @@ rm ${SCRIPT_PATH}/wordpress_login_data.txt
 rm /etc/nginx/_wordpress.conf
 sed -i "s/include _wordpress.conf;/#include _wordpress.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
+systemctl -q restart php$PHPVERSION7-fpm.service
 service nginx restart
 }

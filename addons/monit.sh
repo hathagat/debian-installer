@@ -27,6 +27,7 @@ ln -s /etc/monit/conf-available/cron /etc/monit/conf-enabled/
 ln -s /etc/monit/conf-available/rsyslog /etc/monit/conf-enabled/
 ln -s /etc/monit/conf-available/smartmontools /etc/monit/conf-enabled/
 
+systemctl -q restart php$PHPVERSION7-fpm.service
 systemctl restart monit
 service nginx reload
 

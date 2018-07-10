@@ -19,5 +19,6 @@ rm ${SCRIPT_PATH}/nextcloud_login_data.txt
 rm /etc/nginx/_nextcloud.conf
 sed -i "s/include _nextcloud.conf;/#include _nextcloud.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
+systemctl -q restart php$PHPVERSION7-fpm.service
 service nginx restart
 }

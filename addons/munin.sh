@@ -28,6 +28,7 @@ echo "MUNIN_HTTPAUTH_PASS = ${MUNIN_HTTPAUTH_PASS}" >> ${SCRIPT_PATH}/login_info
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
+systemctl -q restart php$PHPVERSION7-fpm.service
 service munin-node restart
 service nginx restart
 }
