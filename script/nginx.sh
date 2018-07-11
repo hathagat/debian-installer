@@ -8,10 +8,8 @@ install_nginx() {
 install_packages "psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall"
 
 cd ${SCRIPT_PATH}/sources
-#wget_tar "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
-wget_tar "https://codeload.github.com/shoujii/nginx/tar.gz/${NGINX_VERSION}"
-#tar_file "nginx-${NGINX_VERSION}.tar.gz"
-tar_file "${NGINX_VERSION}"
+wget_tar "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
+tar_file "nginx-${NGINX_VERSION}.tar.gz"
 cd nginx-${NGINX_VERSION} >>"${main_log}" 2>>"${err_log}"
 
 #Thanks to https://github.com/Angristan/nginx-autoinstall/
