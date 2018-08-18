@@ -122,12 +122,14 @@ start_after_install() {
   if [ "$ANSW" = "n" ]; then
   echo "Exit"
   exit 1
+  fi
 
 	source ${SCRIPT_PATH}/script/configuration.sh; show_login_information.txt
   read -p "Continue (y/n)?" ANSW
   if [ "$ANSW" = "n" ]; then
   echo "Exit"
   exit 1
+  fi
 
 	source ${SCRIPT_PATH}/script/configuration.sh; create_private_key
 
@@ -137,6 +139,7 @@ start_after_install() {
   echo "Exit"
   exit 1
   source ${SCRIPT_PATH}/script/configuration.sh; show_dkim_key
+  fi
   fi
 
 	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
