@@ -67,7 +67,7 @@ echo "MYSQL_PMADB_USER = ${MYSQL_PMADB_USER}" >> ${SCRIPT_PATH}/phpmyadmin_login
 echo "MYSQL_PMADB_NAME = ${MYSQL_PMADB_NAME}" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "PMADB_PASS = ${PMADB_PASS}" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
-echo "blowfish_secret = ${PMA_BFSECURE_PASS}" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txtt
+echo "blowfish_secret = ${PMA_BFSECURE_PASS}" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 }
