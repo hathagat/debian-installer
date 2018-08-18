@@ -21,7 +21,7 @@ server {
 	auth_basic_user_file htpasswd/.htpasswd;
 
 	#Rainloop
-	location ^~ /data {
+	location ^~ /webmail/data {
 	  deny all;
 	}
 
