@@ -6,14 +6,16 @@
 install_openssh() {
 
 mkdir -p /etc/ssh
+
 install_packages "libpam-dev"
 
 cd ${SCRIPT_PATH}/sources
+
 wget_tar "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${OPENSSH_VERSION}.tar.gz"
 tar_file "openssh-${OPENSSH_VERSION}.tar.gz"
-cd openssh-${OPENSSH_VERSION}
 
-./configure --prefix=/usr --with-pam --with-zlib --with-ssl-engine --with-ssl-dir=/etc/ssl --sysconfdir=/etc/ssh
+cd openssh-${OPENSSH_VERSION}
+ ./configure --prefix=/usr --with-pam --with-zlib --with-ssl-engine --with-ssl-dir=/etc/ssl --sysconfdir=/etc/ssh
 make -j $(nproc) >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to make openssh"
 mv /etc/ssh{,.bak}
 make install >>"${main_log}" 2>>"${err_log}"

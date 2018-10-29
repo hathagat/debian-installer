@@ -127,6 +127,15 @@ wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
     fi
 }
 
+function site_is_up() {
+
+if curl -s --head  --request GET $1 | grep "200 OK" > /dev/null; then 
+   site_is_up=1
+else
+   site_is_up=0
+fi
+}
+
 function tar_file() {
 tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
         ERROR=$?
