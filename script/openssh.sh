@@ -11,8 +11,9 @@ install_packages "libpam-dev"
 
 cd ${SCRIPT_PATH}/sources
 
-wget_tar "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${OPENSSH_VERSION}.tar.gz"
+wget_tar "https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/${OPENSSH_VERSION}.tar.gz"
 tar_file "openssh-${OPENSSH_VERSION}.tar.gz"
+
 
 cd openssh-${OPENSSH_VERSION}
  ./configure --prefix=/usr --with-pam --with-zlib --with-ssl-engine --with-ssl-dir=/etc/ssl --sysconfdir=/etc/ssh
