@@ -11,7 +11,7 @@ install_packages "libpam-dev"
 
 cd ${SCRIPT_PATH}/sources
 
-wget_tar "https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/${OPENSSH_VERSION}.tar.gz"
+wget_tar "https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${OPENSSH_VERSION}.tar.gz"
 tar_file "openssh-${OPENSSH_VERSION}.tar.gz"
 
 
