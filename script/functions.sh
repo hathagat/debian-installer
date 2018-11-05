@@ -110,11 +110,11 @@ CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
 #}
 
 function check_service() {
-if systemctl is-active --quiet $1
+if systemctl is-failed --quiet $1
 then
-    echo "${ok} $1 is running!"
-else
     echo "${error} $1 is not running!"
+else
+    echo "${ok} $1 is running!"  
 fi
 }
 
