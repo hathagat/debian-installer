@@ -7,12 +7,7 @@ install_openssl() {
 
 mkdir -p ${SCRIPT_PATH}/sources/
 
-#libssl-dev
-#temporary fix until 1.1.1 is available in repos
-wget_tar "http://ftp.de.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.1-2_amd64.deb"
-dpkg -i libssl1.1_1.1.1-2_amd64.deb >>"${main_log}" 2>>"${err_log}"
-
-install_packages "libtool zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd-dev libgeoip-dev libgoogle-perftools-dev libperl-dev"
+install_packages "libssl-dev libtool zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd-dev libgeoip-dev libgoogle-perftools-dev libperl-dev"
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
