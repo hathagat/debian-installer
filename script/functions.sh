@@ -31,7 +31,7 @@ done
 }
 
 setipaddrvars() {
-IPADR=$(ip route get 1.1.1.1 | awk '/1.1.1.1/ {print $(NF-2)}')
+IPADR=$(ip route get 1.1.1.1 | awk '/1.1.1.1/ {print $(NF)}')
 IPADRV6=$(ip r get 2606:4700:4700::1111 | awk '/2606:4700:4700::1111/ {print $(NF-8)}')
 INTERFACE=$(ip route get 1.1.1.1 | head -1 | cut -d' ' -f5)
 FQDNIP=$(dig @1.1.1.1 +short ${MYDOMAIN})
