@@ -13,7 +13,7 @@ cp /usr/share/doc/unbound/examples/unbound.conf /etc/unbound/unbound.conf
 sed -i "s/# interface: 192.0.2.153/  interface: 127.0.0.1/g" /etc/unbound/unbound.conf
 sed -i "s/# control-interface: 127.0.0.1/  control-interface: 127.0.0.1/g" /etc/unbound/unbound.conf
 
-su -c "unbound-anchor -a /var/lib/unbound/root.key" - unbound
+sudo -u  unbound unbound-anchor -a /var/lib/unbound/root.key
 systemctl stop unbound
 
 systemctl start unbound
