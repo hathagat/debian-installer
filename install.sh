@@ -12,7 +12,6 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
 	source ${SCRIPT_PATH}/script/logs.sh; set_logs
 	source ${SCRIPT_PATH}/script/functions.sh
-	source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 	source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
 
@@ -84,7 +83,7 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
 		source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd
 		source ${SCRIPT_PATH}/script/rainloop.sh; install_rainloop
-		source ${SCRIPT_PATH}/script/mailman.sh; install_mailman
+		source ${SCRIPT_PATH}/script/managevmail.sh; install_managevmail
 	fi
 	mailserver_end=`date +%s`
 	mailservertime=$((mailserver_end-mailserver_start))

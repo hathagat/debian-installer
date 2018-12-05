@@ -12,6 +12,7 @@ echo "deb http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" > /etc/apt/so
 echo "deb-src http://rspamd.com/apt-stable/ $(lsb_release -c -s) main" >> /etc/apt/sources.list.d/rspamd.list
 
 apt-get update -y >/dev/null 2>&1
+
 install_packages "rspamd"
 systemctl stop rspamd
 
