@@ -5,9 +5,6 @@
 
 prerequisites() {
 
-	#Get out nfs
-	apt-get -y --purge remove nfs-kernel-server nfs-common portmap rpcbind >>"${main_log}" 2>>"${err_log}"
-
 	if [ $(dpkg-query -l | grep build-essential | wc -l) -ne 1 ]; then
 		install_packages "build-essential"
 	fi

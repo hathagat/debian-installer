@@ -10,14 +10,13 @@ check_system() {
 		exit 1
 	fi
 
-	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -cs) != 'stretch' ]; then
-		echo "The script only works on Debian 9.x"
+	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -cs) != 'buster' ]; then
 		exit 1
 	fi
 
 	LOCAL_KERNEL_VERSION=$(uname -a | awk '/Linux/ {print $(NF-7)}')
 	if [ $LOCAL_KERNEL_VERSION != ${KERNEL_VERSION} ]; then
-      echo "Please upgrade your Linux Version ($LOCAL_KERNEL_VERSION) with apt-get update && apt-get dist-upgrade to match the script required Version ${KERNEL_VERSION}"
+      echo "Please upgrade your Linux Version ($LOCAL_KERNEL_VERSION) with apt-get update && apt-get dist-upgrade to match the script required Version ${KERNEL_VERSION} + reboot your server!"
 			exit 1
 	fi
 
@@ -40,7 +39,7 @@ check_system() {
 		echo > /dev/null
 	else
 		if [ $(dpkg-query -l | grep facter | wc -l) -ne 1 ]; then
-			install_packages "facter"
+			install_packages "facter libruby"
 		fi
 
 		if	[ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then
@@ -50,4 +49,5 @@ check_system() {
 			exit 1
        fi
 	fi
+
 }

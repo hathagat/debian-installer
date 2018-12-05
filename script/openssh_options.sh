@@ -11,7 +11,7 @@ apt-get update
 }
 
 change_openssh_port() {
-
+##add check if port is used otherwise!
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt

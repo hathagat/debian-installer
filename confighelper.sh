@@ -1,5 +1,5 @@
 #!/bin/bash
-# # Compatible with Debian 9.x Stretch
+# Compatible with Debian 10.x Buster
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -183,22 +183,22 @@ if [ ${CHECKRDNS} != mail.${MYDOMAIN} ] | [ ${CHECKRDNS} != mail.${MYDOMAIN}. ];
 	exit 1
 fi
 
-#CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
-#while true
-#	do
-#		NXT_SYSTEM_EMAIL=$(dialog --clear \
-#		--backtitle "$BACKTITLE" \
-#		--inputbox "Enter your Email adress for system services example (please use the domain, you use for the script installation): admin@${MYDOMAIN}" \
-#		$HEIGHT $WIDTH \
-#		3>&1 1>&2 2>&3 3>&- \
-#		)
-#			if [[ "$NXT_SYSTEM_EMAIL" =~ $CHECK_E_MAIL ]];then
-#				break
-#			else
-#				dialog_msg "[ERROR] Should we again practice how a Email address looks?"
-#				dialog --clear
-#			fi
-#	done
+CHECK_E_MAIL="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z])?\$"
+while true
+	do
+		NXT_SYSTEM_EMAIL=$(dialog --clear \
+		--backtitle "$BACKTITLE" \
+		--inputbox "Enter your Email adress for system services example (please use the domain, you use for the script installation): admin@${MYDOMAIN}" \
+		$HEIGHT $WIDTH \
+		3>&1 1>&2 2>&3 3>&- \
+		)
+			if [[ "$NXT_SYSTEM_EMAIL" =~ $CHECK_E_MAIL ]];then
+				break
+			else
+				dialog_msg "[ERROR] Should we again practice how a Email address looks?"
+				dialog --clear
+			fi
+	done
 
 # --- Mailserver ---
 CHOICE_HEIGHT=2
@@ -218,21 +218,21 @@ esac
 
 # --- PHP ---
 CHOICE_HEIGHT=2
-MENU="Do you want to Use PHP 7.1 or PHP 7.2?:"
-OPTIONS=(1 "PHP 7.1"
-		     2 "PHP 7.2")
+MENU="Do you want to Use PHP 7.2 or PHP 7.3?:"
+OPTIONS=(1 "PHP 7.2"
+		     2 "PHP 7.3 Alpha!")
 menu
 clear
 case $CHOICE in
     1)
-		USE_PHP7_1="1"
-		USE_PHP7_2="0"
-		PHPVERSION7="7.1"
+		USE_PHP7_2="1"
+		USE_PHP7_3="0"
+		PHPVERSION7="7.2"
           ;;
 		2)
-		USE_PHP7_1="0"
-		USE_PHP7_2="1"
-		PHPVERSION7="7.2"
+		USE_PHP7_2="0"
+		USE_PHP7_3="1"
+		PHPVERSION7="7.3"
             ;;
 esac
 
@@ -250,16 +250,28 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	TIMEZONE="${TIMEZONE}"
 	MYDOMAIN="${MYDOMAIN}"
 	USE_MAILSERVER="${USE_MAILSERVER}"
-	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
+	USE_PHP7_3="${USE_PHP7_3}"
 	PHPVERSION7="${PHPVERSION7}"
 
 	MYSQL_HOSTNAME="localhost"
 
-	#NXT_SYSTEM_EMAIL="${NXT_SYSTEM_EMAIL}"
+	NXT_SYSTEM_EMAIL="${NXT_SYSTEM_EMAIL}"
 	NXT_IS_INSTALLED="0"
 	NXT_IS_INSTALLED_MAILSERVER="0"
 	NXT_INSTALL_DATE="0"
+
+	NEXTCLOUD_IS_INSTALLED="0"
+	WORDPRESS_IS_INSTALLED="0"
+	PMA_IS_INSTALLED="0"
+	#not used atm
+	#MONIT_IS_INSTALLED="0"
+	MUNIN_IS_INSTALLED="0"
+	TS3_IS_INSTALLED="0"
+	COMPOSER_IS_INSTALLED="0"
+
+	NEXTCLOUD_PATH=""
+	WORDPRESS_PATH=""
 #-----------------------------------------------------------#
 ############### Config File from Confighelper ###############
 #-----------------------------------------------------------#

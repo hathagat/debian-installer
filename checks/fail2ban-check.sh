@@ -22,13 +22,6 @@ else
   echo "${error} jail.local does NOT exist" >>"${failed_checks_log}"
 fi
 
-if [ -e /etc/fail2ban/filter.d/webserver-w00tw00t.conf ]; then
-  passed_fail2ban_checks=$((passed_fail2ban_checks + 1))
-else
-  failed_fail2ban_checks=$((failed_fail2ban_checks + 1))
-  echo "${error} webserver-w00tw00t.conf does NOT exist" >>"${failed_checks_log}"
-fi
-
 if [ -e /etc/init.d/fail2ban ]; then
   passed_fail2ban_checks=$((passed_fail2ban_checks + 1))
 else

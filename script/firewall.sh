@@ -15,11 +15,9 @@ git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sourc
 cd ${SCRIPT_PATH}/sources/aif
 
 mkdir -p /usr/local/share/arno-iptables-firewall/plugins
-mkdir -p /usr/local/share/man/man1
-mkdir -p /usr/local/share/man/man8
+mkdir -p /usr/local/share/man/{man1,man8}
 mkdir -p /usr/local/share/doc/arno-iptables-firewall
-mkdir -p /etc/arno-iptables-firewall/plugins
-mkdir -p /etc/arno-iptables-firewall/conf.d
+mkdir -p /etc/arno-iptables-firewall/{plugins,conf.d}
 
 cp bin/arno-iptables-firewall /usr/local/sbin/
 cp bin/arno-fwfilter /usr/local/bin/
@@ -76,7 +74,6 @@ systemctl -q start arno-iptables-firewall.service
 #Fix error with /etc/rc.local
 touch /etc/rc.local
 
-# Blacklist some bad guys
 mkdir -p ${SCRIPT_PATH}/sources/blacklist
 mkdir -p /etc/arno-iptables-firewall/blocklists
 sed -i 's/.*IPTABLES_IPSET=.*/IPTABLES_IPSET=1/' /etc/arno-iptables-firewall/firewall.conf

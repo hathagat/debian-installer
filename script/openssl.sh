@@ -17,5 +17,4 @@ cd openssl-${OPENSSL_VERSION}
 
 make -j $(nproc) >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to make openssl"
 make install >>"${make_log}" 2>>"${make_err_log}" || error_exit "Failed to install openssl"
-
 }

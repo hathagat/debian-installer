@@ -10,6 +10,8 @@ source ${SCRIPT_PATH}/configs/userconfig.cfg
 #updating script code base before updating the server!
 source ${SCRIPT_PATH}/update_script.sh; update_script
 
+##add update_lets_encrypt
+
 if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
   echo "0" | dialog --gauge "Updating package lists..." 10 70 0
   apt-get update >/dev/null 2>&1

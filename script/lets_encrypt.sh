@@ -13,7 +13,8 @@ cd ${SCRIPT_PATH}/sources
 git clone https://github.com/Neilpang/acme.sh.git -q >>"${main_log}" 2>>"${err_log}"
 cd ./acme.sh
 sleep 1
-./acme.sh --install --accountemail "${NXT_SYSTEM_EMAIL}" >>"${main_log}" 2>>"${err_log}"
+./acme.sh --install  \
+--accountemail ${NXT_SYSTEM_EMAIL} >>"${main_log}" 2>>"${err_log}"
 
 . ~/.bashrc >>"${main_log}" 2>>"${err_log}"
 . ~/.profile >>"${main_log}" 2>>"${err_log}"
@@ -43,9 +44,4 @@ sed -i "s/HPKP2/${HPKP2}/g" /etc/nginx/_general.conf
 update_lets_encrypt() {
   cd ${SCRIPT_PATH}/.acme.sh/
   acme.sh --upgrade
-}
-
-renew_lets_encrypt_certs() {
-cd ${SCRIPT_PATH}/.acme.sh/
-bash acme.sh --renew -d ${MYDOMAIN} -d www.${MYDOMAIN} --force --ecc >>"${main_log}" 2>>"${err_log}"
 }

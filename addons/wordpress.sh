@@ -48,6 +48,7 @@ find . -type d -exec chmod 755 {} \;
 cp ${SCRIPT_PATH}/addons/vhosts/_wordpress.conf /etc/nginx/_wordpress.conf
 sed -i "s/#include _wordpress.conf;/include _wordpress.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 
+systemctl -q restart php$PHPVERSION7-fpm.service
 systemctl restart nginx
 
 touch ${SCRIPT_PATH}/wordpress_login_data.txt
@@ -61,4 +62,6 @@ echo "WordpressDBPassword = ${WORDPRESS_DB_PASS}" >> ${SCRIPT_PATH}/wordpress_lo
 echo "WordpressScriptPath = ${WORDPRESS_PATH_NAME}" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 echo "" >> ${SCRIPT_PATH}/wordpress_login_data.txt
 echo "" >> ${SCRIPT_PATH}/wordpress_login_data.txt
+
+sed -i 's/WORDPRESS_IS_INSTALLED="0"/WORDPRESS_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 }

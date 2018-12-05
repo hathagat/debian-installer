@@ -31,4 +31,6 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt
 systemctl -q restart php$PHPVERSION7-fpm.service
 service munin-node restart
 service nginx restart
+
+sed -i 's/MUNIN_IS_INSTALLED="0"/MUNIN_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 }

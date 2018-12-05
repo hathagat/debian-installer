@@ -5,11 +5,10 @@
 
 install_rainloop() {
 
-# Community Edition commercial possible without auto updater
-RAINLOOP_VERSION="rainloop-community-latest"
+#for storing contacts in a db
+mysql -u root -p${MYSQL_ROOT_PASS} -e "CREATE DATABASE rainloop;"
 
-# BASIS Edition only non commercial with auto updateer
-#RAINLOOP_VERSION="rainloop-latest"
+RAINLOOP_VERSION="rainloop-community-latest"
 
 mkdir -p /var/www/${MYDOMAIN}/public/webmail
 cd /var/www/${MYDOMAIN}/public/

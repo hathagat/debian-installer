@@ -34,4 +34,6 @@ mkdir -p /var/vmail/sieve/global
 chown -R vmail /var/vmail
 chgrp -R vmail /var/vmail
 chmod -R 770 /var/vmail
+
+mysql -u root -p${MYSQL_ROOT_PASS} -e "use vmail; INSERT INTO domains (domain) values ('${MYDOMAIN}');"
 }

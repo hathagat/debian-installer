@@ -21,12 +21,10 @@ PMA_BFSECURE_PASS=$(password)
 htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
 cd /usr/local
-wget_tar "https://codeload.github.com/phpmyadmin/phpmyadmin/tar.gz/RELEASE_${PMA_VERSION}"
-tar_file "RELEASE_${PMA_VERSION}"
-cp -R /usr/local/phpmyadmin-RELEASE_${PMA_VERSION}/* /usr/local/phpmyadmin/
+git clone -b STABLE --depth=1 https://github.com/phpmyadmin/phpmyadmin.git phpmyadmin
 
 cd /usr/local/phpmyadmin/
-composer update >>"${main_log}" 2>>"${err_log}"
+composer update --no-dev >>"${main_log}" 2>>"${err_log}"
 
 mkdir -p /usr/local/phpmyadmin/save
 mkdir -p /usr/local/phpmyadmin/upload
@@ -70,4 +68,6 @@ echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "blowfish_secret = ${PMA_BFSECURE_PASS}" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
+
+sed -i 's/PMA_IS_INSTALLED="0"/PMA_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 }

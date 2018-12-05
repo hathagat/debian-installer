@@ -64,6 +64,7 @@ else
   echo "${error} milter_headers.conf does NOT exist" >>"${failed_checks_log}"
 fi
 
+CURRENT_YEAR=$(date +'%Y')
 if [ -e /var/lib/rspamd/dkim/${CURRENT_YEAR}.key ]; then
   passed_rspamd_checks=$((passed_rspamd_checks + 1))
 else

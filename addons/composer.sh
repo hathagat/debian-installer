@@ -21,4 +21,6 @@ fi
 php composer-setup.php >>"${main_log}" 2>>"${err_log}"
 php -r "unlink('composer-setup.php');" >>"${main_log}" 2>>"${err_log}"
 mv composer.phar /usr/local/bin/composer >>"${main_log}" 2>>"${err_log}"
+
+sed -i 's/COMPOSER_IS_INSTALLED="0"/COMPOSER_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 }

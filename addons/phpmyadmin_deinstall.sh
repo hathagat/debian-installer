@@ -15,4 +15,6 @@ sed -i "s/include _phpmyadmin.conf;/#include _phpmyadmin.conf;/g" /etc/nginx/sit
 
 systemctl -q restart php$PHPVERSION7-fpm.service
 service nginx restart
+
+sed -i 's/PMA_IS_INSTALLED="1"/PMA_IS_INSTALLED="0"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 }
