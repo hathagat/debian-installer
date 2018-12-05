@@ -10,7 +10,7 @@ check_system() {
 		exit 1
 	fi
 
-	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -cs) != 'buster' ]; then
+	if [ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -cs) != 'stretch' ]; then
 		exit 1
 	fi
 

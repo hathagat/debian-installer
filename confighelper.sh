@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compatible with Debian 10.x Buster
+# Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -218,21 +218,21 @@ esac
 
 # --- PHP ---
 CHOICE_HEIGHT=2
-MENU="Do you want to Use PHP 7.2 or PHP 7.3?:"
-OPTIONS=(1 "PHP 7.2"
-		     2 "PHP 7.3 Alpha!")
+MENU="Do you want to Use PHP 7.1 or PHP 7.2?:"
+OPTIONS=(1 "PHP 7.1"
+		     2 "PHP 7.2")
 menu
 clear
 case $CHOICE in
     1)
-		USE_PHP7_2="1"
-		USE_PHP7_3="0"
-		PHPVERSION7="7.2"
+		USE_PHP7_1="1"
+		USE_PHP7_2="0"
+		PHPVERSION7="7.1"
           ;;
 		2)
-		USE_PHP7_2="0"
-		USE_PHP7_3="1"
-		PHPVERSION7="7.3"
+		USE_PHP7_1="0"
+		USE_PHP7_2="1"
+		PHPVERSION7="7.2"
             ;;
 esac
 
@@ -250,8 +250,8 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 	TIMEZONE="${TIMEZONE}"
 	MYDOMAIN="${MYDOMAIN}"
 	USE_MAILSERVER="${USE_MAILSERVER}"
+	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
-	USE_PHP7_3="${USE_PHP7_3}"
 	PHPVERSION7="${PHPVERSION7}"
 
 	MYSQL_HOSTNAME="localhost"
