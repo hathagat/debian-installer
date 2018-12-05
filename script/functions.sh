@@ -133,7 +133,7 @@ error_exit()
 {
 	echo "$1" 1>&2
   USED_OS=$(lsb_release -is)
-  echo "Visit https://github.com/shoujii/NeXt-Server-Buster/issues/new to add the Issue on Github!"
+  echo "Visit https://github.com/shoujii/NeXt-Server/issues/new to add the Issue on Github!"
   echo "Your Issue is: $1"
   echo "Your used OS is: $USED_OS"
 	exit 1
