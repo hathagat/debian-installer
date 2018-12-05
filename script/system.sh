@@ -47,7 +47,7 @@ END
 apt-get update -y >/dev/null 2>&1
 apt-get -y upgrade >/dev/null 2>&1
 
-install_packages "rkhunter needrestart debsecan debsums passwdqc"
+install_packages "sudo rkhunter needrestart debsecan debsums passwdqc"
 
 #thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1
 cat > /etc/sysctl.conf <<END
