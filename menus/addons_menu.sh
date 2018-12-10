@@ -101,6 +101,7 @@ fi
 			echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 		fi
 	else
+               echo "You have to install the NeXt Server with the Webserver component to run this Addon!"
 	fi
 	;;
 
