@@ -154,3 +154,12 @@ continue_to_menu()
   fi
   bash ${SCRIPT_PATH}/nxt.sh
 }
+
+continue_or_exit()
+{
+  read -p "Continue (y/n)?" ANSW
+  if [ "$ANSW" = "n" ]; then
+  echo "Exit"
+  exit 1
+  fi
+}
