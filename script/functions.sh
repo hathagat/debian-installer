@@ -138,3 +138,10 @@ error_exit()
   echo "Your used OS is: $USED_OS"
 	exit 1
 }
+
+show_login_information()
+{
+  dialog_msg "Please save the shown login information on next page"
+  cat ${SCRIPT_PATH}/login_information.txt
+  fi
+}

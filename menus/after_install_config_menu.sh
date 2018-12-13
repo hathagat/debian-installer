@@ -35,13 +35,13 @@ MENU="Choose one of the following options:"
           source ${SCRIPT_PATH}/script/configuration.sh; start_after_install
           ;;
         2)
-          source ${SCRIPT_PATH}/script/configuration.sh; show_ssh_key
+          source ${SCRIPT_PATH}/script/openssh_options.sh; show_ssh_key
           ;;
         3)
-          source ${SCRIPT_PATH}/script/configuration.sh; show_login_information.txt
+          source ${SCRIPT_PATH}/script/functions.sh; show_login_information
           ;;
         4)
-          source ${SCRIPT_PATH}/script/configuration.sh; create_private_key
+          source ${SCRIPT_PATH}/script/openssh_options.sh; create_private_key
           ;;
         5)
           bash ${SCRIPT_PATH}/nxt.sh
