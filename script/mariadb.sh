@@ -7,7 +7,7 @@ install_mariadb() {
 
 install_packages "software-properties-common dirmngr"
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xF1656F24C74CD1D8 >>"${main_log}" 2>>"${err_log}"
-add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.netcologne.de/mariadb/repo/10.3/debian stretch main' >>"${main_log}" 2>>"${err_log}"
+add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.3/debian stretch main'
 apt-get update -y >/dev/null 2>&1
 
 MYSQL_ROOT_PASS=$(password)
