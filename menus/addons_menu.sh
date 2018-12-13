@@ -179,7 +179,7 @@ fi
 	;;
 
 11)
-  bash ${SCRIPT_PATH}/nxt.sh;
+  bash ${SCRIPT_PATH}/nxt.sh
   ;;
 
 12)

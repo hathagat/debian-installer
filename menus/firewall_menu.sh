@@ -133,7 +133,7 @@ MENU="Choose one of the following options:"
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			6)
-				bash ${SCRIPT_PATH}/nxt.sh;
+				bash ${SCRIPT_PATH}/nxt.sh
 				;;
 			7)
 				echo "Exit"
