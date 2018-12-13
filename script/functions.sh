@@ -143,5 +143,4 @@ show_login_information()
 {
   dialog_msg "Please save the shown login information on next page"
   cat ${SCRIPT_PATH}/login_information.txt
-  fi
 }
