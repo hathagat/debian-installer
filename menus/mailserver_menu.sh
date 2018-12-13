@@ -38,11 +38,7 @@ MENU="Choose one of the following options:"
 			1)
 				cd /etc/managevmail/
 				./managevmail.py list
-        read -p "Continue (y/n)?" ANSW
-        if [ "$ANSW" = "n" ]; then
-        echo "Exit"
-        exit 1
-        fi
+				source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
         source ${SCRIPT_PATH}/menus/mailserver_menu.sh; menu_options_mailserver
 				;;
 			2)
@@ -54,11 +50,7 @@ MENU="Choose one of the following options:"
 				)
 				cd /etc/managevmail/
         ./managevmail.py add $CREATE_EMAIL_ADDRESS
-        read -p "Continue (y/n)?" ANSW
-        if [ "$ANSW" = "n" ]; then
-        echo "Exit"
-        exit 1
-        fi
+				source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
         source ${SCRIPT_PATH}/menus/mailserver_menu.sh; menu_options_mailserver
 				;;
 			3)
@@ -70,11 +62,7 @@ MENU="Choose one of the following options:"
 				)
 				cd /etc/managevmail/
         ./managevmail.py change $CHANGE_EMAIL_ADDRESS
-        read -p "Continue (y/n)?" ANSW
-        if [ "$ANSW" = "n" ]; then
-        echo "Exit"
-        exit 1
-        fi
+				source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
         source ${SCRIPT_PATH}/menus/mailserver_menu.sh; menu_options_mailserver
         ;;
       4)
@@ -86,11 +74,7 @@ MENU="Choose one of the following options:"
 				)
 				cd /etc/managevmail/
         ./managevmail.py pw $CHANGE_EMAIL_ADDRESS_PASSWORD
-        read -p "Continue (y/n)?" ANSW
-        if [ "$ANSW" = "n" ]; then
-        echo "Exit"
-        exit 1
-        fi
+  			source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
         source ${SCRIPT_PATH}/menus/mailserver_menu.sh; menu_options_mailserver
         ;;
       5)
@@ -102,11 +86,7 @@ MENU="Choose one of the following options:"
 				)
 				cd /etc/managevmail/
         ./managevmail.py delete $DELETE_EMAIL_ADDRESS
-        read -p "Continue (y/n)?" ANSW
-        if [ "$ANSW" = "n" ]; then
-        echo "Exit"
-        exit 1
-        fi
+				source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
         source ${SCRIPT_PATH}/menus/mailserver_menu.sh; menu_options_mailserver
         ;;
       6)
