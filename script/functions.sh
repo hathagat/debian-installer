@@ -144,3 +144,13 @@ show_login_information()
   dialog_msg "Please save the shown login information on next page"
   cat ${SCRIPT_PATH}/login_information.txt
 }
+
+continue_to_menu()
+{
+  read -p "Continue (y/n)?" ANSW
+  if [ "$ANSW" = "n" ]; then
+  echo "Exit"
+  exit 1
+  fi
+  bash ${SCRIPT_PATH}/nxt.sh
+}

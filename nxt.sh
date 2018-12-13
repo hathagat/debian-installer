@@ -51,12 +51,7 @@ MENU="\n Choose one of the following options: \n \n"
 				1)
 					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
 						echo "The NeXt-Server Script is already installed!"
-						read -p "Continue (y/n)?" ANSW
-						if [ "$ANSW" = "n" ]; then
-						echo "Exit"
-						exit 1
-						fi
-						bash ${SCRIPT_PATH}/nxt.sh
+						source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
 					else
 						bash install.sh
 					fi
@@ -66,12 +61,7 @@ MENU="\n Choose one of the following options: \n \n"
 						source ${SCRIPT_PATH}/menus/after_install_config_menu.sh; menu_options_after_install
 					else
 						echo "You have to install the NeXt Server to run the configuration!"
-						read -p "Continue (y/n)?" ANSW
-						if [ "$ANSW" = "n" ]; then
-						echo "Exit"
-						exit 1
-						fi
-						bash ${SCRIPT_PATH}/nxt.sh
+						source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
 					fi
 					;;
 				3)
@@ -79,12 +69,7 @@ MENU="\n Choose one of the following options: \n \n"
 						source ${SCRIPT_PATH}/updates/all-services-update.sh; update_all_services
 					else
 						echo "You have to install the NeXt Server to run the services update!"
-						read -p "Continue (y/n)?" ANSW
-						if [ "$ANSW" = "n" ]; then
-						echo "Exit"
-						exit 1
-						fi
-						bash ${SCRIPT_PATH}/nxt.sh
+						source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
 					fi
 					;;
 				4)
@@ -98,12 +83,7 @@ MENU="\n Choose one of the following options: \n \n"
 						source ${SCRIPT_PATH}/menus/services_menu.sh; menu_options_services
 					else
 						echo "You have to install the NeXt Server to run the services options!"
-						read -p "Continue (y/n)?" ANSW
-						if [ "$ANSW" = "n" ]; then
-						echo "Exit"
-						exit 1
-						fi
-						bash ${SCRIPT_PATH}/nxt.sh
+						source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
 					fi
 					;;
 				6)
@@ -111,12 +91,7 @@ MENU="\n Choose one of the following options: \n \n"
 						source ${SCRIPT_PATH}/menus/addons_menu.sh; menu_options_addons
 					else
 						echo "You have to install the NeXt Server to install addons!"
-						read -p "Continue (y/n)?" ANSW
-						if [ "$ANSW" = "n" ]; then
-						echo "Exit"
-						exit 1
-						fi
-						bash ${SCRIPT_PATH}/nxt.sh
+						source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
 					fi
 					;;
 				7)

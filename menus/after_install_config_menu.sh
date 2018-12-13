@@ -33,15 +33,19 @@ MENU="Choose one of the following options:"
     case $CHOICE in
         1)
           source ${SCRIPT_PATH}/script/configuration.sh; start_after_install
+          source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
           ;;
         2)
           source ${SCRIPT_PATH}/script/openssh_options.sh; show_ssh_key
+          source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
           ;;
         3)
           source ${SCRIPT_PATH}/script/functions.sh; show_login_information
+          source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
           ;;
         4)
           source ${SCRIPT_PATH}/script/openssh_options.sh; create_private_key
+          source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
           ;;
         5)
           bash ${SCRIPT_PATH}/nxt.sh
