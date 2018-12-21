@@ -2,7 +2,6 @@
 
 install_firewall() {
 
-# ipset
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	install_packages "ipset"
 fi
@@ -13,11 +12,9 @@ git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sourc
 cd ${SCRIPT_PATH}/sources/aif
 
 mkdir -p /usr/local/share/arno-iptables-firewall/plugins
-mkdir -p /usr/local/share/man/man1
-mkdir -p /usr/local/share/man/man8
+mkdir -p /usr/local/share/man/{man1,man8}
 mkdir -p /usr/local/share/doc/arno-iptables-firewall
-mkdir -p /etc/arno-iptables-firewall/plugins
-mkdir -p /etc/arno-iptables-firewall/conf.d
+mkdir -p /etc/arno-iptables-firewall/{plugins,conf.d}
 
 cp bin/arno-iptables-firewall /usr/local/sbin/
 cp bin/arno-fwfilter /usr/local/bin/
@@ -114,10 +111,6 @@ cp \$BLACKLIST_TEMP \${BLACKLIST_DIR}/blacklist\_\$(date '+%d.%m.%Y_%T' | tr -d 
 /etc/init.d/arno-iptables-firewall force-reload
 END
 chmod +x /etc/cron.daily/blocked-hosts
-
-if [[ ${USE_PHP5} == '1' ]]; then
-	systemctl -q restart {nginx,php5-fpm}
-fi
 
 if [[ ${USE_PHP7_1} == '1' ]]; then
 	systemctl -q restart {nginx,php7.1-fpm}

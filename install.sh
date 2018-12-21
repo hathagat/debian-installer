@@ -10,7 +10,6 @@ install() {
 	echo "0" | dialog --gauge "Checking your system..." 10 70 0
 	source ${SCRIPT_PATH}/script/logs.sh; set_logs
 	source ${SCRIPT_PATH}/script/functions.sh
-	source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
 	source ${SCRIPT_PATH}/script/functions.sh; setipaddrvars
 	source ${SCRIPT_PATH}/script/checksystem.sh; check_system
 
@@ -96,14 +95,14 @@ install() {
 
 	mailserver_start=`date +%s`
 	if [[ ${USE_MAILSERVER} = "1" ]]; then
-	    echo "90" | dialog --gauge "Installing Mailserver..." 10 70 0
+	  echo "90" | dialog --gauge "Installing Mailserver..." 10 70 0
 		source ${SCRIPT_PATH}/script/unbound.sh; install_unbound
 		source ${SCRIPT_PATH}/script/mailserver.sh; install_mailserver
 		source ${SCRIPT_PATH}/script/dovecot.sh; install_dovecot
 		source ${SCRIPT_PATH}/script/postfix.sh; install_postfix
 		source ${SCRIPT_PATH}/script/rspamd.sh; install_rspamd
 		source ${SCRIPT_PATH}/script/rainloop.sh; install_rainloop
-		source ${SCRIPT_PATH}/script/mailman.sh; install_mailman
+		source ${SCRIPT_PATH}/script/managevmail.sh; install_managevmail
 	fi
 	mailserver_end=`date +%s`
 	mailservertime=$((mailserver_end-mailserver_start))

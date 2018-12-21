@@ -2,6 +2,8 @@
 
 install_openssh() {
 
+mkdir -p /etc/ssh
+
 install_packages "openssh-server openssh-client libpam-dev"
 
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
@@ -71,6 +73,9 @@ cat ~/ssh.key.pub > /etc/ssh/.authorized_keys && rm ~/ssh.key.pub
 chmod 600 /etc/ssh/.authorized_keys
 chown sshuser:sshuser /etc/ssh/.authorized_keys
 mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
+
+groupadd ssh-user
+usermod -a -G ssh-user root
 
 truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog

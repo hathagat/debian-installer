@@ -8,14 +8,19 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo "Preparing menu..."
-apt-get update -y >/dev/null 2>&1
-apt-get -qq install dialog git >/dev/null 2>&1
+if [ $(dpkg-query -l | grep dialog | wc -l) -ne 3 ]; then
+	DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install dialog >/dev/null 2>&1
+fi
+if [ $(dpkg-query -l | grep git | wc -l) -ne 3 ]; then
+	DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install git >/dev/null 2>&1
+fi
 
-SCRIPT_PATH="/root/NeXt-Server"
+SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 GIT_LOCAL_FILES_HEAD_LAST_COMMIT=$(git log -1 --date=short --pretty=format:%cd)
 source ${SCRIPT_PATH}/configs/versions.cfg
+source ${SCRIPT_PATH}/configs/userconfig.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs
 source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
@@ -25,14 +30,14 @@ chown -R root:root ${SCRIPT_PATH}
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=7
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
+BACKTITLE="Debian Installer"
+TITLE="Debian Installer"
 MENU="\n Choose one of the following options: \n \n"
 
-		OPTIONS=(1 "Install NeXt Server Version: ${GIT_LOCAL_FILES_HEAD} - ${GIT_LOCAL_FILES_HEAD_LAST_COMMIT}"
+		OPTIONS=(1 "Install Version: ${GIT_LOCAL_FILES_HEAD} - ${GIT_LOCAL_FILES_HEAD_LAST_COMMIT}"
 						 2 "After Installation configuration"
-						 3 "!Update NeXt Server Installation (do not use yet!)"
-						 4 "Update NeXt Server Script Code Base"
+						 3 "!Update Installation (do not use yet!)"
+						 4 "Update Script Code Base"
 						 5 "Services Options"
 						 6 "Addon Installation"
 						 7 "Exit")

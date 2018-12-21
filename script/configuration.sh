@@ -1,7 +1,12 @@
 #!/bin/bash
 
 start_after_install() {
-if [[ ${INSTALL_NGINX} = "1" ]]; then
+
+  greenb() { echo $(tput bold)$(tput setaf 2)${1}$(tput sgr0); }
+  ok="$(greenb [OKAY] -)"
+  redb() { echo $(tput bold)$(tput setaf 1)${1}$(tput sgr0); }
+  error="$(redb [ERROR] -)"
+
   source ${SCRIPT_PATH}/checks/nginx-check.sh; check_nginx
   read -p "Continue (y/n)?" ANSW
 	if [ "$ANSW" = "n" ]; then
@@ -42,10 +47,16 @@ fi
 		echo "Exit"
 		exit 1
 	fi
-  source ${SCRIPT_PATH}/configuration.sh; show_dkim_key
+  source ${SCRIPT_PATH}/script/configuration.sh; show_dkim_key
   fi
 
 	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
+
+  dialog_msg "Please save the shown login information on next page"
+  cat ${SCRIPT_PATH}/login_information.txt
+  source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
+
+  source ${SCRIPT_PATH}/script/openssh_options.sh; create_private_key
 }
 
 

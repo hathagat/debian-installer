@@ -108,7 +108,7 @@ MaxStartups 2
 #PermitTunnel no
 #ChrootDirectory none
 #VersionAddendum none
-DebianBanner no
+#DebianBanner no
 
 # no default banner path
 Banner /etc/issue/

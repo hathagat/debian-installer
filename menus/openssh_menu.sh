@@ -80,7 +80,7 @@ MENU="Choose one of the following options:"
 				exit 1
 				;;
 			4)
-				bash ${SCRIPT_PATH}/nxt.sh;
+				bash ${SCRIPT_PATH}/nxt.sh
 				;;
 			5)
 				echo "Exit"
