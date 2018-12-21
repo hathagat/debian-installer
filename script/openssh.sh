@@ -67,11 +67,8 @@ echo "" >> ${SCRIPT_PATH}/login_information.txt
 ssh-keygen -f ~/ssh.key -t ed25519 -N ${SSH_PASS} -C "" >>"${main_log}" 2>>"${err_log}"
 cat ~/ssh.key.pub > /etc/ssh/.authorized_keys && rm ~/ssh.key.pub
 chmod 600 /etc/ssh/.authorized_keys
-chown sshuser:sshuser /etc/ssh/.authorized_keys
+chown ${LOGIN_USER}:sshuser /etc/ssh/.authorized_keys
 mv ~/ssh.key ${SCRIPT_PATH}/ssh_privatekey.txt
-
-groupadd ssh-user
-usermod -a -G ssh-user root
 
 truncate -s 0 /var/log/daemon.log
 truncate -s 0 /var/log/syslog
