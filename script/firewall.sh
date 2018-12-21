@@ -7,7 +7,7 @@ if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 fi
 
 cd ${SCRIPT_PATH}
-git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q || error_exit "Failed to clone arno-ip-tables package"
+git clone -q --depth 1 https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif || error_exit "Failed to clone arno-ip-tables package"
 
 cd ${SCRIPT_PATH}/sources/aif
 
@@ -56,23 +56,20 @@ sed -i 's/^DRDOS_PROTECT=.*/DRDOS_PROTECT="1"/g' /etc/arno-iptables-firewall/fir
 sed -i 's/^OPEN_ICMP=.*/OPEN_ICMP="1"/g' /etc/arno-iptables-firewall/firewall.conf
 sed -i 's/^#BLOCK_HOSTS_FILE=.*/BLOCK_HOSTS_FILE="\/etc\/arno-iptables-firewall\/blocked-hosts"/g' /etc/arno-iptables-firewall/firewall.conf
 
-if [[ ${USE_MAILSERVER} == '1' ]]; then
-	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 25, 80, 110, 143, 443, 465, 587, 993, 995, 4000\"/" /etc/arno-iptables-firewall/firewall.conf
-else
-	sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"${SSH_PORT}, 80, 443, 4000\"/" /etc/arno-iptables-firewall/firewall.conf
-fi
-
-sed -i 's/^OPEN_UDP=.*/OPEN_UDP="25, 80, 110, 143, 443, 465, 587, 993, 995"/' /etc/arno-iptables-firewall/firewall.conf
+# TCP: HTTP, HTTPS, SSH
+# UDP: -
+sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"80, 443, ${SSH_PORT}\"/" /etc/arno-iptables-firewall/firewall.conf
+sed -i 's/^OPEN_UDP=.*/OPEN_UDP=""/' /etc/arno-iptables-firewall/firewall.conf
 sed -i 's/^VERBOSE=.*/VERBOSE=1/' /etc/init.d/arno-iptables-firewall
 
 systemctl -q daemon-reload
 systemctl -q start arno-iptables-firewall.service
 
-#Fix error with /etc/rc.local
+# Fix error with /etc/rc.local
 touch /etc/rc.local
 
 # Blacklist some bad guys
-mkdir -p ${SCRIPT_PATH}/sources/blacklist
+mkdir -p /etc/arno-iptables-firewall/blacklist
 mkdir -p /etc/arno-iptables-firewall/blocklists
 sed -i 's/.*IPTABLES_IPSET=.*/IPTABLES_IPSET=1/' /etc/arno-iptables-firewall/firewall.conf
 sed -i 's/.*IPTABLES_IPSET_HASHSIZE=.*/IPTABLES_IPSET_HASHSIZE=16384/' /etc/arno-iptables-firewall/firewall.conf
@@ -82,7 +79,7 @@ sed -i 's/.*BLOCK_NETSET_DIR=.*/BLOCK_NETSET_DIR="\/etc\/arno-iptables-firewall\
 cat > /etc/cron.daily/blocked-hosts <<END
 #!/bin/bash
 
-BLACKLIST_DIR="${SCRIPT_PATH}/sources/blacklist"
+BLACKLIST_DIR="/etc/arno-iptables-firewall/blacklist"
 BLACKLIST="/etc/arno-iptables-firewall/blocklists/blocklist.netset"
 BLACKLIST_TEMP="\$BLACKLIST_DIR/blacklist"
 LIST=(
@@ -110,13 +107,6 @@ sort \$BLACKLIST_TEMP -n | uniq > \$BLACKLIST
 cp \$BLACKLIST_TEMP \${BLACKLIST_DIR}/blacklist\_\$(date '+%d.%m.%Y_%T' | tr -d :) && rm \$BLACKLIST_TEMP
 /etc/init.d/arno-iptables-firewall force-reload
 END
+
 chmod +x /etc/cron.daily/blocked-hosts
-
-if [[ ${USE_PHP7_1} == '1' ]]; then
-	systemctl -q restart {nginx,php7.1-fpm}
-fi
-
-if [[ ${USE_PHP7_2} == '1' ]]; then
-	systemctl -q restart {nginx,php7.2-fpm}
-fi
 }

@@ -2,6 +2,8 @@
 
 set_logs() {
 
+mkdir -p ${SCRIPT_PATH}/logs
+
 main_log="${SCRIPT_PATH}/logs/main.log"
 err_log="${SCRIPT_PATH}/logs/error.log"
 failed_checks_log="${SCRIPT_PATH}/logs/failed_checks.log"

@@ -2,25 +2,6 @@
 
 install_system() {
 
-apt-get -y upgrade >/dev/null 2>&1
-
-if [[ ${USE_MAILSERVER} = "1" ]]; then
-    hostnamectl set-hostname --static mail
-
-    rm /etc/hosts
-    cat > /etc/hosts <<END
-127.0.0.1   localhost
-127.0.1.1   mail.domain.tld  mail
-
-::1         localhost ip6-localhost ip6-loopback
-ff02::1     ip6-allnodes
-ff02::2     ip6-allrouters
-END
-    sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
-
-    echo $(hostname -f) > /etc/mailname
-fi
-
 timedatectl set-timezone ${TIMEZONE}
 
 if [[ ${STATIC_IP} = "1" ]]; then
@@ -61,10 +42,7 @@ END
 
 ifdown ${INTERFACE} && ifup ${INTERFACE}
 
-rm /etc/apt/sources.list
-
-if [[ ${DISTOS} == 'DEBIAN' ]]; then
-    cat > /etc/apt/sources.list <<END
+cat > /etc/apt/sources.list <<END
 ###### Debian Repos
 deb http://deb.debian.org/debian/ stretch main contrib non-free
 #deb-src http://deb.debian.org/debian/ stretch main contrib non-free
@@ -80,27 +58,11 @@ deb http://deb.debian.org/debian stretch-backports main contrib non-free
 
 ###### Custom Repos
 END
-fi
 
-if [[ ${DISTOS} == 'UBUNTU' ]]; then
-cat > /etc/apt/sources.list <<END
-###### Ubuntu Repos
-deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
-deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
-
-deb http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
-deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
-
-deb http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
-deb-src http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
-
-###### Custom Repos
-END
-fi
-
-apt-get clean
-apt-get update -y >/dev/null 2>&1
-apt-get -y upgrade >/dev/null 2>&1
+DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated clean >/dev/null 2>&1
+DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated update >/dev/null 2>&1
+DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated upgrade >/dev/null 2>&1
+#DEBIAN_FRONTEND=noninteractive apt-get -y --allow-unauthenticated dist-upgrade
 
 #thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1
 cat > /etc/sysctl.conf <<END

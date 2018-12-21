@@ -2,8 +2,6 @@
 
 menu_options_services() {
 
-SCRIPT_PATH="/root/NeXt-Server"
-
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs

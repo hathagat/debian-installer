@@ -9,10 +9,10 @@ fi
 
 echo "Preparing menu..."
 if [ $(dpkg-query -l | grep dialog | wc -l) -ne 3 ]; then
-	DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install dialog >/dev/null 2>&1
+	install_packages "dialog"
 fi
 if [ $(dpkg-query -l | grep git | wc -l) -ne 3 ]; then
-	DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install git >/dev/null 2>&1
+	install_packages "git"
 fi
 
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
@@ -64,9 +64,9 @@ MENU="\n Choose one of the following options: \n \n"
 					source ${SCRIPT_PATH}/updates/all-services-update.sh; update_all_services
 					;;
 				4)
-					dialog_info "Updating NeXt Server Script"
+					dialog_info "Updating Script"
 					source ${SCRIPT_PATH}/update_script.sh; update_script
-					dialog_msg "Finished updating NeXt Server Script to Version ${GIT_LOCAL_FILES_HEAD}"
+					dialog_msg "Finished updating to Version ${GIT_LOCAL_FILES_HEAD}"
 					bash nxt.sh
 					;;
 				5)

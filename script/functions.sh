@@ -57,21 +57,21 @@ CHOICE=$(dialog --clear \
 }
 
 function dialog_info() {
-dialog --backtitle "NeXt Server Installation" --infobox "$1" 40 80
+dialog --backtitle "Debian Installer" --infobox "$1" 40 80
 }
 
 function dialog_msg() {
-dialog --backtitle "NeXt Server Installation" --msgbox "$1" 40 80
+dialog --backtitle "Debian Installer" --msgbox "$1" 40 80
 }
 
 function dialog_yesno_configuration() {
-dialog --backtitle "NeXt Server Installation" \
+dialog --backtitle "Debian Installer" \
 --yesno "Continue with NeXt Server Configuration?" 7 60
 
 CHOICE=$?
 case $CHOICE in
    1)
-        echo "Skipped the NeXt Server Configuration!"
+        echo "Skipped the Configuration!"
         exit 1;;
 esac
 }
@@ -121,7 +121,7 @@ unzip $1 >>"${main_log}" 2>>"${err_log}"
 }
 
 function install_packages() {
-DEBIAN_FRONTEND=noninteractive apt-get -y --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then
       echo "Error: $1 had an error during installation."
@@ -133,7 +133,7 @@ error_exit()
 {
 	echo "$1" 1>&2
   USED_OS=$(lsb_release -is)
-  echo "Visit https://github.com/shoujii/NeXt-Server/issues/new to add the Issue on Github!"
+  echo "Visit https://github.com/hathagat/debian-installer/issues/new to add the Issue on Github!"
   echo "Your Issue is: $1"
   echo "Your used OS is: $USED_OS"
 	exit 1

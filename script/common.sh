@@ -3,9 +3,9 @@
 install_common() {
 
 # Tools
-apt-get -y install curl htop vim >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install common packages"
+install_packages "curl htop vim"
 
-git clone --depth=1 git://github.com/amix/vimrc.git ~/.vim_runtime >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone vimrx"
+git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone vimrx"
 bash ~/.vim_runtime/install_basic_vimrc.sh >>"${main_log}" 2>>"${err_log}"
 
 # Bash
@@ -48,7 +48,7 @@ install_docker() {
     if command_exists docker; then
         echo "Docker already installed!"
     else
-        apt-get -y install apt-transport-https ca-certificates curl gnupg2 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install docker"
+        install_packages "apt-transport-https ca-certificates curl gnupg2"
         curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | apt-key add -
         cat >> /etc/apt/sources.list <<END
 # Docker
@@ -56,8 +56,8 @@ deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
 #deb-src [arch=amd64] https://download.docker.com/linux/debian stretch stable
 
 END
-        apt-get update
-        apt-get -y install docker-ce
+        DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated update >/dev/null 2>&1
+        install_packages "docker-ce"
     fi
     mkdir -p ${DOCKER_DATA_PATH}
     echo

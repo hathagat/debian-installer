@@ -2,7 +2,9 @@
 
 install_fail2ban() {
 
-install_packages "python"
+if [ $(dpkg-query -l | grep python | wc -l) -ne 1 ]; then
+	install_packages "python"
+fi
 
 mkdir -p ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
 cd ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
@@ -20,5 +22,5 @@ cp files/debian-initd /etc/init.d/fail2ban >>"${main_log}" 2>>"${err_log}"
 update-rc.d fail2ban defaults >>"${main_log}" 2>>"${err_log}"
 service fail2ban start >>"${main_log}" 2>>"${err_log}"
 
-rm -R ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}
+rm -r ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}
 }

@@ -7,23 +7,6 @@ start_after_install() {
   redb() { echo $(tput bold)$(tput setaf 1)${1}$(tput sgr0); }
   error="$(redb [ERROR] -)"
 
-  source ${SCRIPT_PATH}/checks/nginx-check.sh; check_nginx
-  read -p "Continue (y/n)?" ANSW
-	if [ "$ANSW" = "n" ]; then
-		echo "Exit"
-		exit 1
-	fi
-fi
-
-if [[ ${INSTALL_PHP} = "1" ]]; then
-  source ${SCRIPT_PATH}/checks/php-check.sh; check_php
-  read -p "Continue (y/n)?" ANSW
-  if [ "$ANSW" = "n" ]; then
-    echo "Exit"
-    exit 1
-  fi
-fi
-
   source ${SCRIPT_PATH}/configs/versions.cfg
 	source ${SCRIPT_PATH}/configuration.sh; show_ssh_key
 	read -p "Continue (y/n)?" ANSW
@@ -41,16 +24,7 @@ fi
 
 	source ${SCRIPT_PATH}/configuration.sh; create_private_key
 
-  if [[ ${USE_MAILSERVER} = "1" ]]; then
-  read -p "Continue (y/n)?" ANSW
-	if [ "$ANSW" = "n" ]; then
-		echo "Exit"
-		exit 1
-	fi
-  source ${SCRIPT_PATH}/script/configuration.sh; show_dkim_key
-  fi
-
-	dialog --backtitle "NeXt Server Installation" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
+	dialog --backtitle "Debian Installer" --msgbox "Finished after installation configuration" $HEIGHT $WIDTH
 
   dialog_msg "Please save the shown login information on next page"
   cat ${SCRIPT_PATH}/login_information.txt
@@ -58,7 +32,6 @@ fi
 
   source ${SCRIPT_PATH}/script/openssh_options.sh; create_private_key
 }
-
 
 HEIGHT=40
 WIDTH=80

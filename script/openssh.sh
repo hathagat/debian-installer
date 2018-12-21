@@ -3,8 +3,9 @@
 install_openssh() {
 
 mkdir -p /etc/ssh
-
-install_packages "openssh-server openssh-client libpam-dev"
+if [ $(dpkg-query -l | grep openssh-server | wc -l) -ne 3 ]; then
+	install_packages "openssh-server"
+fi
 
 cp ${SCRIPT_PATH}/configs/sshd_config /etc/ssh/sshd_config
 cp ${SCRIPT_PATH}/includes/issue.net /etc/issue
@@ -48,11 +49,6 @@ echo "#-------------------------------------------------------------------------
 echo "" >> ${SCRIPT_PATH}/login_information.txt
 
 SSH_PASS=$(password)
-
-if [ -z "${SSH_PASS}" ]; then
-    echo "SSH_PASS is unset or set to the empty string, creating new one!"
-    SSH_PASS=$(password)
-fi
 
 echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
 echo "#SSH_PASS: ${SSH_PASS}" >> ${SCRIPT_PATH}/login_information.txt
