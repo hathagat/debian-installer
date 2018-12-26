@@ -31,10 +31,15 @@ systemctl -q restart php$PHPVERSION7-fpm.service
 systemctl restart monit
 service nginx reload
 
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "Monit Address: ${MYDOMAIN}/monit/" >> ${SCRIPT_PATH}/login_information.txt
-echo "MONIT_ADMIN_USER = ${MONIT_ADMIN_USER}" >> ${SCRIPT_PATH}/login_information.txt
-echo "MONIT_ADMIN_PASSWORD = ${MONIT_ADMIN_PASSWORD}" >> ${SCRIPT_PATH}/login_information.txt
-echo "#------------------------------------------------------------------------------#" >> ${SCRIPT_PATH}/login_information.txt
-echo "" >> ${SCRIPT_PATH}/login_information.txt
+touch ${SCRIPT_PATH}/monit_login_data.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/monit_login_data.txt
+echo "Monit" >> ${SCRIPT_PATH}/monit_login_data.txt
+echo "--------------------------------------------" >> ${SCRIPT_PATH}/monit_login_data.txt
+echo "Monit Address: ${MYDOMAIN}/monit/" >> ${SCRIPT_PATH}/monit_login_data.txt
+echo "MONIT_ADMIN_USER = ${MONIT_ADMIN_USER}" >> ${SCRIPT_PATH}/monit_login_data.txt
+echo "MONIT_ADMIN_PASSWORD = ${MONIT_ADMIN_PASSWORD}" >> ${SCRIPT_PATH}/monit_login_data.txt
+
+dialog_msg "Please save the shown login information on next page"
+cat ${SCRIPT_PATH}/monit_login_data.txt
+source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
 }

@@ -26,8 +26,7 @@ git clone -b STABLE --depth=1 https://github.com/phpmyadmin/phpmyadmin.git phpmy
 cd /usr/local/phpmyadmin/
 composer update --no-dev >>"${main_log}" 2>>"${err_log}"
 
-mkdir -p /usr/local/phpmyadmin/save
-mkdir -p /usr/local/phpmyadmin/upload
+mkdir -p /usr/local/phpmyadmin/{save,upload}
 chmod 0700 /usr/local/phpmyadmin/save
 chmod g-s /usr/local/phpmyadmin/save
 chmod 0700 /usr/local/phpmyadmin/upload
@@ -66,8 +65,10 @@ echo "MYSQL_PMADB_NAME = ${MYSQL_PMADB_NAME}" >> ${SCRIPT_PATH}/phpmyadmin_login
 echo "PMADB_PASS = ${PMADB_PASS}" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 echo "blowfish_secret = ${PMA_BFSECURE_PASS}" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
-echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
-echo "" >> ${SCRIPT_PATH}/phpmyadmin_login_data.txt
 
 sed -i 's/PMA_IS_INSTALLED="0"/PMA_IS_INSTALLED="1"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+
+dialog_msg "Please save the shown login information on next page"
+cat ${SCRIPT_PATH}/phpmyadmin_login_data.txt
+source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
 }
