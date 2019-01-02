@@ -8,6 +8,13 @@ install_packages "curl htop vim"
 git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone vimrx"
 bash ~/.vim_runtime/install_basic_vimrc.sh >>"${main_log}" 2>>"${err_log}"
 
+mkdir -p ~/.vim/syntax/
+# Web-Link: https://vim.sourceforge.io/scripts/script.php?script_id=1886
+wget -O ~/.vim/syntax/nginx.vim https://vim.sourceforge.io/scripts/download_script.php?src_id=19394
+cat > ~/.vim/filetype.vim <<EOF
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/*,/opt/nginx/* if &ft == '' | setfiletype nginx | endif
+EOF
+
 # Bash
 git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone bash-it"
 ~/.bash_it/install.sh --silent >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install bash-it"
