@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://nxt.sh/">
-    <img src="https://nxt.sh/wp-content/uploads/2018/01/NeXt-logo.jpg">
+  <a href="https://nxtsrv.de/">
+    <img src="https://nxtsrv.de/wp-content/uploads/2018/01/NeXt-logo.jpg">
   </a>
 
   <h3 align="center">NeXt-Server</h3>
@@ -13,7 +13,7 @@
     <br>
     <a href="https://github.com/shoujii/NeXt-Server/issues/new">Report bug</a>
     ·
-    <a href="https://nxt.sh/">Blog</a>
+    <a href="https://nxtsrv.de/">Blog</a>
   </p>
 </p>
 
