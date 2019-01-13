@@ -21,23 +21,23 @@ iface ${INTERFACE} inet static
     address ${CIDR}
     broadcast ${BROADCAST}
     gateway ${GATEWAY}
-    dns-nameservers 194.150.168.168 81.2.241.148 4.200.70.40
+    dns-nameservers 146.185.167.43 46.182.19.48 194.150.168.168
     dns-search ${MYDOMAIN}
 END
     update-rc.d dhcpcd remove
 fi
 
-## CCC       - dns.as250.net
-## OpenNIC   - ns3.cz.dns.opennic.glue
-## DNS.WATCH - resolver2.dns.watch
+# 146.185.167.43  - SecureDNS
+# 46.182.19.48    - Digitalcourage
+# 194.150.168.168 - AS250.net Foundation (CCC)
 cat > /etc/resolv.conf <<END
 domain ${MYDOMAIN}
 search ${MYDOMAIN}
 options rotate
 options timeout:1
+nameserver 146.185.167.43
+nameserver 46.182.19.48
 nameserver 194.150.168.168
-nameserver 81.2.241.148
-nameserver 84.200.70.40
 END
 
 ifdown ${INTERFACE} && ifup ${INTERFACE}
