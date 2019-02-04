@@ -5,6 +5,8 @@
 
 menu_options_openssh() {
 
+trap error_exit ERR
+
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=5
@@ -37,7 +39,7 @@ MENU="Choose one of the following options:"
 				$HEIGHT $WIDTH \
 				3>&1 1>&2 2>&3 3>&- \
 				)
-				source ${SCRIPT_PATH}/script/openssh_options.sh; add_openssh_user || error_exit
+				source ${SCRIPT_PATH}/script/openssh_options.sh; add_openssh_user
 				dialog_msg "Finished adding Openssh User"
 				;;
 			2)
@@ -68,12 +70,12 @@ MENU="Choose one of the following options:"
 						dialog --clear
 					fi
 				done
-				source ${SCRIPT_PATH}/script/openssh_options.sh; change_openssh_port || error_exit
+				source ${SCRIPT_PATH}/script/openssh_options.sh; change_openssh_port
 				dialog_info "Changed SSH Port to $NEW_SSH_PORT"
 				;;
 			3)
 				dialog_info "Creating new Openssh key"
-				source ${SCRIPT_PATH}/script/openssh_options.sh; create_new_openssh_key || error_exit
+				source ${SCRIPT_PATH}/script/openssh_options.sh; create_new_openssh_key
 				dialog_msg "Finished creating new ssh key"
 				echo
 				echo

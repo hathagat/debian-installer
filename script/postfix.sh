@@ -5,6 +5,8 @@
 
 install_postfix() {
 
+trap error_exit ERR
+
 install_packages "postfix postfix-mysql"
 
 systemctl stop postfix

@@ -5,6 +5,8 @@
 
 install_mariadb() {
 
+trap error_exit ERR
+
 install_packages "software-properties-common dirmngr"
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xF1656F24C74CD1D8 >>"${main_log}" 2>>"${err_log}"
 add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.3/debian stretch main' >>"${main_log}" 2>>"${err_log}"

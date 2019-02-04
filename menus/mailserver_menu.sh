@@ -5,6 +5,8 @@
 
 menu_options_mailserver() {
 
+trap error_exit ERR
+
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=7
@@ -74,7 +76,7 @@ MENU="Choose one of the following options:"
 				)
 				cd /etc/managevmail/
         ./managevmail.py pw $CHANGE_EMAIL_ADDRESS_PASSWORD
-  			source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
+				source ${SCRIPT_PATH}/script/functions.sh; continue_or_exit
         source ${SCRIPT_PATH}/menus/mailserver_menu.sh; menu_options_mailserver
         ;;
       5)

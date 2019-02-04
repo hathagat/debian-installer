@@ -5,6 +5,8 @@
 
 install_fail2ban() {
 
+trap error_exit ERR
+
 install_packages "python"
 
 mkdir -p ${SCRIPT_PATH}/sources/${FAIL2BAN_VERSION}/ >>"${main_log}" 2>>"${err_log}"
@@ -14,7 +16,7 @@ wget_tar "https://codeload.github.com/fail2ban/fail2ban/tar.gz/${FAIL2BAN_VERSIO
 tar_file "${FAIL2BAN_VERSION}"
 cd fail2ban-${FAIL2BAN_VERSION}
 
-python setup.py -q install >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install fail2ban package"
+python setup.py -q install >>"${main_log}" 2>>"${err_log}"
 
 cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local >>"${main_log}" 2>>"${err_log}"
 cp ${SCRIPT_PATH}/configs/fail2ban/jail.local /etc/fail2ban/jail.local

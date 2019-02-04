@@ -5,6 +5,27 @@
 
 install_system() {
 
+trap error_exit ERR
+
+source ${SCRIPT_PATH}/configs/userconfig.cfg
+
+rm /etc/network/interfaces
+if [[ ${IPV6_ONLY} = "1" ]]; then
+  cp -f ${SCRIPT_PATH}/configs/IPv6.interface /etc/network/interfaces
+  sed -i "s/IPV6ADDR/${IP6ADR}/" /etc/network/interfaces
+  sed -i "s/IPV6GATE/${IPV6GAT}/" /etc/network/interfaces
+  sed -i "s/IPV6NET/${IPV6NET}/" /etc/network/interfaces
+fi
+
+if [[ ${IP_DUAL} = "1" ]]; then
+  cp -f ${SCRIPT_PATH}/configs/IPv4-IPv6.interface /etc/network/interfaces
+  sed -i "s/IPV4ADDR/${IPADR}/" /etc/network/interfaces
+  sed -i "s/IPV4GATE/${IPV4GAT}/" /etc/network/interfaces
+  sed -i "s/IPV6ADDR/${IP6ADR}/" /etc/network/interfaces
+  sed -i "s/IPV6GATE/${IPV6GAT}/" /etc/network/interfaces
+  sed -i "s/IPV6NET/${IPV6NET}/" /etc/network/interfaces
+fi
+
 hostnamectl set-hostname --static mail
 
 rm /etc/hosts
@@ -20,10 +41,13 @@ sed -i "s/domain.tld/${MYDOMAIN}/g" /etc/hosts
 
 echo $(hostname -f) > /etc/mailname
 
-timedatectl set-timezone ${TIMEZONE}
+TIMEZONE_DETECTED=$(wget http://ip-api.com/line/${IPADR}?fields=timezone -q -O -)
+timedatectl set-timezone ${TIMEZONE_DETECTED}
+
+TIMEZONE_DETECTED=$(echo "$TIMEZONE_DETECTED" | sed 's/\//\\\//g')
+sed -i "s/EMPTY_TIMEZONE/${TIMEZONE_DETECTED}/g" ${SCRIPT_PATH}/configs/userconfig.cfg
 
 rm /etc/apt/sources.list
-
 cat > /etc/apt/sources.list <<END
 #------------------------------------------------------------------------------#
 #                   OFFICIAL DEBIAN REPOS                                      #

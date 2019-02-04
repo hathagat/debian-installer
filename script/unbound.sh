@@ -5,13 +5,9 @@
 
 install_unbound() {
 
-install_packages "unbound dnsutils"
+trap error_exit ERR
 
-#IPv4 workaround
-rm /etc/unbound/unbound.conf
-cp /usr/share/doc/unbound/examples/unbound.conf /etc/unbound/unbound.conf
-sed -i "s/# interface: 192.0.2.153/  interface: 127.0.0.1/g" /etc/unbound/unbound.conf
-sed -i "s/# control-interface: 127.0.0.1/  control-interface: 127.0.0.1/g" /etc/unbound/unbound.conf
+install_packages "unbound dnsutils"
 
 sudo -u  unbound unbound-anchor -a /var/lib/unbound/root.key
 systemctl stop unbound

@@ -31,8 +31,8 @@ done
 }
 
 setipaddrvars() {
-IPADR=$(ip route get 1.1.1.1 | awk '/1.1.1.1/ {print $(NF)}')
-IPADRV6=$(ip r get 2606:4700:4700::1111 | awk '/2606:4700:4700::1111/ {print $(NF-8)}')
+IPADR=$(ip route get 1.1.1.1 | awk '/1.1.1.1/ {print $(NF-2)}')
+IPV4GAT=$(ip route | awk '/default/ { print $3 }')
 INTERFACE=$(ip route get 1.1.1.1 | head -1 | cut -d' ' -f5)
 FQDNIP=$(dig @1.1.1.1 +short ${MYDOMAIN})
 WWWIP=$(dig @1.1.1.1 +short www.${MYDOMAIN})
@@ -121,7 +121,7 @@ unzip $1 >>"${main_log}" 2>>"${err_log}"
 }
 
 function install_packages() {
-DEBIAN_FRONTEND=noninteractive apt-get -y --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+DEBIAN_FRONTEND=noninteractive apt-get -y install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
         ERROR=$?
         if [[ "$ERROR" != '0' ]]; then
       echo "Error: $1 had an error during installation."
@@ -131,12 +131,16 @@ DEBIAN_FRONTEND=noninteractive apt-get -y --allow-unauthenticated install $1 >>"
 
 error_exit()
 {
-	echo "$1" 1>&2
-  USED_OS=$(lsb_release -is)
-  echo "Visit https://github.com/shoujii/NeXt-Server/issues/new to add the Issue on Github!"
-  echo "Your Issue is: $1"
+  #clear
+  read line file <<<$(caller)
+  echo "An error occurred in line $line of file $file:" >&2
+  sed "${line}q;d" "$file" >&2
+  echo ""
+  USED_OS=$(lsb_release -ic)
   echo "Your used OS is: $USED_OS"
-	exit 1
+  echo ""
+  echo "If you don't know how to resolve this Issue, please visit https://github.com/shoujii/NeXt-Server/issues/new to add the Issue on Github!"
+  exit
 }
 
 show_login_information()
@@ -162,4 +166,9 @@ continue_or_exit()
   echo "Exit"
   exit 1
   fi
+}
+
+progress_gauge()
+{
+  echo "$1" | dialog --gauge "$2" 10 70 0
 }

@@ -5,7 +5,9 @@
 
 install_nginx() {
 
-install_packages "psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev checkinstall"
+trap error_exit ERR
+
+install_packages "psmisc libpcre3 libpcre3-dev libgeoip-dev zlib1g-dev"
 
 cd ${SCRIPT_PATH}/sources
 wget_tar "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
@@ -59,19 +61,15 @@ NGINX_MODULES="--without-http_browser_module \
 --with-openssl=${SCRIPT_PATH}/sources/openssl-${OPENSSL_VERSION} \
 --add-module=${SCRIPT_PATH}/sources/naxsi/naxsi_src \
 --add-module=${SCRIPT_PATH}/sources/incubator-pagespeed-ngx-${NPS_VERSION} \
---add-module=${SCRIPT_PATH}/sources/headers-more-nginx-module-${NGINX_HEADER_MOD_VERSION} \
---add-module=${SCRIPT_PATH}/sources/ngx_brotli "
+--add-module=${SCRIPT_PATH}/sources/headers-more-nginx-module-${NGINX_HEADER_MOD_VERSION}"
 
-./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt='-O2 -g -pipe -Wall -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong -m64 -mtune=generic' >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to configure nginx"
-make -j $(nproc) >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to make nginx"
-checkinstall --install=no -y >>"${main_log}" 2>>"${err_log}"
-dpkg -i nginx_${NGINX_VERSION}-1_amd64.deb >>"${main_log}" 2>>"${err_log}"
-mv nginx_${NGINX_VERSION}-1_amd64.deb ../ >>"${main_log}" 2>>"${err_log}"
+./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt='-O2 -g -pipe -Wall -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong -m64 -mtune=generic' >>"${main_log}" 2>>"${err_log}"
+make -j $(nproc) >>"${main_log}" 2>>"${err_log}"
+make install >>"${main_log}" 2>>"${err_log}"
 
 rm -R ${SCRIPT_PATH}/sources/nginx-${NGINX_VERSION}
-rm -R ${SCRIPT_PATH}/sources/libbrotli
-rm -R ${SCRIPT_PATH}/sources/ngx_brotli
 
+mkdir -p /var/lib/nginx/{body,proxy,fastcgi,uwsgi,scgi}
 mkdir -p /etc/nginx/{sites,ssl,sites-available,sites-enabled,htpasswd}
 
 touch /etc/nginx/htpasswd/.htpasswd
@@ -90,10 +88,16 @@ cp ${SCRIPT_PATH}/configs/nginx/confs/* /etc/nginx/
 rm -rf /etc/nginx/sites-available/${MYDOMAIN}.conf
 cp ${SCRIPT_PATH}/configs/nginx/vhost /etc/nginx/sites-available/${MYDOMAIN}.conf
 sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-sed -i "s/IPADR/${IPADR}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/_pagespeed.conf
 
-if [[ ${USE_PHP7_2} == '1' ]]; then
-	sed -i "s/php7.1/php7.2/g" /etc/nginx/_php_fastcgi.conf >>"${main_log}" 2>>"${err_log}"
+if [[ ${IPV6_ONLY} = "1" ]]; then
+  sed -i "s/IPADR/:/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+  sed -i "s/IP6ADR/::/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+fi
+
+if [[ ${IP_DUAL} == '1' ]]; then
+  sed -i "s/IPADR/${IPADR}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+  sed -i "s/IP6ADR/${IP6ADR}/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 fi
 
 chown -R www-data:www-data /var/www/${MYDOMAIN}/public
@@ -101,6 +105,4 @@ ln -s /etc/nginx/sites-available/${MYDOMAIN}.conf /etc/nginx/sites-enabled/${MYD
 
 cp ${SCRIPT_PATH}/includes/NeXt-logo.jpg /var/www/${MYDOMAIN}/public/NeXt-logo.jpg
 cp ${SCRIPT_PATH}/configs/nginx/index.html /var/www/${MYDOMAIN}/public/index.html
-
-systemctl -q restart nginx.service
 }

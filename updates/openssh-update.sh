@@ -5,6 +5,8 @@
 
 update_openssh() {
 
+trap error_exit ERR	
+
 source ${SCRIPT_PATH}/configs/versions.cfg
 
 LOCAL_OPENSSH_VERSION=$(ssh -V 2>&1 | awk '/OpenSSH/ {print $(NF-6)}')

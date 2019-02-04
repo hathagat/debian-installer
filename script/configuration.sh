@@ -5,6 +5,8 @@
 
 start_after_install() {
 
+  trap error_exit ERR
+
   greenb() { echo $(tput bold)$(tput setaf 2)${1}$(tput sgr0); }
   ok="$(greenb [OKAY] -)"
   redb() { echo $(tput bold)$(tput setaf 1)${1}$(tput sgr0); }

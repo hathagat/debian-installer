@@ -5,11 +5,12 @@
 
 install_firewall() {
 
+
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	install_packages "ipset"
 fi
 
-git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q || error_exit "Failed to clone arno-ip-tables package"
+git clone https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif -q
 
 cd ${SCRIPT_PATH}/sources/aif
 

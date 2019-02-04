@@ -7,6 +7,8 @@
 install_mailserver() {
 
 SCRIPT_PATH="/root/NeXt-Server"
+trap error_exit ERR
+
 
 systemctl -q stop nginx.service
 cd ${SCRIPT_PATH}/sources/acme.sh/

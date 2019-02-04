@@ -5,6 +5,9 @@
 
 show_open_ports()
 {
+
+trap error_exit ERR
+
 grep -w 'OPEN_TCP=' /etc/arno-iptables-firewall/firewall.conf
 OPEN_TCP_PORTS=$(grep -w 'OPEN_TCP=' /etc/arno-iptables-firewall/firewall.conf | cut -c10-)
 

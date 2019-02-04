@@ -5,6 +5,8 @@
 
 prerequisites() {
 
+	trap error_exit ERR
+
 	if [ $(dpkg-query -l | grep build-essential | wc -l) -ne 1 ]; then
 		install_packages "build-essential"
 	fi

@@ -58,9 +58,9 @@ MENU="\n Choose one of the following options: \n \n"
 					;;
 				2)
 					if [[ ${NXT_IS_INSTALLED} == '1' ]] || [[ ${NXT_IS_INSTALLED_MAILSERVER} == '1' ]]; then
+						echo "Please install the NeXt-Server Script before starting the configuration!"
 						source ${SCRIPT_PATH}/menus/after_install_config_menu.sh; menu_options_after_install
 					else
-						echo "You have to install the NeXt Server to run the configuration!"
 						source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
 					fi
 					;;

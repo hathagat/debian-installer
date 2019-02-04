@@ -5,6 +5,8 @@
 
 install_rspamd() {
 
+trap error_exit ERR
+
 install_packages "lsb-release wget"
 
 wget -q -O- https://rspamd.com/apt-stable/gpg.key | apt-key add - >>"${main_log}" 2>>"${err_log}"

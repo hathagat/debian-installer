@@ -5,6 +5,8 @@
 
 update_all_services() {
 
+trap error_exit ERR
+
 source ${SCRIPT_PATH}/configs/userconfig.cfg
 
 #updating script code base before updating the server!
