@@ -5,7 +5,7 @@
 
 install_phpmyadmin() {
 
-mkdir -p /usr/local/phpmyadmin/
+trap error_exit ERR
 
 install_packages "apache2-utils"
 
@@ -18,32 +18,33 @@ PMA_HTTPAUTH_PASS=$(password)
 PMADB_PASS=$(password)
 PMA_BFSECURE_PASS=$(password)
 
-htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
-
-cd /usr/local
-git clone -b STABLE --depth=1 https://github.com/phpmyadmin/phpmyadmin.git phpmyadmin
-
-cd /usr/local/phpmyadmin/
+cd /var/www/${MYDOMAIN}/public/
+git clone -b STABLE --depth=1 https://github.com/phpmyadmin/phpmyadmin.git ${PHPMYADMIN_PATH_NAME}
+cd ${PHPMYADMIN_PATH_NAME}
 composer update --no-dev >>"${main_log}" 2>>"${err_log}"
 
-mkdir -p /usr/local/phpmyadmin/{save,upload}
-chmod 0700 /usr/local/phpmyadmin/save
-chmod g-s /usr/local/phpmyadmin/save
-chmod 0700 /usr/local/phpmyadmin/upload
-chmod g-s /usr/local/phpmyadmin/upload
-mysql -u root -p${MYSQL_ROOT_PASS} mysql < /usr/local/phpmyadmin/sql/create_tables.sql >>"${main_log}" 2>>"${err_log}"
+htpasswd -b /etc/nginx/htpasswd/.htpasswd ${PMA_HTTPAUTH_USER} ${PMA_HTTPAUTH_PASS} >>"${main_log}" 2>>"${err_log}"
 
-cp ${SCRIPT_PATH}/configs/pma/config.inc.php /usr/local/phpmyadmin/config.inc.php
-sed -i "s/PMA_BFSECURE_PASS/${PMA_BFSECURE_PASS}/g" /usr/local/phpmyadmin/config.inc.php
+mkdir -p /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/{save,upload}
+chmod 0700 /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/save
+chmod g-s /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/save
+chmod 0700 /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/upload
+chmod g-s /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/upload
+mysql -u root -p${MYSQL_ROOT_PASS} mysql < /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/sql/create_tables.sql >>"${main_log}" 2>>"${err_log}"
+
+cp ${SCRIPT_PATH}/configs/pma/config.inc.php /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/config.inc.php
+sed -i "s/PMA_BFSECURE_PASS/${PMA_BFSECURE_PASS}/g" /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/config.inc.php
 
 cp ${SCRIPT_PATH}/addons/vhosts/_phpmyadmin.conf /etc/nginx/_phpmyadmin.conf
 sed -i "s/#include _phpmyadmin.conf;/include _phpmyadmin.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
+sed -i "s/change_path/${PHPMYADMIN_PATH_NAME}/g" /etc/nginx/_phpmyadmin.conf
+sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/_phpmyadmin.conf
 
 if [[ ${USE_PHP7_2} == '1' ]]; then
 	sed -i "s/php7.1/php7.2/g" /etc/nginx/_phpmyadmin.conf
 fi
 
-chown -R www-data:www-data /usr/local/phpmyadmin/
+chown -R www-data:www-data /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/
 
 systemctl -q restart php$PHPVERSION7-fpm.service
 systemctl -q reload nginx.service

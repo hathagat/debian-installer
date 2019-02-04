@@ -5,6 +5,8 @@
 
 install_wordpress() {
 
+trap error_exit ERR
+
 source ${SCRIPT_PATH}/script/functions.sh; get_domain
 
 WORDPRESS_USER=$(username)
@@ -23,8 +25,13 @@ wget_tar "https://wordpress.org/latest.tar.gz"
 tar -zxvf latest.tar.gz
 rm latest.tar.gz
 
-mv wordpress ${WORDPRESS_PATH_NAME}
-cd ${WORDPRESS_PATH_NAME}
+if [ "$WORDPRESS_PATH_NAME" == "wordpress" ]; then
+  cd wordpress
+else
+  mv wordpress ${WORDPRESS_PATH_NAME}
+  cd ${WORDPRESS_PATH_NAME}
+fi
+
 cp wp-config-sample.php wp-config.php
 
 sed -i "s/wp_/${WORDPRESS_DB_PREFIX}_/g" wp-config.php

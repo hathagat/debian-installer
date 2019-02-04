@@ -5,7 +5,7 @@
 
 install_munin() {
 
-set -x
+trap error_exit ERR
 
 install_packages "munin munin-node munin-plugins-extra apache2-utils"
 

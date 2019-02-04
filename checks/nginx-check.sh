@@ -43,13 +43,6 @@ else
   echo "${error} _php_fastcgi.conf does NOT exist" >>"${failed_checks_log}"
 fi
 
-if [ -e /etc/nginx/_brotli.conf ]; then
-  passed_nginx_checks=$((passed_nginx_checks + 1))
-else
-  failed_nginx_checks=$((failed_nginx_checks + 1))
-  echo "${error} _brotli.conf does NOT exist" >>"${failed_checks_log}"
-fi
-
 if [ -e /var/www/${MYDOMAIN}/public/NeXt-logo.jpg ]; then
   passed_nginx_checks=$((passed_nginx_checks + 1))
 else

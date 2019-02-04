@@ -142,7 +142,7 @@ The NeXt-Server documentation, included in this repository in the docs directory
 
 ## Contributing
 
-Please read through our [contributing guidelines](). Included are directions for opening issues, coding standards, and notes on development.
+Please read through our [contributing guidelines](https://github.com/twbs/bootstrap/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
 
 ## Creators
 

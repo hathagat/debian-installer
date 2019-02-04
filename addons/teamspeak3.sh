@@ -5,6 +5,8 @@
 
 install_teamspeak3() {
 
+trap error_exit ERR
+
 install_packages "sudo"
 
 adduser ts3user --gecos "" --no-create-home --disabled-password >>"${main_log}" 2>>"${err_log}"

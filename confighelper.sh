@@ -11,80 +11,6 @@ TITLE="NeXt Server Installation"
 HEIGHT=40
 WIDTH=80
 
-if	[ "$(nproc)" == '1' ]; then
-dialog_msg "Your installation will take a minimum of 48 minutes and use 1 CPU core! \
-\n\nThe installation can take a longer time, depending on the CPU you're using!"
-else
-	if	[ "$(nproc)" == '2' ]; then
-		dialog_msg "Your installation will take a minimum of 36 minutes and use 2 CPU cores! \
-		\n\nThe installation can take a longer time, depending on the CPU you're using!"
-	else
-		if	[ "$(nproc)" == '3' ]; then
-			dialog_msg "Your installation will take a minimum of 32 minutes and use 3 CPU cores! \
-			\n\nThe installation can take a longer time, depending on the CPU you're using!"
-		else
-			dialog_msg "Your installation will take a minimum of 30 minutes and use 4 or more CPU cores! \
-			\n\nThe installation can take a longer time, depending on the CPU you're using!"
-		fi
-	fi
-fi
-
-# --- TIMEZONE ---
-CHOICE_HEIGHT=12
-MENU="Choose a timezone:"
-OPTIONS=(1 "Berlin GMT/UTC +1"
-		 2 "Vienna GMT/UTC +1"
-		 3 "Moscow GMT/UTC +3"
-		 4 "Lisbon GMT/UTC +0"
-		 5 "London GMT/UTC +0"
-		 6 "Paris GMT/UTC +1"
-		 7 "Rome GMT/UTC +1"
-		 8 "Sydney GMT/UTC +10"
-		 9 "Tokyo GMT/UTC +9"
-		10 "Istanbul GMT/UTC +3"
-		11 "Los_Angeles GMT/UTC -8"
-		12 "New_York GMT/UTC -5")
-menu
-clear
-case $CHOICE in
-        1)
-			TIMEZONE="Europe/Berlin"
-            ;;
-		2)
-			TIMEZONE="Europe/Vienna"
-            ;;
-		3)
-			TIMEZONE="Europe/Moscow"
-            ;;
-		4)
-			TIMEZONE="Europe/Lisbon"
-            ;;
-		5)
-			TIMEZONE="Europe/London"
-            ;;
-		6)
-			TIMEZONE="Europe/Paris"
-            ;;
-		7)
-			TIMEZONE="Europe/Rome"
-            ;;
-		8)
-			TIMEZONE="Australia/Sydney"
-            ;;
-		9)
-			TIMEZONE="Asia/Tokyo"
-            ;;
-		10)
-			TIMEZONE="Asia/Istanbul"
-            ;;
-		11)
-			TIMEZONE="America/Los_Angeles"
-            ;;
-        12)
-			TIMEZONE="America/New_York"
-            ;;
-esac
-
 # --- MYDOMAIN ---
 source ${SCRIPT_PATH}/script/functions.sh; get_domain
 CHECK_DOMAIN_LENGTH=`echo -n ${DETECTED_DOMAIN} | wc -m`
@@ -200,6 +126,45 @@ while true
 			fi
 	done
 
+# --- IP Adress ---
+CHOICE_HEIGHT=2
+MENU="What IP Mode do you want to use?:"
+OPTIONS=(1 "Ipv4 and IPv6 dual stack (Standard)"
+		     2 "IPv6 only")
+menu
+clear
+case $CHOICE in
+    1)
+		IP_DUAL="1"
+		IPV6_ONLY="0"
+    ;;
+		2)
+		IP_DUAL="0"
+		IPV6_ONLY="1"
+    ;;
+esac
+
+IPV6ADRINPUT=$(dialog --clear \
+--backtitle "$BACKTITLE" \
+--inputbox "Enter your IPv6 Address: (Example: 2a03:4000:2:11c5::1)" \
+$HEIGHT $WIDTH \
+3>&1 1>&2 2>&3 3>&- \
+)
+
+IPV6GATINPUT=$(dialog --clear \
+--backtitle "$BACKTITLE" \
+--inputbox "Enter your IPv6 Gateway: (Example: fe80::1)" \
+$HEIGHT $WIDTH \
+3>&1 1>&2 2>&3 3>&- \
+)
+
+IPV6NETINPUT=$(dialog --clear \
+--backtitle "$BACKTITLE" \
+--inputbox "Enter your IPv6 Netmask: (Example: 64)" \
+$HEIGHT $WIDTH \
+3>&1 1>&2 2>&3 3>&- \
+)
+
 # --- Mailserver ---
 CHOICE_HEIGHT=2
 MENU="Do you want to use the Mailserver?:"
@@ -247,31 +212,35 @@ cat >> ${SCRIPT_PATH}/configs/userconfig.cfg <<END
 # This file was created on ${CURRENT_DATE} with NeXt Server Version ${GIT_LOCAL_FILES_HEAD}
 
 	CONFIG_COMPLETED="${CONFIG_COMPLETED}"
-	TIMEZONE="${TIMEZONE}"
 	MYDOMAIN="${MYDOMAIN}"
 	USE_MAILSERVER="${USE_MAILSERVER}"
 	USE_PHP7_1="${USE_PHP7_1}"
 	USE_PHP7_2="${USE_PHP7_2}"
 	PHPVERSION7="${PHPVERSION7}"
-
-	MYSQL_HOSTNAME="localhost"
+	IP6ADR="${IPV6ADRINPUT}"
+	IPV6GAT="${IPV6GATINPUT}"
+	IPV6NET="${IPV6NETINPUT}"
+	IP_DUAL="${IP_DUAL}"
+	IPV6_ONLY="${IPV6_ONLY}"
 
 	NXT_SYSTEM_EMAIL="${NXT_SYSTEM_EMAIL}"
 	NXT_IS_INSTALLED="0"
 	NXT_IS_INSTALLED_MAILSERVER="0"
 	NXT_INSTALL_DATE="0"
+	NXT_INSTALL_TIME_SECONDS="0"
 
 	NEXTCLOUD_IS_INSTALLED="0"
 	WORDPRESS_IS_INSTALLED="0"
 	PMA_IS_INSTALLED="0"
-	#not used atm
-	#MONIT_IS_INSTALLED="0"
 	MUNIN_IS_INSTALLED="0"
 	TS3_IS_INSTALLED="0"
 	COMPOSER_IS_INSTALLED="0"
 
-	NEXTCLOUD_PATH=""
-	WORDPRESS_PATH=""
+	NEXTCLOUD_PATH_NAME="0"
+	WORDPRESS_PATH_NAME="0"
+	PHPMYADMIN_PATH_NAME="0"
+	MYSQL_HOSTNAME="localhost"
+	TIMEZONE="EMPTY_TIMEZONE"
 #-----------------------------------------------------------#
 ############### Config File from Confighelper ###############
 #-----------------------------------------------------------#

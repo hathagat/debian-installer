@@ -5,6 +5,8 @@
 
 deinstall_teamspeak3() {
 
+trap error_exit ERR
+
 /etc/init.d/ts3server stop
 deluser ts3user
 rm -rf /usr/local/ts3user
