@@ -4,6 +4,8 @@
 
 install_nextcloud() {
 
+trap error_exit ERR
+
 install_packages "unzip"
 
 MYSQL_ROOT_PASS=$(grep -Pom 1 "(?<=^MYSQL_ROOT_PASS: ).*$" ${SCRIPT_PATH}/login_information.txt)

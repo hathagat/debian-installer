@@ -4,6 +4,7 @@
 
 install_firewall() {
 
+trap error_exit ERR
 
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	install_packages "ipset"
