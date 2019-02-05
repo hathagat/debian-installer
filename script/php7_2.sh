@@ -1,5 +1,4 @@
 #!/bin/bash
-# Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -21,12 +20,7 @@ install_packages "php-auth-sasl php-imagick php-http-request php$PHPVERSION7-gd 
 
 cp ${SCRIPT_PATH}/configs/php/php.ini /etc/php/$PHPVERSION7/fpm/php.ini
 cp ${SCRIPT_PATH}/configs/php/php-fpm.conf /etc/php/$PHPVERSION7/fpm/php-fpm.conf
-
-sed -i "s/php7.1/php7.2/g" /etc/php/$PHPVERSION7/fpm/php-fpm.conf >>"${main_log}" 2>>"${err_log}"
-sed -i "s/7.1/7.2/g" /etc/php/$PHPVERSION7/fpm/php-fpm.conf >>"${main_log}" 2>>"${err_log}"
-
 cp ${SCRIPT_PATH}/configs/php/www.conf /etc/php/$PHPVERSION7/fpm/pool.d/www.conf
-sed -i "s/7.1/7.2/g" /etc/php/$PHPVERSION7/fpm/pool.d/www.conf >>"${main_log}" 2>>"${err_log}"
 
 # Configure APCu
 rm -rf /etc/php/$PHPVERSION7/mods-available/apcu.ini

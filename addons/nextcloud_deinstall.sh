@@ -1,6 +1,4 @@
 #!/bin/bash
-# # Compatible with Debian 9.x Stretch
-#Please check the license provided with the script!
 # thx to https://gist.github.com/bgallagh3r
 #-------------------------------------------------------------------------------------------------------------
 

@@ -1,9 +1,10 @@
 #!/bin/bash
-# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_lets_encrypt() {
+
+trap error_exit ERR
 
 systemctl -q stop nginx.service
 mkdir -p /etc/nginx/ssl/

@@ -1,11 +1,10 @@
 #!/bin/bash
-# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 menu_options_after_install() {
 
-trap error_exit ERR  
+trap error_exit ERR
 
 HEIGHT=40
 WIDTH=80

@@ -1,5 +1,4 @@
 #!/bin/bash
-# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -39,10 +38,6 @@ cp ${SCRIPT_PATH}/addons/vhosts/_phpmyadmin.conf /etc/nginx/_phpmyadmin.conf
 sed -i "s/#include _phpmyadmin.conf;/include _phpmyadmin.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
 sed -i "s/change_path/${PHPMYADMIN_PATH_NAME}/g" /etc/nginx/_phpmyadmin.conf
 sed -i "s/MYDOMAIN/${MYDOMAIN}/g" /etc/nginx/_phpmyadmin.conf
-
-if [[ ${USE_PHP7_2} == '1' ]]; then
-	sed -i "s/php7.1/php7.2/g" /etc/nginx/_phpmyadmin.conf
-fi
 
 chown -R www-data:www-data /var/www/${MYDOMAIN}/public/${PHPMYADMIN_PATH_NAME}/
 

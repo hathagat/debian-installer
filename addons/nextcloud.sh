@@ -1,5 +1,4 @@
 #!/bin/bash
-# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
@@ -33,10 +32,6 @@ chown -R www-data: /var/www/${MYDOMAIN}/public/${NEXTCLOUD_PATH_NAME}
 
 cp ${SCRIPT_PATH}/addons/vhosts/_nextcloud.conf /etc/nginx/_nextcloud.conf
 sed -i "s/#include _nextcloud.conf;/include _nextcloud.conf;/g" /etc/nginx/sites-available/${MYDOMAIN}.conf
-
-if [[ ${USE_PHP7_2} == '1' ]]; then
-	sed -i "s/php7.1/php7.2/g" /etc/nginx/_nextcloud.conf >>"${main_log}" 2>>"${err_log}"
-fi
 sed -i "s/change_path/${NEXTCLOUD_PATH_NAME}/g" /etc/nginx/_nextcloud.conf
 
 systemctl -q restart php$PHPVERSION7-fpm.service

@@ -1,11 +1,10 @@
 #!/bin/bash
-# # Compatible with Debian 9.x Stretch
 #Please check the license provided with the script!
 #-------------------------------------------------------------------------------------------------------------
 
 install_composer() {
 
-trap error_exit ERR  
+trap error_exit ERR
 
 cd ${SCRIPT_PATH}/sources/ >>"${main_log}" 2>>"${err_log}"
 
