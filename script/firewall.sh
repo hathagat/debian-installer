@@ -2,6 +2,8 @@
 
 install_firewall() {
 
+trap error_exit ERR
+
 if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
 	install_packages "ipset"
 fi
@@ -68,7 +70,6 @@ systemctl -q start arno-iptables-firewall.service
 # Fix error with /etc/rc.local
 touch /etc/rc.local
 
-# Blacklist some bad guys
 mkdir -p /etc/arno-iptables-firewall/blacklist
 mkdir -p /etc/arno-iptables-firewall/blocklists
 sed -i 's/.*IPTABLES_IPSET=.*/IPTABLES_IPSET=1/' /etc/arno-iptables-firewall/firewall.conf

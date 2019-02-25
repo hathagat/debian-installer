@@ -163,3 +163,8 @@ continue_or_exit()
   exit 1
   fi
 }
+
+progress_gauge()
+{
+  echo "$1" | dialog --gauge "$2" 10 70 0
+}

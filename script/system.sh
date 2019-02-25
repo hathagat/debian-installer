@@ -2,6 +2,7 @@
 
 install_system() {
 
+trap error_exit ERR
 timedatectl set-timezone ${TIMEZONE}
 
 if [[ ${STATIC_IP} = "1" ]]; then
@@ -63,6 +64,8 @@ DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated clean >/de
 DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated upgrade >/dev/null 2>&1
 #DEBIAN_FRONTEND=noninteractive apt-get -y --allow-unauthenticated dist-upgrade
+
+#install_packages "sudo rkhunter needrestart debsecan debsums passwdqc"
 
 #thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1
 cat > /etc/sysctl.conf <<END
@@ -141,8 +144,4 @@ kernel.yama.ptrace_scope = 1
 END
 
 sysctl -p >>"${main_log}" 2>>"${err_log}"
-
-# Enable Backupscript
-#cp -f ${SCRIPT_PATH}/cronjobs/backupscript /etc/cron.daily/
-#chmod +x /etc/cron.daily/backupscript
 }

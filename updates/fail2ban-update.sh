@@ -2,6 +2,8 @@
 
 update_fail2ban() {
 
+trap error_exit ERR
+
 source ${SCRIPT_PATH}/configs/versions.cfg
 
 LOCAL_FAIL2BAN_VERSION_STRING=$(fail2ban-client --version)

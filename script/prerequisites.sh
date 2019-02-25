@@ -2,6 +2,8 @@
 
 prerequisites() {
 
+	trap error_exit ERR
+
 	#Get out nfs
 	apt-get -y --purge remove nfs-kernel-server nfs-common portmap rpcbind >>"${main_log}" 2>>"${err_log}"
 

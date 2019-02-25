@@ -2,6 +2,8 @@
 
 menu_options_services() {
 
+trap error_exit ERR
+
 source ${SCRIPT_PATH}/configs/versions.cfg
 source ${SCRIPT_PATH}/script/functions.sh
 source ${SCRIPT_PATH}/script/logs.sh; set_logs

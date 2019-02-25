@@ -2,6 +2,8 @@
 
 menu_options_firewall() {
 
+trap error_exit ERR
+
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=7
@@ -126,7 +128,7 @@ MENU="Choose one of the following options:"
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			5)
-				source ${SCRIPT_PATH}/script/firewall_options.sh; show_open_ports || error_exit
+				source ${SCRIPT_PATH}/script/firewall_options.sh; show_open_ports
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			6)

@@ -2,6 +2,8 @@
 
 menu_options_openssh() {
 
+trap error_exit ERR
+
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=5
@@ -34,7 +36,7 @@ MENU="Choose one of the following options:"
 				$HEIGHT $WIDTH \
 				3>&1 1>&2 2>&3 3>&- \
 				)
-				source ${SCRIPT_PATH}/script/openssh_options.sh; add_openssh_user || error_exit
+				source ${SCRIPT_PATH}/script/openssh_options.sh; add_openssh_user
 				dialog_msg "Finished adding Openssh User"
 				;;
 			2)
@@ -47,25 +49,30 @@ MENU="Choose one of the following options:"
 							3>&1 1>&2 2>&3 3>&- \
 							)
 					if [[ $INPUT_NEW_SSH_PORT =~ ^-?[0-9]+$ ]]; then
-						if [[ -v BLOCKED_PORTS[$INPUT_NEW_SSH_PORT] ]]; then
-							dialog_msg "$INPUT_NEW_SSH_PORT is known. Choose an other Port!"
-							dialog --clear
+						if [ ${#INPUT_NEW_SSH_PORT} -ge 4 ]; then
+								dialog_msg "Your Input has more than 3 numbers, please try again"
+								dialog --clear
 						else
-							NEW_SSH_PORT="$INPUT_NEW_SSH_PORT"
-							echo " you port is $NEW_SSH_PORT"
-							break
+								if [[ -v BLOCKED_PORTS[$INPUT_NEW_SSH_PORT] ]]; then
+									dialog_msg "$INPUT_NEW_SSH_PORT is well known. Choose an other Port!"
+									dialog --clear
+								else
+									NEW_SSH_PORT="$INPUT_NEW_SSH_PORT"
+									echo " you port is $NEW_SSH_PORT"
+									break
+								fi
 						fi
 					else
-					dialog_msg "The Port should only contain numbers!"
-					dialog --clear
+						dialog_msg "The Port should only contain numbers!"
+						dialog --clear
 					fi
 				done
-				source ${SCRIPT_PATH}/script/openssh_options.sh; change_openssh_port || error_exit
+				source ${SCRIPT_PATH}/script/openssh_options.sh; change_openssh_port
 				dialog_info "Changed SSH Port to $NEW_SSH_PORT"
 				;;
 			3)
 				dialog_info "Creating new Openssh key"
-				source ${SCRIPT_PATH}/script/openssh_options.sh; create_new_openssh_key || error_exit
+				source ${SCRIPT_PATH}/script/openssh_options.sh; create_new_openssh_key
 				dialog_msg "Finished creating new ssh key"
 				echo
 				echo

@@ -1,4 +1,4 @@
-# $OpenBSD: sshd_config,v 1.101 2017/03/14 07:19:07 djm Exp $
+#	$OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -16,12 +16,11 @@ AddressFamily inet
 #ListenAddress ::
 
 #HostKey /etc/ssh/ssh_host_rsa_key
-#HostKey /etc/ssh/ssh_host_dsa_key
 #HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Ciphers and keying
-RekeyLimit 256m
+RekeyLimit 1G 1300
 
 # Logging
 SyslogFacility AUTH
@@ -104,7 +103,7 @@ ClientAliveInterval 120
 ClientAliveCountMax 180
 #UseDNS no
 #PidFile /var/run/sshd.pid
-MaxStartups 2
+MaxStartups 3
 #PermitTunnel no
 #ChrootDirectory none
 #VersionAddendum none
@@ -114,7 +113,7 @@ DebianBanner no
 Banner /etc/issue/
 
 # override default of no subsystems
-Subsystem	sftp	sftp /usr/lib/openssh/sftp-server
+Subsystem	sftp	/usr/libexec/sftp-server
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
@@ -122,6 +121,9 @@ Subsystem	sftp	sftp /usr/lib/openssh/sftp-server
 #	AllowTcpForwarding no
 #	PermitTTY no
 #	ForceCommand cvs server
+
+Match User sshuser
+AllowTcpForwarding yes
 
 AllowGroups sshuser
 AcceptEnv LANG LC_* TZ

@@ -2,6 +2,8 @@
 
 install_openssh() {
 
+trap error_exit ERR
+
 mkdir -p /etc/ssh
 if [ $(dpkg-query -l | grep openssh-server | wc -l) -ne 3 ]; then
 	install_packages "openssh-server"

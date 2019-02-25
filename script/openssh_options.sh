@@ -2,12 +2,17 @@
 
 add_openssh_user() {
 
+trap error_exit ERR
+
 apt-get update
 #usermod -a -G ssh-user root
 
 }
 
 change_openssh_port() {
+
+trap error_exit ERR
+
 ##add check if port is used otherwise!
 sed -i "s/^Port .*/Port $NEW_SSH_PORT/g" /etc/ssh/sshd_config
 
@@ -20,6 +25,8 @@ service sshd restart
 }
 
 create_new_openssh_key() {
+
+trap error_exit ERR
 
 rm -rf ~/.ssh/*
 rm ${SCRIPT_PATH}/ssh_privatekey.txt
@@ -40,6 +47,9 @@ service sshd restart
 }
 
 show_ssh_key() {
+
+trap error_exit ERR
+
 dialog_msg "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
 Important: \n
 In Putty you have only mark the text. Do not Press STRG+C!"
