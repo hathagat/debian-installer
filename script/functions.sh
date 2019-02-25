@@ -122,7 +122,7 @@ function unzip_file() {
 }
 
 function install_packages() {
-  DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+  DEBIAN_FRONTEND=noninteractive apt-get -y -qq --no-install-recommends --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
   ERROR=$?
   if [[ "$ERROR" != '0' ]]; then
      echo "Error: $1 had an error during installation."

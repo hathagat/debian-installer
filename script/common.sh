@@ -32,7 +32,7 @@ fi
 END
 
 # Updates
-apt-get -y install unattended-upgrades >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install unattended-upgrades"
+install_packages "unattended-upgrades"
 
 sed -i 's_//      "o=Debian,n=jessie";_      "o=Debian,n=stretch";_g' /etc/apt/apt.conf.d/50unattended-upgrades
 sed -i 's_//      "o=Debian,n=jessie-updates";_      "o=Debian,n=stretch-updates";_g' /etc/apt/apt.conf.d/50unattended-upgrades

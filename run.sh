@@ -7,6 +7,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+source ${SCRIPT_PATH}/configs/versions.cfg
+source ${SCRIPT_PATH}/configs/userconfig.cfg
+source ${SCRIPT_PATH}/script/functions.sh
+source ${SCRIPT_PATH}/script/logs.sh; set_logs
+source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
+
 echo "Preparing menu..."
 if [ $(dpkg-query -l | grep dialog | wc -l) -ne 3 ]; then
 	install_packages "dialog"
@@ -15,17 +23,9 @@ if [ $(dpkg-query -l | grep git | wc -l) -ne 3 ]; then
 	install_packages "git"
 fi
 
-SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-
+chown -R root:root ${SCRIPT_PATH}
 GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 GIT_LOCAL_FILES_HEAD_LAST_COMMIT=$(git log -1 --date=short --pretty=format:%cd)
-source ${SCRIPT_PATH}/configs/versions.cfg
-source ${SCRIPT_PATH}/configs/userconfig.cfg
-source ${SCRIPT_PATH}/script/functions.sh
-source ${SCRIPT_PATH}/script/logs.sh; set_logs
-source ${SCRIPT_PATH}/script/prerequisites.sh; prerequisites
-
-chown -R root:root ${SCRIPT_PATH}
 
 HEIGHT=40
 WIDTH=80
