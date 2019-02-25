@@ -130,24 +130,12 @@ function install_packages() {
   fi
 }
 
-error_exit()
-{
-	echo "$1" 1>&2
-  USED_OS=$(lsb_release -is)
-  echo "Visit https://github.com/hathagat/debian-installer/issues/new to add the Issue on Github!"
-  echo "Your Issue is: $1"
-  echo "Your used OS is: $USED_OS"
-	exit 1
-}
-
-show_login_information()
-{
+show_login_information() {
   dialog_msg "Please save the shown login information on next page"
   cat ${SCRIPT_PATH}/login_information.txt
 }
 
-continue_to_menu()
-{
+continue_to_menu() {
   read -p "Continue (y/n)?" ANSW
   if [ "$ANSW" = "n" ]; then
   echo "Exit"
@@ -156,8 +144,7 @@ continue_to_menu()
   bash ${SCRIPT_PATH}/nxt.sh
 }
 
-continue_or_exit()
-{
+continue_or_exit() {
   read -p "Continue (y/n)?" ANSW
   if [ "$ANSW" = "n" ]; then
   echo "Exit"
@@ -165,7 +152,14 @@ continue_or_exit()
   fi
 }
 
-progress_gauge()
-{
+progress_gauge() {
   echo "$1" | dialog --gauge "$2" 10 70 0
+}
+
+error_exit() {
+  USED_OS=$(lsb_release -ds)
+  echo "Visit https://github.com/hathagat/debian-installer/issues/new to add the issue on GitHub!"
+  echo "Your error message is: $1"
+  echo "Your used OS is: $USED_OS"
+	exit 1
 }
