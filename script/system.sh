@@ -9,6 +9,7 @@ if [[ ${STATIC_IP} = "1" ]]; then
     cat > /etc/network/interfaces <<END
 # This file describes the network interfaces available on your system
 # and how to activate them. For more information, see interfaces(5).
+# The file is used by ifup(8) and ifdown(8).
 
 source /etc/network/interfaces.d/*
 
@@ -41,6 +42,13 @@ nameserver 46.182.19.48
 nameserver 194.150.168.168
 END
 
+cat > /etc/hosts <<END
+127.0.0.1       localhost
+127.0.1.1       ${HOST}
+
+${IPADR}   ${HOST}.${MYDOMAIN}    ${HOST}
+END
+
 ifdown ${INTERFACE} && ifup ${INTERFACE}
 
 cat > /etc/apt/sources.list <<END
@@ -65,9 +73,8 @@ DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated update >/d
 DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated upgrade >/dev/null 2>&1
 #DEBIAN_FRONTEND=noninteractive apt-get -y --allow-unauthenticated dist-upgrade
 
-#install_packages "sudo rkhunter needrestart debsecan debsums passwdqc"
-
-#thanks to https://linuxacademy.com/howtoguides/posts/show/topic/19700-linux-security-and-server-hardening-part1
+# https://www2.linuxacademy.com/howtoguides/19700-linux-security-and-server-hardening-part1
+# https://www2.linuxacademy.com/howtoguides/19746-linux-security-and-server-hardening-part2
 cat > /etc/sysctl.conf <<END
 #disable IPv6
 net.ipv6.conf.all.disable_ipv6 = 1

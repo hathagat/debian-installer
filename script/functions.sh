@@ -29,14 +29,15 @@ done
 }
 
 setipaddrvars() {
-IPADR=$(ip route list | awk '/src/ {print $9}')
-INTERFACE=$(ip route list | awk '/default/ {print $5}')
-CIDR=$(ip -o -f inet addr show ${INTERFACE} | awk '{print $4}')
-BROADCAST=$(ip -o -f inet addr show ${INTERFACE} | awk '{print $6}')
-GATEWAY=$(ip route list | awk '/default/ {print $3}')
-FQDNIP=$(dig @9.9.9.9 +short ${MYDOMAIN})
-WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
-CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
+  HOST=$(hostname)
+  IPADR=$(ip route list | awk '/src/ {print $9}')
+  INTERFACE=$(ip route list | awk '/default/ {print $5}')
+  CIDR=$(ip -o -f inet addr show ${INTERFACE} | awk '{print $4}')
+  BROADCAST=$(ip -o -f inet addr show ${INTERFACE} | awk '{print $6}')
+  GATEWAY=$(ip route list | awk '/default/ {print $3}')
+  FQDNIP=$(dig @9.9.9.9 +short ${MYDOMAIN})
+  WWWIP=$(dig @9.9.9.9 +short www.${MYDOMAIN})
+  CHECKRDNS=$(dig @9.9.9.9 -x ${IPADR} +short)
 }
 
 get_domain() {
@@ -57,16 +58,16 @@ CHOICE=$(dialog --clear \
 }
 
 function dialog_info() {
-dialog --backtitle "Debian Installer" --infobox "$1" 40 80
+  dialog --backtitle "Debian Installer" --infobox "$1" 40 80
 }
 
 function dialog_msg() {
-dialog --backtitle "Debian Installer" --msgbox "$1" 40 80
+  dialog --backtitle "Debian Installer" --msgbox "$1" 40 80
 }
 
 function dialog_yesno_configuration() {
-dialog --backtitle "Debian Installer" \
---yesno "Continue with NeXt Server Configuration?" 7 60
+  dialog --backtitle "Debian Installer" \
+--yesno "Continue with server configuration?" 7 60
 
 CHOICE=$?
 case $CHOICE in
@@ -84,49 +85,49 @@ CHECK_DOMAIN="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~
 CURRENT_DATE=`date +%Y-%m-%d:%H:%M:%S`
 
 function check_service() {
-if systemctl is-failed --quiet $1
-then
+  if systemctl is-failed --quiet $1
+  then
     echo "${error} $1 is not running!"
-else
+  else
     echo "${ok} $1 is running!"
-fi
+  fi
 }
 
 function wget_tar() {
-wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
-        ERROR=$?
-        if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 download failed."
-      exit
-    fi
+  wget --no-check-certificate $1 --tries=3 >>"${main_log}" 2>>"${err_log}"
+  ERROR=$?
+  if [[ "$ERROR" != '0' ]]; then
+     echo "Error: $1 download failed."
+     exit
+  fi
 }
 
 function tar_file() {
-tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
-        ERROR=$?
-        if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 is corrupted."
-      exit
-    fi
-rm $1
+  tar -xzf $1 >>"${main_log}" 2>>"${err_log}"
+  ERROR=$?
+  if [[ "$ERROR" != '0' ]]; then
+     echo "Error: $1 is corrupted."
+     exit
+   fi
+  rm $1
 }
 
 function unzip_file() {
-unzip $1 >>"${main_log}" 2>>"${err_log}"
+  unzip $1 >>"${main_log}" 2>>"${err_log}"
 	ERROR=$?
 	if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 is corrupted."
-      exit
-    fi
+     echo "Error: $1 is corrupted."
+     exit
+  fi
 }
 
 function install_packages() {
-DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
-        ERROR=$?
-        if [[ "$ERROR" != '0' ]]; then
-      echo "Error: $1 had an error during installation."
-      exit
-    fi
+  DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+  ERROR=$?
+  if [[ "$ERROR" != '0' ]]; then
+     echo "Error: $1 had an error during installation."
+     exit
+  fi
 }
 
 error_exit()
