@@ -131,7 +131,7 @@ function install_packages() {
 }
 
 show_login_information() {
-  dialog_msg "Please save the shown login information on next page"
+  dialog_msg "Please save the shown login information on next page."
   cat ${SCRIPT_PATH}/login_information.txt
 }
 
@@ -157,9 +157,8 @@ progress_gauge() {
 }
 
 error_exit() {
-  USED_OS=$(lsb_release -ds)
-  echo "Visit https://github.com/hathagat/debian-installer/issues/new to add the issue on GitHub!"
-  echo "Your error message is: $1"
-  echo "Your used OS is: $USED_OS"
+  echo "Error message: $1"
+  echo "Used OS: $(lsb_release -ds)"
+  echo "Please visit https://github.com/hathagat/debian-installer/issues/new/ to create an issue on GitHub if appropriate."
 	exit 1
 }
