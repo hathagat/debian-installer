@@ -7,8 +7,8 @@ trap error_exit ERR
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=7
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
+BACKTITLE="Debian Installer"
+TITLE="Debian Installer"
 MENU="Choose one of the following options:"
 
 	OPTIONS=(1 "Open TCP Port"
@@ -132,7 +132,7 @@ MENU="Choose one of the following options:"
 				source ${SCRIPT_PATH}/options/menu_firewall.sh; menu_options_firewall
 				;;
 			6)
-				bash ${SCRIPT_PATH}/nxt.sh
+				bash ${SCRIPT_PATH}/run.sh
 				;;
 			7)
 				echo "Exit"

@@ -7,8 +7,8 @@ trap error_exit ERR
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=6
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
+BACKTITLE="Debian Installer"
+TITLE="Debian Installer"
 MENU="Choose one of the following options:"
 
     OPTIONS=(1 "Full after installation configuration"
@@ -47,7 +47,7 @@ MENU="Choose one of the following options:"
           source ${SCRIPT_PATH}/script/functions.sh; continue_to_menu
           ;;
         5)
-          bash ${SCRIPT_PATH}/nxt.sh
+          bash ${SCRIPT_PATH}/run.sh
           ;;
         6)
           echo "Exit"

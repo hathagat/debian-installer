@@ -69,7 +69,7 @@ install() {
 	echo "" >> ${SCRIPT_PATH}/installation_times.txt
 
 	date=$(date +"%d-%m-%Y")
-	sed -i 's/NXT_INSTALL_DATE="0"/NXT_INSTALL_DATE="'${date}'"/' ${SCRIPT_PATH}/configs/userconfig.cfg
+	sed -i 's/INSTALL_DATE="0"/INSTALL_DATE="'${date}'"/' ${SCRIPT_PATH}/configs/userconfig.cfg
 
 	echo "100" | dialog --gauge "Installation finished!" 10 70 0
 

@@ -7,8 +7,8 @@ trap error_exit ERR
 HEIGHT=40
 WIDTH=80
 CHOICE_HEIGHT=5
-BACKTITLE="NeXt Server"
-TITLE="NeXt Server"
+BACKTITLE="Debian Installer"
+TITLE="Debian Installer"
 MENU="Choose one of the following options:"
 
 	OPTIONS=(1 "Add new Openssh User"
@@ -87,7 +87,7 @@ MENU="Choose one of the following options:"
 				exit 1
 				;;
 			4)
-				bash ${SCRIPT_PATH}/nxt.sh
+				bash ${SCRIPT_PATH}/run.sh
 				;;
 			5)
 				echo "Exit"

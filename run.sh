@@ -61,7 +61,7 @@ MENU="\n Choose one of the following options: \n \n"
 					dialog_info "Updating Script"
 					source ${SCRIPT_PATH}/update_script.sh; update_script
 					dialog_msg "Finished updating to Version ${GIT_LOCAL_FILES_HEAD}"
-					bash nxt.sh
+					bash run.sh
 					;;
 				5)
 					source ${SCRIPT_PATH}/menus/services_menu.sh; menu_options_services

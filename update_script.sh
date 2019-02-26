@@ -5,77 +5,74 @@ update_script() {
 git remote update
 if ! git diff --quiet origin/master; then
 
-  mkdir -p /root/backup_next_server
+  BACKUP_PATH=${SCRIPT_PATH}/backup
+  mkdir -p ${BACKUP_PATH}
 
-  ### add more important stuff to backup ###
+  # add important stuff to backup
   if [ -d "${SCRIPT_PATH}/logs/" ]; then
-    mkdir -p /root/backup_next_server/logs
-    cp ${SCRIPT_PATH}/logs/* /root/backup_next_server/logs/
+    mkdir -p ${BACKUP_PATH}/logs
+    cp ${SCRIPT_PATH}/logs/* ${BACKUP_PATH}/logs/
   fi
 
   if [ -e ${SCRIPT_PATH}/login_information.txt ]; then
-    cp ${SCRIPT_PATH}/login_information.txt /root/backup_next_server/
+    cp ${SCRIPT_PATH}/login_information.txt ${BACKUP_PATH}
   fi
 
   if [ -e ${SCRIPT_PATH}/ssh_privatekey.txt ]; then
-    cp ${SCRIPT_PATH}/ssh_privatekey.txt /root/backup_next_server/
+    cp ${SCRIPT_PATH}/ssh_privatekey.txt ${BACKUP_PATH}
   fi
 
   if [ -e ${SCRIPT_PATH}/installation_times.txt ]; then
-    cp ${SCRIPT_PATH}/installation_times.txt /root/backup_next_server/
+    cp ${SCRIPT_PATH}/installation_times.txt ${BACKUP_PATH}
   fi
 
   if [ -e ${SCRIPT_PATH}/configs/userconfig.cfg ]; then
-    cp ${SCRIPT_PATH}/configs/userconfig.cfg /root/backup_next_server/
+    cp ${SCRIPT_PATH}/configs/userconfig.cfg ${BACKUP_PATH}
   fi
 
   if [ -e ${SCRIPT_PATH}/configs/versions.cfg ]; then
-    cp ${SCRIPT_PATH}/configs/versions.cfg /root/backup_next_server/
+    cp ${SCRIPT_PATH}/configs/versions.cfg ${BACKUP_PATH}
   fi
 
   if [ -e ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt ]; then
-    cp ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt /root/backup_next_server/
+    cp ${SCRIPT_PATH}/DKIM_KEY_ADD_TO_DNS.txt ${BACKUP_PATH}
   fi
 
-  #reset branch
+  # reset branch
   cd ${SCRIPT_PATH}
   git fetch >>"${main_log}" 2>>"${err_log}"
   git reset --hard origin/master >>"${main_log}" 2>>"${err_log}"
 
-  #restore backup
-  if [ -d "/root/backup_next_server/logs/" ]; then
-    cp /root/backup_next_server/logs/* ${SCRIPT_PATH}/logs/
+  # restore backup
+  if [ -d "${BACKUP_PATH}/logs/" ]; then
+    cp ${BACKUP_PATH}/logs/* ${SCRIPT_PATH}/logs/
   fi
 
-  if [ -e /root/backup_next_server/login_information.txt ]; then
-    cp /root/backup_next_server/login_information.txt ${SCRIPT_PATH}/
+  if [ -e ${BACKUP_PATH}/login_information.txt ]; then
+    cp ${BACKUP_PATH}/login_information.txt ${SCRIPT_PATH}/
   fi
 
-  if [ -e /root/backup_next_server/ssh_privatekey.txt ]; then
-    cp /root/backup_next_server/ssh_privatekey.txt ${SCRIPT_PATH}/
+  if [ -e ${BACKUP_PATH}/ssh_privatekey.txt ]; then
+    cp ${BACKUP_PATH}/ssh_privatekey.txt ${SCRIPT_PATH}/
   fi
 
-  if [ -e /root/backup_next_server/installation_times.txt ]; then
-    cp /root/backup_next_server/installation_times.txt ${SCRIPT_PATH}/
+  if [ -e ${BACKUP_PATH}/installation_times.txt ]; then
+    cp ${BACKUP_PATH}/installation_times.txt ${SCRIPT_PATH}/
   fi
 
-  if [ -e /root/backup_next_server/userconfig.cfg ]; then
-    cp /root/backup_next_server/userconfig.cfg ${SCRIPT_PATH}/configs/
+  if [ -e ${BACKUP_PATH}/userconfig.cfg ]; then
+    cp ${BACKUP_PATH}/userconfig.cfg ${SCRIPT_PATH}/configs/
   fi
 
-  if [ -e /root/backup_next_server/versions.cfg ]; then
-    cp /root/backup_next_server/versions.cfg ${SCRIPT_PATH}/configs/
+  if [ -e ${BACKUP_PATH}/versions.cfg ]; then
+    cp ${BACKUP_PATH}/versions.cfg ${SCRIPT_PATH}/configs/
   fi
 
-  if [ -e /root/backup_next_server/DKIM_KEY_ADD_TO_DNS.txt ]; then
-    cp /root/backup_next_server/DKIM_KEY_ADD_TO_DNS.txt ${SCRIPT_PATH}/
+  if [ -e ${BACKUP_PATH}/DKIM_KEY_ADD_TO_DNS.txt ]; then
+    cp ${BACKUP_PATH}/DKIM_KEY_ADD_TO_DNS.txt ${SCRIPT_PATH}/
   fi
 
-  if [ -e ${SCRIPT_PATH}/configs/versions.cfg ]; then
-    cp ${SCRIPT_PATH}/configs/versions.cfg /root/backup_next_server/
-  fi
-
-  rm -R /root/backup_next_server/
+  rm -r ${BACKUP_PATH}
 
   GIT_LOCAL_FILES_HEAD=$(git rev-parse --short HEAD)
 else

@@ -141,7 +141,7 @@ continue_to_menu() {
   echo "Exit"
   exit 1
   fi
-  bash ${SCRIPT_PATH}/nxt.sh
+  bash ${SCRIPT_PATH}/run.sh
 }
 
 continue_or_exit() {
