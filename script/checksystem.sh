@@ -16,18 +16,20 @@ check_system() {
 
 	[ $(dpkg-query -l | grep dmidecode | wc -l) -ne 1 ] && error_exit "This script does not support your virtualization technology!"
 
-	if [ "$(dmidecode -s system-product-name)" == 'Bochs' ] || [ "$(dmidecode -s system-product-name)" == 'KVM' ] || [ "$(dmidecode -s system-product-name)" == 'All Series' ] || [ "$(dmidecode -s system-product-name)" == 'OpenStack Nova' ] || [ "$(dmidecode -s system-product-name)" == 'Standard' ]; then
-		echo > /dev/null
+  SYSTEM_NAME=$(dmidecode -s system-product-name)
+
+	if [ "${SYSTEM_NAME}" == 'Bochs' ] || [ "${SYSTEM_NAME}" == 'KVM' ] || [ "${SYSTEM_NAME}" == 'All Series' ] || [ "${SYSTEM_NAME}" == 'OpenStack Nova' ] || [ "${SYSTEM_NAME}" == 'Standard' ]; then
+		 echo > /dev/null
 	else
 		if [ $(dpkg-query -l | grep facter | wc -l) -ne 1 ]; then
-			install_packages "facter libruby"
+			 install_packages "facter libruby"
 		fi
 
-		if	[ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then
- 		echo > /dev/null
+		if [ "$(facter virtual)" == 'physical' ] || [ "$(facter virtual)" == 'kvm' ]; then
+ 		   echo > /dev/null
 		else
-	        echo "This script does not support the virtualization technology ($(dmidecode -s system-product-name))"
-			exit 1
-       fi
+	     echo "This script does not support the virtualization technology (${SYSTEM_NAME})"
+			 exit 1
+    fi
 	fi
 }
