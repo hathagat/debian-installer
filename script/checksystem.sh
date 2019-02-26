@@ -4,8 +4,6 @@ check_system() {
 
 	trap error_exit ERR
 
-	[ "$USER" != 'root' ] && error_exit "Please run the script as root user"
-
 	[ $(lsb_release -is) != 'Debian' ] && [ $(lsb_release -cs) != 'stretch' ] && error_exit "Please run the Script with Debian Stretch"
 
 	local LOCAL_KERNEL_VERSION=$(uname -a | awk '/Linux/ {print $(NF-7)}')
