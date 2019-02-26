@@ -157,7 +157,7 @@ progress_gauge() {
 }
 
 error_exit() {
-  echo "Error message: $1"
+  echo "Error message: ${1-unknown}"
   echo "Used OS: $(lsb_release -ds)"
   echo "Please visit https://github.com/hathagat/debian-installer/issues/new/ to create an issue on GitHub if appropriate."
 	exit 1
