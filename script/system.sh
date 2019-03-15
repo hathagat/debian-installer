@@ -51,19 +51,21 @@ END
 
 ifdown ${INTERFACE} && ifup ${INTERFACE}
 
+install_packages "apt-transport-https"
+
 cat > /etc/apt/sources.list <<END
 ###### Debian Repos
-deb http://deb.debian.org/debian/ stretch main contrib non-free
-#deb-src http://deb.debian.org/debian/ stretch main contrib non-free
+deb https://deb.debian.org/debian/ stretch main contrib non-free
+#deb-src https://deb.debian.org/debian/ stretch main contrib non-free
 
-deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
-#deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb https://deb.debian.org/debian/ stretch-updates main contrib non-free
+#deb-src https://deb.debian.org/debian/ stretch-updates main contrib non-free
 
-deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
-#deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
+deb https://deb.debian.org/debian-security stretch/updates main contrib non-free
+#deb-src https://deb.debian.org/debian-security stretch/updates main contrib non-free
 
-deb http://deb.debian.org/debian stretch-backports main contrib non-free
-#deb-src http://deb.debian.org/debian stretch-backports main contrib non-free
+deb https://deb.debian.org/debian stretch-backports main contrib non-free
+#deb-src https://deb.debian.org/debian stretch-backports main contrib non-free
 
 ###### Custom Repos
 END
