@@ -3,7 +3,7 @@
 install_common() {
 
 # Tools
-install_packages "curl htop vim"
+install_packages "curl htop vim tree"
 
 git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone vimrx"
 bash ~/.vim_runtime/install_basic_vimrc.sh >>"${main_log}" 2>>"${err_log}"
