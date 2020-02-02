@@ -46,37 +46,6 @@ get_domain() {
   DETECTED_DOMAIN=$(echo "${POSSIBLE_DOMAIN}" | awk -v FS='.' '{print $2 "." $3}')
 }
 
-menu() {
-CHOICE=$(dialog --clear \
-                --backtitle "$BACKTITLE" \
-                --title "$TITLE" \
-				--no-cancel \
-                --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${OPTIONS[@]}" \
-                2>&1 >/dev/tty)
-}
-
-function dialog_info() {
-  dialog --backtitle "Debian Installer" --infobox "$1" 40 80
-}
-
-function dialog_msg() {
-  dialog --backtitle "Debian Installer" --msgbox "$1" 40 80
-}
-
-function dialog_yesno_configuration() {
-  dialog --backtitle "Debian Installer" \
---yesno "Continue with server configuration?" 7 60
-
-CHOICE=$?
-case $CHOICE in
-   1)
-        echo "Skipped the Configuration!"
-        exit 1;;
-esac
-}
-
 CHECK_E_MAIL="^[a-zA-Z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\$"
 CHECK_PASSWORD="^[A-Za-z0-9]*$"
 ####not perfectly working!!!!
@@ -122,16 +91,23 @@ function unzip_file() {
 }
 
 function install_packages() {
-  DEBIAN_FRONTEND=noninteractive apt-get -y -qq --no-install-recommends --allow-unauthenticated install $1 >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 packages"
+  PACKAGES=( $1 )
+  for PACKAGE in "${PACKAGES[@]}" ; do
+    if [[ $(dpkg-query --showformat='${db:Status-Status}\n' --show ${PACKAGE} 2>/dev/null) == 'not-installed' || $? -eq 1 ]]; then
+      echo "Installing ${PACKAGE}"
+      DEBIAN_FRONTEND=noninteractive apt-get -y -qq --no-install-recommends --allow-unauthenticated install ${PACKAGE} >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to install $1 package"
+    fi
+  done
+
   ERROR=$?
   if [[ "$ERROR" != '0' ]]; then
-     echo "Error: $1 had an error during installation."
-     exit
+      echo "Error: $1 had an error during installation."
+      exit
   fi
 }
 
 show_login_information() {
-  dialog_msg "Please save the shown login information on next page."
+  echo "Please save the shown login information on next page."
   cat ${SCRIPT_PATH}/login_information.txt
 }
 
@@ -152,13 +128,9 @@ continue_or_exit() {
   fi
 }
 
-progress_gauge() {
-  echo "$1" | dialog --gauge "$2" 10 70 0
-}
-
 error_exit() {
   echo "Error message: ${1-unknown}"
   echo "Used OS: $(lsb_release -ds)"
   echo "Please visit https://github.com/hathagat/debian-installer/issues/new/ to create an issue on GitHub if appropriate."
-	exit 1
+  exit 1
 }

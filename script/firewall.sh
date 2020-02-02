@@ -1,97 +1,43 @@
 #!/bin/bash
 
 install_firewall() {
-
 trap error_exit ERR
 
-if [ $(dpkg-query -l | grep ipset | wc -l) -ne 1 ]; then
-	install_packages "ipset"
-fi
-
 cd ${SCRIPT_PATH}
-git clone -q --depth 1 https://github.com/arno-iptables-firewall/aif.git ${SCRIPT_PATH}/sources/aif || error_exit "Failed to clone arno-ip-tables package"
+install_packages "ipset"
+install_packages "arno-iptables-firewall"
 
-cd ${SCRIPT_PATH}/sources/aif
-
-mkdir -p /usr/local/share/arno-iptables-firewall/plugins
-mkdir -p /usr/local/share/man/{man1,man8}
-mkdir -p /usr/local/share/doc/arno-iptables-firewall
-mkdir -p /etc/arno-iptables-firewall/{plugins,conf.d}
-
-cp bin/arno-iptables-firewall /usr/local/sbin/
-cp bin/arno-fwfilter /usr/local/bin/
-cp -R share/arno-iptables-firewall/* /usr/local/share/arno-iptables-firewall/
-
-ln -s /usr/local/share/arno-iptables-firewall/plugins/traffic-accounting-show /usr/local/sbin/traffic-accounting-show
-
-gzip -c share/man/man1/arno-fwfilter.1 >/usr/local/share/man/man1/arno-fwfilter.1.gz >>"${main_log}" 2>>"${err_log}"
-gzip -c share/man/man8/arno-iptables-firewall.8 >/usr/local/share/man/man8/arno-iptables-firewall.8.gz >>"${main_log}" 2>>"${err_log}"
-
-cp README /usr/local/share/doc/arno-iptables-firewall/
-cp etc/init.d/arno-iptables-firewall /etc/init.d/
-if [ -d "/usr/lib/systemd/system/" ]; then
-  cp lib/systemd/system/arno-iptables-firewall.service /usr/lib/systemd/system/
-fi
-
-cp etc/arno-iptables-firewall/firewall.conf /etc/arno-iptables-firewall/
-cp etc/arno-iptables-firewall/custom-rules /etc/arno-iptables-firewall/
-cp -R etc/arno-iptables-firewall/plugins/ /etc/arno-iptables-firewall/
-cp share/arno-iptables-firewall/environment /usr/local/share/
-
-chmod +x /usr/local/sbin/arno-iptables-firewall
-chown 0:0 /etc/arno-iptables-firewall/firewall.conf
-chown 0:0 /etc/arno-iptables-firewall/custom-rules
-chmod +x /usr/local/share/environment
-
-# Start Arno-Iptables-Firewall at boot
-update-rc.d -f arno-iptables-firewall start 11 S . stop 10 0 6 >>"${main_log}" 2>>"${err_log}"
-
-# Configure firewall.conf
-bash /usr/local/share/environment >>"${main_log}" 2>>"${err_log}"
-
-INTERFACE=$(ip route get 9.9.9.9 | head -1 | cut -d' ' -f5)
-
-sed -i "s/^EXT_IF=.*/EXT_IF="${INTERFACE}"/g" /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^EXT_IF_DHCP_IP=.*/EXT_IF_DHCP_IP="0"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^#FIREWALL_LOG=.*/FIREWALL_LOG="\/var\/log\/firewall.log"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^DRDOS_PROTECT=.*/DRDOS_PROTECT="1"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^OPEN_ICMP=.*/OPEN_ICMP="1"/g' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^#BLOCK_HOSTS_FILE=.*/BLOCK_HOSTS_FILE="\/etc\/arno-iptables-firewall\/blocked-hosts"/g' /etc/arno-iptables-firewall/firewall.conf
+touch /etc/rc.local
+touch /etc/arno-iptables-firewall/blocked-hosts
+mkdir -p /etc/arno-iptables-firewall/blocklists
+mkdir -p /etc/arno-iptables-firewall/old_blocklists
 
 # TCP: HTTP, HTTPS, SSH
 # UDP: -
-sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"80, 443, ${SSH_PORT}\"/" /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^OPEN_UDP=.*/OPEN_UDP=""/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/^VERBOSE=.*/VERBOSE=1/' /etc/init.d/arno-iptables-firewall
+sed -i "s/^OPEN_TCP=.*/OPEN_TCP=\"80, 443, ${SSH_PORT}\"/" /etc/arno-iptables-firewall/conf.d/00debconf.conf
+sed -i 's/^OPEN_UDP=.*/OPEN_UDP=""/' /etc/arno-iptables-firewall/conf.d/00debconf.conf
+sed -i "s/^EXT_IF=.*/EXT_IF="${INTERFACE}"/g" /etc/arno-iptables-firewall/conf.d/00debconf.conf
+sed -i 's/^EXT_IF_DHCP_IP=.*/EXT_IF_DHCP_IP=0/g' /etc/arno-iptables-firewall/conf.d/00debconf.conf
 
-systemctl -q daemon-reload
-systemctl -q start arno-iptables-firewall.service
+echo "DRDOS_PROTECT=1" >> /etc/arno-iptables-firewall/conf.d/00debconf.conf
+echo "IPTABLES_IPSET=1" >> /etc/arno-iptables-firewall/conf.d/00debconf.conf
+echo "IPTABLES_IPSET_HASHSIZE=16384" >> /etc/arno-iptables-firewall/conf.d/00debconf.conf
+echo "IPTABLES_IPSET_MAXELEM=120000" >> /etc/arno-iptables-firewall/conf.d/00debconf.conf
 
-# Fix error with /etc/rc.local
-touch /etc/rc.local
-
-mkdir -p /etc/arno-iptables-firewall/blacklist
-mkdir -p /etc/arno-iptables-firewall/blocklists
-sed -i 's/.*IPTABLES_IPSET=.*/IPTABLES_IPSET=1/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/.*IPTABLES_IPSET_HASHSIZE=.*/IPTABLES_IPSET_HASHSIZE=16384/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/.*IPTABLES_IPSET_MAXELEM=.*/IPTABLES_IPSET_MAXELEM=120000/' /etc/arno-iptables-firewall/firewall.conf
-sed -i 's/.*BLOCK_NETSET_DIR=.*/BLOCK_NETSET_DIR="\/etc\/arno-iptables-firewall\/blocklists"/' /etc/arno-iptables-firewall/firewall.conf
-
-cat > /etc/cron.daily/blocked-hosts <<END
+cat > /etc/cron.daily/blocklist <<END
 #!/bin/bash
 
-BLACKLIST_DIR="/etc/arno-iptables-firewall/blacklist"
+BLACKLIST_DIR="/etc/arno-iptables-firewall/old_blocklists"
 BLACKLIST="/etc/arno-iptables-firewall/blocklists/blocklist.netset"
 BLACKLIST_TEMP="\$BLACKLIST_DIR/blacklist"
 LIST=(
 "https://www.projecthoneypot.org/list_of_ips.php?t=d&rss=1"
 "https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1"
 "https://www.maxmind.com/en/high-risk-ip-sample-list"
-"https://danger.rulez.sk/projects/bruteforceblocker/blist.php"
+"http://danger.rulez.sk/projects/bruteforceblocker/blist.php"
 "https://rules.emergingthreats.net/blockrules/compromised-ips.txt"
 "https://www.spamhaus.org/drop/drop.lasso"
 "http://cinsscore.com/list/ci-badguys.txt"
-"https://www.openbl.org/lists/base.txt"
 "https://www.autoshun.org/files/shunlist.csv"
 "https://lists.blocklist.de/lists/all.txt"
 "https://blocklist.greensnow.co/greensnow.txt"
@@ -109,5 +55,8 @@ cp \$BLACKLIST_TEMP \${BLACKLIST_DIR}/blacklist\_\$(date '+%d.%m.%Y_%T' | tr -d 
 /etc/init.d/arno-iptables-firewall force-reload
 END
 
-chmod +x /etc/cron.daily/blocked-hosts
+chmod +x /etc/cron.daily/blocklist
+bash /etc/cron.daily/blocklist >/dev/null 2>&1
+
+systemctl -q restart arno-iptables-firewall
 }

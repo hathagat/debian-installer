@@ -29,7 +29,6 @@ LogLevel VERBOSE
 # Authentication
 LoginGraceTime 30
 PermitRootLogin no
-DenyUsers root
 
 StrictModes yes
 MaxAuthTries 2
@@ -125,5 +124,5 @@ Subsystem	sftp	/usr/libexec/sftp-server
 Match User sshuser
 AllowTcpForwarding yes
 
-AllowGroups sshuser
+AllowGroups sshusers
 AcceptEnv LANG LC_* TZ

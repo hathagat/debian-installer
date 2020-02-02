@@ -44,7 +44,6 @@ END
 
 cat > /etc/hosts <<END
 127.0.0.1       localhost
-127.0.1.1       ${HOST}
 
 ${IPADR}   ${HOST}.${MYDOMAIN}    ${HOST}
 END
@@ -52,20 +51,21 @@ END
 ifdown ${INTERFACE} && ifup ${INTERFACE}
 
 cat > /etc/apt/sources.list <<END
-###### Debian Repos
-deb http://deb.debian.org/debian/ stretch main contrib non-free
-#deb-src http://deb.debian.org/debian/ stretch main contrib non-free
+# Debian Repos
 
-deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
-#deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb https://deb.debian.org/debian/ buster main contrib non-free
+#deb-src https://deb.debian.org/debian/ buster main contrib non-free
 
-deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
-#deb-src http://deb.debian.org/debian-security stretch/updates main contrib non-free
+deb https://deb.debian.org/debian/ buster-updates main contrib non-free
+#deb-src https://deb.debian.org/debian/ buster-updates main contrib non-free
 
-deb http://deb.debian.org/debian stretch-backports main contrib non-free
-#deb-src http://deb.debian.org/debian stretch-backports main contrib non-free
+deb https://deb.debian.org/debian-security buster/updates main contrib non-free
+#deb-src https://deb.debian.org/debian-security buster/updates main contrib non-free
 
-###### Custom Repos
+deb https://deb.debian.org/debian buster-backports main contrib non-free
+#deb-src https://deb.debian.org/debian buster-backports main contrib non-free
+
+# Custom Repos
 END
 
 DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated clean >/dev/null 2>&1

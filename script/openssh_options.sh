@@ -50,14 +50,14 @@ show_ssh_key() {
 
 trap error_exit ERR
 
-dialog_msg "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
+echo "Please save the shown SSH privatekey on next page into a textfile on your PC. \n\n
 Important: \n
 In Putty you have only mark the text. Do not Press STRG+C!"
 cat ${SCRIPT_PATH}/ssh_privatekey.txt
 }
 
 create_private_key() {
-dialog_msg "You have to download the latest PuTTYgen \n (https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) \n \n
+echo "You have to download the latest PuTTYgen \n (https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) \n \n
 Start the program and click on Conversions- Import key. \n
 Now select the Text file, where you saved the ssh_privatekey. \n
 After entering your SSH Password, you have to switch the paramter from RSA to ED25519. \n
