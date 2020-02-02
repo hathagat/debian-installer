@@ -2,7 +2,7 @@
 
 install_common() {
 
-install_packages "htop vim"
+install_packages "htop vim tree"
 
 if [[ ! -d ~/.vim_runtime ]]; then
     git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime >>"${main_log}" 2>>"${err_log}" || error_exit "Failed to clone vimrx"
@@ -61,9 +61,6 @@ END
         install_packages "docker-ce"
     fi
     docker --version >>"${main_log}" 2>>"${err_log}"
-
-    # TODO Docker deamon config
-    # Overlay2 ist schon, also eigentlich nicht, oder?
 }
 
 install_docker_compose() {

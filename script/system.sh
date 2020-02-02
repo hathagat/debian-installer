@@ -50,6 +50,8 @@ END
 
 ifdown ${INTERFACE} && ifup ${INTERFACE}
 
+install_packages "apt-transport-https"
+
 cat > /etc/apt/sources.list <<END
 # Debian Repos
 
