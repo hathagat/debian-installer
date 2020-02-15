@@ -38,6 +38,7 @@ sed -i 's_//Unattended-Upgrade::MailOnlyOnError "true";_Unattended-Upgrade::Mail
 sed -i 's_//Unattended-Upgrade::Remove-Unused-Dependencies "false";_Unattended-Upgrade::Remove-Unused-Dependencies "true";_g' /etc/apt/apt.conf.d/50unattended-upgrades
 sed -i 's_//Unattended-Upgrade::Automatic-Reboot "false";_Unattended-Upgrade::Automatic-Reboot "true";_g' /etc/apt/apt.conf.d/50unattended-upgrades
 sed -i 's_//Unattended-Upgrade::Automatic-Reboot-Time "02:00";_Unattended-Upgrade::Automatic-Reboot-Time "05:00";_g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's_//Unattended-Upgrade::SyslogEnable "false";_Unattended-Upgrade::SyslogEnable "true";_g' /etc/apt/apt.conf.d/50unattended-upgrades
 
 cat > /etc/apt/apt.conf.d/20auto-upgrades <<END
 APT::Periodic::Update-Package-Lists "1";
