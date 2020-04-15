@@ -33,7 +33,7 @@ BLACKLIST_TEMP="\$BLACKLIST_DIR/blacklist"
 LIST=(
 "https://www.projecthoneypot.org/list_of_ips.php?t=d&rss=1"
 "https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1"
-"https://www.maxmind.com/en/high-risk-ip-sample-list"
+"https://raw.githubusercontent.com/DandelionSprout/adfilt/master/AdGuardHomeDisallowedIPs.txt"
 "http://danger.rulez.sk/projects/bruteforceblocker/blist.php"
 "https://rules.emergingthreats.net/blockrules/compromised-ips.txt"
 "https://www.spamhaus.org/drop/drop.lasso"
