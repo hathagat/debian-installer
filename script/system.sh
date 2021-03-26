@@ -70,6 +70,12 @@ deb https://deb.debian.org/debian buster-backports main contrib non-free
 # Custom Repos
 END
 
+cat > /etc/apt/preferences.d/backports <<END
+Package: *
+Pin: release a=buster-backports
+Pin-Priority: 500
+END
+
 DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated clean >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated upgrade >/dev/null 2>&1
