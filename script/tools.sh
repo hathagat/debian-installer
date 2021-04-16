@@ -32,6 +32,8 @@ if [ -f ~/.bashrc ]; then
 fi
 END
 
+echo 'export HISTTIMEFORMAT="%y-%m-%d %T  "' >> ~/.bashrc
+
 install_packages "unattended-upgrades"
 
 sed -i 's_//Unattended-Upgrade::MailOnlyOnError "true";_Unattended-Upgrade::MailOnlyOnError "true";_g' /etc/apt/apt.conf.d/50unattended-upgrades
