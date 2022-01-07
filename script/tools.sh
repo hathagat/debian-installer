@@ -32,7 +32,10 @@ if [ -f ~/.bashrc ]; then
 fi
 END
 
+# Add timestamp to history
 echo 'export HISTTIMEFORMAT="%y-%m-%d %T  "' >> ~/.bashrc
+# Report working directory to remote shells
+echo "export PS1=\"\$PS1\[\e]1337;CurrentDir=\"'\$(pwd)\a\]'" >> ~/.bashrc
 
 install_packages "unattended-upgrades"
 
