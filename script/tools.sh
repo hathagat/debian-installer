@@ -64,7 +64,8 @@ deb [arch=amd64] https://download.docker.com/linux/debian buster stable
 
 END
         DEBIAN_FRONTEND=noninteractive apt-get -y -qq --allow-unauthenticated update >/dev/null 2>&1
-        install_packages "docker-ce"
+        install_packages "docker-ce docker-ce-cli containerd.io"
+        echo 'export DOCKER_BUILDKIT=1' >> ~/.bashrc
     fi
     docker --version >>"${main_log}" 2>>"${err_log}"
 }
